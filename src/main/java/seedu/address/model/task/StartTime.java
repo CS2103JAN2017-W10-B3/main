@@ -3,8 +3,8 @@ package seedu.address.model.task;
 import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
- * Represents a Task's start time in the to-do list.
- * Guarantees: immutable; is valid as declared in {@link #isValidStartTime(String)}
+ * Represents a Task's start time in the to-do list. Guarantees: immutable; is
+ * valid as declared in {@link #isValidStartTime(String)}
  */
 public class StartTime {
 
@@ -16,15 +16,20 @@ public class StartTime {
     /**
      * Validates given start time.
      *
-     * @throws IllegalValueException if given start time string is invalid.
+     * @throws IllegalValueException
+     *             if given start time string is invalid.
      */
     public StartTime(String starttime) throws IllegalValueException {
         assert starttime != null;
-        String trimmedStartTime = starttime.trim();
-        if (!isValidStartTime(trimmedStartTime)) {
-            throw new IllegalValueException(MESSAGE_STARTTIME_CONSTRAINTS);
+        if (starttime.isEmpty()) {
+            this.value = starttime;
+        } else {
+            String trimmedStartTime = starttime.trim();
+            if (!isValidStartTime(trimmedStartTime)) {
+                throw new IllegalValueException(MESSAGE_STARTTIME_CONSTRAINTS);
+            }
+            this.value = trimmedStartTime;
         }
-        this.value = trimmedStartTime;
     }
 
     /**
@@ -43,7 +48,8 @@ public class StartTime {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof StartTime // instanceof handles nulls
-                && this.value.equals(((StartTime) other).value)); // state check
+                        && this.value.equals(((StartTime) other).value)); // state
+                                                                          // check
     }
 
     @Override
