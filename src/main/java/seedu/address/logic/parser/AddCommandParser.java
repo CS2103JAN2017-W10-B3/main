@@ -19,21 +19,17 @@ import seedu.address.logic.commands.IncorrectCommand;
 public class AddCommandParser {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the
+     * AddCommand and returns an AddCommand object for execution.
      */
     public Command parse(String args) {
-        ArgumentTokenizer argsTokenizer =
-                new ArgumentTokenizer(PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_ENDTIME, PREFIX_TAG);
+        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_ENDTIME,
+                PREFIX_TAG);
         argsTokenizer.tokenize(args);
         try {
-            return new AddCommand(
-                    argsTokenizer.getPreamble().get(),
-                    argsTokenizer.getValue(PREFIX_VENUE).get(),
-                    argsTokenizer.getValue(PREFIX_STARTTIME).get(),
-                    argsTokenizer.getValue(PREFIX_ENDTIME).get(),
-                    ParserUtil.toSet(argsTokenizer.getAllValues(PREFIX_TAG))
-            );
+            return new AddCommand(argsTokenizer.getPreamble().get(), argsTokenizer.getValue(PREFIX_VENUE),
+                    argsTokenizer.getValue(PREFIX_STARTTIME), argsTokenizer.getValue(PREFIX_ENDTIME),
+                    ParserUtil.toSet(argsTokenizer.getAllValues(PREFIX_TAG)));
         } catch (NoSuchElementException nsee) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         } catch (IllegalValueException ive) {
