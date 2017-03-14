@@ -1,16 +1,14 @@
 package seedu.address.model.task;
 
-
 import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
- * Represents a Task's venue number in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidVenue(String)}
+ * Represents a Task's venue number in the address book. Guarantees: immutable;
+ * is valid as declared in {@link #isValidVenue(String)}
  */
 public class Venue {
 
-    public static final String MESSAGE_VENUE_CONSTRAINTS =
-            "Task venues should only be 1 alphanumeric strings";
+    public static final String MESSAGE_VENUE_CONSTRAINTS = "Task venues should only be 1 alphanumeric strings";
     public static final String VENUE_VALIDATION_REGEX = ".+";
 
     public final String value;
@@ -18,15 +16,20 @@ public class Venue {
     /**
      * Validates given value.
      *
-     * @throws IllegalValueException if given value address string is invalid.
+     * @throws IllegalValueException
+     *             if given value address string is invalid.
      */
     public Venue(String venue) throws IllegalValueException {
         assert venue != null;
-        String trimmedVenue = venue.trim();
-        if (!isValidVenue(trimmedVenue)) {
-            throw new IllegalValueException(MESSAGE_VENUE_CONSTRAINTS);
+        if (venue.isEmpty()) {
+            this.value = venue;
+        } else {
+            String trimmedVenue = venue.trim();
+            if (!isValidVenue(trimmedVenue)) {
+                throw new IllegalValueException(MESSAGE_VENUE_CONSTRAINTS);
+            }
+            this.value = trimmedVenue;
         }
-        this.value = trimmedVenue;
     }
 
     /**
@@ -45,7 +48,8 @@ public class Venue {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Venue // instanceof handles nulls
-                && this.value.equals(((Venue) other).value)); // state check
+                        && this.value.equals(((Venue) other).value)); // state
+                                                                      // check
     }
 
     @Override
