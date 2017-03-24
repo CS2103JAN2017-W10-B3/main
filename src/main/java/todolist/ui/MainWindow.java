@@ -31,7 +31,7 @@ public class MainWindow extends UiPart<Region> {
 
     // Independent Ui parts residing in this Ui container
     //@@author A0138628W
-    private TaskListPanel taskListPanel, eventListPanel, floatingListPanel;
+    private TaskListPanel taskListPanel, eventListPanel, floatingListPanel, completeListPanel;
     private Config config;
 
     @FXML
@@ -39,6 +39,9 @@ public class MainWindow extends UiPart<Region> {
 
     @FXML
     private AnchorPane floatingListPlaceholder;
+
+    @FXML
+    private AnchorPane completeListPanelPlaceholder;
 
     @FXML
     private AnchorPane commandBoxPlaceholder;
@@ -115,8 +118,9 @@ public class MainWindow extends UiPart<Region> {
     void fillInnerParts() {
         //@@author A0138628W
         taskListPanel = new TaskListPanel(getTaskListPlaceholder(), logic.getFilteredTaskList());
-        eventListPanel = new TaskListPanel(eventListPlaceholder, logic.getFilteredEventList());
-        floatingListPanel = new TaskListPanel(floatingListPlaceholder, logic.getFilteredFloatList());
+        eventListPanel = new TaskListPanel(getEventListPlaceholder(), logic.getFilteredEventList());
+        floatingListPanel = new TaskListPanel(getFloatListPlaceholder(), logic.getFilteredFloatList());
+        completeListPanel = new TaskListPanel(getCompleteListPlaceholder(), logic.getFilteredTaskList());
         new ResultDisplay(getResultDisplayPlaceholder());
         new StatusBarFooter(getStatusbarPlaceholder(), config.getToDoListFilePath());
         new CommandBox(getCommandBoxPlaceholder(), logic);
@@ -136,6 +140,18 @@ public class MainWindow extends UiPart<Region> {
 
     private AnchorPane getTaskListPlaceholder() {
         return taskListPanelPlaceholder;
+    }
+
+    private AnchorPane getEventListPlaceholder() {
+        return eventListPlaceholder;
+    }
+
+    private AnchorPane getFloatListPlaceholder() {
+        return floatingListPlaceholder;
+    }
+
+    private AnchorPane getCompleteListPlaceholder() {
+        return completeListPanelPlaceholder;
     }
 
     void hide() {

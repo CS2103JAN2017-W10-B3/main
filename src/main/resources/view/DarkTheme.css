@@ -31,18 +31,29 @@
     -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
-    -fx-background-color: #7AEBB8;
+    -fx-background-color: #66EDA5;
     -fx-border-color: #A5A8A7;
     -fx-max-width: "INFINITY";
     -fx-alignment: center;
     -fx-opacity: 1;
 }
 
-.label-task {
+.label-deadline {
     -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
     -fx-background-color: #73A3F5;
+    -fx-border-color: #A5A8A7;
+    -fx-max-width: "INFINITY";
+    -fx-alignment: center;
+    -fx-opacity: 1;
+}
+
+.label-complete {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-background-color: #ED9C66;
     -fx-border-color: #A5A8A7;
     -fx-max-width: "INFINITY";
     -fx-alignment: center;
@@ -117,6 +128,7 @@
     -fx-border-radius: 1;
     -fx-border-width: 1;
     -fx-background-color: derive(#FFFFFF, 20%);
+    -fx-border-color: #A5A8A7;
 }
 
 .list-cell {
