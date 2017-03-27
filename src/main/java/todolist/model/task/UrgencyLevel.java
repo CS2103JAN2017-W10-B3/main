@@ -9,8 +9,8 @@ public class UrgencyLevel {
      */
 
     public static final String MESSAGE_URGENCYLEVEL_CONSTRAINTS = "Task urgency levels should "
-            + "only contain numbers between 1 to 5";
-    public static final String URGENCYLEVEL_VALIDATION_REGEX = "[1-5]";
+            + "only contain numbers between 0 to 3";
+    public static final String URGENCYLEVEL_VALIDATION_REGEX = "[0-3]";
 
     public final String value;
     public final int intValue;

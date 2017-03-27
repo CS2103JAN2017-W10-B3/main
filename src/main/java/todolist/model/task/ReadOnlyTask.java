@@ -78,6 +78,9 @@ public interface ReadOnlyTask {
     default String getDescriptionString() {
         return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + " " : "";
     }
-    //@@
+    //@@ author: A0138628W
+    default int getUrgencyLevelInt() {
+        return getUrgencyLevel().isPresent() ? getUrgencyLevel().get().getIntValue() : 0;
+    }
 
 }
