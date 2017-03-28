@@ -45,18 +45,18 @@ public class DeleteCommand extends UndoableCommand {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask personToDelete = lastShownList.get(targetIndex.getValue() - 1);
+        ReadOnlyTask taskToDelete = lastShownList.get(targetIndex.getValue() - 1);
 
         try {
-            model.deleteTask(personToDelete);
-        } catch (TaskNotFoundException pnfe) {
+            model.deleteTask(taskToDelete);
+        } catch (TaskNotFoundException tnfe) {
             assert false : "The target task cannot be missing";
         }
 
-        commandResultToUndo = new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete));
+        commandResultToUndo = new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
         updateUndoLists();
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
     }
 
     @Override
