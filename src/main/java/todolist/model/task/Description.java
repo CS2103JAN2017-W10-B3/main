@@ -12,7 +12,7 @@ public class Description {
     public static final String MESSAGE_DESCRIPTION_CONSTRAINTS = "Description can contain any characters";
     public static final String DESCRIPTION_VALIDATION_REGEX = "^\\w+(.+)?";
 
-    public final String value;
+    private final String value;
 
     /**
      * Validates given start time.
