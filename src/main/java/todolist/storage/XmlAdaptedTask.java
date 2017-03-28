@@ -51,7 +51,7 @@ public class XmlAdaptedTask {
      * @param source future changes to this will not affect the created XmlAdaptedTask
      */
     public XmlAdaptedTask(ReadOnlyTask source) {
-        title = source.getTitle().title;
+        title = source.getTitle().toString();
         venue = source.getVenue().isPresent() ? source.getVenue().get().toString() : "";
         startTime = source.getStartTime().isPresent() ? source.getStartTime().get().toString() : "";
         endTime = source.getEndTime().isPresent() ? source.getEndTime().get().toString() : "";
