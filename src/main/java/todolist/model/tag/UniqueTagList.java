@@ -174,4 +174,14 @@ public class UniqueTagList implements Iterable<Tag> {
         }
     }
 
+    // @@ A0110791M
+    public String getTagListToString() {
+        String tagListString = "";
+        for (Tag tag : internalList) {
+            tagListString.concat(tag.toString());
+        }
+        return tagListString;
+    }
+    // @@
+
 }
