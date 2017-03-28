@@ -19,7 +19,7 @@ public class CompleteCommand extends UndoableCommand {
 
     public final Pair<Character, Integer> targetIndex;
 
-    public static final String COMMAND_WORD = "complete";
+    public static final String COMMAND_WORD = "done";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Completes the task identified by the index number used in the last task listing.\n"
