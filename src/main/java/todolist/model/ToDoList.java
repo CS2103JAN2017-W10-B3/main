@@ -112,9 +112,7 @@ public class ToDoList implements ReadOnlyToDoList {
     
     //@@author A0122017Y
     public void completeTask(ReadOnlyTask taskToComplete) {
-        if (!taskToComplete.isTaskCompleted()){
-            taskToComplete.toggleComplete();
-        }
+        tasks.completeTask(taskToComplete);
     }
     //@@
     
@@ -184,7 +182,7 @@ public class ToDoList implements ReadOnlyToDoList {
     /**
      * Returns a task list filtered to only contain Deadlines
      */
-    public ObservableList<ReadOnlyTask> getFilteredTasks() {
+    public ObservableList<ReadOnlyTask> getFilteredDeadlines() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.DEADLINE));
     }
 
@@ -198,6 +196,10 @@ public class ToDoList implements ReadOnlyToDoList {
     @Override
     public ObservableList<ReadOnlyTask> getTaskList() {
         return new UnmodifiableObservableList<>(tasks.asObservableList());
+    }
+    
+    public ObservableList<ReadOnlyTask> getCompletedTasks() {
+        return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.COMPLETED));
     }
 
     @Override
