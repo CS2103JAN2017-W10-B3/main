@@ -12,9 +12,9 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 
+// @@ A0110791M
 public class TextFieldAutoCompleter implements ChangeListener<String> {
 
-    // @@ A0110791M
     public static final String[] PREFIXSTRINGS = new String[] {"/venue ","/from ","/to ","/level","/description" };
     private static final int MAX_keywords_LENGTH = 10;
 
@@ -22,8 +22,8 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
     private ContextMenu suggestionsList;
     private AutoCompleteTextField textField;
 
-    public TextFieldAutoCompleter(AutoCompleteTextField autoCompleteTextField, ContextMenu suggestionsListMenu) {
-        suggestionsList = suggestionsListMenu;
+    public TextFieldAutoCompleter(AutoCompleteTextField autoCompleteTextField, ContextMenu popupList) {
+        suggestionsList = popupList;
         textField = autoCompleteTextField;
         keywords = new TreeSet<String>(Arrays.asList(PREFIXSTRINGS));
     }
@@ -79,7 +79,7 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
         String lastWord = null;
         int indexOfLastSpacing = currentText.lastIndexOf(' ');
         if (indexOfLastSpacing == -1) {
-            lastWord = " ";
+            lastWord = currentText;
         }
         else {
             lastWord = currentText.substring(indexOfLastSpacing+1, currentText.length());

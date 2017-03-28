@@ -9,14 +9,13 @@ public class AutoCompleteChoiceHandler implements EventHandler<ActionEvent> {
     // @@ A0110791M
     private String optionChosen, precedingText;
     private AutoCompleteTextField choiceHandlerHost;
-    private ContextMenu suggestionsList;
+    private ContextMenu popupList;
 
-    public AutoCompleteChoiceHandler (String choiceInput, String currentText, AutoCompleteTextField eventHost,
-            ContextMenu dropDownList) {
+    public AutoCompleteChoiceHandler (String choiceInput, String currentText, AutoCompleteTextField eventHost, ContextMenu popupList) {
         optionChosen = choiceInput;
         precedingText = getTextBeforeLastSpacing(currentText);
         choiceHandlerHost = eventHost;
-        suggestionsList = dropDownList;
+        this.popupList = popupList;
     }
 
     @Override
@@ -24,12 +23,16 @@ public class AutoCompleteChoiceHandler implements EventHandler<ActionEvent> {
         String output = precedingText.concat(optionChosen);
         choiceHandlerHost.setText(output);
         choiceHandlerHost.positionCaret(output.length());
-        suggestionsList.hide();
+        popupList.hide();
     }
 
     private String getTextBeforeLastSpacing (String currentText) {
         int indexOfLastSpacing = currentText.lastIndexOf(' ');
-        return currentText.substring(0, indexOfLastSpacing);
+        if (indexOfLastSpacing == -1) {
+            return "";
+        } else {
+            return currentText.substring(0, indexOfLastSpacing+1);
+        }
     }
     // @@
 

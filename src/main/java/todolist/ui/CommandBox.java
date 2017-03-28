@@ -14,15 +14,16 @@ import todolist.logic.commands.CommandResult;
 import todolist.logic.commands.exceptions.CommandException;
 
 public class CommandBox extends UiPart<Region> {
-    private final Logger logger = LogsCenter.getLogger(CommandBox.class);
-    private static final String FXML = "CommandBox.fxml";
+
     public static final String ERROR_STYLE_CLASS = "error";
 
+    private static final String FXML = "CommandBox.fxml";
+
     private final Logic logic;
+    private final Logger logger = LogsCenter.getLogger(CommandBox.class);
 
     @FXML
-    //private TextField commandTextField;
-   private AutoCompleteTextField commandTextField;
+    private AutoCompleteTextField commandTextField;
 
     public CommandBox(AnchorPane commandBoxPlaceholder, Logic logic) {
         super(FXML);
@@ -41,14 +42,18 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private void handleCommandInputChanged() {
         try {
-            commandTextField.addKeyWords();
             CommandResult commandResult = logic.execute(commandTextField.getText());
+
+            // add new words to keywords list
+            commandTextField.addKeyWords();
+            commandTextField.addCommandHistory();
 
             // process result of the command
             setStyleToIndicateCommandSuccess();
             commandTextField.setText("");
             logger.info("Result: " + commandResult.feedbackToUser);
             raise(new NewResultAvailableEvent(commandResult.feedbackToUser));
+
 
         } catch (CommandException e) {
             // handle command failure
