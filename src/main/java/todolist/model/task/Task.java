@@ -1,5 +1,6 @@
 package todolist.model.task;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class Task implements ReadOnlyTask {
     private EndTime endTime;
     private Description description;
     private UrgencyLevel urgencyLevel;
+    private Time completeTime;
 
     private Category category;
     private boolean isCompleted;
@@ -40,6 +42,7 @@ public class Task implements ReadOnlyTask {
         this.urgencyLevel = urgencyLevel;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
         this.category = sortCategory();
+        this.isCompleted = false;  //by default, task is not completed when initiated
     }
 
     private boolean isValidTime(StartTime startTime, EndTime endTime) {
@@ -73,7 +76,9 @@ public class Task implements ReadOnlyTask {
     }
 
     private Category sortCategory() {
-        if (isDeadlineTask()) {
+        if (isTaskCompleted()){
+            return Category.COMPLETED;
+        } else if (isDeadlineTask()) {
             return Category.DEADLINE;
         } else if (isEventTask()) {
             return Category.EVENT;
@@ -123,6 +128,15 @@ public class Task implements ReadOnlyTask {
 
     public void setStartTime(StartTime startTime) {
         this.startTime = startTime;
+    }
+    
+    public void setCompleteTime(Time completeTime){
+        this.completeTime = completeTime;
+    }
+    
+    @Override
+    public Time getCompleteTime(){
+        return this.completeTime;
     }
 
     @Override
@@ -205,6 +219,10 @@ public class Task implements ReadOnlyTask {
     
     @Override
     public void toggleComplete(){
+        if (!this.isCompleted){
+            CompleteTime completeTime = new CompleteTime(LocalDateTime.now());
+            this.setCompleteTime(completeTime);
+        }
         this.isCompleted = !this.isCompleted;
     }
 
