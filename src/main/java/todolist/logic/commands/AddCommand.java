@@ -92,7 +92,7 @@ public class AddCommand extends UndoableCommand {
     }
 
     private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
-        if (tempStartTime.isValidDuration(tempEndTime)){
+        if (!tempStartTime.isValidDuration(tempEndTime)){
             throw new IllegalValueException(Messages.MESSAGE_INVALID_DURATION);
         }  
     }
