@@ -123,15 +123,30 @@ public class UniqueTaskList implements Iterable<Task> {
      * Signals that an operation would have violated the 'no duplicates' property of the list.
      */
     public static class DuplicateTaskException extends DuplicateDataException {
+        
         protected DuplicateTaskException() {
             super("Operation would result in duplicate Tasks");
         }
+        
     }
 
     /**
      * Signals that an operation targeting a specified Task in the list would fail because
      * there is no such matching Task in the list.
      */
-    public static class TaskNotFoundException extends Exception {}
+    public static class TaskNotFoundException extends Exception {
+        
+        public TaskNotFoundException() {
+            super("Task is not found in the to-do list!");
+        }
+        
+    }
+
+    public void completeTask(ReadOnlyTask taskToComplete) {
+        int taskIndex = this.internalList.indexOf(taskToComplete);
+        Task completedTask = internalList.get(taskIndex);
+        completedTask.toggleComplete();
+        internalList.set(taskIndex, completedTask);
+    }
 
 }
