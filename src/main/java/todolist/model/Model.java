@@ -7,6 +7,7 @@ import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.DuplicateTaskException;
+import todolist.model.util.Status;
 
 /**
  * The API of the Model component.
