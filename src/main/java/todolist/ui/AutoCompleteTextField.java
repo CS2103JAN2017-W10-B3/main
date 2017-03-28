@@ -19,4 +19,7 @@ public class AutoCompleteTextField extends TextField {
         focusedProperty().addListener(new FocusListener(this, suggestionsList));
     }
 
+    public void addKeyWords () {
+        textFieldAutoCompleter.addKeyWords(this.getText());
+    }
 }

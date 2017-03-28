@@ -16,15 +16,16 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
 
     // @@ A0110791M
     public static final String[] PREFIXSTRINGS = new String[] {"/venue ","/from ","/to ","/level","/description" };
-    public static final TreeSet<String> SUGGESTIONS = new TreeSet<String>(Arrays.asList(PREFIXSTRINGS));
-    public static final int MAX_SUGGESTIONS_LENGTH = 10;
+    private static final int MAX_keywords_LENGTH = 10;
 
+    private static TreeSet<String> keywords;
     private ContextMenu suggestionsList;
     private AutoCompleteTextField textField;
 
     public TextFieldAutoCompleter(AutoCompleteTextField autoCompleteTextField, ContextMenu suggestionsListMenu) {
         suggestionsList = suggestionsListMenu;
         textField = autoCompleteTextField;
+        keywords = new TreeSet<String>(Arrays.asList(PREFIXSTRINGS));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
     private void showSuggestions (String currentTextInput) {
         LinkedList<String> searchResults = new LinkedList<String>();
         String currentWord = getLastWord(currentTextInput);
-        searchResults.addAll(SUGGESTIONS.subSet(currentWord, currentWord + Character.MAX_VALUE));
+        searchResults.addAll(keywords.subSet(currentWord, currentWord + Character.MAX_VALUE));
         List<CustomMenuItem> menuItems = getSuggestionsMenu(searchResults, currentTextInput);
 
         suggestionsList.getItems().clear();
@@ -62,7 +63,7 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
     private List<CustomMenuItem> getSuggestionsMenu (List<String> searchResult, String currentText) {
         List<CustomMenuItem> menuItems = new LinkedList<>();
 
-        int count = Math.min(searchResult.size(), MAX_SUGGESTIONS_LENGTH);
+        int count = Math.min(searchResult.size(), MAX_keywords_LENGTH);
         for (int i = 0; i < count; i++) {
             final String result = searchResult.get(i);
             Label entryLabel = new Label(result);
@@ -86,6 +87,14 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
         return lastWord;
     }
 
-
+    public void addKeyWords (String inputText) {
+        String[] newKeywords = inputText.split(" ");
+        for (String keyword : newKeywords) {
+            if (!keywords.contains(keyword)) {
+                keywords.add(keyword);
+            }
+        }
+    }
     // @@
+
 }

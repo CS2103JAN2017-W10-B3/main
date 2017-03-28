@@ -37,9 +37,11 @@ public class CommandBox extends UiPart<Region> {
         FxViewUtil.applyAnchorBoundaryParameters(commandTextField, 0.0, 0.0, 0.0, 0.0);
     }
 
+    // @@ A0110791M
     @FXML
     private void handleCommandInputChanged() {
         try {
+            commandTextField.addKeyWords();
             CommandResult commandResult = logic.execute(commandTextField.getText());
 
             // process result of the command
@@ -55,7 +57,7 @@ public class CommandBox extends UiPart<Region> {
             raise(new NewResultAvailableEvent(e.getMessage()));
         }
     }
-
+    // @@
 
     /**
      * Sets the command box style to indicate a successful command.
