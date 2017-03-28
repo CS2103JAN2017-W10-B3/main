@@ -84,6 +84,12 @@ public interface ReadOnlyTask {
     default String getDescriptionString() {
         return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + " " : "";
     }
+  
+    //@@ author: A0138628W
+    default int getUrgencyLevelInt() {
+        return getUrgencyLevel().isPresent() ? getUrgencyLevel().get().getIntValue() : 0;
+    }
+    //@@ author
     
     //====================Comparators for tasks======================
     
@@ -179,6 +185,5 @@ public interface ReadOnlyTask {
         return byTaskType.thenComparing(byCompleteTime).thenComparing(byName);
     }
     //@@
-    
     
 }
