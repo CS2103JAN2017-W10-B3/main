@@ -17,7 +17,7 @@ public class Title implements Comparable<Title> {
      */
     public static final String TITLE_VALIDATION_REGEX = "^\\w+(.+)?";
 
-    public final String title;
+    private final String title;
 
     /**
      * Validates given name.
