@@ -13,6 +13,7 @@ import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
+import todolist.model.util.Status;
 
 /**
  * Represents the in-memory model of the to-do list data. All changes to any
@@ -20,6 +21,10 @@ import todolist.model.task.UniqueTaskList.TaskNotFoundException;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
+    
+    private static final Status INCOMPLETE_STATUS = Status.INCOMPLETE;
+    private static final Status COMPLETE_STATUS = Status.COMPLETED;
+    
     // @@author A0143648Y
     private final ToDoList todoList;
     private FilteredList<ReadOnlyTask> filteredFloats;
@@ -70,13 +75,14 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
         todoList.removeTask(target);
+        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         todoList.addTask(task);
-        updateFilteredListToShowAll();
+        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
@@ -87,12 +93,22 @@ public class ModelManager extends ComponentManager implements Model {
         assert taskToEdit != null;
         assert editedTask != null;
         todoList.updateTask(taskToEdit, editedTask);
+        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
+    
+    //@@author A0122017Y
+    @Override
+    public void completeTask(ReadOnlyTask taskToComplete) {
+        todoList.completeTask(taskToComplete);
+        indicateToDoListChanged();
+        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
+    }
+    //@@
 
-    // =========== Filtered Task List Accessors
-    // =============================================================
-
+    // =========== Filtered Task List Accessors =============================================================
+    
+    //@@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList() {
         return new UnmodifiableObservableList<>(filteredTasks);
@@ -141,9 +157,17 @@ public class ModelManager extends ComponentManager implements Model {
         filteredFloats.setPredicate(expression::satisfies);
         filteredEvents.setPredicate(expression::satisfies);
     }
+    
+    @Override
+    public void updateFilteredTaskListToShowWithStatus(Status status) {
+        if(status == Status.ALL) {
+            updateFilteredListToShowAll();
+        } else {
+            updateFilteredTaskList(new PredicateExpression(new StatusQualifier(status)));
+        }
+    }
 
-    // ========== Inner classes/interfaces used for filtering
-    // =================================================
+    // ========== Inner classes/interfaces used for filtering =================================================
 
     interface Expression {
         boolean satisfies(ReadOnlyTask task);
@@ -189,7 +213,7 @@ public class ModelManager extends ComponentManager implements Model {
         @Override
         public boolean run(ReadOnlyTask task) {
             return nameKeyWords.stream()
-                    .filter(keyword -> hasContainedKeyword(task.getTitle().title, keyword)
+                    .filter(keyword -> hasContainedKeyword(task.getTitle().toString(), keyword)
                             || hasContainedKeyword(task.getStartTimeString(), keyword)
                             || hasContainedKeyword(task.getEndTimeString(), keyword)
                             || hasContainedKeyword(task.getDescriptionString(), keyword)
@@ -201,6 +225,35 @@ public class ModelManager extends ComponentManager implements Model {
         public String toString() {
             return "name=" + String.join(", ", nameKeyWords);
         }
+    }
+    
+    private class StatusQualifier implements Qualifier {
+        
+        Boolean status;
+        
+        StatusQualifier(Status status){
+            switch(status) {
+            case COMPLETED:
+                this.status = true;
+                break;
+            case INCOMPLETE:
+                this.status = false;
+                break;
+            default:
+                this.status = false;
+            }
+        }
+        
+        @Override
+        public boolean run(ReadOnlyTask task) {
+            return task.isTaskCompleted().equals(status);
+        }
+        
+        @Override 
+        public String toString() {
+            return (status ? "completed" : "not yet completed");  
+        }
+
     }
 
     private boolean hasContainedKeyword(String searchMe, String findMe) {
