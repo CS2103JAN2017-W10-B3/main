@@ -25,7 +25,7 @@ public class SelectCommandParser {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
         }
 
-        return new SelectCommand(index.get().getValue());
+        return new SelectCommand(index.get());
     }
 
 }

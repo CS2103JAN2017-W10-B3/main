@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import todolist.commons.core.Messages;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
@@ -81,9 +82,19 @@ public class AddCommand extends UndoableCommand {
         if (description.isPresent()) {
             tempDescription = new Description(description.get());
         }
+        
+        if (tempStartTime != null && tempEndTime != null){
+            checkValidDuration(tempStartTime, tempEndTime);
+        }
 
         this.toAdd = new Task(tempTitle, tempVenue, tempStartTime, tempEndTime,
                 tempUrgencyLevel, tempDescription, new UniqueTagList(tagSet));
+    }
+
+    private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
+        if (!tempStartTime.isValidDuration(tempEndTime)){
+            throw new IllegalValueException(Messages.MESSAGE_INVALID_DURATION);
+        }  
     }
 
     // @@author A0143648Y

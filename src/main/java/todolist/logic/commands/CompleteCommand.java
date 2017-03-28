@@ -9,32 +9,32 @@ import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
 import todolist.model.task.ReadOnlyTask;
-import todolist.model.task.UniqueTaskList.TaskNotFoundException;
+
+//@@author A0122017Y
 
 /**
- * Deletes a person identified using it's last displayed index from the address
- * book.
+ * Selects a task identified using it's last displayed index from the address book.
  */
-public class DeleteCommand extends UndoableCommand {
-
-    public static final String COMMAND_WORD = "delete";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the task identified by the index number used in the last task listing.\n"
-            + "Parameters: INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD + " 1";
-
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
+public class CompleteCommand extends UndoableCommand {
 
     public final Pair<Character, Integer> targetIndex;
 
+    public static final String COMMAND_WORD = "done";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Completes the task identified by the index number used in the last task listing.\n"
+            + "Parameters: CHAR(d, e or f) + INDEX (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " e1";
+
+    public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: %1$s";
+    
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
-
-    public DeleteCommand(Pair<Character, Integer> targetIndex) {
+    
+    public CompleteCommand(Pair<Character, Integer> targetIndex) {
         this.targetIndex = targetIndex;
     }
-
-    // @@ A0143648Y
+    
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
@@ -45,18 +45,14 @@ public class DeleteCommand extends UndoableCommand {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask taskToDelete = lastShownList.get(targetIndex.getValue() - 1);
+        ReadOnlyTask taskToComplete = lastShownList.get(targetIndex.getValue() - 1);
 
-        try {
-            model.deleteTask(taskToDelete);
-        } catch (TaskNotFoundException tnfe) {
-            assert false : "The target task cannot be missing";
-        }
+        model.completeTask(taskToComplete);
 
-        commandResultToUndo = new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
+        commandResultToUndo = new CommandResult(String.format(MESSAGE_COMPLETE_TASK_SUCCESS, taskToComplete));
         updateUndoLists();
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
+        return new CommandResult(String.format(MESSAGE_COMPLETE_TASK_SUCCESS, taskToComplete));
     }
 
     @Override
@@ -75,5 +71,5 @@ public class DeleteCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
-
+    
 }

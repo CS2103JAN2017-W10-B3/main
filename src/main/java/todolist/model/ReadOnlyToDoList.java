@@ -11,7 +11,7 @@ import todolist.model.task.ReadOnlyTask;
 public interface ReadOnlyToDoList {
 
     /**
-     * Returns an unmodifiable view of the Tasks list.
+     * Returns an unmodifiable view of the task list.
      * This list will not contain any duplicate Tasks.
      */
     ObservableList<ReadOnlyTask> getTaskList();

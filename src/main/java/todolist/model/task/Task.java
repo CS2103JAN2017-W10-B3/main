@@ -1,5 +1,6 @@
 package todolist.model.task;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -11,10 +12,6 @@ import todolist.model.tag.UniqueTagList;
  */
 public class Task implements ReadOnlyTask {
 
-    public static final String TASK_TYPE_DEADLINE = "deadline";
-    public static final String TASK_TYPE_EVENT = "event";
-    public static final String TASK_TYPE_FLOAT = "float";
-
     public static final char FLOAT_CHAR = 'f';
     public static final char DEADLINE_CHAR = 'd';
     public static final char EVENT_CHAR = 'e';
@@ -25,8 +22,9 @@ public class Task implements ReadOnlyTask {
     private EndTime endTime;
     private Description description;
     private UrgencyLevel urgencyLevel;
+    private Time completeTime;
 
-    private String category;
+    private Category category;
     private boolean isCompleted;
 
     private UniqueTagList tags;
@@ -44,6 +42,7 @@ public class Task implements ReadOnlyTask {
         this.urgencyLevel = urgencyLevel;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
         this.category = sortCategory();
+        this.isCompleted = false;  //by default, task is not completed when initiated
     }
 
     private boolean isValidTime(StartTime startTime, EndTime endTime) {
@@ -76,18 +75,21 @@ public class Task implements ReadOnlyTask {
         return this.endTime == null;
     }
 
-    private String sortCategory() {
-        if (isDeadlineTask()) {
-            return TASK_TYPE_DEADLINE;
+    private Category sortCategory() {
+        if (isTaskCompleted()){
+            return Category.COMPLETED;
+        } else if (isDeadlineTask()) {
+            return Category.DEADLINE;
         } else if (isEventTask()) {
-            return TASK_TYPE_EVENT;
+            return Category.EVENT;
         } else {
-            return TASK_TYPE_FLOAT;
+            return Category.FLOAT;
         }
     }
 
     @Override
-    public String getTaskCategory() {
+    public Category getTaskCategory() {
+        this.category = sortCategory();
         return this.category;
     }
 
@@ -126,6 +128,15 @@ public class Task implements ReadOnlyTask {
 
     public void setStartTime(StartTime startTime) {
         this.startTime = startTime;
+    }
+    
+    public void setCompleteTime(Time completeTime){
+        this.completeTime = completeTime;
+    }
+    
+    @Override
+    public Time getCompleteTime(){
+        return this.completeTime;
     }
 
     @Override
@@ -199,6 +210,20 @@ public class Task implements ReadOnlyTask {
     @Override
     public String toString() {
         return getAsText();
+    }
+    
+    @Override
+    public Boolean isTaskCompleted(){
+        return this.isCompleted;
+    }
+    
+    @Override
+    public void toggleComplete(){
+        if (!this.isCompleted){
+            CompleteTime completeTime = new CompleteTime(LocalDateTime.now());
+            this.setCompleteTime(completeTime);
+        }
+        this.isCompleted = !this.isCompleted;
     }
 
 }

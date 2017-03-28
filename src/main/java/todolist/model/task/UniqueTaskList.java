@@ -1,5 +1,6 @@
 package todolist.model.task;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javafx.collections.ObservableList;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.exceptions.DuplicateDataException;
 import todolist.commons.util.CollectionUtil;
+import todolist.model.task.ReadOnlyTask.Category;
 
 /**
  * A list of Tasks that enforces uniqueness between its elements and does not allow nulls.
@@ -49,10 +51,10 @@ public class UniqueTaskList implements Iterable<Task> {
      *      another existing Task in the list.
      * @throws IndexOutOfBoundsException if {@code index} < 0 or >= the size of the list.
      */
-    public void updateTask(int index, ReadOnlyTask editedTask) throws DuplicateTaskException {
-        assert editedTask != null;
-
-        Task taskToUpdate = internalList.get(index);
+    public void updateTask(ReadOnlyTask taskToEdit, ReadOnlyTask editedTask) throws DuplicateTaskException {
+        assert editedTask != null;        
+        Task taskToUpdate = new Task(taskToEdit);
+        int index = internalList.indexOf(taskToUpdate);
         if (!taskToUpdate.equals(editedTask) && internalList.contains(editedTask)) {
             throw new DuplicateTaskException();
         }
@@ -95,7 +97,7 @@ public class UniqueTaskList implements Iterable<Task> {
         return new UnmodifiableObservableList<>(internalList);
     }
 
-    public UnmodifiableObservableList<Task> getFilteredTaskList(String filter) {
+    public UnmodifiableObservableList<Task> getFilteredTaskList(Category filter) {
         return new UnmodifiableObservableList<>(internalList.filtered(p -> p.getTaskCategory().equals(filter)));
     }
 
@@ -121,15 +123,30 @@ public class UniqueTaskList implements Iterable<Task> {
      * Signals that an operation would have violated the 'no duplicates' property of the list.
      */
     public static class DuplicateTaskException extends DuplicateDataException {
+        
         protected DuplicateTaskException() {
             super("Operation would result in duplicate Tasks");
         }
+        
     }
 
     /**
      * Signals that an operation targeting a specified Task in the list would fail because
      * there is no such matching Task in the list.
      */
-    public static class TaskNotFoundException extends Exception {}
+    public static class TaskNotFoundException extends Exception {
+        
+        public TaskNotFoundException() {
+            super("Task is not found in the to-do list!");
+        }
+        
+    }
+
+    public void completeTask(ReadOnlyTask taskToComplete) {
+        int taskIndex = this.internalList.indexOf(taskToComplete);
+        Task completedTask = internalList.get(taskIndex);
+        completedTask.toggleComplete();
+        internalList.set(taskIndex, completedTask);
+    }
 
 }

@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import todolist.logic.commands.AddCommand;
 import todolist.logic.commands.ClearCommand;
 import todolist.logic.commands.Command;
+import todolist.logic.commands.CompleteCommand;
 import todolist.logic.commands.DeleteCommand;
 import todolist.logic.commands.EditCommand;
 import todolist.logic.commands.ExitCommand;
@@ -17,6 +18,7 @@ import todolist.logic.commands.HelpCommand;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.ListCommand;
 import todolist.logic.commands.ListTagCommand;
+import todolist.logic.commands.SaveCommand;
 import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.UndoCommand;
 
@@ -60,6 +62,9 @@ public class Parser {
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
+            
+        case CompleteCommand.COMMAND_WORD:
+            return new CompleteCommandParser().parse(arguments);
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
@@ -79,9 +84,12 @@ public class Parser {
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
 
+        case SaveCommand.COMMAND_WORD:
+            return new SaveCommandParser().parse(arguments);
+
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
         }
     }
-
+    
 }

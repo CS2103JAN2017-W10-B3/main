@@ -22,12 +22,13 @@ public class TestTask implements ReadOnlyTask {
 
     private Title title;
     private Optional<Venue> venue;
-    private Optional<StartTime> starttime;
-    private Optional<EndTime> endtime;
+    private Optional<StartTime> startTime;
+    private Optional<EndTime> endTime;
     private Optional<UrgencyLevel> urgencyLevel;
     private Optional<Description> description;
     private UniqueTagList tags;
-    private String category;
+    private Category category;
+    private Boolean isCompleted;
 
     public TestTask() {
         tags = new UniqueTagList();
@@ -39,23 +40,27 @@ public class TestTask implements ReadOnlyTask {
     public TestTask(TestTask taskToCopy) {
         this.title = taskToCopy.getTitle();
         this.venue = taskToCopy.getVenue();
-        this.endtime = taskToCopy.getEndTime();
+        this.startTime = taskToCopy.getStartTime();
+        this.endTime = taskToCopy.getEndTime();
         this.urgencyLevel = taskToCopy.getUrgencyLevel();
         this.description = taskToCopy.getDescription();
         this.tags = taskToCopy.getTags();
-        this.category = taskToCopy.getTaskCategory();
+        this.category = sortCategory();
     }
-    //@@author A0122017Y
+
+    // @@author A0122017Y
     public void setTitle(Title title) {
         this.title = title;
     }
 
     public void setStartTime(StartTime starttime) {
-        this.starttime = Optional.of(starttime);
+        this.startTime = Optional.of(starttime);
+        updateCategory();
     }
 
     public void setEndTime(EndTime endtime) {
-        this.endtime = Optional.of(endtime);
+        this.endTime = Optional.of(endtime);
+        updateCategory();
     }
 
     public void setVenue(Venue venue) {
@@ -80,18 +85,18 @@ public class TestTask implements ReadOnlyTask {
     }
 
     @Override
-    public String getTaskCategory() {
+    public Category getTaskCategory() {
         return category;
     }
 
     @Override
     public Optional<StartTime> getStartTime() {
-        return starttime;
+        return startTime;
     }
 
     @Override
     public Optional<EndTime> getEndTime() {
-        return endtime;
+        return endTime;
     }
 
     @Override
@@ -119,26 +124,73 @@ public class TestTask implements ReadOnlyTask {
         return getAsText();
     }
 
+    // @@author A0110791M
+    private boolean isDeadlineTask() {
+        return this.endTime != null && startTime == null;
+    }
+
+    private boolean isEventTask() {
+        return this.endTime != null && startTime != null;
+    }
+
+    private boolean isFloatingTask() {
+        return this.endTime == null;
+    }
+
+    private void updateCategory() {
+        this.category = sortCategory();
+    }
+
+    private Category sortCategory() {
+        if (isDeadlineTask()) {
+            return Category.DEADLINE;
+        } else if (isEventTask()) {
+            return Category.EVENT;
+        } else {
+            return Category.FLOAT;
+        }
+    }
+
     public String getAddCommand() {
         StringBuilder sb = new StringBuilder();
-        sb.append("add " + this.getTitle().title + " ");
-        sb.append("place/" + this.getVenueString() + " ");
-        sb.append("from/" + this.getStartTimeString() + " ");
-        sb.append("to/" + this.getEndTimeString() + " ");
-        sb.append("level/" + this.getUrgencyLevelString() + " ");
-        sb.append("des/" + this.getDescriptionString() + " ");
+        sb.append("add " + this.getTitle().toString() + " ");
+        if (this.getVenue().isPresent()) {
+            sb.append("/venue " + this.getVenue().get() + " ");
+        }
+        if (this.getStartTime().isPresent()) {
+            sb.append("/from " + this.getStartTime().get() + " ");
+        }
+        if (this.getEndTime().isPresent()) {
+            sb.append("/to " + this.getEndTime().get() + " ");
+        }
+        if (this.getUrgencyLevel().isPresent()) {
+            sb.append("/level " + this.getUrgencyLevel().get() + " ");
+        }
+        if (this.getDescription().isPresent()) {
+            sb.append("/description " + this.getDescription().get() + " ");
+        }
         this.getTags().asObservableList().stream().forEach(s -> sb.append("#" + s.tagName + " "));
         return sb.toString();
     }
 
     @Override
     public Character getTaskChar() {
-        if (starttime.isPresent()) {
+        if (startTime.isPresent()) {
             return EVENT_CHAR;
-        } else if (endtime.isPresent()) {
+        } else if (endTime.isPresent()) {
             return DEADLINE_CHAR;
         } else {
             return FLOAT_CHAR;
         }
+    }
+
+    @Override
+    public Boolean isTaskCompleted() {
+        return this.isCompleted;
+    }
+
+    @Override
+    public void toggleComplete() {
+        this.isCompleted = !this.isCompleted;
     }
 }
