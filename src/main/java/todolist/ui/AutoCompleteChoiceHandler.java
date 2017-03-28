@@ -6,23 +6,34 @@ import javafx.scene.control.ContextMenu;
 
 public class AutoCompleteChoiceHandler implements EventHandler<ActionEvent> {
 
+    // @@ A0110791M
     private String optionChosen, precedingText;
     private AutoCompleteTextField choiceHandlerHost;
-    private ContextMenu suggestionsList;
+    private ContextMenu popupList;
 
-    public AutoCompleteChoiceHandler(String commandString, String stringBeforePrefix, AutoCompleteTextField eventHost,
-            ContextMenu dropDownList) {
-        optionChosen = commandString;
-        precedingText = stringBeforePrefix;
+    public AutoCompleteChoiceHandler (String choiceInput, String currentText, AutoCompleteTextField eventHost, ContextMenu popupList) {
+        optionChosen = choiceInput;
+        precedingText = getTextBeforeLastSpacing(currentText);
         choiceHandlerHost = eventHost;
-        suggestionsList = dropDownList;
+        this.popupList = popupList;
     }
 
     @Override
-    public void handle(ActionEvent actionEvent) {
+    public void handle (ActionEvent actionEvent) {
         String output = precedingText.concat(optionChosen);
         choiceHandlerHost.setText(output);
         choiceHandlerHost.positionCaret(output.length());
-        suggestionsList.hide();
+        popupList.hide();
     }
+
+    private String getTextBeforeLastSpacing (String currentText) {
+        int indexOfLastSpacing = currentText.lastIndexOf(' ');
+        if (indexOfLastSpacing == -1) {
+            return "";
+        } else {
+            return currentText.substring(0, indexOfLastSpacing+1);
+        }
+    }
+    // @@
+
 }
