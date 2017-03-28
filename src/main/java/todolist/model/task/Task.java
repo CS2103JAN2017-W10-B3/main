@@ -197,5 +197,15 @@ public class Task implements ReadOnlyTask {
     public String toString() {
         return getAsText();
     }
+    
+    @Override
+    public Boolean isTaskCompleted(){
+        return this.isCompleted;
+    }
+    
+    @Override
+    public void toggleComplete(){
+        this.isCompleted = !this.isCompleted;
+    }
 
 }
