@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import todolist.commons.core.ComponentManager;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
@@ -28,8 +29,10 @@ public class ModelManager extends ComponentManager implements Model {
     // @@author A0143648Y
     private final ToDoList todoList;
     private FilteredList<ReadOnlyTask> filteredFloats;
-    private FilteredList<ReadOnlyTask> filteredTasks;
+    private FilteredList<ReadOnlyTask> filteredDeadlines;
     private FilteredList<ReadOnlyTask> filteredEvents;
+    
+    private FilteredList<ReadOnlyTask> completedTasks;
 
     /**
      * Initializes a ModelManager with the given ToDoList and userPrefs.
@@ -41,9 +44,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with to-do list: " + todoList + " and user prefs " + userPrefs);
 
         this.todoList = new ToDoList(todoList);
-        filteredTasks = new FilteredList<>(this.todoList.getFilteredTasks());
-        filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
-        filteredEvents = new FilteredList<>(this.todoList.getFilteredEvents());
+        syncTypeOfTasks();
     }
 
     // @@
@@ -75,6 +76,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
         todoList.removeTask(target);
+        syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
@@ -82,6 +84,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         todoList.addTask(task);
+        syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
@@ -93,16 +96,25 @@ public class ModelManager extends ComponentManager implements Model {
         assert taskToEdit != null;
         assert editedTask != null;
         todoList.updateTask(taskToEdit, editedTask);
+        syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
     
     //@@author A0122017Y
+    private void syncTypeOfTasks() {
+        filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
+        filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
+        filteredEvents = new FilteredList<>(this.todoList.getFilteredEvents());
+        completedTasks = new FilteredList<>(this.todoList.getCompletedTasks());
+     
+    }
+    
     @Override
     public void completeTask(ReadOnlyTask taskToComplete) {
         todoList.completeTask(taskToComplete);
-        indicateToDoListChanged();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
+        indicateToDoListChanged();
     }
     //@@
 
@@ -110,18 +122,34 @@ public class ModelManager extends ComponentManager implements Model {
     
     //@@author A0143648Y
     @Override
-    public UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList() {
-        return new UnmodifiableObservableList<>(filteredTasks);
+    public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
+        SortedList<ReadOnlyTask> sortedDeadlines = new SortedList<>(filteredDeadlines);
+        sortedDeadlines.setComparator(ReadOnlyTask.getDeadlineComparator());
+        return new UnmodifiableObservableList<>(sortedDeadlines);
     }
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredEventList() {
-        return new UnmodifiableObservableList<>(filteredEvents);
+        SortedList<ReadOnlyTask> sortedEvents = new SortedList<>(filteredEvents);
+        sortedEvents.setComparator(ReadOnlyTask.getEventComparator());
+        return new UnmodifiableObservableList<>(sortedEvents);
     }
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredFloatList() {
-        return new UnmodifiableObservableList<>(filteredFloats);
+        SortedList<ReadOnlyTask> sortedFloats = new SortedList<>(filteredFloats);
+        sortedFloats.setComparator(ReadOnlyTask.getFloatingComparator());
+        return new UnmodifiableObservableList<>(sortedFloats);
+    }
+    
+    public UnmodifiableObservableList<ReadOnlyTask> getAllTaskList() {
+        return new UnmodifiableObservableList<>(todoList.getTaskList());
+    }
+    
+    public UnmodifiableObservableList<ReadOnlyTask> getCompletedList() {
+        SortedList<ReadOnlyTask> sortedComplete = new SortedList<>(completedTasks);
+        sortedComplete.setComparator(ReadOnlyTask.getCompleteComparator());
+        return new UnmodifiableObservableList<>(sortedComplete);
     }
 
     @Override
@@ -129,7 +157,7 @@ public class ModelManager extends ComponentManager implements Model {
         switch (type) {
 
         case Task.DEADLINE_CHAR:
-            return getFilteredTaskList();
+            return getFilteredDeadlineList();
 
         case Task.EVENT_CHAR:
             return getFilteredEventList();
@@ -137,12 +165,12 @@ public class ModelManager extends ComponentManager implements Model {
         case Task.FLOAT_CHAR:
             return getFilteredFloatList();
         }
-        return getFilteredTaskList();
+        return getAllTaskList();
     }
 
     @Override
     public void updateFilteredListToShowAll() {
-        filteredTasks.setPredicate(null);
+        filteredDeadlines.setPredicate(null);
         filteredFloats.setPredicate(null);
         filteredEvents.setPredicate(null);
     }
@@ -153,7 +181,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     private void updateFilteredTaskList(Expression expression) {
-        filteredTasks.setPredicate(expression::satisfies);
+        filteredDeadlines.setPredicate(expression::satisfies);
         filteredFloats.setPredicate(expression::satisfies);
         filteredEvents.setPredicate(expression::satisfies);
     }
