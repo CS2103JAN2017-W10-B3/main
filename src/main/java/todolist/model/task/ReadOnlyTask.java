@@ -20,6 +20,9 @@ public interface ReadOnlyTask {
 
     Category getTaskCategory();
     Character getTaskChar();
+    
+    Boolean isTaskCompleted();
+    void toggleComplete();
 
     /**
      * The returned TagList is a deep copy of the internal TagList,
