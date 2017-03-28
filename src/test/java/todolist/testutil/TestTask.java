@@ -28,6 +28,7 @@ public class TestTask implements ReadOnlyTask {
     private Optional<Description> description;
     private UniqueTagList tags;
     private Category category;
+    private Boolean isCompleted;
 
     public TestTask() {
         tags = new UniqueTagList();
@@ -152,7 +153,7 @@ public class TestTask implements ReadOnlyTask {
 
     public String getAddCommand() {
         StringBuilder sb = new StringBuilder();
-        sb.append("add " + this.getTitle().title + " ");
+        sb.append("add " + this.getTitle().toString() + " ");
         if (this.getVenue().isPresent()) {
             sb.append("/venue " + this.getVenue().get() + " ");
         }
@@ -181,5 +182,15 @@ public class TestTask implements ReadOnlyTask {
         } else {
             return FLOAT_CHAR;
         }
+    }
+
+    @Override
+    public Boolean isTaskCompleted() {
+        return this.isCompleted;
+    }
+
+    @Override
+    public void toggleComplete() {
+        this.isCompleted = !this.isCompleted;
     }
 }
