@@ -28,6 +28,20 @@
                   <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Scroll">
+               <items>
+                  <MenuItem fx:id="resultUp" mnemonicParsing="false" onAction="#handleResultUp" text="Result Display Up" />
+                  <MenuItem fx:id="resultDown" mnemonicParsing="false" onAction="#handleResultDown" text="Result Display Down" />
+                  <MenuItem fx:id="eventUp" mnemonicParsing="false" onAction="#handleEventUp" text="Events Up" />
+                  <MenuItem fx:id="eventDown" mnemonicParsing="false" onAction="#handleEventDown" text="Events Down" />
+                  <MenuItem fx:id="floatingUp" mnemonicParsing="false" onAction="#handleFloatingUp" text="Floating Up" />
+                  <MenuItem fx:id="floatingDown" mnemonicParsing="false" onAction="#handleFloatingDown" text="Floating Down" />
+                  <MenuItem fx:id="deadlineUp" mnemonicParsing="false" onAction="#handleDeadlineUp" text="Deadline Up" />
+                  <MenuItem fx:id="deadlineDown" mnemonicParsing="false" onAction="#handleDeadlineDown" text="Deadline Down" />
+                  <MenuItem fx:id="completeUp" mnemonicParsing="false" onAction="#handleCompleteUp" text="Complete Up" />
+                  <MenuItem fx:id="completeDown" mnemonicParsing="false" onAction="#handleCompleteDown" text="Complete Down" />
+               </items>
+            </Menu>
          </menus>
       </MenuBar>
       <AnchorPane fx:id="commandBoxPlaceholder" styleClass="anchor-pane-with-border" VBox.vgrow="NEVER">

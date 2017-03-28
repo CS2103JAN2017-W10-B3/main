@@ -33,6 +33,8 @@ public class MainWindow extends UiPart<Region> {
     //@@author A0138628W
     private TaskListPanel taskListPanel, eventListPanel, floatingListPanel, completeListPanel;
     private Config config;
+    private ResultDisplay resultDisplay;
+    private Scroll scroll;
 
     @FXML
     private AnchorPane eventListPlaceholder;
@@ -48,6 +50,37 @@ public class MainWindow extends UiPart<Region> {
 
     @FXML
     private MenuItem helpMenuItem;
+
+    //@@ author: A0138628W
+    @FXML
+    private MenuItem resultUp;
+
+    @FXML
+    private MenuItem resultDown;
+
+    @FXML
+    private MenuItem eventUp;
+
+    @FXML
+    private MenuItem eventDown;
+
+    @FXML
+    private MenuItem floatingUp;
+
+    @FXML
+    private MenuItem floatingDown;
+
+    @FXML
+    private MenuItem deadlineUp;
+
+    @FXML
+    private MenuItem deadlineDown;
+
+    @FXML
+    private MenuItem completeUp;
+
+    @FXML
+    private MenuItem completeDown;
 
     @FXML
     private AnchorPane taskListPanelPlaceholder;
@@ -75,6 +108,7 @@ public class MainWindow extends UiPart<Region> {
         primaryStage.setScene(scene);
 
         setAccelerators();
+        setScroll();
     }
 
     public Stage getPrimaryStage() {
@@ -83,6 +117,17 @@ public class MainWindow extends UiPart<Region> {
 
     private void setAccelerators() {
         setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
+        //@@ author: A0138628W
+        setAccelerator(resultUp, KeyCombination.valueOf("CTRL+SHIFT+R"));
+        setAccelerator(resultDown, KeyCombination.valueOf("CTRL+ALT+R"));
+        setAccelerator(eventUp, KeyCombination.valueOf("CTRL+SHIFT+E"));
+        setAccelerator(eventDown, KeyCombination.valueOf("CTRL+ALT+E"));
+        setAccelerator(floatingUp, KeyCombination.valueOf("CTRL+SHIFT+F"));
+        setAccelerator(floatingDown, KeyCombination.valueOf("CTRL+ALT+F"));
+        setAccelerator(deadlineUp, KeyCombination.valueOf("CTRL+SHIFT+D"));
+        setAccelerator(deadlineDown, KeyCombination.valueOf("CTRL+ALT+D"));
+        setAccelerator(completeUp, KeyCombination.valueOf("CTRL+SHIFT+C"));
+        setAccelerator(completeDown, KeyCombination.valueOf("CTRL+ALT+C"));
     }
 
     /**
@@ -121,7 +166,7 @@ public class MainWindow extends UiPart<Region> {
         eventListPanel = new TaskListPanel(getEventListPlaceholder(), logic.getFilteredEventList());
         floatingListPanel = new TaskListPanel(getFloatListPlaceholder(), logic.getFilteredFloatList());
         completeListPanel = new TaskListPanel(getCompleteListPlaceholder(), logic.getFilteredTaskList());
-        new ResultDisplay(getResultDisplayPlaceholder());
+        resultDisplay = new ResultDisplay(getResultDisplayPlaceholder());
         new StatusBarFooter(getStatusbarPlaceholder(), config.getToDoListFilePath());
         new CommandBox(getCommandBoxPlaceholder(), logic);
     }
@@ -187,6 +232,10 @@ public class MainWindow extends UiPart<Region> {
         primaryStage.setMaximized(true);
     }
 
+    private void setScroll() {
+        scroll = new Scroll();
+    }
+
     /**
      * Returns the current size and the position of the main Window.
      */
@@ -199,6 +248,107 @@ public class MainWindow extends UiPart<Region> {
     public void handleHelp() {
         HelpWindow helpWindow = new HelpWindow();
         helpWindow.show();
+    }
+
+    //@@ author: A0138628W
+    @FXML
+    public void handleResultUp() {
+        scroll.getTextVerticalScrollbar(resultDisplay.getResultDisplayArea());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMin()) {
+                scroll.scrollDecrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleResultDown() {
+        scroll.getTextVerticalScrollbar(resultDisplay.getResultDisplayArea());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMax()) {
+                scroll.scrollIncrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleEventUp() {
+        scroll.getListVerticalScrollbar(eventListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMin()) {
+                scroll.scrollDecrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleEventDown() {
+        scroll.getListVerticalScrollbar(eventListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMax()) {
+                scroll.scrollIncrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleFloatingUp() {
+        scroll.getListVerticalScrollbar(floatingListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMin()) {
+                scroll.scrollDecrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleFloatingDown() {
+        scroll.getListVerticalScrollbar(floatingListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMax()) {
+                scroll.scrollIncrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleDeadlineUp() {
+        scroll.getListVerticalScrollbar(taskListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMin()) {
+                scroll.scrollDecrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleDeadlineDown() {
+        scroll.getListVerticalScrollbar(taskListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMax()) {
+                scroll.scrollIncrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleCompleteUp() {
+        scroll.getListVerticalScrollbar(completeListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMin()) {
+                scroll.scrollDecrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleCompleteDown() {
+        scroll.getListVerticalScrollbar(completeListPanel.getListView());
+        if(scroll.isAvailable()) {
+            if(scroll.getCurrentValue() != scroll.getMax()) {
+                scroll.scrollIncrease();
+            }
+        }
     }
 
     void show() {
@@ -215,6 +365,19 @@ public class MainWindow extends UiPart<Region> {
 
     public TaskListPanel getTaskListPanel() {
         return this.taskListPanel;
+    }
+
+    //@@ author: A0138628W
+    public TaskListPanel getEventListPanel() {
+        return this.eventListPanel;
+    }
+
+    public TaskListPanel getFloatListPanel() {
+        return this.floatingListPanel;
+    }
+
+    public TaskListPanel getCompleteListPanel() {
+        return this.completeListPanel;
     }
 
 }
