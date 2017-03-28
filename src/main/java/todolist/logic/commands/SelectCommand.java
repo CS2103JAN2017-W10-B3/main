@@ -1,5 +1,6 @@
 package todolist.logic.commands;
 
+import javafx.util.Pair;
 import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
@@ -12,7 +13,7 @@ import todolist.model.task.ReadOnlyTask;
  */
 public class SelectCommand extends Command {
 
-    public final int targetIndex;
+    public final Pair<Character, Integer> targetIndex;
 
     public static final String COMMAND_WORD = "select";
 
@@ -23,25 +24,27 @@ public class SelectCommand extends Command {
 
     public static final String MESSAGE_SELECT_TASK_SUCCESS = "Selected Task: %1$s";
 
-    public SelectCommand(int targetIndex) {
+    public SelectCommand(Pair<Character, Integer> targetIndex) {
         this.targetIndex = targetIndex;
     }
 
     @Override
     public CommandResult execute() throws CommandException {
 
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getKey());
+        
+        int listIndex = targetIndex.getValue();
 
-        if (lastShownList.size() < targetIndex) {
+        if (lastShownList.size() < listIndex) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        EventsCenter.getInstance().post(new JumpToListRequestEvent(targetIndex - 1));
+        EventsCenter.getInstance().post(new JumpToListRequestEvent(listIndex - 1));
 
-        ReadOnlyTask task = model.getFilteredTaskList().get(targetIndex - 1);
+        ReadOnlyTask task = lastShownList.get(listIndex - 1);
 
         String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS, targetIndex) + "\n"
-                + "Task selected: " + task.getTitle().title + "\n"
+                + "Task selected: " + task.getTitle().toString() + "\n"
                 + "Description of task: " + task.getDescription().toString();
         return new CommandResult(selectCommandResult);
 
