@@ -116,11 +116,9 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
-    //@@
 
     // =========== Filtered Task List Accessors =============================================================
     
-    //@@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
         SortedList<ReadOnlyTask> sortedDeadlines = new SortedList<>(filteredDeadlines);
@@ -151,7 +149,7 @@ public class ModelManager extends ComponentManager implements Model {
         sortedComplete.setComparator(ReadOnlyTask.getCompleteComparator());
         return new UnmodifiableObservableList<>(sortedComplete);
     }
-
+    //@@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
@@ -254,7 +252,7 @@ public class ModelManager extends ComponentManager implements Model {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
-    
+    //@@author A0122017Y
     private class StatusQualifier implements Qualifier {
         
         Boolean status;
@@ -283,7 +281,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
-
+    //@@
     private boolean hasContainedKeyword(String searchMe, String findMe) {
         searchMe = searchMe.toLowerCase();
         findMe = findMe.toLowerCase();
