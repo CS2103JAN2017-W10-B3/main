@@ -44,7 +44,7 @@ public interface Model {
      * Returns the filtered Task list as an
      * {@code UnmodifiableObservableList<ReadOnlyTask>}
      */
-    UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList();
+    UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList();
 
     UnmodifiableObservableList<ReadOnlyTask> getFilteredEventList();
 
