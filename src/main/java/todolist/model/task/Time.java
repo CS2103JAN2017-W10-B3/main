@@ -2,6 +2,7 @@ package todolist.model.task;
 
 import java.time.LocalDateTime;
 
+//@@author A0122017Y
 public interface Time extends Comparable<Time>{
 
     public static final String TIME_VALIDATION_REGEX = ".+";
