@@ -76,7 +76,7 @@ public class Task implements ReadOnlyTask {
     }
 
     private Category sortCategory() {
-        if (isTaskCompleted()){
+        if (isTaskCompleted()) {
             return Category.COMPLETED;
         } else if (isDeadlineTask()) {
             return Category.DEADLINE;
@@ -129,13 +129,13 @@ public class Task implements ReadOnlyTask {
     public void setStartTime(StartTime startTime) {
         this.startTime = startTime;
     }
-    
-    public void setCompleteTime(Time completeTime){
+
+    public void setCompleteTime(Time completeTime) {
         this.completeTime = completeTime;
     }
-    
+
     @Override
-    public Time getCompleteTime(){
+    public Time getCompleteTime() {
         return this.completeTime;
     }
 
@@ -211,15 +211,15 @@ public class Task implements ReadOnlyTask {
     public String toString() {
         return getAsText();
     }
-    
+
     @Override
-    public Boolean isTaskCompleted(){
+    public Boolean isTaskCompleted() {
         return this.isCompleted;
     }
-    
+
     @Override
-    public void toggleComplete(){
-        if (!this.isCompleted){
+    public void toggleComplete() {
+        if (!this.isCompleted) {
             CompleteTime completeTime = new CompleteTime(LocalDateTime.now());
             this.setCompleteTime(completeTime);
         }

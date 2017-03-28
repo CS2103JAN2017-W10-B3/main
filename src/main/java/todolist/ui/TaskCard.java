@@ -80,11 +80,11 @@ public class TaskCard extends UiPart<Region> {
         if (task.getUrgencyLevel().isPresent()) {
             urgencyLevel.setVisible(true);
             int level = task.getUrgencyLevelInt();
-            if(level == 1) {
+            if (level == 1) {
                 urgencyLevel.setFill(Color.YELLOW);
-            } else if(level == 2) {
+            } else if (level == 2) {
                 urgencyLevel.setFill(Color.ORANGE);
-            } else if(level == 3) {
+            } else if (level == 3) {
                 urgencyLevel.setFill(Color.RED);
             } else {
                 urgencyLevel.setVisible(false);

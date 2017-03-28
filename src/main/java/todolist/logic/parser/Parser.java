@@ -62,7 +62,7 @@ public class Parser {
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
-            
+
         case CompleteCommand.COMMAND_WORD:
             return new CompleteCommandParser().parse(arguments);
 
@@ -91,5 +91,5 @@ public class Parser {
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
         }
     }
-    
+
 }

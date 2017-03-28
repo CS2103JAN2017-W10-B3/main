@@ -7,7 +7,7 @@ import todolist.commons.exceptions.IllegalValueException;
  * Represents a Task's venue number in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidVenue(String)}
  */
-public class Venue implements Comparable<Venue>{
+public class Venue implements Comparable<Venue> {
 
     public static final String MESSAGE_VENUE_CONSTRAINTS =
             "Task venues should only be 1 alphanumeric strings";
@@ -56,9 +56,9 @@ public class Venue implements Comparable<Venue>{
     public int hashCode() {
         return value.hashCode();
     }
-    
+
     @Override
-    public int compareTo(Venue venue){
+    public int compareTo(Venue venue) {
         return this.value.compareTo(venue.toString());
     }
 

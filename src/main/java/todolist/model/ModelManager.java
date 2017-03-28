@@ -22,16 +22,16 @@ import todolist.model.util.Status;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-    
+
     private static final Status INCOMPLETE_STATUS = Status.INCOMPLETE;
     private static final Status COMPLETE_STATUS = Status.COMPLETED;
-    
+
     // @@author A0143648Y
     private final ToDoList todoList;
     private FilteredList<ReadOnlyTask> filteredFloats;
     private FilteredList<ReadOnlyTask> filteredDeadlines;
     private FilteredList<ReadOnlyTask> filteredEvents;
-    
+
     private FilteredList<ReadOnlyTask> completedTasks;
 
     /**
@@ -100,16 +100,16 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
-    
+
     //@@author A0122017Y
     private void syncTypeOfTasks() {
         filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
         filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
         filteredEvents = new FilteredList<>(this.todoList.getFilteredEvents());
         completedTasks = new FilteredList<>(this.todoList.getCompletedTasks());
-     
+
     }
-    
+
     @Override
     public void completeTask(ReadOnlyTask taskToComplete) {
         todoList.completeTask(taskToComplete);
@@ -118,7 +118,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     // =========== Filtered Task List Accessors =============================================================
-    
+
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
         SortedList<ReadOnlyTask> sortedDeadlines = new SortedList<>(filteredDeadlines);
@@ -139,11 +139,11 @@ public class ModelManager extends ComponentManager implements Model {
         sortedFloats.setComparator(ReadOnlyTask.getFloatingComparator());
         return new UnmodifiableObservableList<>(sortedFloats);
     }
-    
+
     public UnmodifiableObservableList<ReadOnlyTask> getAllTaskList() {
         return new UnmodifiableObservableList<>(todoList.getTaskList());
     }
-    
+
     public UnmodifiableObservableList<ReadOnlyTask> getCompletedList() {
         SortedList<ReadOnlyTask> sortedComplete = new SortedList<>(completedTasks);
         sortedComplete.setComparator(ReadOnlyTask.getCompleteComparator());
@@ -183,10 +183,10 @@ public class ModelManager extends ComponentManager implements Model {
         filteredFloats.setPredicate(expression::satisfies);
         filteredEvents.setPredicate(expression::satisfies);
     }
-    
+
     @Override
     public void updateFilteredTaskListToShowWithStatus(Status status) {
-        if(status == Status.ALL) {
+        if (status == Status.ALL) {
             updateFilteredListToShowAll();
         } else {
             updateFilteredTaskList(new PredicateExpression(new StatusQualifier(status)));
@@ -254,10 +254,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
     //@@author A0122017Y
     private class StatusQualifier implements Qualifier {
-        
+
         Boolean status;
-        
-        StatusQualifier(Status status){
+
+        StatusQualifier(Status status) {
             switch(status) {
             case COMPLETED:
                 this.status = true;
@@ -269,15 +269,15 @@ public class ModelManager extends ComponentManager implements Model {
                 this.status = false;
             }
         }
-        
+
         @Override
         public boolean run(ReadOnlyTask task) {
             return task.isTaskCompleted().equals(status);
         }
-        
-        @Override 
+
+        @Override
         public String toString() {
-            return (status ? "completed" : "not yet completed");  
+            return (status ? "completed" : "not yet completed");
         }
 
     }

@@ -1,7 +1,6 @@
 package todolist.model.task;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class UniqueTaskList implements Iterable<Task> {
      * @throws IndexOutOfBoundsException if {@code index} < 0 or >= the size of the list.
      */
     public void updateTask(ReadOnlyTask taskToEdit, ReadOnlyTask editedTask) throws DuplicateTaskException {
-        assert editedTask != null;        
+        assert editedTask != null;
         Task taskToUpdate = new Task(taskToEdit);
         int index = internalList.indexOf(taskToUpdate);
         if (!taskToUpdate.equals(editedTask) && internalList.contains(editedTask)) {
@@ -126,11 +125,11 @@ public class UniqueTaskList implements Iterable<Task> {
      * Signals that an operation would have violated the 'no duplicates' property of the list.
      */
     public static class DuplicateTaskException extends DuplicateDataException {
-        
+
         protected DuplicateTaskException() {
             super("Operation would result in duplicate Tasks");
         }
-        
+
     }
 
     /**
@@ -138,13 +137,13 @@ public class UniqueTaskList implements Iterable<Task> {
      * there is no such matching Task in the list.
      */
     public static class TaskNotFoundException extends Exception {
-        
+
         public TaskNotFoundException() {
             super("Task is not found in the to-do list!");
         }
-        
+
     }
-    
+
     //@@author A0122017Y
     public void completeTask(ReadOnlyTask taskToComplete) {
         int taskIndex = this.internalList.indexOf(taskToComplete);
@@ -157,7 +156,7 @@ public class UniqueTaskList implements Iterable<Task> {
         ArrayList<String> tagNames = new ArrayList<String>();
         for (Task task : internalList) {
             for (Tag tag : task.getTags()) {
-                if (!tagNames.contains(tag.toString())){
+                if (!tagNames.contains(tag.toString())) {
                     tagNames.add(tag.toString());
                 }
             }

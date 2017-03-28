@@ -82,8 +82,8 @@ public class AddCommand extends UndoableCommand {
         if (description.isPresent()) {
             tempDescription = new Description(description.get());
         }
-        
-        if (tempStartTime != null && tempEndTime != null){
+
+        if (tempStartTime != null && tempEndTime != null) {
             checkValidDuration(tempStartTime, tempEndTime);
         }
 
@@ -92,9 +92,9 @@ public class AddCommand extends UndoableCommand {
     }
 
     private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
-        if (!tempStartTime.isValidDuration(tempEndTime)){
+        if (!tempStartTime.isValidDuration(tempEndTime)) {
             throw new IllegalValueException(Messages.MESSAGE_INVALID_DURATION);
-        }  
+        }
     }
 
     // @@author A0143648Y

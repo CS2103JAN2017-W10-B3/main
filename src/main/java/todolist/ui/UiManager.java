@@ -117,7 +117,7 @@ public class UiManager extends ComponentManager implements Ui {
     private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         char listType = event.targetIndex.getKey();
-        if(listType == 'e' || listType == 'E') {
+        if (listType == 'e' || listType == 'E') {
             mainWindow.getEventListPanel().scrollTo(event.targetIndex.getValue());
         } else if (listType == 'f' || listType == 'F') {
             mainWindow.getFloatListPanel().scrollTo(event.targetIndex.getValue());

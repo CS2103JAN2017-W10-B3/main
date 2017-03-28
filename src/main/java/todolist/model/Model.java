@@ -38,7 +38,7 @@ public interface Model {
      *             if {@code filteredTaskListIndex} < 0 or >= the size of the
      *             filtered list.
      */
-    void updateTask(ReadOnlyTask TaskToEdit, ReadOnlyTask editedTask) throws UniqueTaskList.DuplicateTaskException;
+    void updateTask(ReadOnlyTask taskToEdit, ReadOnlyTask editedTask) throws UniqueTaskList.DuplicateTaskException;
 
     //@@author A0143648Y
     /**
@@ -64,7 +64,7 @@ public interface Model {
      * keywords
      */
     void updateFilteredTaskList(Set<String> keywords);
-    
+
     // @@ author A0122017Y
     void updateFilteredTaskListToShowWithStatus(Status status);
 

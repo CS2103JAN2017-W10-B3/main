@@ -79,7 +79,7 @@ public class LogicManagerTest {
 
     @Subscribe
     private void handleJumpToListRequestEvent(JumpToListRequestEvent je) {
-        targetedJumpIndex = je.targetIndex;
+        targetedJumpIndex = je.targetIndex.getValue();
     }
 
     @Before
@@ -135,7 +135,7 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, String expectedMessage) {
         ToDoList expectedToDoList = new ToDoList(model.getToDoList());
-        List<ReadOnlyTask> expectedShownList = new ArrayList<>(model.getFilteredTaskList());
+        List<ReadOnlyTask> expectedShownList = new ArrayList<>(model.getFilteredDeadlineList());
         assertCommandBehavior(true, inputCommand, expectedMessage, expectedToDoList, expectedShownList);
     }
 
@@ -163,7 +163,7 @@ public class LogicManagerTest {
         }
 
         // Confirm the ui display elements should contain the right data
-        assertEquals(expectedShownList, model.getFilteredTaskList());
+        assertEquals(expectedShownList, model.getFilteredDeadlineList());
 
         // Confirm the state of data (saved and in-memory) is as expected
         assertEquals(expectedToDoList, model.getToDoList());
@@ -340,7 +340,7 @@ public class LogicManagerTest {
                 expectedAB,
                 expectedAB.getTaskList());
         assertEquals(1, targetedJumpIndex);
-        assertEquals(model.getFilteredTaskList().get(1), threeTasks.get(1));
+        assertEquals(model.getFilteredDeadlineList().get(1), threeTasks.get(1));
     }
 
     @Test
@@ -478,19 +478,19 @@ public class LogicManagerTest {
             cmd.append("add ");
 
             cmd.append(p.getTitle().toString());
-            if(p.getVenue().isPresent()) {
+            if (p.getVenue().isPresent()) {
                 cmd.append(" /venue ").append(p.getVenue().get());
             }
-            if(p.getStartTime().isPresent()) {
+            if (p.getStartTime().isPresent()) {
                 cmd.append(" /from ").append(p.getStartTime().get());
             }
-            if(p.getEndTime().isPresent()) {
+            if (p.getEndTime().isPresent()) {
                 cmd.append(" /to ").append(p.getEndTime().get());
             }
-            if(p.getUrgencyLevel().isPresent()) {
+            if (p.getUrgencyLevel().isPresent()) {
                 cmd.append(" /level ").append(p.getUrgencyLevel().get());
             }
-            if(p.getDescription().isPresent()) {
+            if (p.getDescription().isPresent()) {
                 cmd.append(" /description ").append(p.getDescription().get());
             }
             UniqueTagList tags = p.getTags();

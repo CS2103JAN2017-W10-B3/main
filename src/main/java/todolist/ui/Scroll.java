@@ -21,7 +21,7 @@ public class Scroll {
     }
 
     public boolean isAvailable() {
-        if(result != null) {
+        if (result != null) {
             return true;
         }
         return false;

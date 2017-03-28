@@ -53,7 +53,7 @@ public class EndTime implements Time {
     public int hashCode() {
         return endTime.toString().hashCode();
     }
-    
+
     @Override
     public int compareTo(Time time) {
         return this.getTimeValue().compareTo(time.getTimeValue());

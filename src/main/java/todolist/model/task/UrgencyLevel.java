@@ -2,7 +2,7 @@ package todolist.model.task;
 import todolist.commons.exceptions.IllegalValueException;
 
 //@@author A0122017Y
-public class UrgencyLevel implements Comparable<UrgencyLevel>{
+public class UrgencyLevel implements Comparable<UrgencyLevel> {
 
     /**
      * Represents a Task's urgency level in the to-do list.
@@ -63,9 +63,9 @@ public class UrgencyLevel implements Comparable<UrgencyLevel>{
     public int hashCode() {
         return value.hashCode();
     }
-    
+
     @Override
-    public int compareTo(UrgencyLevel urgencyLevel){
+    public int compareTo(UrgencyLevel urgencyLevel) {
         return this.intValue - urgencyLevel.getIntValue();
     }
 

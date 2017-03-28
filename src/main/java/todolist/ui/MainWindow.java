@@ -254,8 +254,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleResultUp() {
         scroll.getTextVerticalScrollbar(resultDisplay.getResultDisplayArea());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMin()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMin()) {
                 scroll.scrollDecrease();
             }
         }
@@ -264,8 +264,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleResultDown() {
         scroll.getTextVerticalScrollbar(resultDisplay.getResultDisplayArea());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMax()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMax()) {
                 scroll.scrollIncrease();
             }
         }
@@ -274,8 +274,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleEventUp() {
         scroll.getListVerticalScrollbar(eventListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMin()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMin()) {
                 scroll.scrollDecrease();
             }
         }
@@ -284,8 +284,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleEventDown() {
         scroll.getListVerticalScrollbar(eventListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMax()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMax()) {
                 scroll.scrollIncrease();
             }
         }
@@ -294,8 +294,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleFloatingUp() {
         scroll.getListVerticalScrollbar(floatingListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMin()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMin()) {
                 scroll.scrollDecrease();
             }
         }
@@ -304,8 +304,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleFloatingDown() {
         scroll.getListVerticalScrollbar(floatingListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMax()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMax()) {
                 scroll.scrollIncrease();
             }
         }
@@ -314,8 +314,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleDeadlineUp() {
         scroll.getListVerticalScrollbar(taskListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMin()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMin()) {
                 scroll.scrollDecrease();
             }
         }
@@ -324,8 +324,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleDeadlineDown() {
         scroll.getListVerticalScrollbar(taskListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMax()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMax()) {
                 scroll.scrollIncrease();
             }
         }
@@ -334,8 +334,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleCompleteUp() {
         scroll.getListVerticalScrollbar(completeListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMin()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMin()) {
                 scroll.scrollDecrease();
             }
         }
@@ -344,8 +344,8 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleCompleteDown() {
         scroll.getListVerticalScrollbar(completeListPanel.getListView());
-        if(scroll.isAvailable()) {
-            if(scroll.getCurrentValue() != scroll.getMax()) {
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMax()) {
                 scroll.scrollIncrease();
             }
         }

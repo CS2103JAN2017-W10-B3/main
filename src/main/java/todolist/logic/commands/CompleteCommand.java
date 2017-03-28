@@ -27,14 +27,14 @@ public class CompleteCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " e1";
 
     public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: %1$s";
-    
+
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
-    
+
     public CompleteCommand(Pair<Character, Integer> targetIndex) {
         this.targetIndex = targetIndex;
     }
-    
+
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
@@ -71,5 +71,5 @@ public class CompleteCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
-    
+
 }

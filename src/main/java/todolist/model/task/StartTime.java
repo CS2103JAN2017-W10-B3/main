@@ -61,7 +61,7 @@ public class StartTime implements Time {
     public int compareTo(Time time) {
         return this.getTimeValue().compareTo(time.getTimeValue());
     }
-    
+
     public Boolean isValidDuration(EndTime endTime) {
         return this.getTimeValue().isBefore(endTime.getTimeValue());
     }

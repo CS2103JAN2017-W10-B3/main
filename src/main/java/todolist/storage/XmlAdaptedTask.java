@@ -75,8 +75,8 @@ public class XmlAdaptedTask {
         }
         final Title title = new Title(this.title);
         final Venue venue = this.venue == "" ? null : new Venue(this.venue);
-        final StartTime startTime = (this.startTime.length()>0) ? new StartTime(this.startTime) : null;
-        final EndTime endTime = this.endTime.length()>0 ? new EndTime(this.endTime) : null;
+        final StartTime startTime = (this.startTime.length() > 0) ? new StartTime(this.startTime) : null;
+        final EndTime endTime = this.endTime.length() > 0 ? new EndTime(this.endTime) : null;
         final UrgencyLevel urgencyLevel = this.urgencyLevel != "" ? new UrgencyLevel(this.urgencyLevel) : null;
         final Description description = this.description != "" ? new Description(this.description) : null;
         final UniqueTagList tags = new UniqueTagList(taskTags);

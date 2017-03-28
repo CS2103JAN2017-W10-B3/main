@@ -109,13 +109,13 @@ public class ToDoList implements ReadOnlyToDoList {
         // in the Task list.
         tasks.updateTask(taskToEdit, editedTask);
     }
-    
+
     //@@author A0122017Y
     public void completeTask(ReadOnlyTask taskToComplete) {
         tasks.completeTask(taskToComplete);
     }
     //@@
-    
+
     /**
      * Ensures that every tag in this Task:
      *  - exists in the master list {@link #tags}
@@ -197,7 +197,7 @@ public class ToDoList implements ReadOnlyToDoList {
     public ObservableList<ReadOnlyTask> getTaskList() {
         return new UnmodifiableObservableList<>(tasks.asObservableList());
     }
-    
+
     public ObservableList<ReadOnlyTask> getCompletedTasks() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.COMPLETED));
     }
@@ -220,7 +220,7 @@ public class ToDoList implements ReadOnlyToDoList {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(tasks, tags);
     }
-    
-    
+
+
 
 }
