@@ -63,5 +63,9 @@ public interface Model {
      * keywords
      */
     void updateFilteredTaskList(Set<String> keywords);
+    
+    void updateFilteredTaskListToShowWithStatus(Status status);
+
+    void completeTask(ReadOnlyTask taskToComplete);
 
 }
