@@ -40,7 +40,7 @@ public interface Model {
      */
     void updateTask(ReadOnlyTask TaskToEdit, ReadOnlyTask editedTask) throws UniqueTaskList.DuplicateTaskException;
 
-    // @@ A0143648Y
+    //@@author A0143648Y
     /**
      * Returns the filtered Task list as an
      * {@code UnmodifiableObservableList<ReadOnlyTask>}
@@ -65,8 +65,9 @@ public interface Model {
      */
     void updateFilteredTaskList(Set<String> keywords);
     
+    // @@ author A0122017Y
     void updateFilteredTaskListToShowWithStatus(Status status);
 
     void completeTask(ReadOnlyTask taskToComplete);
-
+    //@@
 }
