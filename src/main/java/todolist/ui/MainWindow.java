@@ -114,7 +114,7 @@ public class MainWindow extends UiPart<Region> {
 
     void fillInnerParts() {
         //@@author A0138628W
-        taskListPanel = new TaskListPanel(getTaskListPlaceholder(), logic.getFilteredTaskList());
+        taskListPanel = new TaskListPanel(getTaskListPlaceholder(), logic.getFilteredDeadlineList());
         eventListPanel = new TaskListPanel(eventListPlaceholder, logic.getFilteredEventList());
         floatingListPanel = new TaskListPanel(floatingListPlaceholder, logic.getFilteredFloatList());
         new ResultDisplay(getResultDisplayPlaceholder());
