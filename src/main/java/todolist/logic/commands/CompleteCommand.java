@@ -41,7 +41,7 @@ public class CompleteCommand extends UndoableCommand {
 
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
 
-        if (lastShownList.size() < targetIndex.getTaskChar()) {
+        if (lastShownList.size() < targetIndex.getTaskNumber()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 

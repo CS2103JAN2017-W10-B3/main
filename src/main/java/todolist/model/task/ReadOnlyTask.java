@@ -177,7 +177,7 @@ public interface ReadOnlyTask {
 
         //then by complete time
         Comparator<ReadOnlyTask> byCompleteTime = (t1, t2) -> {
-            return t1.getCompleteTime().compareTo(t2.getCompleteTime());
+            return t2.getCompleteTime().compareTo(t1.getCompleteTime());
         };
 
         //then by name
