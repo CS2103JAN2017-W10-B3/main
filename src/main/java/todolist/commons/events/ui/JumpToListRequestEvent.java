@@ -1,16 +1,16 @@
 package todolist.commons.events.ui;
 
-import javafx.util.Pair;
 import todolist.commons.events.BaseEvent;
+import todolist.model.task.TaskIndex;
 
 /**
  * Indicates a request to jump to the list of persons
  */
 public class JumpToListRequestEvent extends BaseEvent {
 
-    public final Pair<Character, Integer> targetIndex;
+    public final TaskIndex targetIndex;
 
-    public JumpToListRequestEvent(Pair<Character, Integer> targetIndex) {
+    public JumpToListRequestEvent(TaskIndex targetIndex) {
         this.targetIndex = targetIndex;
     }
 
