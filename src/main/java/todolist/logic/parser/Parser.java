@@ -18,6 +18,7 @@ import todolist.logic.commands.HelpCommand;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.ListCommand;
 import todolist.logic.commands.ListTagCommand;
+import todolist.logic.commands.ListTaskUnderTagCommand;
 import todolist.logic.commands.SaveCommand;
 import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.UndoCommand;
@@ -74,6 +75,9 @@ public class Parser {
 
         case ListTagCommand.COMMAND_WORD:
             return new ListTagCommand();
+            
+        case ListTaskUnderTagCommand.COMMAND_WORD:
+            return new ListCommandParser().parseTag(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
