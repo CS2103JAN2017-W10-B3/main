@@ -2,13 +2,13 @@ package todolist.logic.commands;
 
 import java.util.ArrayList;
 
-import javafx.util.Pair;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.TaskIndex;
 
 //@@author A0122017Y
 
@@ -17,7 +17,7 @@ import todolist.model.task.ReadOnlyTask;
  */
 public class CompleteCommand extends UndoableCommand {
 
-    public final Pair<Character, Integer> targetIndex;
+    public final TaskIndex targetIndex;
 
     public static final String COMMAND_WORD = "done";
 
@@ -31,7 +31,7 @@ public class CompleteCommand extends UndoableCommand {
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
 
-    public CompleteCommand(Pair<Character, Integer> targetIndex) {
+    public CompleteCommand(TaskIndex targetIndex) {
         this.targetIndex = targetIndex;
     }
 
@@ -39,13 +39,13 @@ public class CompleteCommand extends UndoableCommand {
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
 
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getKey());
+        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
 
-        if (lastShownList.size() < targetIndex.getValue()) {
+        if (lastShownList.size() < targetIndex.getTaskChar()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask taskToComplete = lastShownList.get(targetIndex.getValue() - 1);
+        ReadOnlyTask taskToComplete = lastShownList.get(targetIndex.getTaskNumber() - 1);
 
         model.completeTask(taskToComplete);
 
