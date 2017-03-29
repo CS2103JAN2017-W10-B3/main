@@ -64,10 +64,14 @@ public interface Model {
      * keywords
      */
     void updateFilteredTaskList(Set<String> keywords);
-
+    
     // @@ author A0122017Y
     void updateFilteredTaskListToShowWithStatus(Status status);
 
     void completeTask(ReadOnlyTask taskToComplete);
+    
+
+    UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
+    
     //@@
 }
