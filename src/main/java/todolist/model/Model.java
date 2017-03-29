@@ -67,6 +67,8 @@ public interface Model {
     
     // @@ author A0122017Y
     void updateFilteredTaskListToShowWithStatus(Status status);
+    
+    void updateFilteredTaskListToShowWithTag(Set<String> keywordSet);
 
     void completeTask(ReadOnlyTask taskToComplete);
     
