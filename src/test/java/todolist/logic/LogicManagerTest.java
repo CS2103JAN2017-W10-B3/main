@@ -79,7 +79,7 @@ public class LogicManagerTest {
 
     @Subscribe
     private void handleJumpToListRequestEvent(JumpToListRequestEvent je) {
-        targetedJumpIndex = je.targetIndex.getValue();
+        targetedJumpIndex = je.targetIndex.getTaskNumber();
     }
 
     @Before
