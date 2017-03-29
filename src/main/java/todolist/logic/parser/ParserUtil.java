@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javafx.util.Pair;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.commons.util.StringUtil;
 import todolist.model.tag.Tag;
@@ -20,6 +19,7 @@ import todolist.model.task.Description;
 import todolist.model.task.EndTime;
 import todolist.model.task.StartTime;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.Title;
 import todolist.model.task.UrgencyLevel;
 import todolist.model.task.Venue;
@@ -37,7 +37,7 @@ public class ParserUtil {
      * Returns the specified index in the {@code command} if it is a positive
      * unsigned integer Returns an {@code Optional.empty()} otherwise.
      */
-    public static Optional<Pair<Character, Integer>> parseIndex(String command) {
+    public static Optional<TaskIndex> parseIndex(String command) {
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(command.trim());
         if (!matcher.matches()) {
             return Optional.empty();
@@ -52,7 +52,7 @@ public class ParserUtil {
 
     }
 
-    public static Optional<Pair<Character, Integer>> parseCorrectIndex(String index) {
+    public static Optional<TaskIndex> parseCorrectIndex(String index) {
         Character taskType;
         int taskNumber;
         if (StringUtil.isUnsignedInteger(index)) {
@@ -63,7 +63,7 @@ public class ParserUtil {
             taskNumber = Integer.parseInt(index.substring(1));
         }
 
-        return Optional.of(new Pair<Character, Integer>(taskType, taskNumber));
+        return Optional.of(new TaskIndex(taskType, taskNumber));
 
     }
 
