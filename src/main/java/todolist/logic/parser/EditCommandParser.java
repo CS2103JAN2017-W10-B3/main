@@ -13,20 +13,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.util.Pair;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.Command;
 import todolist.logic.commands.EditCommand;
 import todolist.logic.commands.EditCommand.EditTaskDescriptor;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.model.tag.UniqueTagList;
+import todolist.model.task.TaskIndex;
 
 /**
  * Parses input arguments and creates a new EditCommand object
  */
 public class EditCommandParser {
 
-    private static Optional<Pair<Character, Integer>> index;
+    private static Optional<TaskIndex> index;
 
     // @@ A0143648Y
     /**
@@ -40,7 +40,7 @@ public class EditCommandParser {
         argsTokenizer.tokenize(args);
         List<Optional<String>> preambleFields = ParserUtil.splitPreamble(argsTokenizer.getPreamble().orElse(""), 2);
 
-        Optional<Pair<Character, Integer>> index = preambleFields.get(0).flatMap(ParserUtil::parseIndex);
+        Optional<TaskIndex> index = preambleFields.get(0).flatMap(ParserUtil::parseIndex);
         if (!index.isPresent()) {
             index = EditCommandParser.index;
             if (!index.isPresent()) {
@@ -85,7 +85,7 @@ public class EditCommandParser {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
-    public static void setIndex(Pair<Character, Integer> index) {
+    public static void setIndex(TaskIndex index) {
         EditCommandParser.index = Optional.of(index);
     }
 }
