@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 import todolist.logic.commands.Command;
-import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.ListTaskUnderTagCommand;
 
@@ -32,7 +31,7 @@ public class ListCommandParser {
         // keywords delimited by whitespace
         final String[] keywords = matcher.group("keywords").split("\\s+");
         final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
-        return new FindCommand(keywordSet);
+        return new ListTaskUnderTagCommand(keywordSet);
     }
 
 }
