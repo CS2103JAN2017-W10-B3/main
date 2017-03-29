@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.util.Pair;
 import todolist.commons.core.Messages;
 import todolist.commons.util.CollectionUtil;
 import todolist.logic.commands.exceptions.CommandException;
@@ -16,6 +15,7 @@ import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.StartTime;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.Title;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UrgencyLevel;
@@ -51,13 +51,13 @@ public class EditCommand extends UndoableCommand {
      * @param editTaskDescriptor
      *            details to edit the task with
      */
-    public EditCommand(Pair<Character, Integer> filteredTaskListIndex, EditTaskDescriptor editTaskDescriptor) {
-        assert filteredTaskListIndex.getValue() > 0;
+    public EditCommand(TaskIndex filteredTaskListIndex, EditTaskDescriptor editTaskDescriptor) {
+        assert filteredTaskListIndex.getTaskNumber() > 0;
         assert editTaskDescriptor != null;
 
         // converts filteredTaskListIndex from one-based to zero-based.
-        this.filteredTaskListIndex = filteredTaskListIndex.getValue() - 1;
-        this.filteredTaskListChar = filteredTaskListIndex.getKey();
+        this.filteredTaskListIndex = filteredTaskListIndex.getTaskNumber() - 1;
+        this.filteredTaskListChar = filteredTaskListIndex.getTaskChar();
 
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
     }
