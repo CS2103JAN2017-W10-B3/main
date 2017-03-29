@@ -2,13 +2,13 @@ package todolist.logic.commands;
 
 import java.util.ArrayList;
 
-import javafx.util.Pair;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
@@ -20,32 +20,33 @@ public class DeleteCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the task identified by the index number used in the last task listing.\n"
-            + "Parameters: INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD + " 1";
+            + ": Deletes the task identified by the index number used in the last task listing. \n"
+            + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD + " e1 \n";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
 
-    public final Pair<Character, Integer> targetIndex;
+    public final TaskIndex targetIndex;
 
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
 
-    public DeleteCommand(Pair<Character, Integer> targetIndex) {
+    public DeleteCommand(TaskIndex targetIndex) {
         this.targetIndex = targetIndex;
     }
+
 
     // @@ A0143648Y
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
 
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getKey());
+        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
 
-        if (lastShownList.size() < targetIndex.getValue()) {
+        if (lastShownList.size() < targetIndex.getTaskNumber()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask taskToDelete = lastShownList.get(targetIndex.getValue() - 1);
+        ReadOnlyTask taskToDelete = lastShownList.get(targetIndex.getTaskNumber() - 1);
 
         try {
             model.deleteTask(taskToDelete);
