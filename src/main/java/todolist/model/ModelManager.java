@@ -10,6 +10,7 @@ import todolist.commons.core.LogsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.util.CollectionUtil;
+import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
@@ -194,6 +195,13 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
+    @Override
+    public void updateFilteredTaskListToShowWithTag(Set<String> keywordSet) {
+        updateFilteredTaskList(new PredicateExpression(new TagQualifier(keywordSet)));
+        
+    }
+
+
     // ========== Inner classes/interfaces used for filtering =================================================
 
     interface Expression {
@@ -279,6 +287,31 @@ public class ModelManager extends ComponentManager implements Model {
         @Override 
         public String toString() {
             return (status ? "completed" : "not yet completed");  
+        }
+
+    }
+    private class TagQualifier implements Qualifier {
+        
+        Set<String> tags;
+        Boolean status;
+        
+        TagQualifier(Set<String> tags){
+            this.tags = tags;
+        }
+        
+        @Override
+        public boolean run(ReadOnlyTask task) {
+            for (Tag tag:task.getTags()) {
+                if (this.tags.contains(tag.tagName)) {
+                    status = true;
+                }
+            }
+            return status;
+        }
+        
+        @Override 
+        public String toString() {
+            return (status ? "contains tag!" : "not containing tag!");  
         }
 
     }
