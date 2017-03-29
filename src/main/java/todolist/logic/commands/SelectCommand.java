@@ -1,19 +1,19 @@
 package todolist.logic.commands;
 
-import javafx.util.Pair;
 import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.TaskIndex;
 
 /**
  * Selects a task identified using it's last displayed index from the address book.
  */
 public class SelectCommand extends Command {
 
-    public final Pair<Character, Integer> targetIndex;
+    public final TaskIndex targetIndex;
 
     public static final String COMMAND_WORD = "select";
 
@@ -24,22 +24,22 @@ public class SelectCommand extends Command {
 
     public static final String MESSAGE_SELECT_TASK_SUCCESS = "Selected Task: %1$s";
 
-    public SelectCommand(Pair<Character, Integer> targetIndex) {
+    public SelectCommand(TaskIndex targetIndex) {
         this.targetIndex = targetIndex;
     }
 
     @Override
     public CommandResult execute() throws CommandException {
 
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getKey());
+        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
 
-        int listIndex = targetIndex.getValue();
+        int listIndex = targetIndex.getTaskNumber();
 
         if (lastShownList.size() < listIndex) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        EventsCenter.getInstance().post(new JumpToListRequestEvent(new Pair(targetIndex.getKey(), listIndex - 1)));
+        EventsCenter.getInstance().post(new JumpToListRequestEvent(new TaskIndex(targetIndex.getTaskChar(), listIndex - 1)));
 
         ReadOnlyTask task = lastShownList.get(listIndex - 1);
 
