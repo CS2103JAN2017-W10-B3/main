@@ -4,18 +4,18 @@ import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Optional;
 
-import javafx.util.Pair;
 import todolist.logic.commands.Command;
 import todolist.logic.commands.CompleteCommand;
 import todolist.logic.commands.DeleteCommand;
 import todolist.logic.commands.IncorrectCommand;
+import todolist.model.task.TaskIndex;
 
 /**
  * Parses input arguments and creates a new FindCommand object
  */
 public class CompleteCommandParser {
 
-    private static Optional<Pair<Character, Integer>> index;
+    private static Optional<TaskIndex> index;
 
     /**
      * Parses the given {@code String} of arguments in the context of the
@@ -23,7 +23,7 @@ public class CompleteCommandParser {
      */
     public Command parse(String args) {
 
-        Optional<Pair<Character, Integer>> index = ParserUtil.parseIndex(args);
+        Optional<TaskIndex> index = ParserUtil.parseIndex(args);
         if (!index.isPresent()) {
             index = CompleteCommandParser.index;
             if (!index.isPresent()) {
@@ -34,7 +34,7 @@ public class CompleteCommandParser {
         return new CompleteCommand(index.get());
     }
 
-    public static void setIndex(Pair<Character, Integer> index) {
+    public static void setIndex(TaskIndex index) {
         CompleteCommandParser.index = Optional.of(index);
     }
 
