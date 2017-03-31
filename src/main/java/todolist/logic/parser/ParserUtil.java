@@ -46,31 +46,44 @@ public class ParserUtil {
         }
 
         String[] indexes = matcher.group("targetIndex").split(" ");
-        for(String index : indexes){
-        if (!isValidIndex(index)) {
-            return Optional.empty();
-        }
+        for (String index : indexes) {
+            if (!isValidIndex(index)) {
+                return Optional.empty();
+            }
         }
         return parseCorrectIndex(indexes);
 
     }
 
+    public static Optional<TaskIndex> parseSelectIndex(String command) {
+        final Matcher matcher = INDEX_ARGS_FORMAT.matcher(command.trim());
+        if (!matcher.matches()) {
+            return Optional.empty();
+        }
+
+        String index = matcher.group("targetIndex");
+        if (!isSingleValidIndex(index)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(parseCorrectSingleIndex(index));
+
+    }
+
     public static Optional<ArrayList<TaskIndex>> parseCorrectIndex(String[] indexes) {
         ArrayList<TaskIndex> editedIndexes = new ArrayList<TaskIndex>();
-        for(String index : indexes){
-            if(!index.contains(INDEX_RANGE_SYMBOL)){
+        for (String index : indexes) {
+            if (!index.contains(INDEX_RANGE_SYMBOL)) {
                 editedIndexes.add(parseCorrectSingleIndex(index));
-            }
-            else{
+            } else {
                 editedIndexes.addAll(parseCorrectMultipleIndex(index));
             }
         }
 
-
         return Optional.of(editedIndexes);
 
     }
-    
+
     public static TaskIndex parseCorrectSingleIndex(String index) {
         Character taskType;
         int taskNumber;
@@ -85,43 +98,48 @@ public class ParserUtil {
         return new TaskIndex(taskType, taskNumber);
 
     }
-    
+
     public static ArrayList<TaskIndex> parseCorrectMultipleIndex(String index) {
-        String[] indexes=index.split(INDEX_RANGE_SYMBOL);
-        if(StringUtil.isUnsignedInteger(indexes[0])){
-            return Integer.parseInt(indexes[0])<=Integer.parseInt(indexes[1])?generateListOfIndexes(Task.DEADLINE_CHAR,Integer.parseInt(indexes[0]),Integer.parseInt(indexes[1]))
-                    :generateListOfIndexes(Task.DEADLINE_CHAR,Integer.parseInt(indexes[1]),Integer.parseInt(indexes[0]));
-        }
-        else{
-            if(StringUtil.isUnsignedInteger(indexes[1])){
-                return Integer.parseInt(indexes[0].substring(1))<=Integer.parseInt(indexes[1])?generateListOfIndexes(indexes[0].charAt(0),Integer.parseInt(indexes[0].substring(1)),Integer.parseInt(indexes[1]))
-                        :generateListOfIndexes(indexes[0].charAt(0),Integer.parseInt(indexes[1]),Integer.parseInt(indexes[0].substring(1)));
-            }
-            else{
-                return Integer.parseInt(indexes[0].substring(1))<=Integer.parseInt(indexes[1].substring(1))?generateListOfIndexes(indexes[0].charAt(0),Integer.parseInt(indexes[0].substring(1)),Integer.parseInt(indexes[1].substring(1)))
-                        :generateListOfIndexes(indexes[0].charAt(0),Integer.parseInt(indexes[1].substring(1)),Integer.parseInt(indexes[0].substring(1)));
-                
+        String[] indexes = index.split(INDEX_RANGE_SYMBOL);
+        if (StringUtil.isUnsignedInteger(indexes[0])) {
+            return Integer.parseInt(indexes[0]) <= Integer.parseInt(indexes[1])
+                    ? generateListOfIndexes(Task.DEADLINE_CHAR, Integer.parseInt(indexes[0]),
+                            Integer.parseInt(indexes[1]))
+                    : generateListOfIndexes(Task.DEADLINE_CHAR, Integer.parseInt(indexes[1]),
+                            Integer.parseInt(indexes[0]));
+        } else {
+            if (StringUtil.isUnsignedInteger(indexes[1])) {
+                return Integer.parseInt(indexes[0].substring(1)) <= Integer.parseInt(indexes[1])
+                        ? generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[0].substring(1)),
+                                Integer.parseInt(indexes[1]))
+                        : generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[1]),
+                                Integer.parseInt(indexes[0].substring(1)));
+            } else {
+                return Integer.parseInt(indexes[0].substring(1)) <= Integer.parseInt(indexes[1].substring(1))
+                        ? generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[0].substring(1)),
+                                Integer.parseInt(indexes[1].substring(1)))
+                        : generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[1].substring(1)),
+                                Integer.parseInt(indexes[0].substring(1)));
+
             }
         }
 
     }
-    
-    public static ArrayList<TaskIndex> generateListOfIndexes(Character taskType, int firstTaskNumber, int lastTaskNumber){
+
+    public static ArrayList<TaskIndex> generateListOfIndexes(Character taskType, int firstTaskNumber,
+            int lastTaskNumber) {
         ArrayList<TaskIndex> indexes = new ArrayList<TaskIndex>();
-        for(;firstTaskNumber<=lastTaskNumber;firstTaskNumber++){
-            indexes.add(parseCorrectSingleIndex(taskType.toString()+firstTaskNumber));
+        for (; firstTaskNumber <= lastTaskNumber; firstTaskNumber++) {
+            indexes.add(parseCorrectSingleIndex(taskType.toString() + firstTaskNumber));
         }
         return indexes;
-        
-    }
-    
 
-    
-    private static boolean isValidIndex(String index){
-        if(!index.contains(INDEX_RANGE_SYMBOL)){
+    }
+
+    private static boolean isValidIndex(String index) {
+        if (!index.contains(INDEX_RANGE_SYMBOL)) {
             return isSingleValidIndex(index);
-        }
-        else{
+        } else {
             return isMultipleValidIndex(index);
         }
     }
@@ -143,42 +161,35 @@ public class ParserUtil {
         }
 
     }
-    
+
     private static boolean isMultipleValidIndex(String index) {
         String[] splitIndex = index.split(INDEX_RANGE_SYMBOL);
-        if(!isSingleValidIndex(splitIndex[0])){
+        if (!isSingleValidIndex(splitIndex[0])) {
             return false;
+        } else {
+            if (splitIndex.length > 2) {
+                return false;
+            } else {
+                if (!isSingleValidIndex(splitIndex[1])) {
+                    return false;
+                } else {
+                    if (StringUtil.isUnsignedInteger(splitIndex[1])) {
+                        return true;
+                    } else {
+                        if (StringUtil.isUnsignedInteger(splitIndex[0])) {
+                            return false;
+                        } else {
+                            if (splitIndex[0].charAt(0) != splitIndex[1].charAt(0)) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        else{
-         if(splitIndex.length>2){
-             return false;
-         }
-         else{
-          if(!isSingleValidIndex(splitIndex[1])){
-              return false;
-          }
-          else{
-              if(StringUtil.isUnsignedInteger(splitIndex[1])){
-                  return true;
-              }
-              else{
-                  if(StringUtil.isUnsignedInteger(splitIndex[0])){
-                      return false;
-                  }
-                      else{
-                          if(splitIndex[0].charAt(0)!=splitIndex[1].charAt(0)){
-                              return false;
-                          }
-                              else{
-                                  return true;
-                              }
-                          }
-                      }
-                  }
-              }
-          }
     }
-    
 
     // @@
     /**
@@ -190,7 +201,7 @@ public class ParserUtil {
         List<String> elements = list.orElse(Collections.emptyList());
         return new HashSet<>(elements);
     }
-    
+
     /**
      * Splits a preamble string into ordered fields.
      *
