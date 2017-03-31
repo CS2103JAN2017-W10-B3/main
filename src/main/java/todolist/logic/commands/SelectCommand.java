@@ -39,7 +39,8 @@ public class SelectCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        EventsCenter.getInstance().post(new JumpToListRequestEvent(new TaskIndex(targetIndex.getTaskChar(), listIndex - 1)));
+        EventsCenter.getInstance().post(new JumpToListRequestEvent(
+                new TaskIndex(targetIndex.getTaskChar(), listIndex - 1)));
 
         ReadOnlyTask task = lastShownList.get(listIndex - 1);
 

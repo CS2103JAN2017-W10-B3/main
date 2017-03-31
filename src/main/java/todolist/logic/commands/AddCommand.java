@@ -118,7 +118,8 @@ public class AddCommand extends UndoableCommand {
             updateUndoLists();
 
             UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(toAdd.getTaskChar());
-            EventsCenter.getInstance().post(new JumpToListRequestEvent(new TaskIndex(toAdd.getTaskChar(), lastShownList.indexOf(toAdd))));
+            EventsCenter.getInstance().post(new JumpToListRequestEvent(
+                    new TaskIndex(toAdd.getTaskChar(), lastShownList.indexOf(toAdd))));
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {

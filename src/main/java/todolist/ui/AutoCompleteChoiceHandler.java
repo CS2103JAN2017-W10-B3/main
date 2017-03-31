@@ -11,7 +11,8 @@ public class AutoCompleteChoiceHandler implements EventHandler<ActionEvent> {
     private AutoCompleteTextField choiceHandlerHost;
     private ContextMenu popupList;
 
-    public AutoCompleteChoiceHandler (String choiceInput, String currentText, AutoCompleteTextField eventHost, ContextMenu popupList) {
+    public AutoCompleteChoiceHandler (String choiceInput, String currentText,
+            AutoCompleteTextField eventHost, ContextMenu popupList) {
         optionChosen = choiceInput;
         precedingText = getTextBeforeLastSpacing(currentText);
         choiceHandlerHost = eventHost;
@@ -31,7 +32,7 @@ public class AutoCompleteChoiceHandler implements EventHandler<ActionEvent> {
         if (indexOfLastSpacing == -1) {
             return "";
         } else {
-            return currentText.substring(0, indexOfLastSpacing+1);
+            return currentText.substring(0, indexOfLastSpacing + 1);
         }
     }
     // @@
