@@ -10,6 +10,7 @@ import todolist.logic.parser.ArgumentTokenizer.Prefix;
 public class CliSyntax {
 
     /* Prefix definitions */
+    public static final Prefix PREFIX_TITLE = new Prefix("/title");
     public static final Prefix PREFIX_VENUE = new Prefix("/venue");
     public static final Prefix PREFIX_STARTTIME = new Prefix("/from");
     public static final Prefix PREFIX_ENDTIME = new Prefix("/to");
