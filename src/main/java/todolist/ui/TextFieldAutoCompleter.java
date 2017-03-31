@@ -15,7 +15,8 @@ import javafx.scene.control.Label;
 // @@ A0110791M
 public class TextFieldAutoCompleter implements ChangeListener<String> {
 
-    public static final String[] PREFIXSTRINGS = new String[] {"/venue ","/from ","/to ","/level","/description" };
+    public static final String[] PREFIXSTRINGS = new String[] {"/venue ", "/from ", "/to ",
+        "/by", "/level", "/description" };
     private static final int MAX_keywords_LENGTH = 10;
 
     private static TreeSet<String> keywords;
@@ -80,9 +81,8 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
         int indexOfLastSpacing = currentText.lastIndexOf(' ');
         if (indexOfLastSpacing == -1) {
             lastWord = currentText;
-        }
-        else {
-            lastWord = currentText.substring(indexOfLastSpacing+1, currentText.length());
+        } else {
+            lastWord = currentText.substring(indexOfLastSpacing + 1, currentText.length());
         }
         return lastWord;
     }

@@ -100,9 +100,9 @@ public class TestTask implements ReadOnlyTask {
     public Optional<EndTime> getEndTime() {
         return endTime;
     }
-    
+
     @Override
-    public Time getCompleteTime(){
+    public Time getCompleteTime() {
         return completeTime;
     }
 

@@ -30,11 +30,11 @@ public class HotKeyHandler implements EventHandler<KeyEvent> {
     public void handle (KeyEvent key) {
         KeyCode keyCode = key.getCode();
         switch (keyCode) {
-            case DOWN:
-                showCommandsHistory();
-                return;
-            default:
-                return;
+        case DOWN:
+            showCommandsHistory();
+            return;
+        default:
+            return;
         }
     }
 
@@ -46,7 +46,7 @@ public class HotKeyHandler implements EventHandler<KeyEvent> {
 
     private List<CustomMenuItem> getCommandsHistoryMenu () {
         List<CustomMenuItem> menuItems = new LinkedList<>();
-        for (int i = commandsHistory.size()-1; i >= 0; i--) {
+        for (int i = commandsHistory.size() - 1; i >= 0; i--) {
             final String oldCommand = commandsHistory.get(i);
             Label oldCommandLabel = new Label(oldCommand);
             CustomMenuItem item = new CustomMenuItem(oldCommandLabel, true);

@@ -75,7 +75,7 @@ public class Parser {
 
         case ListTagCommand.COMMAND_WORD:
             return new ListTagCommand();
-            
+
         case ListTaskUnderTagCommand.COMMAND_WORD:
             return new ListCommandParser().parseTag(arguments);
 

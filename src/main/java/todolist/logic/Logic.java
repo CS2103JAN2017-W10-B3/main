@@ -26,7 +26,7 @@ public interface Logic {
     ObservableList<ReadOnlyTask> getFilteredEventList();
 
     ObservableList<ReadOnlyTask> getFilteredFloatList();
-    
+
     ObservableList<ReadOnlyTask> getFilteredCompleteList();
 
 }
