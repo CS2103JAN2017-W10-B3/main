@@ -49,9 +49,10 @@ public class TaskCard extends UiPart<Region> {
     }
 
     private void initialiseVenue() {
-        venue.setText(task.getVenueString().trim());
-        if (task.getVenue().isPresent()) {
+        if (task.getVenue().isPresent()
+                && !task.getVenue().get().toString().isEmpty()) {
             venue.setManaged(true);
+            venue.setText(task.getVenueString().trim());
         } else {
             venue.setManaged(false);
         }
@@ -95,9 +96,10 @@ public class TaskCard extends UiPart<Region> {
     }
 
     private void initialiseDescription() {
-        description.setText(task.getDescriptionString().trim());
-        if (task.getDescription().isPresent()) {
+        if (task.getDescription().isPresent()
+                && !task.getDescription().get().toString().isEmpty()) {
             description.setManaged(true);
+            description.setText(task.getDescriptionString().trim());
         } else {
             description.setManaged(false);
         }
