@@ -20,13 +20,13 @@ public class SelectCommandParser {
      * and returns an SelectCommand object for execution.
      */
     public Command parse(String args) {
-        Optional<ArrayList<TaskIndex>> indexes = ParserUtil.parseIndex(args);
-        if (!indexes.isPresent()) {
+        Optional<TaskIndex> index = ParserUtil.parseSelectIndex(args);
+        if (!index.isPresent()) {
             return new IncorrectCommand(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
         }
 
-        return new SelectCommand(indexes.get());
+        return new SelectCommand(index.get());
     }
 
 }
