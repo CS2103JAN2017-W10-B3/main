@@ -2,6 +2,7 @@ package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import todolist.logic.commands.Command;
@@ -15,7 +16,7 @@ import todolist.model.task.TaskIndex;
  */
 public class CompleteCommandParser {
 
-    private static Optional<TaskIndex> index;
+    private static Optional<ArrayList<TaskIndex>> indexes;
 
     /**
      * Parses the given {@code String} of arguments in the context of the
@@ -23,19 +24,19 @@ public class CompleteCommandParser {
      */
     public Command parse(String args) {
 
-        Optional<TaskIndex> index = ParserUtil.parseIndex(args);
-        if (!index.isPresent()) {
-            index = CompleteCommandParser.index;
-            if (!index.isPresent()) {
+        Optional<ArrayList<TaskIndex>> indexes = ParserUtil.parseIndex(args);
+        if (!indexes.isPresent()) {
+            indexes = CompleteCommandParser.indexes;
+            if (!indexes.isPresent()) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
             }
         }
 
-        return new CompleteCommand(index.get());
+        return new CompleteCommand(indexes.get());
     }
 
-    public static void setIndex(TaskIndex index) {
-        CompleteCommandParser.index = Optional.of(index);
+    public static void setIndex(ArrayList<TaskIndex> indexes) {
+        CompleteCommandParser.indexes = Optional.of(indexes);
     }
 
 }
