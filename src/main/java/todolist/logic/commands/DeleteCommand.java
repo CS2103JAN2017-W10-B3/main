@@ -1,6 +1,7 @@
 package todolist.logic.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
@@ -24,40 +25,42 @@ public class DeleteCommand extends UndoableCommand {
             + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD + " e1 \n";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
-
-    public final TaskIndex targetIndex;
+    // @@ A0143648Y
+    private final ArrayList<TaskIndex> filteredTaskListIndexes;
 
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
 
-    public DeleteCommand(TaskIndex targetIndex) {
-        this.targetIndex = targetIndex;
+    public DeleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes) {
+        this.filteredTaskListIndexes = filteredTaskListIndexes;
     }
 
-
-    // @@ A0143648Y
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
-
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
-
-        if (lastShownList.size() < targetIndex.getTaskNumber()) {
+        ArrayList<ReadOnlyTask> tasksToDelete = new ArrayList<ReadOnlyTask>();
+        for(int count=0;count<filteredTaskListIndexes.size();count++){
+            List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
+            int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber()-1;
+        if (lastShownList.size() < filteredTaskListIndex) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask taskToDelete = lastShownList.get(targetIndex.getTaskNumber() - 1);
-
+        tasksToDelete.add(lastShownList.get(filteredTaskListIndex));
+        }
+        
+        for(int count=0;count<tasksToDelete.size();count++){
         try {
-            model.deleteTask(taskToDelete);
+            model.deleteTask(tasksToDelete.get(count));
         } catch (TaskNotFoundException tnfe) {
             assert false : "The target task cannot be missing";
         }
+        }
 
-        commandResultToUndo = new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
+        commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
         updateUndoLists();
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
+        return new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
     }
 
     @Override
