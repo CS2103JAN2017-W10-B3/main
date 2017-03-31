@@ -1,6 +1,7 @@
 package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static todolist.logic.parser.CliSyntax.PREFIX_DEADLINETIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static todolist.logic.parser.CliSyntax.PREFIX_ENDTIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_STARTTIME;
@@ -27,7 +28,7 @@ public class AddCommandParser {
     public Command parse(String args) {
         ArgumentTokenizer argsTokenizer =
                 new ArgumentTokenizer(PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_ENDTIME,
-                        PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
+                        PREFIX_DEADLINETIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
         try {
             return new AddCommand(
@@ -35,6 +36,7 @@ public class AddCommandParser {
                     argsTokenizer.getValue(PREFIX_VENUE),
                     argsTokenizer.getValue(PREFIX_STARTTIME),
                     argsTokenizer.getValue(PREFIX_ENDTIME),
+                    argsTokenizer.getValue(PREFIX_DEADLINETIME),
                     argsTokenizer.getValue(PREFIX_URGENCYLEVEL),
                     argsTokenizer.getValue(PREFIX_DESCRIPTION),
                     ParserUtil.toSet(argsTokenizer.getAllValues(PREFIX_TAG))

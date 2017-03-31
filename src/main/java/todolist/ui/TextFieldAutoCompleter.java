@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 // @@ A0110791M
 public class TextFieldAutoCompleter implements ChangeListener<String> {
 
-    public static final String[] PREFIXSTRINGS = new String[] {"/venue ","/from ","/to ","/level","/description" };
+    public static final String[] PREFIXSTRINGS = new String[] {"/venue ","/from ","/to ","/by","/level","/description" };
     private static final int MAX_keywords_LENGTH = 10;
 
     private static TreeSet<String> keywords;
