@@ -2,12 +2,14 @@ package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static todolist.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
+import static todolist.logic.parser.CliSyntax.PREFIX_TITLE;
 import static todolist.logic.parser.CliSyntax.PREFIX_ENDTIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_STARTTIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_TAG;
 import static todolist.logic.parser.CliSyntax.PREFIX_URGENCYLEVEL;
 import static todolist.logic.parser.CliSyntax.PREFIX_VENUE;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +28,7 @@ import todolist.model.task.TaskIndex;
  */
 public class EditCommandParser {
 
-    private static Optional<TaskIndex> index;
+    private static Optional<ArrayList<TaskIndex>> indexes;
 
     // @@ A0143648Y
     /**
@@ -35,22 +37,21 @@ public class EditCommandParser {
      */
     public Command parse(String args) {
         assert args != null;
-        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_ENDTIME,
+        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE,PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_ENDTIME,
                 PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
-        List<Optional<String>> preambleFields = ParserUtil.splitPreamble(argsTokenizer.getPreamble().orElse(""), 2);
-
-        Optional<TaskIndex> index = preambleFields.get(0).flatMap(ParserUtil::parseIndex);
-        if (!index.isPresent()) {
-            index = EditCommandParser.index;
-            if (!index.isPresent()) {
+        List<Optional<String>> preambleFields = ParserUtil.splitPreamble(argsTokenizer.getPreamble().orElse(""), 1);
+        Optional<ArrayList<TaskIndex>> indexes = preambleFields.get(0).flatMap(ParserUtil::parseIndex);
+        if (!indexes.isPresent()) {
+            indexes = EditCommandParser.indexes;
+            if (!indexes.isPresent()) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
             }
         }
         // @@
         EditTaskDescriptor editTaskDescriptor = new EditTaskDescriptor();
         try {
-            editTaskDescriptor.setTitle(ParserUtil.parseTitle(preambleFields.get(1)));
+            editTaskDescriptor.setTitle(ParserUtil.parseTitle(argsTokenizer.getValue(PREFIX_TITLE)));
             editTaskDescriptor.setVenue(ParserUtil.parseVenue(argsTokenizer.getValue(PREFIX_VENUE)));
             editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_STARTTIME)));
             editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_ENDTIME)));
@@ -66,7 +67,7 @@ public class EditCommandParser {
             return new IncorrectCommand(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index.get(), editTaskDescriptor);
+        return new EditCommand(indexes.get(), editTaskDescriptor);
     }
 
     /**
@@ -85,7 +86,7 @@ public class EditCommandParser {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
-    public static void setIndex(TaskIndex index) {
-        EditCommandParser.index = Optional.of(index);
+    public static void setIndex(ArrayList<TaskIndex> indexes) {
+        EditCommandParser.indexes = Optional.of(indexes);
     }
 }
