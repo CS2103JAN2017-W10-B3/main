@@ -26,10 +26,6 @@
             <Menu mnemonicParsing="false" text="Help">
                <items>
                   <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Scroll">
-               <items>
                   <MenuItem fx:id="resultUp" mnemonicParsing="false" onAction="#handleResultUp" text="Result Display Up" />
                   <MenuItem fx:id="resultDown" mnemonicParsing="false" onAction="#handleResultDown" text="Result Display Down" />
                   <MenuItem fx:id="eventUp" mnemonicParsing="false" onAction="#handleEventUp" text="Events Up" />
