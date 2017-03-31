@@ -61,22 +61,22 @@ public class EditCommand extends UndoableCommand {
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
-        for(int count=0;count<filteredTaskListIndexes.size();count++){
-        List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
-        int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber()-1;
+        for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
+            List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
+            int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
 
-        if (filteredTaskListIndex >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-        }
+            if (filteredTaskListIndex >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+            }
 
-        ReadOnlyTask taskToEdit = lastShownList.get(filteredTaskListIndex);
-        Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
+            ReadOnlyTask taskToEdit = lastShownList.get(filteredTaskListIndex);
+            Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
 
-        try {
-            model.updateTask(taskToEdit, editedTask);
-        } catch (UniqueTaskList.DuplicateTaskException dpe) {
-            throw new CommandException(MESSAGE_DUPLICATE_TASK);
-        }
+            try {
+                model.updateTask(taskToEdit, editedTask);
+            } catch (UniqueTaskList.DuplicateTaskException dpe) {
+                throw new CommandException(MESSAGE_DUPLICATE_TASK);
+            }
         }
         model.updateFilteredListToShowAll();
         commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
@@ -100,7 +100,7 @@ public class EditCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
-    //@@
+    // @@
 
     /**
      * Creates and returns a {@code Task} with the details of {@code taskToEdit}
