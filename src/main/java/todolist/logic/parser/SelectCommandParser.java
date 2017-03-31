@@ -2,6 +2,7 @@ package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import todolist.logic.commands.Command;
@@ -19,13 +20,13 @@ public class SelectCommandParser {
      * and returns an SelectCommand object for execution.
      */
     public Command parse(String args) {
-        Optional<TaskIndex> index = ParserUtil.parseIndex(args);
-        if (!index.isPresent()) {
+        Optional<ArrayList<TaskIndex>> indexes = ParserUtil.parseIndex(args);
+        if (!indexes.isPresent()) {
             return new IncorrectCommand(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
         }
 
-        return new SelectCommand(index.get());
+        return new SelectCommand(indexes.get());
     }
 
 }
