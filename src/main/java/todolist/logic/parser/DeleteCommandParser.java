@@ -2,6 +2,7 @@ package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import todolist.logic.commands.Command;
@@ -12,26 +13,27 @@ import todolist.model.task.TaskIndex;
 /**
  * Parses input arguments and creates a new DeleteCommand object
  */
+// @@ A0143648Y
 public class DeleteCommandParser {
-    // @@ A0143648Y
-    private static Optional<TaskIndex> index;
+
+    private static Optional<ArrayList<TaskIndex>> indexes;
 
     /**
      * Parses the given {@code String} of arguments in the context of the
      * DeleteCommand and returns an DeleteCommand object for execution.
      */
     public Command parse(String args) {
-        Optional<TaskIndex> index = ParserUtil.parseIndex(args);
-        if (!index.isPresent()) {
-            index = DeleteCommandParser.index;
-            if (!index.isPresent()) {
+        Optional<ArrayList<TaskIndex>> indexes = ParserUtil.parseIndex(args);
+        if (!indexes.isPresent()) {
+            indexes = DeleteCommandParser.indexes;
+            if (!indexes.isPresent()) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
             }
         }
-        return new DeleteCommand(index.get());
+        return new DeleteCommand(indexes.get());
     }
 
-    public static void setIndex(TaskIndex index) {
-        DeleteCommandParser.index = Optional.of(index);
+    public static void setIndex(ArrayList<TaskIndex> indexes) {
+        DeleteCommandParser.indexes = Optional.of(indexes);
     }
 }
