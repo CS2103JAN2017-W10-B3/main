@@ -1,5 +1,7 @@
 package todolist.logic.commands;
 
+import java.util.ArrayList;
+
 import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
@@ -13,7 +15,7 @@ import todolist.model.task.TaskIndex;
  */
 public class SelectCommand extends Command {
 
-    public final TaskIndex targetIndex;
+    private final ArrayList<TaskIndex> filteredTaskListIndexes;
 
     public static final String COMMAND_WORD = "select";
 
@@ -24,13 +26,12 @@ public class SelectCommand extends Command {
 
     public static final String MESSAGE_SELECT_TASK_SUCCESS = "Selected Task: %1$s";
 
-    public SelectCommand(TaskIndex targetIndex) {
-        this.targetIndex = targetIndex;
+    public SelectCommand(ArrayList<TaskIndex> filteredTaskListIndexes) {
+        this.filteredTaskListIndexes = filteredTaskListIndexes;
     }
 
     @Override
     public CommandResult execute() throws CommandException {
-
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
 
         int listIndex = targetIndex.getTaskNumber();

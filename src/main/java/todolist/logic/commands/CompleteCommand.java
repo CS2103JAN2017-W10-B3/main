@@ -1,6 +1,7 @@
 package todolist.logic.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
@@ -17,7 +18,7 @@ import todolist.model.task.TaskIndex;
  */
 public class CompleteCommand extends UndoableCommand {
 
-    public final TaskIndex targetIndex;
+    private final ArrayList<TaskIndex> filteredTaskListIndexes;
 
     public static final String COMMAND_WORD = "done";
 
@@ -31,28 +32,33 @@ public class CompleteCommand extends UndoableCommand {
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
 
-    public CompleteCommand(TaskIndex targetIndex) {
-        this.targetIndex = targetIndex;
+    public CompleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes) {
+        this.filteredTaskListIndexes = filteredTaskListIndexes;
     }
 
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
+        ArrayList<ReadOnlyTask> tasksToComplete = new ArrayList<ReadOnlyTask>();
+        for(int count=0;count<filteredTaskListIndexes.size();count++){
+        List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
+        int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber()-1;
 
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
-
-        if (lastShownList.size() < targetIndex.getTaskNumber()) {
+        if (lastShownList.size() < filteredTaskListIndex) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
+        
+        tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
+        }
+        
+        for(int count=0;count<tasksToComplete.size();count++){
+        model.completeTask(tasksToComplete.get(count));
+        }
 
-        ReadOnlyTask taskToComplete = lastShownList.get(targetIndex.getTaskNumber() - 1);
-
-        model.completeTask(taskToComplete);
-
-        commandResultToUndo = new CommandResult(String.format(MESSAGE_COMPLETE_TASK_SUCCESS, taskToComplete));
+        commandResultToUndo = new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
         updateUndoLists();
 
-        return new CommandResult(String.format(MESSAGE_COMPLETE_TASK_SUCCESS, taskToComplete));
+        return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
     }
 
     @Override
