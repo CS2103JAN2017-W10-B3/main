@@ -1,15 +1,16 @@
 package todolist.commons.events.ui;
 
 import todolist.commons.events.BaseEvent;
+import todolist.model.task.TaskIndex;
 
 /**
  * Indicates a request to jump to the list of persons
  */
 public class JumpToListRequestEvent extends BaseEvent {
 
-    public final int targetIndex;
+    public final TaskIndex targetIndex;
 
-    public JumpToListRequestEvent(int targetIndex) {
+    public JumpToListRequestEvent(TaskIndex targetIndex) {
         this.targetIndex = targetIndex;
     }
 

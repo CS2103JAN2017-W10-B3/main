@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import todolist.model.task.ReadOnlyTask;
 
 public class TaskCard extends UiPart<Region> {
@@ -23,8 +25,9 @@ public class TaskCard extends UiPart<Region> {
     private Label startTime;
     @FXML
     private Label endTime;
+    //@@ author: A0138628W
     @FXML
-    private Label urgencyLevel;
+    private Circle urgencyLevel;
     @FXML
     private Label description;
     @FXML
@@ -35,7 +38,7 @@ public class TaskCard extends UiPart<Region> {
     public TaskCard(ReadOnlyTask task, String displayedIndex) {
         super(FXML);
         this.task = task;
-        title.setText(task.getTitle().title);
+        title.setText(task.getTitle().toString());
         id.setText(displayedIndex + ". ");
         initialiseVenue();
         initialiseStartTime();
@@ -46,9 +49,10 @@ public class TaskCard extends UiPart<Region> {
     }
 
     private void initialiseVenue() {
-        venue.setText(task.getVenueString().trim());
-        if (task.getVenue().isPresent()) {
+        if (task.getVenue().isPresent()
+                && !task.getVenue().get().toString().isEmpty()) {
             venue.setManaged(true);
+            venue.setText(task.getVenueString().trim());
         } else {
             venue.setManaged(false);
         }
@@ -72,19 +76,30 @@ public class TaskCard extends UiPart<Region> {
         }
     }
 
+    //@@ author: A0138628W
     private void initialiseUrgencyLevel() {
-        urgencyLevel.setText(task.getUrgencyLevelString().trim());
-        if (task.getVenue().isPresent()) {
-            urgencyLevel.setManaged(true);
+        if (task.getUrgencyLevel().isPresent()) {
+            urgencyLevel.setVisible(true);
+            int level = task.getUrgencyLevelInt();
+            if (level == 1) {
+                urgencyLevel.setFill(Color.YELLOW);
+            } else if (level == 2) {
+                urgencyLevel.setFill(Color.ORANGE);
+            } else if (level == 3) {
+                urgencyLevel.setFill(Color.RED);
+            } else {
+                urgencyLevel.setVisible(false);
+            }
         } else {
-            urgencyLevel.setManaged(false);
+            urgencyLevel.setVisible(false);
         }
     }
 
     private void initialiseDescription() {
-        description.setText(task.getDescriptionString().trim());
-        if (task.getDescription().isPresent()) {
+        if (task.getDescription().isPresent()
+                && !task.getDescription().get().toString().isEmpty()) {
             description.setManaged(true);
+            description.setText(task.getDescriptionString().trim());
         } else {
             description.setManaged(false);
         }

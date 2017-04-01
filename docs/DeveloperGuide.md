@@ -50,7 +50,7 @@ By : `CS2103JAN2017-W10-B3`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Feb 2017`  &nbsp;&
 ### 1.3. Configuring Checkstyle
 1. Click `Project` -> `Properties` -> `Checkstyle` -> `Local Check Configurations` -> `New...`
 2. Choose `External Configuration File` under `Type`
-3. Enter an arbitrary configuration name e.g. addressbook
+3. Enter an arbitrary configuration name e.g. todolist
 4. Import checkstyle configuration file found at `config/checkstyle/checkstyle.xml`
 5. Click OK once, go to the `Main` tab, use the newly imported check configuration.
 6. Tick and select `files from packages`, click `Change...`, and select the `resources` package
@@ -99,10 +99,10 @@ Two of those classes play important roles at the architecture level.
 
 The rest of the App consists of four components.
 
-* [**`UI`**](#ui-component) : The UI of the App.
-* [**`Logic`**](#logic-component) : The command executor.
-* [**`Model`**](#model-component) : Holds the data of the App in-memory.
-* [**`Storage`**](#storage-component) : Reads data from, and writes data to, the hard disk.
+* [**`UI`**](#2-2-ui-component) : The UI of the App.
+* [**`Logic`**](#2-3-logic-component) : The command executor.
+* [**`Model`**](#2-4-model-component) : Holds the data of the App in-memory.
+* [**`Storage`**](#2-5-storage-component) : Reads data from, and writes data to, the hard disk.
 
 Each of the four components
 
@@ -389,7 +389,7 @@ Priority | As a ... | I want to ... | So that...
 {More to be added}
 ## Appendix B : Use Cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `TodoList` and the **Actor** is the `user`, unless specified otherwise)
 
 #### Use case #1: add task
 

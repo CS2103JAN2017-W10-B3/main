@@ -10,58 +10,55 @@ import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.TaskIndex;
-import todolist.model.task.UniqueTaskList.TaskNotFoundException;
+
+//@@author A0122017Y
 
 /**
- * Deletes a person identified using it's last displayed index from the address
+ * Selects a task identified using it's last displayed index from the address
  * book.
  */
-public class DeleteCommand extends UndoableCommand {
+public class CompleteCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "delete";
+    private final ArrayList<TaskIndex> filteredTaskListIndexes;
+
+    public static final String COMMAND_WORD = "done";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the task identified by the index number used in the last task listing. \n"
-            + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD
-            + " e1 \n";
+            + ": Completes the task identified by the index number used in the last task listing.\n"
+            + "Parameters: CHAR(d, e or f) + INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD + " e1";
 
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
-    // @@ A0143648Y
-    private final ArrayList<TaskIndex> filteredTaskListIndexes;
+    public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: %1$s";
 
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
 
-    public DeleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes) {
+    public CompleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes) {
         this.filteredTaskListIndexes = filteredTaskListIndexes;
     }
 
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
-        ArrayList<ReadOnlyTask> tasksToDelete = new ArrayList<ReadOnlyTask>();
+        ArrayList<ReadOnlyTask> tasksToComplete = new ArrayList<ReadOnlyTask>();
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
+
             if (lastShownList.size() < filteredTaskListIndex) {
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
 
-            tasksToDelete.add(lastShownList.get(filteredTaskListIndex));
+            tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
         }
 
-        for (int count = 0; count < tasksToDelete.size(); count++) {
-            try {
-                model.deleteTask(tasksToDelete.get(count));
-            } catch (TaskNotFoundException tnfe) {
-                assert false : "The target task cannot be missing";
-            }
+        for (int count = 0; count < tasksToComplete.size(); count++) {
+            model.completeTask(tasksToComplete.get(count));
         }
 
-        commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
+        commandResultToUndo = new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
         updateUndoLists();
 
-        return new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
+        return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
     }
 
     @Override

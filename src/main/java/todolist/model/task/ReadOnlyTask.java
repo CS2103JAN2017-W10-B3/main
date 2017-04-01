@@ -1,5 +1,6 @@
 package todolist.model.task;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 import todolist.model.tag.UniqueTagList;
@@ -16,10 +17,14 @@ public interface ReadOnlyTask {
     Optional<Venue> getVenue();
     Optional<Description> getDescription();
     Optional<UrgencyLevel> getUrgencyLevel();
-    public enum Category {DEADLINE, EVENT, FLOAT}
+    Time getCompleteTime();
+    public enum Category { DEADLINE, EVENT, FLOAT, COMPLETED }
 
     Category getTaskCategory();
     Character getTaskChar();
+
+    Boolean isTaskCompleted();
+    void toggleComplete();
 
     /**
      * The returned TagList is a deep copy of the internal TagList,
@@ -78,6 +83,107 @@ public interface ReadOnlyTask {
 
     default String getDescriptionString() {
         return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + " " : "";
+    }
+
+    //@@ author: A0138628W
+    default int getUrgencyLevelInt() {
+        return getUrgencyLevel().isPresent() ? getUrgencyLevel().get().getIntValue() : 0;
+    }
+    //@@ author
+
+    //====================Comparators for tasks======================
+
+    /**
+     * For deadline tasks, first by deadline, then by name
+     */
+    public static Comparator<ReadOnlyTask> getDeadlineComparator() {
+        //first by deadline
+        Comparator<ReadOnlyTask> byDeadline = (t1, t2) -> {
+            return t1.getEndTime().get().compareTo(t2.getEndTime().get());
+        };
+
+        //then by name
+        Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
+
+        return byDeadline.thenComparing(byName);
+    }
+
+    /**
+     * For event tasks, first by start time, then by urgency level, then by end time, then by name
+     */
+    public static Comparator<ReadOnlyTask> getEventComparator() {
+        //first by start time
+        Comparator<ReadOnlyTask> byStartTime = (t1, t2) -> {
+            return t1.getStartTime().get().compareTo(t2.getStartTime().get());
+        };
+
+        //then by urgency level
+        Comparator<ReadOnlyTask> byUrgencyLevel = (t1, t2) -> {
+            return t1.getUrgencyLevel().get().compareTo(t2.getUrgencyLevel().get());
+        };
+
+        //then by end time
+        Comparator<ReadOnlyTask> byEndTime = (t1, t2) -> {
+            return t1.getEndTime().get().compareTo(t2.getEndTime().get());
+        };
+
+        //then by name
+        Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
+
+        return byStartTime.thenComparing(byUrgencyLevel).thenComparing(byEndTime).thenComparing(byName);
+    }
+
+    /**
+     * For floating tasks, first by urgency level, then by start time if any, then by end time, then by name
+     */
+    public static Comparator<ReadOnlyTask> getFloatingComparator() {
+        //first by urgency level
+        Comparator<ReadOnlyTask> byUrgencyLevel = (t1, t2) -> {
+            if (!t1.getUrgencyLevel().isPresent() && !t2.getUrgencyLevel().isPresent()) {
+                return 0;
+            } else if (!t1.getUrgencyLevel().isPresent()) {
+                return 1;
+            } else if (!t2.getUrgencyLevel().isPresent()) {
+                return -1;
+            }
+
+            //if both having urgency level
+            return t1.getUrgencyLevel().get().compareTo(t2.getUrgencyLevel().get());
+        };
+
+        //then by start time
+        Comparator<ReadOnlyTask> byStartTime = (t1, t2) -> {
+            if (t1.getStartTime().isPresent() && !t2.getStartTime().isPresent()) {
+                return 1;
+            } else if (t2.getStartTime().isPresent() && !t1.getStartTime().isPresent()) {
+                return -1;
+            } else if (!t1.getStartTime().isPresent() && !t2.getStartTime().isPresent()) {
+                return 0;
+            }
+            return t1.getStartTime().get().compareTo(t2.getStartTime().get());
+        };
+
+        //then by name
+        Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
+
+        return byUrgencyLevel.thenComparing(byStartTime).thenComparing(byName);
+    }
+
+    public static Comparator<ReadOnlyTask> getCompleteComparator() {
+        //first by task type, deadline, first then event, then floating
+        Comparator<ReadOnlyTask> byTaskType = (t1, t2) -> {
+            return t1.getTaskChar().compareTo(t2.getTaskChar());
+        };
+
+        //then by complete time
+        Comparator<ReadOnlyTask> byCompleteTime = (t1, t2) -> {
+            return t2.getCompleteTime().compareTo(t1.getCompleteTime());
+        };
+
+        //then by name
+        Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
+
+        return byTaskType.thenComparing(byCompleteTime).thenComparing(byName);
     }
     //@@
 

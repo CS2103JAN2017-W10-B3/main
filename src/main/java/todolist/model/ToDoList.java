@@ -110,6 +110,12 @@ public class ToDoList implements ReadOnlyToDoList {
         tasks.updateTask(taskToEdit, editedTask);
     }
 
+    //@@author A0122017Y
+    public void completeTask(ReadOnlyTask taskToComplete) {
+        tasks.completeTask(taskToComplete);
+    }
+    //@@
+
     /**
      * Ensures that every tag in this Task:
      *  - exists in the master list {@link #tags}
@@ -166,6 +172,9 @@ public class ToDoList implements ReadOnlyToDoList {
         // TODO: refine later
     }
 
+    /**
+     * Returns a task list filtered to have floating type
+     */
     public ObservableList<ReadOnlyTask> getFilteredFloats() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.FLOAT));
     }
@@ -173,7 +182,7 @@ public class ToDoList implements ReadOnlyToDoList {
     /**
      * Returns a task list filtered to only contain Deadlines
      */
-    public ObservableList<ReadOnlyTask> getFilteredTasks() {
+    public ObservableList<ReadOnlyTask> getFilteredDeadlines() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.DEADLINE));
     }
 
@@ -184,10 +193,13 @@ public class ToDoList implements ReadOnlyToDoList {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.EVENT));
     }
 
-
     @Override
     public ObservableList<ReadOnlyTask> getTaskList() {
         return new UnmodifiableObservableList<>(tasks.asObservableList());
+    }
+
+    public ObservableList<ReadOnlyTask> getCompletedTasks() {
+        return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.COMPLETED));
     }
 
     @Override
@@ -208,4 +220,7 @@ public class ToDoList implements ReadOnlyToDoList {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(tasks, tags);
     }
+
+
+
 }

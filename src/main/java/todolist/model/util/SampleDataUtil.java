@@ -20,7 +20,7 @@ public class SampleDataUtil {
                 //event task with full task details
                 new Task(new Title("CS2103 Tutorial"), new Venue("COM1-B103"),
                         new StartTime("Wednesday 9:00"), new EndTime("Wednesday 10:00"),
-                        new UrgencyLevel("5"), new Description("Deadline of V0.3"), new UniqueTagList()),
+                        new UrgencyLevel("3"), new Description("Deadline of V0.3"), new UniqueTagList()),
                 //event task without urgency level
                 new Task(new Title("CS3230 Lab Quiz"), new Venue("COM1-SR1"),
                         new StartTime("Thursday 19:00"), new EndTime("Thursday 20:00"),
@@ -32,13 +32,13 @@ public class SampleDataUtil {
                 //deadline task without venue, urgency level and description
                 new Task(new Title("LAJ1201 Essay"), null,
                         null, new EndTime("Wednesday 10:00"),
-                        null, null, new UniqueTagList()),
+                        new UrgencyLevel("2"), null, new UniqueTagList()),
                 //floating task with only title
                 new Task(new Title("Do laundry"), null, null, null,
                         null, null, new UniqueTagList()),
                 //floating task with urgency level
                 new Task(new Title("Do Tutorials"), null, null, null,
-                        new UrgencyLevel("3"), null, new UniqueTagList()),
+                        new UrgencyLevel("1"), null, new UniqueTagList()),
                 //floating task with description
                 new Task(new Title("Call grandma"), null, null, null, null,
                         new Description("Interview her for project about aging population"), new UniqueTagList()),

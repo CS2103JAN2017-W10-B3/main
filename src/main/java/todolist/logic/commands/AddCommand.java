@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import todolist.commons.core.EventsCenter;
+import todolist.commons.core.Messages;
+import todolist.commons.core.UnmodifiableObservableList;
+import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
@@ -13,8 +17,10 @@ import todolist.model.tag.Tag;
 import todolist.model.tag.UniqueTagList;
 import todolist.model.task.Description;
 import todolist.model.task.EndTime;
+import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.StartTime;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.Title;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UrgencyLevel;
@@ -48,7 +54,7 @@ public class AddCommand extends UndoableCommand {
      *             if any of the raw values are invalid
      */
     public AddCommand(String title, Optional<String> venue, Optional<String> starttime, Optional<String> endtime,
-            Optional<String> urgencyLevel, Optional<String> description, Set<String> tags)
+            Optional<String> deadline, Optional<String> urgencyLevel, Optional<String> description, Set<String> tags)
             throws IllegalValueException {
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
@@ -70,8 +76,12 @@ public class AddCommand extends UndoableCommand {
             tempStartTime = new StartTime(starttime.get());
         }
 
-        if (endtime.isPresent()) {
+        if (endtime.isPresent() && !deadline.isPresent()) {
             tempEndTime = new EndTime(endtime.get());
+        }
+
+        if (deadline.isPresent() && !endtime.isPresent()) {
+            tempEndTime = new EndTime(deadline.get());
         }
 
         if (urgencyLevel.isPresent()) {
@@ -82,8 +92,18 @@ public class AddCommand extends UndoableCommand {
             tempDescription = new Description(description.get());
         }
 
+        if (tempStartTime != null && tempEndTime != null) {
+            checkValidDuration(tempStartTime, tempEndTime);
+        }
+
         this.toAdd = new Task(tempTitle, tempVenue, tempStartTime, tempEndTime,
                 tempUrgencyLevel, tempDescription, new UniqueTagList(tagSet));
+    }
+
+    private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
+        if (!tempStartTime.isValidDuration(tempEndTime)) {
+            throw new IllegalValueException(Messages.MESSAGE_INVALID_DURATION);
+        }
     }
 
     // @@author A0143648Y
@@ -96,6 +116,10 @@ public class AddCommand extends UndoableCommand {
             model.addTask(toAdd);
             commandResultToUndo = new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
             updateUndoLists();
+
+            UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(toAdd.getTaskChar());
+            EventsCenter.getInstance().post(new JumpToListRequestEvent(
+                    new TaskIndex(toAdd.getTaskChar(), lastShownList.indexOf(toAdd))));
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {

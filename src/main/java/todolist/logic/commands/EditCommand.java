@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.util.Pair;
 import todolist.commons.core.Messages;
 import todolist.commons.util.CollectionUtil;
 import todolist.logic.commands.exceptions.CommandException;
@@ -16,6 +15,7 @@ import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.StartTime;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.Title;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UrgencyLevel;
@@ -38,9 +38,8 @@ public class EditCommand extends UndoableCommand {
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Task: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book.";
-
-    private final int filteredTaskListIndex;
-    private final char filteredTaskListChar;
+    // @@ A0143648Y
+    private final ArrayList<TaskIndex> filteredTaskListIndexes;
     private final EditTaskDescriptor editTaskDescriptor;
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
@@ -51,39 +50,38 @@ public class EditCommand extends UndoableCommand {
      * @param editTaskDescriptor
      *            details to edit the task with
      */
-    public EditCommand(Pair<Character, Integer> filteredTaskListIndex, EditTaskDescriptor editTaskDescriptor) {
-        assert filteredTaskListIndex.getValue() > 0;
+    public EditCommand(ArrayList<TaskIndex> filteredTaskListIndexes, EditTaskDescriptor editTaskDescriptor) {
+        assert filteredTaskListIndexes != null;
         assert editTaskDescriptor != null;
 
-        // converts filteredTaskListIndex from one-based to zero-based.
-        this.filteredTaskListIndex = filteredTaskListIndex.getValue() - 1;
-        this.filteredTaskListChar = filteredTaskListIndex.getKey();
-
+        this.filteredTaskListIndexes = filteredTaskListIndexes;
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
     }
 
-    // @@ A0143648Y
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
-        List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListChar);
+        for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
+            List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
+            int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
 
-        if (filteredTaskListIndex >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-        }
+            if (filteredTaskListIndex >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+            }
 
-        ReadOnlyTask taskToEdit = lastShownList.get(filteredTaskListIndex);
-        Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
+            ReadOnlyTask taskToEdit = lastShownList.get(filteredTaskListIndex);
+            Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
 
-        try {
-            model.updateTask(taskToEdit, editedTask);
-        } catch (UniqueTaskList.DuplicateTaskException dpe) {
-            throw new CommandException(MESSAGE_DUPLICATE_TASK);
+            try {
+                model.updateTask(taskToEdit, editedTask);
+            } catch (UniqueTaskList.DuplicateTaskException dpe) {
+                throw new CommandException(MESSAGE_DUPLICATE_TASK);
+            }
         }
         model.updateFilteredListToShowAll();
-        commandResultToUndo = new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, taskToEdit));
+        commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
         updateUndoLists();
-        return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, taskToEdit));
+        return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
     }
 
     @Override
@@ -102,6 +100,7 @@ public class EditCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
+    // @@
 
     /**
      * Creates and returns a {@code Task} with the details of {@code taskToEdit}

@@ -15,7 +15,7 @@ public class EndTime implements Time {
 
     public static final String ENDTIME_VALIDATION_REGEX = ".+";
 
-    public final LocalDateTime endTime;
+    private final LocalDateTime endTime;
 
     /**
      * Validates given end time.
@@ -52,6 +52,11 @@ public class EndTime implements Time {
     @Override
     public int hashCode() {
         return endTime.toString().hashCode();
+    }
+
+    @Override
+    public int compareTo(Time time) {
+        return this.getTimeValue().compareTo(time.getTimeValue());
     }
 
 }

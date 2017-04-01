@@ -1,5 +1,6 @@
 package todolist.logic.parser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,7 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javafx.util.Pair;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.commons.util.StringUtil;
 import todolist.model.tag.Tag;
@@ -20,6 +20,7 @@ import todolist.model.task.Description;
 import todolist.model.task.EndTime;
 import todolist.model.task.StartTime;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.Title;
 import todolist.model.task.UrgencyLevel;
 import todolist.model.task.Venue;
@@ -31,28 +32,59 @@ import todolist.model.task.Venue;
 public class ParserUtil {
 
     private static final Pattern INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
+    private static final String INDEX_RANGE_SYMBOL = "-";
 
     // @@ A0143648Y
     /**
      * Returns the specified index in the {@code command} if it is a positive
      * unsigned integer Returns an {@code Optional.empty()} otherwise.
      */
-    public static Optional<Pair<Character, Integer>> parseIndex(String command) {
+    public static Optional<ArrayList<TaskIndex>> parseIndex(String command) {
+        final Matcher matcher = INDEX_ARGS_FORMAT.matcher(command.trim());
+        if (!matcher.matches()) {
+            return Optional.empty();
+        }
+
+        String[] indexes = matcher.group("targetIndex").split(" ");
+        for (String index : indexes) {
+            if (!isValidIndex(index)) {
+                return Optional.empty();
+            }
+        }
+        return parseCorrectIndex(indexes);
+
+    }
+
+    public static Optional<TaskIndex> parseSelectIndex(String command) {
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(command.trim());
         if (!matcher.matches()) {
             return Optional.empty();
         }
 
         String index = matcher.group("targetIndex");
-
-        if (!isValidIndex(index)) {
+        if (!isSingleValidIndex(index)) {
             return Optional.empty();
         }
-        return parseCorrectIndex(index);
+
+        return Optional.of(parseCorrectSingleIndex(index));
 
     }
 
-    public static Optional<Pair<Character, Integer>> parseCorrectIndex(String index) {
+    public static Optional<ArrayList<TaskIndex>> parseCorrectIndex(String[] indexes) {
+        ArrayList<TaskIndex> editedIndexes = new ArrayList<TaskIndex>();
+        for (String index : indexes) {
+            if (!index.contains(INDEX_RANGE_SYMBOL)) {
+                editedIndexes.add(parseCorrectSingleIndex(index));
+            } else {
+                editedIndexes.addAll(parseCorrectMultipleIndex(index));
+            }
+        }
+
+        return Optional.of(editedIndexes);
+
+    }
+
+    public static TaskIndex parseCorrectSingleIndex(String index) {
         Character taskType;
         int taskNumber;
         if (StringUtil.isUnsignedInteger(index)) {
@@ -63,11 +95,56 @@ public class ParserUtil {
             taskNumber = Integer.parseInt(index.substring(1));
         }
 
-        return Optional.of(new Pair<Character, Integer>(taskType, taskNumber));
+        return new TaskIndex(taskType, taskNumber);
+
+    }
+
+    public static ArrayList<TaskIndex> parseCorrectMultipleIndex(String index) {
+        String[] indexes = index.split(INDEX_RANGE_SYMBOL);
+        if (StringUtil.isUnsignedInteger(indexes[0])) {
+            return Integer.parseInt(indexes[0]) <= Integer.parseInt(indexes[1])
+                    ? generateListOfIndexes(Task.DEADLINE_CHAR, Integer.parseInt(indexes[0]),
+                            Integer.parseInt(indexes[1]))
+                    : generateListOfIndexes(Task.DEADLINE_CHAR, Integer.parseInt(indexes[1]),
+                            Integer.parseInt(indexes[0]));
+        } else {
+            if (StringUtil.isUnsignedInteger(indexes[1])) {
+                return Integer.parseInt(indexes[0].substring(1)) <= Integer.parseInt(indexes[1])
+                        ? generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[0].substring(1)),
+                                Integer.parseInt(indexes[1]))
+                        : generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[1]),
+                                Integer.parseInt(indexes[0].substring(1)));
+            } else {
+                return Integer.parseInt(indexes[0].substring(1)) <= Integer.parseInt(indexes[1].substring(1))
+                        ? generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[0].substring(1)),
+                                Integer.parseInt(indexes[1].substring(1)))
+                        : generateListOfIndexes(indexes[0].charAt(0), Integer.parseInt(indexes[1].substring(1)),
+                                Integer.parseInt(indexes[0].substring(1)));
+
+            }
+        }
+
+    }
+
+    public static ArrayList<TaskIndex> generateListOfIndexes(Character taskType, int firstTaskNumber,
+            int lastTaskNumber) {
+        ArrayList<TaskIndex> indexes = new ArrayList<TaskIndex>();
+        for (; firstTaskNumber <= lastTaskNumber; firstTaskNumber++) {
+            indexes.add(parseCorrectSingleIndex(taskType.toString() + firstTaskNumber));
+        }
+        return indexes;
 
     }
 
     private static boolean isValidIndex(String index) {
+        if (!index.contains(INDEX_RANGE_SYMBOL)) {
+            return isSingleValidIndex(index);
+        } else {
+            return isMultipleValidIndex(index);
+        }
+    }
+
+    private static boolean isSingleValidIndex(String index) {
         if (StringUtil.isUnsignedInteger(index)) {
             return true;
         } else {
@@ -83,6 +160,35 @@ public class ParserUtil {
             }
         }
 
+    }
+
+    private static boolean isMultipleValidIndex(String index) {
+        String[] splitIndex = index.split(INDEX_RANGE_SYMBOL);
+        if (!isSingleValidIndex(splitIndex[0])) {
+            return false;
+        } else {
+            if (splitIndex.length > 2) {
+                return false;
+            } else {
+                if (!isSingleValidIndex(splitIndex[1])) {
+                    return false;
+                } else {
+                    if (StringUtil.isUnsignedInteger(splitIndex[1])) {
+                        return true;
+                    } else {
+                        if (StringUtil.isUnsignedInteger(splitIndex[0])) {
+                            return false;
+                        } else {
+                            if (splitIndex[0].charAt(0) != splitIndex[1].charAt(0)) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // @@

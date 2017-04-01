@@ -100,7 +100,7 @@ public class TaskListPanelHandle extends GuiHandle {
 
         // Return false if any of the tasks doesn't match
         for (int i = 0; i < tasks.length; i++) {
-            if (!tasksInList.get(startPosition + i).getTitle().title.equals(tasks[i].getTitle().title)) {
+            if (!tasksInList.get(startPosition + i).getTitle().toString().equals(tasks[i].getTitle().toString())) {
                 return false;
             }
         }
@@ -111,7 +111,7 @@ public class TaskListPanelHandle extends GuiHandle {
     public TaskCardHandle navigateToTask(String title) {
         guiRobot.sleep(500); // Allow a bit of time for the list to be updated
         final Optional<ReadOnlyTask> task = getListView().getItems().stream()
-                .filter(p -> p.getTitle().title.equals(title))
+                .filter(p -> p.getTitle().toString().equals(title))
                 .findAny();
         if (!task.isPresent()) {
             throw new IllegalStateException("Title not found: " + title);

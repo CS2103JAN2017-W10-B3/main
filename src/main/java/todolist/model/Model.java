@@ -7,6 +7,7 @@ import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.DuplicateTaskException;
+import todolist.model.util.Status;
 
 /**
  * The API of the Model component.
@@ -37,14 +38,14 @@ public interface Model {
      *             if {@code filteredTaskListIndex} < 0 or >= the size of the
      *             filtered list.
      */
-    void updateTask(ReadOnlyTask TaskToEdit, ReadOnlyTask editedTask) throws UniqueTaskList.DuplicateTaskException;
+    void updateTask(ReadOnlyTask taskToEdit, ReadOnlyTask editedTask) throws UniqueTaskList.DuplicateTaskException;
 
-    // @@ A0143648Y
+    //@@author A0143648Y
     /**
      * Returns the filtered Task list as an
      * {@code UnmodifiableObservableList<ReadOnlyTask>}
      */
-    UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList();
+    UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList();
 
     UnmodifiableObservableList<ReadOnlyTask> getFilteredEventList();
 
@@ -64,4 +65,15 @@ public interface Model {
      */
     void updateFilteredTaskList(Set<String> keywords);
 
+    // @@ author A0122017Y
+    void updateFilteredTaskListToShowWithStatus(Status status);
+
+    void updateFilteredTaskListToShowWithTag(Set<String> keywordSet);
+
+    void completeTask(ReadOnlyTask taskToComplete);
+
+
+    UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
+
+    //@@
 }

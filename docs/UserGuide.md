@@ -93,22 +93,20 @@ Examples:
 * `edit d1 Do tutorial /to 17.09.19`<br>
   Edits the TITLE and deadline of the 1st float task to be `Do tutorial` and `17.09.19` respectively.
 
-### 2.5. Finding all tasks containing any keyword in their title: `find`
+### 2.5. Finding all tasks containing any keyword: `find`
 
-Finds tasks whose description contain any of the given keywords.<br>
+Finds tasks that contain any of the given keywords.<br>
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-> * The search is case sensitive. e.g `lunch` will not match `Lunch`
+> * The search is not case sensitive. e.g `lunch` will match `Lunch`
 > * The order of the keywords does not matter. e.g. `Lunch Plan` will match `Plan Lunch`
-> * Only the title is searched.
-> * Only full words will be matched e.g. `Lunch` will not match `Lunchie`
 > * Tasks matching at least one keyword will be returned (i.e. `OR` search).
     e.g. `Lunch` will match `Lunch Plan`
 
 Examples:
 
 * `find Lunch`<br>
-  Returns `Lunch Plan` but not `lunch`
+  Returns `Lunch Plan` and `lunch`
 * `find Breakfast Lunch Dinner`<br>
   Returns any task having names `Breakfast`, `Lunch`, or `Dinner`
 
@@ -127,7 +125,23 @@ Examples:
   `delete f2`<br>
   Deletes the 2nd float task in the todolist.
 
-### 2.7. Select a tasks: `select`
+###2.7. Complete a task: `done`
+
+Marks the task as complete and put in under the completed list. <br>
+Format: `done INDEX`
+
+> Mark the task at the specified `INDEX` as complete.<br>
+> The index refers to the index number shown in the most recent listing.<br>
+    The index refers to the index number shown in the last task listing.
+    Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+
+Examples:
+
+* `list`<br>
+  `done d2`<br>
+  Marks the 2nd deadline task in the todolist as complete.
+
+### 2.8. Select a tasks: `select`
 
 Selects the tasks identified by the index number used in the last task listing.<br>
 Format: `select INDEX...`
@@ -143,19 +157,34 @@ Examples:
   `select e2`<br>
   Selects the 2nd event task in the todolist.
 
-### 2.8. Undoing previous command : `undo`
+### 2.9. Undoing previous command : `undo`
 
 Undo previous command
 Format: `undo`
 
-### 2.9. Exiting the program : `exit`
+### 2.10. Clear ToDoList: `clear`
+
+Clear all the tasks in the ToDoList
+Format: `clear`
+
+### 2.11. Exiting the program : `exit`
 
 Exits the program.<br>
 Format: `exit`
 
-### 2.10. Saving the data
+###2.12.1 Specifying saved data location: `save`
 
-Address book data are saved in the hard disk automatically after any command that changes the data.<br>
+Change where the saved data file will be stored in.
+Format: `save FILE_PATH`
+
+Examples:
+
+* `save C:/Users/Computing/Desktop/CS2103`<br>
+  Change the saved data file location to C:/Users/Computing/Desktop/CS2103.
+  
+### 2.12.2 Saving the data
+
+ToDoList data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.
 
 ## 3. FAQ
@@ -169,9 +198,15 @@ There is no need to save manually.
 * **Add**  `add TITLE /venue /from /to /level /description #[TAG]` <br>
   e.g. `add Do Tutorial /venue CLB /from today 3pm /to today 5pm /level 2 /description for week13 #CS2103`
 
+* **Clear** : `clear` <br>
+   e.g.
+   
 * **Delete** : `delete INDEX` <br>
    e.g. `delete f3`
 
+* **Done** : `done INDEX` <br>
+   e.g. `done d3`
+   
 * **Edit** : `edit INDEX [TITLE] [/venue] [/from] [/to] [/level] [/description] [#TAG]...` <br>
 e.g. `edit f7 buy calculator`
 
@@ -190,6 +225,9 @@ e.g.
 * **ListTag** : `listtag` <br>
 e.g.
 
+* **Save** : `save FILE_PATH` <br>
+   e.g. `save C:/Users/Computing/Desktop/CS2103`
+   
 * **Select** : `select INDEX` <br>
   e.g.`select 2`
 

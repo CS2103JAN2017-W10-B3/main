@@ -21,10 +21,12 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException;
     // @@ A0143648Y
     /** Returns the filtered list of tasks */
-    ObservableList<ReadOnlyTask> getFilteredTaskList();
+    ObservableList<ReadOnlyTask> getFilteredDeadlineList();
 
     ObservableList<ReadOnlyTask> getFilteredEventList();
 
     ObservableList<ReadOnlyTask> getFilteredFloatList();
+
+    ObservableList<ReadOnlyTask> getFilteredCompleteList();
 
 }

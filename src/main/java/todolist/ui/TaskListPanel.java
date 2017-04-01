@@ -52,6 +52,11 @@ public class TaskListPanel extends UiPart<Region> {
         });
     }
 
+    //@@ author: A0138628W
+    public ListView<ReadOnlyTask> getListView() {
+        return taskListView;
+    }
+
     public void scrollTo(int index) {
         Platform.runLater(() -> {
             taskListView.scrollTo(index);

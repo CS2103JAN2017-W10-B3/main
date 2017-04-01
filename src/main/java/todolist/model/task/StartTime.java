@@ -57,4 +57,13 @@ public class StartTime implements Time {
         return startTime.toString().hashCode();
     }
 
+    @Override
+    public int compareTo(Time time) {
+        return this.getTimeValue().compareTo(time.getTimeValue());
+    }
+
+    public Boolean isValidDuration(EndTime endTime) {
+        return this.getTimeValue().isBefore(endTime.getTimeValue());
+    }
+
 }

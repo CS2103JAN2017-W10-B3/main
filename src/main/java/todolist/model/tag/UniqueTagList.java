@@ -85,18 +85,6 @@ public class UniqueTagList implements Iterable<Tag> {
         internalList.addAll(source.internalList); // insulate internal list from changes in argument
     }
 
-    public String getTagListToString() {
-        if (this.internalList.isEmpty()) {
-            return NO_TAGS_AVAILABLE_MESSAGE;
-        } else {
-            String display = "Available tags in to-do list: ";
-            for (Tag tag: internalList) {
-                display += tag.toString() + " ";
-            }
-            return display;
-        }
-    }
-
     /**
      * Returns all tags in this list as a Set.
      * This set is mutable and change-insulated against the internal list.
@@ -185,5 +173,15 @@ public class UniqueTagList implements Iterable<Tag> {
             super("Operation would result in duplicate tags");
         }
     }
+
+    // @@ A0110791M
+    public String getTagListToString() {
+        String tagListString = "";
+        for (Tag tag : internalList) {
+            tagListString.concat(tag.toString());
+        }
+        return tagListString;
+    }
+    // @@
 
 }

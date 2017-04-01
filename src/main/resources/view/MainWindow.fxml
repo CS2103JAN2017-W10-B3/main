@@ -26,6 +26,16 @@
             <Menu mnemonicParsing="false" text="Help">
                <items>
                   <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+                  <MenuItem fx:id="resultUp" mnemonicParsing="false" onAction="#handleResultUp" text="Result Display Up" />
+                  <MenuItem fx:id="resultDown" mnemonicParsing="false" onAction="#handleResultDown" text="Result Display Down" />
+                  <MenuItem fx:id="eventUp" mnemonicParsing="false" onAction="#handleEventUp" text="Events Up" />
+                  <MenuItem fx:id="eventDown" mnemonicParsing="false" onAction="#handleEventDown" text="Events Down" />
+                  <MenuItem fx:id="floatingUp" mnemonicParsing="false" onAction="#handleFloatingUp" text="Floating Up" />
+                  <MenuItem fx:id="floatingDown" mnemonicParsing="false" onAction="#handleFloatingDown" text="Floating Down" />
+                  <MenuItem fx:id="deadlineUp" mnemonicParsing="false" onAction="#handleDeadlineUp" text="Deadline Up" />
+                  <MenuItem fx:id="deadlineDown" mnemonicParsing="false" onAction="#handleDeadlineDown" text="Deadline Down" />
+                  <MenuItem fx:id="completeUp" mnemonicParsing="false" onAction="#handleCompleteUp" text="Complete Up" />
+                  <MenuItem fx:id="completeDown" mnemonicParsing="false" onAction="#handleCompleteDown" text="Complete Down" />
                </items>
             </Menu>
          </menus>
@@ -42,7 +52,7 @@
        </AnchorPane>
       <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.5" VBox.vgrow="ALWAYS">
          <items>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+            <VBox prefHeight="200.0" prefWidth="270.0" spacing="5.0">
                 <padding>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                 </padding>
@@ -61,13 +71,23 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox fx:id="taskList" minWidth="340" prefWidth="340">
+            <VBox fx:id="taskList" minWidth="300" prefWidth="300" spacing="5.0">
                 <padding>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                 </padding>
                <children>
-                  <Label styleClass="label-task" text="Tasks" />
-                  <AnchorPane fx:id="taskListPanelPlaceholder" VBox.vgrow="ALWAYS" />
+                  <VBox prefWidth="100.0">
+                     <children>
+                        <Label styleClass="label-deadline" text="Deadline" />
+                        <AnchorPane fx:id="taskListPanelPlaceholder" />
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="100.0">
+                     <children>
+                        <Label styleClass="label-complete" text="Complete" />
+                        <AnchorPane fx:id="completeListPanelPlaceholder" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </items>
