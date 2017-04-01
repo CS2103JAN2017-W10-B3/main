@@ -37,8 +37,8 @@ public class EditCommandParser {
      */
     public Command parse(String args) {
         assert args != null;
-        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE,PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_ENDTIME,
-                PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
+        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE, PREFIX_VENUE, PREFIX_STARTTIME,
+                PREFIX_ENDTIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
         List<Optional<String>> preambleFields = ParserUtil.splitPreamble(argsTokenizer.getPreamble().orElse(""), 1);
         Optional<ArrayList<TaskIndex>> indexes = preambleFields.get(0).flatMap(ParserUtil::parseIndex);
