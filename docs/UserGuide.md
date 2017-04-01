@@ -181,7 +181,7 @@ Examples:
 
 * `save C:/Users/Computing/Desktop/CS2103`<br>
   Change the saved data file location to C:/Users/Computing/Desktop/CS2103.
-  
+
 ### 2.12.2 Saving the data
 
 ToDoList data are saved in the hard disk automatically after any command that changes the data.<br>
@@ -200,13 +200,13 @@ There is no need to save manually.
 
 * **Clear** : `clear` <br>
    e.g.
-   
+
 * **Delete** : `delete INDEX` <br>
    e.g. `delete f3`
 
 * **Done** : `done INDEX` <br>
    e.g. `done d3`
-   
+
 * **Edit** : `edit INDEX [TITLE] [/venue] [/from] [/to] [/level] [/description] [#TAG]...` <br>
 e.g. `edit f7 buy calculator`
 
@@ -227,7 +227,7 @@ e.g.
 
 * **Save** : `save FILE_PATH` <br>
    e.g. `save C:/Users/Computing/Desktop/CS2103`
-   
+
 * **Select** : `select INDEX` <br>
   e.g.`select 2`
 
