@@ -1,7 +1,5 @@
 package todolist.logic.commands;
 
-import java.util.ArrayList;
-
 import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;

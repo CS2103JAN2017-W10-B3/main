@@ -2,10 +2,10 @@ package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static todolist.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
-import static todolist.logic.parser.CliSyntax.PREFIX_TITLE;
 import static todolist.logic.parser.CliSyntax.PREFIX_ENDTIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_STARTTIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_TAG;
+import static todolist.logic.parser.CliSyntax.PREFIX_TITLE;
 import static todolist.logic.parser.CliSyntax.PREFIX_URGENCYLEVEL;
 import static todolist.logic.parser.CliSyntax.PREFIX_VENUE;
 
@@ -45,7 +45,8 @@ public class EditCommandParser {
         if (!indexes.isPresent()) {
             indexes = EditCommandParser.indexes;
             if (!indexes.isPresent()) {
-                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+                return new IncorrectCommand(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
             }
         }
         // @@

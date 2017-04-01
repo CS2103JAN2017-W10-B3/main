@@ -2,7 +2,6 @@ package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import todolist.logic.commands.Command;

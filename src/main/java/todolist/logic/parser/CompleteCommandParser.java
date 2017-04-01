@@ -27,7 +27,8 @@ public class CompleteCommandParser {
         if (!indexes.isPresent()) {
             indexes = CompleteCommandParser.indexes;
             if (!indexes.isPresent()) {
-                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, CompleteCommand.MESSAGE_USAGE));
+                return new IncorrectCommand(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, CompleteCommand.MESSAGE_USAGE));
             }
         }
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import todolist.commons.core.Messages;
-import todolist.commons.core.UnmodifiableObservableList;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
