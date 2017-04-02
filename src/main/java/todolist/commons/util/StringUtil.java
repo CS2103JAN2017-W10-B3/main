@@ -12,6 +12,7 @@ import java.util.List;
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 
 import todolist.commons.exceptions.IllegalValueException;
+import todolist.model.task.Time;
 
 /**
  * Helper functions for handling strings.
@@ -21,11 +22,7 @@ public class StringUtil {
     public static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT);
     private static final int DEADLINE_INDEX = 0;
-    public static final String TIME_CONSTRAINTS = "Task time should be in the form of DD/MM/YYYY HH:MM, "
-            + "e.g 20/03/2017 4:18 \n"
-            + "Or name of the day, e.g Wed 4:18 \n"
-            + "Or relative days, e.g tomorrow 4:18 \n"
-            + "Notice that no abbreviation is accepted for relatives. e.g tmrw is invalid.";
+    
     /**
      * Returns true if the {@code sentence} contains the {@code word}.
      *   Ignores case, but a full word match is required.
@@ -73,11 +70,12 @@ public class StringUtil {
     public static boolean isUnsignedInteger(String s) {
         return s != null && s.matches("^0*[1-9]\\d*$");
     }
+    
     //@@author A0122017Y
     public static LocalDateTime parseStringToTime(String timeArg) throws IllegalValueException {
         //empty start date
         if (timeArg == null) {
-            throw new IllegalValueException(TIME_CONSTRAINTS);
+            throw new IllegalValueException(Time.MESSAGE_TIME_CONSTRAINTS);
         }
 
         PrettyTimeParser timeParser = new PrettyTimeParser();
@@ -85,7 +83,7 @@ public class StringUtil {
 
         //cannot parse
         if (parsedResult.isEmpty()) {
-            throw new IllegalValueException(TIME_CONSTRAINTS);
+            throw new IllegalValueException(Time.MESSAGE_TIME_CONSTRAINTS);
         }
 
         //wrap in LocalDateTime class
