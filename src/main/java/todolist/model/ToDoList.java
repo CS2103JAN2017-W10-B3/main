@@ -19,7 +19,7 @@ import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.DuplicateTaskException;
 
 /**
- * Wraps all data at the address-book level
+ * Wraps all data at the to-do list level
  * Duplicates are not allowed (by .equals comparison)
  */
 public class ToDoList implements ReadOnlyToDoList {
