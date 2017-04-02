@@ -24,7 +24,7 @@ import todolist.commons.core.EventsCenter;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
-import todolist.logic.commands.AddCommand;
+import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.ClearCommand;
 import todolist.logic.commands.CommandResult;
 import todolist.logic.commands.DeleteCommand;
@@ -57,26 +57,26 @@ public class LogicManagerTest {
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
 
-    private Model model;
-    private Logic logic;
+    protected Model model;
+    protected Logic logic;
 
     // These are for checking the correctness of the events raised
-    private ReadOnlyToDoList latestSavedToDoList;
-    private boolean helpShown;
-    private int targetedJumpIndex;
+    protected ReadOnlyToDoList latestSavedToDoList;
+    protected boolean helpShown;
+    protected int targetedJumpIndex;
 
     @Subscribe
-    private void handleLocalModelChangedEvent(ToDoListChangedEvent abce) {
+    protected void handleLocalModelChangedEvent(ToDoListChangedEvent abce) {
         latestSavedToDoList = new ToDoList(abce.data);
     }
 
     @Subscribe
-    private void handleShowHelpRequestEvent(ShowHelpRequestEvent she) {
+    protected void handleShowHelpRequestEvent(ShowHelpRequestEvent she) {
         helpShown = true;
     }
 
     @Subscribe
-    private void handleJumpToListRequestEvent(JumpToListRequestEvent je) {
+    protected void handleJumpToListRequestEvent(JumpToListRequestEvent je) {
         targetedJumpIndex = je.targetIndex.getTaskNumber();
     }
 
@@ -116,7 +116,7 @@ public class LogicManagerTest {
      * @see #assertCommandBehavior(boolean, String, String, ReadOnlyToDoList,
      *      List)
      */
-    private void assertCommandSuccess(String inputCommand, String expectedMessage,
+    protected void assertCommandSuccess(String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
             List<? extends ReadOnlyTask> expectedShownList) {
         assertCommandBehavior(false, inputCommand, expectedMessage, expectedToDoList, expectedShownList);
@@ -131,7 +131,7 @@ public class LogicManagerTest {
      * @see #assertCommandBehavior(boolean, String, String, ReadOnlyToDoList,
      *      List)
      */
-    private void assertCommandFailure(String inputCommand, String expectedMessage) {
+    protected void assertCommandFailure(String inputCommand, String expectedMessage) {
         ToDoList expectedToDoList = new ToDoList(model.getToDoList());
         List<ReadOnlyTask> expectedShownList = new ArrayList<>(model.getFilteredDeadlineList());
         assertCommandBehavior(true, inputCommand, expectedMessage, expectedToDoList, expectedShownList);
@@ -147,7 +147,7 @@ public class LogicManagerTest {
      * - the backing list shown by UI matches the {@code shownList} <br>
      * - {@code expectedToDoList} was saved to the storage file. <br>
      */
-    private void assertCommandBehavior(boolean isCommandExceptionExpected, String inputCommand, String expectedMessage,
+    protected void assertCommandBehavior(boolean isCommandExceptionExpected, String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
             List<? extends ReadOnlyTask> expectedShownList) {
 
@@ -161,7 +161,7 @@ public class LogicManagerTest {
         }
 
         // Confirm the ui display elements should contain the right data
-        assertEquals(expectedShownList, model.getFilteredDeadlineList());
+        assertEquals(expectedShownList, model.getAllTaskList());
 
         // Confirm the state of data (saved and in-memory) is as expected
         assertEquals(expectedToDoList, model.getToDoList());
@@ -196,58 +196,7 @@ public class LogicManagerTest {
         assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS, new ToDoList(), Collections.emptyList());
     }
 
-    @Test
-    public void execute_add_invalidArgsFormat() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
-        //assertCommandFailure("add wrong args wrong args", expectedMessage);
-        //assertCommandFailure("add Valid Title 12345 e/valid@email.butNoVenuePrefix a/valid,address", expectedMessage);
-        //assertCommandFailure("add Valid Title p/12345 valid@email.butNoPrefix a/valid, address", expectedMessage);
-        //assertCommandFailure("add Valid Title p/12345 e/valid@email.butNoEndTimePrefix valid, address",
-        //        expectedMessage);
-    }
 
-    @Test
-    public void execute_add_invalidTaskData() {
-//        assertCommandFailure("add []\\[;] v/12345 s/valid@e.mail e/valid, address",
-//                Title.MESSAGE_TITLE_CONSTRAINTS);
-//        assertCommandFailure("add Valid Title v/not_numbers s/valid@e.mail e/valid, address",
-//                Venue.MESSAGE_VENUE_CONSTRAINTS);
-//        assertCommandFailure("add Valid Title v/12345 s/notAnStartTime e/valid, address",
-//                StartTime.MESSAGE_STARTTIME_CONSTRAINTS);
-//        assertCommandFailure("add Valid Title v/12345 s/valid@e.mail e/valid, address t/invalid_-[.tag",
-//                Tag.MESSAGE_TAG_CONSTRAINTS);
-
-    }
-
-    @Test
-    public void execute_add_successful() throws Exception {
-        // setup expectations
-        TestDataHelper helper = new TestDataHelper();
-        Task toBeAdded = helper.cs2103();
-        ToDoList expectedAB = new ToDoList();
-        expectedAB.addTask(toBeAdded);
-
-        // execute command and verify result
-//        assertCommandSuccess(helper.generateAddCommand(toBeAdded),
-//                String.format(AddCommand.MESSAGE_SUCCESS, toBeAdded),
-//                expectedAB,
-//                expectedAB.getTaskList());
-
-    }
-
-    @Test
-    public void execute_addDuplicate_notAllowed() throws Exception {
-        // setup expectations
-        TestDataHelper helper = new TestDataHelper();
-        Task toBeAdded = helper.cs2103();
-
-        // setup starting state
-        model.addTask(toBeAdded); // task already in internal address book
-
-        // execute command and verify result
-        assertCommandFailure(helper.generateAddCommand(toBeAdded), AddCommand.MESSAGE_DUPLICATE_TASK);
-
-    }
 
     @Test
     public void execute_list_showsAllTasks() throws Exception {
@@ -256,7 +205,7 @@ public class LogicManagerTest {
         ToDoList expectedAB = helper.generateToDoList(2);
         List<? extends ReadOnlyTask> expectedList = expectedAB.getTaskList();
 
-        // prepare address book state
+        // prepare to-do list state
         helper.addToModel(model, 2);
 
 //        assertCommandSuccess("list",
@@ -434,19 +383,54 @@ public class LogicManagerTest {
      * A utility class to generate test data.
      */
     class TestDataHelper {
+        
+        Title name;
+        Venue privateVenue;
+        StartTime privateStartTime;
+        EndTime privateEndTime;
+        UrgencyLevel privateUrgencyLevel;
+        Description privateDescription;
+        UniqueTagList tags;
+        
+        public TestDataHelper() throws IllegalValueException {
+            name = new Title("CS2103");
+            privateVenue = new Venue("COM1 B103");
+            privateStartTime = new StartTime("Tuesday 11am");
+            privateEndTime = new EndTime("Wednesday 11am");
+            privateUrgencyLevel = new UrgencyLevel("3");
+            privateDescription = new Description("I love 2103!!!");
+            tags = new UniqueTagList(new Tag("tag1"), new Tag("longertag2"));
+        }
 
         Task cs2103() throws Exception {
-            Title name = new Title("CS2103 Tutorial");
-            Venue privateVenue = new Venue("COM1 B103");
-            StartTime privateStartTime = new StartTime("Wed 10am");
-            EndTime privateEndTime = new EndTime("Wednesday 11am");
-            UrgencyLevel privateUrgencyLevel = new UrgencyLevel("3");
-            Description privateDescription = new Description("I love 2103!!!");
-            Tag tag1 = new Tag("tag1");
-            Tag tag2 = new Tag("longertag2");
-            UniqueTagList tags = new UniqueTagList(tag1, tag2);
+            return new Task(name, privateVenue, null, privateEndTime,
+                    privateUrgencyLevel, privateDescription, tags);
+        }
+        
+        Task cs2103Deadline() throws Exception {
+            name = new Title("CS2103 Deadline");
+            return new Task(name, privateVenue, null, privateEndTime,
+                    privateUrgencyLevel, privateDescription, tags);
+        }
+        
+        Task cs2103Event() throws Exception {
+            name = new Title("CS2103 Event");
             return new Task(name, privateVenue, privateStartTime, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
+        }
+        
+        Task cs2103Float() throws Exception {
+            name = new Title("CS2103 Float");
+            return new Task(name, privateVenue, null, null,
+                    privateUrgencyLevel, privateDescription, tags);
+        }
+        
+        Task cs2103Complete() throws Exception {
+            name = new Title("CS2103 Complete");
+            Task newTask = new Task(name, privateVenue, privateStartTime, privateEndTime,
+                    privateUrgencyLevel, privateDescription, tags);
+            newTask.toggleComplete();
+            return newTask;
         }
 
         /**
