@@ -9,9 +9,11 @@ import todolist.commons.exceptions.IllegalValueException;
  */
 public class Venue implements Comparable<Venue> {
 
+    public static final String VENUE_VALIDATION_REGEX = "^\\w+(.+)?";
+    
     public static final String MESSAGE_VENUE_CONSTRAINTS =
-            "Task venues should only be 1 alphanumeric strings";
-    public static final String VENUE_VALIDATION_REGEX = ".+";
+            "Task venues should only contain alphanumeric characters and spaces, and it should not be blank";
+
 
     private final String value;
 
