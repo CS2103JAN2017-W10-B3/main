@@ -5,7 +5,7 @@ import javafx.util.Pair;
 import todolist.model.task.ReadOnlyTask.Category;
 
 public class TaskIndex {
-
+    
     private Character taskChar;
     private Integer taskNumber;
 
@@ -40,4 +40,14 @@ public class TaskIndex {
         }
         return null;
     }
+    
+    public Pair<Character, Integer> toPair() {
+        return new Pair(taskChar, taskNumber);
+    }
+    
+    @Override
+    public String toString() {
+        return taskChar.toString() + taskNumber.toString();
+    }
+    
 }
