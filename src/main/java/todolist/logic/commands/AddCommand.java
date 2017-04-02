@@ -1,12 +1,11 @@
 package todolist.logic.commands;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import todolist.commons.core.EventsCenter;
-import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
@@ -21,6 +20,7 @@ import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.StartTime;
 import todolist.model.task.Task;
 import todolist.model.task.TaskIndex;
+import todolist.model.task.Time;
 import todolist.model.task.Title;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UrgencyLevel;
@@ -56,7 +56,7 @@ public class AddCommand extends UndoableCommand {
     public AddCommand(String title, Optional<String> venue, Optional<String> starttime, Optional<String> endtime,
             Optional<String> deadline, Optional<String> urgencyLevel, Optional<String> description, Set<String> tags)
             throws IllegalValueException {
-        final Set<Tag> tagSet = new HashSet<>();
+        final List<Tag> tagSet = new ArrayList<>();
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
@@ -102,7 +102,7 @@ public class AddCommand extends UndoableCommand {
 
     private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
         if (!tempStartTime.isValidDuration(tempEndTime)) {
-            throw new IllegalValueException(Messages.MESSAGE_INVALID_DURATION);
+            throw new IllegalValueException(Time.MESSAGE_INVALID_DURATION);
         }
     }
 
