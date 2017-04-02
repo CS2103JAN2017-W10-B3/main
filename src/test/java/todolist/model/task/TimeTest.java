@@ -5,13 +5,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import todolist.commons.exceptions.IllegalValueException;
+
 public class TimeTest {
 
     @Test
-    public void isValidEndTime() {
+    public void isValidTime() {
         // blank EndTime
         assertFalse(Time.isValidTime("")); // empty string
-        //assertFalse(EndTime.isValidEndTime(" ")); // spaces only
+        
+        
 
         // valid Time
         assertTrue(Time.isValidTime("March Fifteenth")); //alphabets
@@ -24,4 +27,18 @@ public class TimeTest {
                                                                // and comma
                                                                // characters
     }
+    
+    @Test
+    public void isValidDuration() throws IllegalValueException {
+        StartTime start1 = new StartTime("Today");
+        StartTime start3 = new StartTime("Tomorrow");
+        
+        EndTime end1 = new EndTime("Tomorrow");
+        EndTime end2 = new EndTime("Today");
+        EndTime end3 = new EndTime("Two weeks later");
+        
+        assertTrue(start1.isValidDuration(end1));
+        assertFalse(start3.isValidDuration(end2));
+    }
+    
 }
