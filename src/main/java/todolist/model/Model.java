@@ -50,6 +50,8 @@ public interface Model {
     UnmodifiableObservableList<ReadOnlyTask> getFilteredEventList();
 
     UnmodifiableObservableList<ReadOnlyTask> getFilteredFloatList();
+    
+    UnmodifiableObservableList<ReadOnlyTask> getAllTaskList();
 
     UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type);
 
@@ -71,7 +73,6 @@ public interface Model {
     void updateFilteredTaskListToShowWithTag(Set<String> keywordSet);
 
     void completeTask(ReadOnlyTask taskToComplete);
-
 
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
 
