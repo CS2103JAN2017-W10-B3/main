@@ -28,7 +28,7 @@ public class EndTime implements Time {
         try {
             this.endTime = StringUtil.parseStringToTime(endTimeArg);
         } catch (IllegalValueException e) {
-            throw new IllegalValueException(StringUtil.TIME_CONSTRAINTS);
+            throw new IllegalValueException(MESSAGE_TIME_CONSTRAINTS);
         }
     }
 
