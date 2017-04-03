@@ -27,7 +27,6 @@ import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.ClearCommand;
 import todolist.logic.commands.CommandResult;
-import todolist.logic.commands.DeleteCommand;
 import todolist.logic.commands.ExitCommand;
 import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
@@ -224,18 +223,12 @@ public class LogicManagerTest {
      *            list
      *            based on visible index.
      */
-    private void assertIncorrectIndexFormatBehaviorForCommand(String commandWord, String expectedMessage)
+    protected void assertIncorrectIndexFormatBehaviorForCommand(String commandWord, String expectedMessage)
             throws Exception {
         assertCommandFailure(commandWord, expectedMessage); // index missing
-        assertCommandFailure(commandWord + " +1", expectedMessage); // index
-                                                                    // should be
-                                                                    // unsigned
-        assertCommandFailure(commandWord + " -1", expectedMessage); // index
-                                                                    // should be
-                                                                    // unsigned
-        assertCommandFailure(commandWord + " 0", expectedMessage); // index
-                                                                   // cannot be
-                                                                   // 0
+        assertCommandFailure(commandWord + " +1", expectedMessage); // index should be unsigned
+        assertCommandFailure(commandWord + " -1", expectedMessage); // index should be unsigned
+        assertCommandFailure(commandWord + " 0", expectedMessage); // index cannot be 0
         assertCommandFailure(commandWord + " not_a_number", expectedMessage);
     }
 
@@ -249,7 +242,7 @@ public class LogicManagerTest {
      *            list
      *            based on visible index.
      */
-    private void assertIndexNotFoundBehaviorForCommand(String commandWord) throws Exception {
+    protected void assertIndexNotFoundBehaviorForCommand(String commandWord) throws Exception {
         String expectedMessage = MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
         TestDataHelper helper = new TestDataHelper();
         List<Task> taskList = helper.generateTaskList(2);
@@ -282,38 +275,12 @@ public class LogicManagerTest {
         ToDoList expectedAB = helper.generateToDoList(threeTasks);
         helper.addToModel(model, threeTasks);
 
-//        assertCommandSuccess("select f2",
-//                String.format(SelectCommand.MESSAGE_SELECT_TASK_SUCCESS, 2),
-//                expectedAB,
-//                expectedAB.getTaskList());
-        //assertEquals(1, targetedJumpIndex);
-        //assertEquals(model.getFilteredDeadlineList().get(1), threeTasks.get(1));
-    }
-
-    @Test
-    public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
-        //assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessage);
-    }
-
-    @Test
-    public void execute_deleteIndexNotFound_errorMessageShown() throws Exception {
-        assertIndexNotFoundBehaviorForCommand("delete");
-    }
-
-    @Test
-    public void execute_delete_removesCorrectTask() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        List<Task> threeTasks = helper.generateTaskList(3);
-
-        ToDoList expectedAB = helper.generateToDoList(threeTasks);
-        expectedAB.removeTask(threeTasks.get(1));
-        helper.addToModel(model, threeTasks);
-
-//        //assertCommandSuccess("delete e2",
-//                String.format(DeleteCommand.MESSAGE_DELETE_TASK_SUCCESS, threeTasks.get(1)),
-//                expectedAB,
-//                expectedAB.getTaskList());
+        assertCommandSuccess("select f2",
+                String.format(SelectCommand.MESSAGE_SELECT_TASK_SUCCESS, 2),
+                expectedAB,
+                expectedAB.getTaskList(), Task.ALL_CHAR);
+        assertEquals(1, targetedJumpIndex);
+        assertEquals(model.getFilteredDeadlineList().get(1), threeTasks.get(1));
     }
 
     @Test
@@ -479,24 +446,24 @@ public class LogicManagerTest {
          * Generates an ToDoList with auto-generated tasks.
          */
         ToDoList generateToDoList(int numGenerated) throws Exception {
-            ToDoList addressBook = new ToDoList();
-            addToToDoList(addressBook, numGenerated);
-            return addressBook;
+            ToDoList todoList = new ToDoList();
+            addToToDoList(todoList, numGenerated);
+            return todoList;
         }
 
         /**
          * Generates an ToDoList based on the list of Tasks given.
          */
         ToDoList generateToDoList(List<Task> tasks) throws Exception {
-            ToDoList addressBook = new ToDoList();
-            addToToDoList(addressBook, tasks);
-            return addressBook;
+            ToDoList todoList = new ToDoList();
+            addToToDoList(todoList, tasks);
+            return todoList;
         }
 
         /**
          * Adds auto-generated Task objects to the given ToDoList
          *
-         * @param addressBook
+         * @param toDoList
          *            The ToDoList to which the Tasks will be added
          */
         void addToToDoList(ToDoList toDoList, int numGenerated) throws Exception {
@@ -507,8 +474,8 @@ public class LogicManagerTest {
          * Adds the given list of Tasks to the given ToDoList
          */
         void addToToDoList(ToDoList toDoList, List<Task> tasksToAdd) throws Exception {
-            for (Task p : tasksToAdd) {
-                toDoList.addTask(p);
+            for (Task t : tasksToAdd) {
+                toDoList.addTask(t);
             }
         }
 
