@@ -8,15 +8,16 @@ import java.util.logging.Level;
  */
 public class Config {
 
+    public static final String DEFAULT_TODOLIST_FILEPATH = "data/todolist.xml";
     public static final String DEFAULT_CONFIG_FILE = "config.json";
 
     // Config values customizable through config file
     private String appTitle = "To-Do List App";
     private Level logLevel = Level.INFO;
     private static String userPrefsFilePath = "preferences.json";
-    private static String todoListFilePath = "data/todolist.xml";
-    private String todoListName = "MyToDoList";
 
+    private static String todoListFilePath = DEFAULT_TODOLIST_FILEPATH;
+    private String todoListName = "MyToDoList";
 
     public String getAppTitle() {
         return appTitle;

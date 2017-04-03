@@ -16,6 +16,7 @@ import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.storage.DirectoryChangedEvent;
 import todolist.commons.exceptions.DataConversionException;
 import todolist.commons.util.CollectionUtil;
+import todolist.commons.util.FileUtil;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
@@ -83,10 +84,22 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     // @@author A0110791M
-    /** Raises an event to indicate the user requests a new directory */
+    /** Changes the directory to the filePath specified and updates the current todoList to match the destination */
     @Override
-    public void indicateDirectoryChanged(String directoryPath) {
-        raise(new DirectoryChangedEvent(directoryPath));
+    public void changeDirectory (String filePath) throws IOException {
+        FileUtil.createIfMissing(new File(filePath));
+        try {
+            ReadOnlyToDoList targetList = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
+            indicateDirectoryChanged(filePath);
+            resetData(targetList);
+        } catch (DataConversionException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
+    /** Raises an event to indicate the user requests a new directory */
+    private void indicateDirectoryChanged (String filePath) {
+        raise(new DirectoryChangedEvent(filePath));
     }
 
     /** Imports all tasks from given filePath */

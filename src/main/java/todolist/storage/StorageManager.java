@@ -95,8 +95,9 @@ public class StorageManager extends ComponentManager implements Storage {
     @Subscribe
     public void handleDirectoryChangedEvent(DirectoryChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Attempting to change directory."));
-        String filePath = event.targetDirectory.concat("\\").concat(Config.getToDoListFilePath());
+        String filePath = event.targetDirectory;
         todoListStorage = new XmlToDoListStorage(filePath);
+        Config.setToDoListFilePath(filePath);
     }
 
 }

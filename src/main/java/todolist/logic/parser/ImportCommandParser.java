@@ -2,6 +2,7 @@ package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.io.File;
 import java.util.regex.Matcher;
 
 import todolist.logic.commands.Command;
@@ -26,7 +27,11 @@ public class ImportCommandParser {
             filePath = filePath.concat(".xml");
         }
 
-        return new ImportCommand(filePath);
+        if (new File(filePath).exists()) {
+            return new ImportCommand(filePath);
+        } else {
+            return new IncorrectCommand("File does not exist.");
+        }
     }
 
 }

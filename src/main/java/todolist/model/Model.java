@@ -5,7 +5,6 @@ import java.util.Set;
 
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.exceptions.DataConversionException;
-import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
@@ -34,7 +33,7 @@ public interface Model {
     /** Imports all tasks from given file location
      * @throws IOException
      * @throws DataConversionException */
-    void importTasks(String filePath) throws CommandException, DataConversionException, IOException;
+    void importTasks(String filePath) throws DataConversionException, IOException;
     //@@
 
     /**
@@ -86,6 +85,6 @@ public interface Model {
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
 
     //@@author A0110791M
-    void indicateDirectoryChanged(String directoryPath);
+    void changeDirectory(String filePath) throws IOException;
 
 }
