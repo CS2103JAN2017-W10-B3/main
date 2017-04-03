@@ -22,16 +22,14 @@ public class SaveCommand extends Command {
 
     public static final String COMMAND_WORD = "save";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + "\n" + "Saves data file to new location specified. "
-            + "New folders with the file can be auto-created as long as given directory is valid.\n"
-            + "Main Directory will the dafault save location for any valid but unspecifed file path\n" + "Example: "
-            + COMMAND_WORD + " C: /Users/Computin/Desktop/CS2103" + "Take note: No spacing after :\n"
-            + "Parameters: FILEPATH (must be valid)\n" + "Example: " + COMMAND_WORD
-            + " C:/Users/Computing/Desktop/CS2103";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Saves data file to new location specified. "
+            + "New folders with the file can be auto-created as long as given directory or file path is valid.\n"
+            + "Main directory will be the default save location for any valid but unspecifed file path\n"
+            + "Example: " + COMMAND_WORD + " C:/Users/Computing/Desktop/CS2103";
 
     private static final String MESSAGE_SUCCESS = "Data successfully saved to new location.";
-    private static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. Filepath will be reset to old path."
-            + "\n\n" + MESSAGE_USAGE;
+    private static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. Filepath will be reset to old path.\n"
+            + MESSAGE_USAGE;
 
     // private static Config config;
     private String newStorageFilePath, oldStorageFilePath;
@@ -42,7 +40,7 @@ public class SaveCommand extends Command {
         this.oldStorageFilePath = Config.getToDoListFilePath();
         logger.info("Old file path: " + oldStorageFilePath);
 
-        this.newStorageFilePath = newStorageFilePath.trim().replace("\\", "/") + "/todolist.xml";
+        this.newStorageFilePath = newStorageFilePath;
         logger.info("New file path: " + this.newStorageFilePath);
 
         setStorage(new StorageManager(Config.getToDoListFilePath(), Config.getUserPrefsFilePath()));

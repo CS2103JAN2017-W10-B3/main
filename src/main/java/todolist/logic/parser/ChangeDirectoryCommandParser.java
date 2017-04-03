@@ -34,7 +34,7 @@ public class ChangeDirectoryCommandParser {
         File file = new File(commandString);
 
         if (file.isDirectory()) {
-            filePath = commandString.concat("\\").concat(Config.DEFAULT_TODOLIST_FILEPATH);
+            filePath = commandString.concat("\\").concat(Config.DEFAULT_TODOLIST_FILENAME);
         } else if (!commandString.endsWith(".xml")) {
             filePath = commandString.concat(".xml");
         } else {
