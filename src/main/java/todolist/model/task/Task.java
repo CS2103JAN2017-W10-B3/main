@@ -15,6 +15,8 @@ public class Task implements ReadOnlyTask {
     public static final char FLOAT_CHAR = 'f';
     public static final char DEADLINE_CHAR = 'd';
     public static final char EVENT_CHAR = 'e';
+    public static final char COMPLETE_CHAR = 'c';
+    public static final char ALL_CHAR = 'a';
 
     private Title title;
     private Venue venue;
@@ -62,15 +64,24 @@ public class Task implements ReadOnlyTask {
                 source.getDescription().orElse(null),
                 source.getTags());
     }
-
+    
+    /**
+     * Sort the task to be a deadline task if it has only the end time.
+     */
     private boolean isDeadlineTask() {
         return this.endTime != null && startTime == null;
     }
 
+    /**
+     * Sort the task to be an event task if it has both the start time and end time
+     */
     private boolean isEventTask() {
         return this.endTime != null && startTime != null;
     }
-
+    
+    /**
+     * Sort the task to be a floating task if it has neither start or end time, or only the start time
+     */
     private boolean isFloatingTask() {
         return this.endTime == null;
     }
