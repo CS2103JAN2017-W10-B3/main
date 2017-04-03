@@ -23,14 +23,11 @@ public class DeleteCommandParser {
      * DeleteCommand and returns an DeleteCommand object for execution.
      */
     public Command parse(String args) {
-        Optional<ArrayList<TaskIndex>> indexes = ParserUtil.parseIndex(args);
-        if (!indexes.isPresent()) {
-            indexes = DeleteCommandParser.indexes;
-            if (!indexes.isPresent()) {
-                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
-            }
+        Optional<ArrayList<TaskIndex>> parseIndexes = ParserUtil.parseIndex(args);
+        if (!parseIndexes.isPresent()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
-        return new DeleteCommand(indexes.get());
+        return new DeleteCommand(parseIndexes.get());
     }
 
     public static void setIndex(ArrayList<TaskIndex> indexes) {
