@@ -1,5 +1,6 @@
 package todolist.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
@@ -9,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import todolist.commons.core.ComponentManager;
-import todolist.commons.core.Config;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.model.ToDoListChangedEvent;
@@ -23,8 +23,7 @@ import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
 import todolist.model.util.SampleDataUtil;
 import todolist.model.util.Status;
-import todolist.storage.Storage;
-import todolist.storage.StorageManager;
+import todolist.storage.XmlFileStorage;
 
 /**
  * Represents the in-memory model of the to-do list data. All changes to any
@@ -93,11 +92,11 @@ public class ModelManager extends ComponentManager implements Model {
     /** Imports all tasks from given filePath */
     @Override
     public void importTasks(String filePath) {
-        Storage sourceStorage = new StorageManager(filePath, Config.getUserPrefsFilePath());
         Optional<ReadOnlyToDoList> todoListOptional;
         ReadOnlyToDoList initialData;
+
         try {
-            todoListOptional = sourceStorage.readToDoList();
+            todoListOptional = Optional.of(XmlFileStorage.loadDataFromSaveFile(new File(filePath)));
             if (!todoListOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample ToDoList");
             }
@@ -110,7 +109,8 @@ public class ModelManager extends ComponentManager implements Model {
             initialData = new ToDoList();
         }
         addImportedTasks(initialData);
-        raise(new ToDoListChangedEvent(todoList));
+
+        indicateToDoListChanged();
     }
 
     private void addImportedTasks (ReadOnlyToDoList importedList) {
@@ -128,7 +128,7 @@ public class ModelManager extends ComponentManager implements Model {
         Task task;
         task = new Task(readOnlyTask.getTitle(), readOnlyTask.getVenue().orElse(null), readOnlyTask.getStartTime().orElse(null),
                 readOnlyTask.getEndTime().orElse(null), readOnlyTask.getUrgencyLevel().orElse(null),
-                readOnlyTask.getDescription().orElse(null), null);
+                readOnlyTask.getDescription().orElse(null), readOnlyTask.getTags());
         todoList.addTask(task);
     }
     //@@

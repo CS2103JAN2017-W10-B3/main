@@ -22,7 +22,7 @@ import todolist.logic.commands.SaveCommand;
  */
 public class SaveCommandParser {
 
-    private static final Pattern SAVE_ARGS_FORMAT = Pattern.compile("(?<arguments>.*)");
+    public static final Pattern SAVE_ARGS_FORMAT = Pattern.compile("(?<arguments>.*)");
 
     public SaveCommandParser() {
     }

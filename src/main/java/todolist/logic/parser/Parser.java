@@ -16,6 +16,7 @@ import todolist.logic.commands.EditCommand;
 import todolist.logic.commands.ExitCommand;
 import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
+import todolist.logic.commands.ImportCommand;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.ListCommand;
 import todolist.logic.commands.ListTagCommand;
@@ -94,6 +95,9 @@ public class Parser {
 
         case ChangeDirectoryCommand.COMMAND_WORD:
             return new ChangeDirectoryCommandParser().parse(arguments);
+
+        case ImportCommand.COMMAND_WORD:
+            return new ImportCommandParser().parse(arguments);
 
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);

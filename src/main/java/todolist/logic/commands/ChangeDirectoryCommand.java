@@ -8,6 +8,8 @@ public class ChangeDirectoryCommand extends Command {
     public static final String COMMAND_WORD = "changedir";
     public static final String MESSAGE_SUCCESS = "Directory changed to: ";
 
+    public static final String MESSAGE_USAGE = COMMAND_WORD;
+
     private String targetDirectory;
 
     public ChangeDirectoryCommand(String targetDirectoryPath) {
