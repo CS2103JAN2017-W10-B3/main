@@ -59,6 +59,12 @@ public class MainWindow extends UiPart<Region> {
     private MenuItem resultDown;
 
     @FXML
+    private MenuItem resultLeft;
+
+    @FXML
+    private MenuItem resultRight;
+
+    @FXML
     private MenuItem eventUp;
 
     @FXML
@@ -120,6 +126,8 @@ public class MainWindow extends UiPart<Region> {
         //@@ author: A0138628W
         setAccelerator(resultUp, KeyCombination.valueOf("CTRL+SHIFT+R"));
         setAccelerator(resultDown, KeyCombination.valueOf("CTRL+ALT+R"));
+        setAccelerator(resultLeft, KeyCombination.valueOf("SHIFT+ALT+L"));
+        setAccelerator(resultRight, KeyCombination.valueOf("SHIFT+ALT+R"));
         setAccelerator(eventUp, KeyCombination.valueOf("CTRL+SHIFT+E"));
         setAccelerator(eventDown, KeyCombination.valueOf("CTRL+ALT+E"));
         setAccelerator(floatingUp, KeyCombination.valueOf("CTRL+SHIFT+F"));
@@ -264,6 +272,26 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     public void handleResultDown() {
         scroll.getTextVerticalScrollbar(resultDisplay.getResultDisplayArea());
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMax()) {
+                scroll.scrollIncrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleResultLeft() {
+        scroll.getTextHorizontalScrollbar(resultDisplay.getResultDisplayArea());
+        if (scroll.isAvailable()) {
+            if (scroll.getCurrentValue() != scroll.getMin()) {
+                scroll.scrollDecrease();
+            }
+        }
+    }
+
+    @FXML
+    public void handleResultRight() {
+        scroll.getTextHorizontalScrollbar(resultDisplay.getResultDisplayArea());
         if (scroll.isAvailable()) {
             if (scroll.getCurrentValue() != scroll.getMax()) {
                 scroll.scrollIncrease();
