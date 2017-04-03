@@ -25,12 +25,9 @@ import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
-import todolist.logic.commands.ClearCommand;
 import todolist.logic.commands.CommandResult;
 import todolist.logic.commands.ExitCommand;
-import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
-import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.Model;
 import todolist.model.ModelManager;
@@ -186,18 +183,6 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_clear() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        model.addTask(helper.generateTask(1));
-        model.addTask(helper.generateTask(2));
-        model.addTask(helper.generateTask(3));
-
-        assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS, new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
-    }
-
-
-
-    @Test
     public void execute_list_showsAllTasks() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
@@ -256,96 +241,6 @@ public class LogicManagerTest {
         assertCommandFailure(commandWord + " 3", expectedMessage);
     }
 
-    @Test
-    public void execute_selectInvalidArgsFormat_errorMessageShown() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE);
-        assertIncorrectIndexFormatBehaviorForCommand("select", expectedMessage);
-    }
-
-    @Test
-    public void execute_selectIndexNotFound_errorMessageShown() throws Exception {
-        assertIndexNotFoundBehaviorForCommand("select");
-    }
-
-    @Test
-    public void execute_select_jumpsToCorrectTask() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        List<Task> threeTasks = helper.generateTaskList(3);
-
-        ToDoList expectedAB = helper.generateToDoList(threeTasks);
-        helper.addToModel(model, threeTasks);
-
-        assertCommandSuccess("select f2",
-                String.format(SelectCommand.MESSAGE_SELECT_TASK_SUCCESS, 2),
-                expectedAB,
-                expectedAB.getTaskList(), Task.ALL_CHAR);
-        assertEquals(1, targetedJumpIndex);
-        assertEquals(model.getFilteredDeadlineList().get(1), threeTasks.get(1));
-    }
-
-    @Test
-    public void execute_find_invalidArgsFormat() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
-        assertCommandFailure("find ", expectedMessage);
-    }
-
-    @Test
-    public void execute_find_onlyMatchesFullWordsInTitles() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Task pTarget1 = helper.generateTaskWithTitle("bla bla KEY bla");
-        Task pTarget2 = helper.generateTaskWithTitle("bla KEY bla bceofeia");
-        Task p1 = helper.generateTaskWithTitle("KE Y");
-        Task p2 = helper.generateTaskWithTitle("KEYKEYKEY sduauo");
-
-        List<Task> fourTasks = helper.generateTaskList(p1, pTarget1, p2, pTarget2);
-        ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = helper.generateTaskList(pTarget1, pTarget2);
-        helper.addToModel(model, fourTasks);
-
-//        assertCommandSuccess("find KEY",
-//                Command.getMessageForTaskListShownSummary(expectedList.size()),
-//                expectedAB,
-//                expectedList);
-    }
-
-    @Test
-    public void execute_find_isNotCaseSensitive() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Task p1 = helper.generateTaskWithTitle("bla bla KEY bla");
-        Task p2 = helper.generateTaskWithTitle("bla KEY bla bceofeia");
-        Task p3 = helper.generateTaskWithTitle("key key");
-        Task p4 = helper.generateTaskWithTitle("KEy sduauo");
-
-        List<Task> fourTasks = helper.generateTaskList(p3, p1, p4, p2);
-        ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = fourTasks;
-        helper.addToModel(model, fourTasks);
-
-//        //assertCommandSuccess("find KEY",
-//                Command.getMessageForTaskListShownSummary(expectedList.size()),
-//                expectedAB,
-//                expectedList);
-    }
-
-    @Test
-    public void execute_find_matchesIfAnyKeywordPresent() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Task pTarget1 = helper.generateTaskWithTitle("bla bla KEY bla");
-        Task pTarget2 = helper.generateTaskWithTitle("bla rAnDoM bla bceofeia");
-        Task pTarget3 = helper.generateTaskWithTitle("key key");
-        Task p1 = helper.generateTaskWithTitle("sduauo");
-
-        List<Task> fourTasks = helper.generateTaskList(pTarget1, p1, pTarget2, pTarget3);
-        ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = helper.generateTaskList(pTarget1, pTarget2, pTarget3);
-        helper.addToModel(model, fourTasks);
-
-//        //assertCommandSuccess("find key rAnDoM",
-//                Command.getMessageForTaskListShownSummary(expectedList.size()),
-//                expectedAB,
-//                expectedList);
-    }
-
     /**
      * A utility class to generate test data.
      */
@@ -359,6 +254,9 @@ public class LogicManagerTest {
         Description privateDescription;
         UniqueTagList tags;
         
+        /**
+         * Default values of different parameters.
+         */
         public TestDataHelper() throws IllegalValueException {
             name = new Title("CS2103");
             privateVenue = new Venue("COM1 B103");
@@ -368,24 +266,36 @@ public class LogicManagerTest {
             privateDescription = new Description("I love 2103!!!");
             tags = new UniqueTagList(new Tag("tag1"), new Tag("longertag2"));
         }
-
+        
+        /**
+         * Default task is a deadline task.
+         */
         Task cs2103() throws Exception {
             return new Task(name, privateVenue, null, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
         
+        /**
+         * Deadline task with start time set to null
+         */
         Task cs2103Deadline() throws Exception {
             name = new Title("CS2103 Deadline");
             return new Task(name, privateVenue, null, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
         
+        /**
+         * Event task having both start time and end time
+         */
         Task cs2103Event() throws Exception {
             name = new Title("CS2103 Event");
             return new Task(name, privateVenue, privateStartTime, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
         
+        /**
+         * Floating task having neither start time nor end time
+         */
         Task cs2103Float() throws Exception {
             name = new Title("CS2103 Float");
             return new Task(name, privateVenue, null, null,
