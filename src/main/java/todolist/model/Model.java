@@ -27,6 +27,11 @@ public interface Model {
     /** Adds the given Task */
     void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
 
+    //@@author A0110791M
+    /** Imports all tasks from given file location */
+    void importTasks(String filePath);
+    //@@
+
     /**
      * Updates the Task located at {@code filteredTaskListIndex} with
      * {@code editedTask}.

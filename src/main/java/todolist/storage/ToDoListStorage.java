@@ -41,7 +41,4 @@ public interface ToDoListStorage {
      */
     void saveToDoList(ReadOnlyToDoList todoList, String filePath) throws IOException;
 
-    //@@author A0110791M
-    void changeDirectory(String targetDirectory);
-
 }

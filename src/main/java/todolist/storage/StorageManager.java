@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import com.google.common.eventbus.Subscribe;
 
 import todolist.commons.core.ComponentManager;
+import todolist.commons.core.Config;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.storage.DataSavingExceptionEvent;
@@ -77,7 +78,6 @@ public class StorageManager extends ComponentManager implements Storage {
         todoListStorage.saveToDoList(todoList, filePath);
     }
 
-
     @Override
     @Subscribe
     public void handleToDoListChangedEvent(ToDoListChangedEvent event) {
@@ -95,12 +95,8 @@ public class StorageManager extends ComponentManager implements Storage {
     @Subscribe
     public void handleDirectoryChangedEvent(DirectoryChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Attempting to change directory."));
-        todoListStorage.changeDirectory(event.targetDirectory);
-    }
-
-    @Override
-    public void changeDirectory(String targetDirectory) {
-        // TODO Auto-generated method stub
+        String filePath = event.targetDirectory.concat("\\").concat(Config.getToDoListFilePath());
+        todoListStorage = new XmlToDoListStorage(filePath);
     }
 
 }

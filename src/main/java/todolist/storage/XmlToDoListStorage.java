@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import todolist.commons.core.Config;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.exceptions.DataConversionException;
 import todolist.commons.util.FileUtil;
@@ -77,13 +76,6 @@ public class XmlToDoListStorage implements ToDoListStorage {
         File file = new File(filePath);
         FileUtil.createIfMissing(file);
         XmlFileStorage.saveDataToFile(file, new XmlSerializableToDoList(todoList));
-    }
-
-    //@@author A0110791M
-    /** Change the save target directory in the storage to the given targetFilePath */
-    @Override
-    public void changeDirectory (String targetFilePath) {
-        filePath = targetFilePath.concat("\\").concat(Config.getToDoListFilePath());
     }
 
 }

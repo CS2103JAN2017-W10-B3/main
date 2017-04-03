@@ -1,22 +1,30 @@
 package todolist.model;
 
+import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import todolist.commons.core.ComponentManager;
+import todolist.commons.core.Config;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.storage.DirectoryChangedEvent;
+import todolist.commons.exceptions.DataConversionException;
 import todolist.commons.util.CollectionUtil;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
+import todolist.model.util.SampleDataUtil;
 import todolist.model.util.Status;
+import todolist.storage.Storage;
+import todolist.storage.StorageManager;
 
 /**
  * Represents the in-memory model of the to-do list data. All changes to any
@@ -81,19 +89,61 @@ public class ModelManager extends ComponentManager implements Model {
     public void indicateDirectoryChanged(String directoryPath) {
         raise(new DirectoryChangedEvent(directoryPath));
     }
+
+    /** Imports all tasks from given filePath */
+    @Override
+    public void importTasks(String filePath) {
+        Storage sourceStorage = new StorageManager(filePath, Config.getUserPrefsFilePath());
+        Optional<ReadOnlyToDoList> todoListOptional;
+        ReadOnlyToDoList initialData;
+        try {
+            todoListOptional = sourceStorage.readToDoList();
+            if (!todoListOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with a sample ToDoList");
+            }
+            initialData = todoListOptional.orElseGet(SampleDataUtil::getSampleToDoList);
+        } catch (DataConversionException e) {
+            logger.warning("Data file not in the correct format. No tasks imported.");
+            initialData = new ToDoList();
+        } catch (IOException e) {
+            logger.warning("Problem while reading from the file. No tasks imported.");
+            initialData = new ToDoList();
+        }
+        addImportedTasks(initialData);
+        raise(new ToDoListChangedEvent(todoList));
+    }
+
+    private void addImportedTasks (ReadOnlyToDoList importedList) {
+        ObservableList<ReadOnlyTask> taskList = importedList.getTaskList();
+        for(ReadOnlyTask task: taskList) {
+            try {
+                addTask(task);
+            } catch (UniqueTaskList.DuplicateTaskException e) {
+                continue;
+            }
+        }
+    }
+
+    public synchronized void addTask(ReadOnlyTask readOnlyTask) throws UniqueTaskList.DuplicateTaskException {
+        Task task;
+        task = new Task(readOnlyTask.getTitle(), readOnlyTask.getVenue().orElse(null), readOnlyTask.getStartTime().orElse(null),
+                readOnlyTask.getEndTime().orElse(null), readOnlyTask.getUrgencyLevel().orElse(null),
+                readOnlyTask.getDescription().orElse(null), null);
+        todoList.addTask(task);
+    }
     //@@
 
     @Override
-    public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
-        todoList.removeTask(target);
+    public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
+        todoList.addTask(task);
         syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
     @Override
-    public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
-        todoList.addTask(task);
+    public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
+        todoList.removeTask(target);
         syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
