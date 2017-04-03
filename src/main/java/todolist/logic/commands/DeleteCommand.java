@@ -24,7 +24,7 @@ public class DeleteCommand extends UndoableCommand {
             + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD
             + " e1 \n";
 
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
+    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Number of Tasks deleted: %1$s %2$s";
     // @@ A0143648Y
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
 
@@ -60,7 +60,8 @@ public class DeleteCommand extends UndoableCommand {
         commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
         updateUndoLists();
 
-        return new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, 
+                tasksToDelete.size(), getTasksToString(tasksToDelete)));
     }
 
     @Override
@@ -78,6 +79,16 @@ public class DeleteCommand extends UndoableCommand {
             previousToDoLists.add(originalToDoList);
             previousCommandResults.add(commandResultToUndo);
         }
+    }
+    
+    public String getTasksToString(ArrayList<ReadOnlyTask> tasks) {
+        StringBuilder sb = new StringBuilder();
+        for (ReadOnlyTask task : tasks) {
+            sb.append("\n");
+            sb.append(task.toString());
+        }
+        return sb.toString();
+        
     }
 
 }
