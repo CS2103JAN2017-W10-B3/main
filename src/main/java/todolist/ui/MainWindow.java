@@ -167,7 +167,7 @@ public class MainWindow extends UiPart<Region> {
         floatingListPanel = new TaskListPanel(getFloatListPlaceholder(), logic.getFilteredFloatList());
         completeListPanel = new TaskListPanel(getCompleteListPlaceholder(), logic.getFilteredCompleteList());
         resultDisplay = new ResultDisplay(getResultDisplayPlaceholder());
-        new StatusBarFooter(getStatusbarPlaceholder(), config.getToDoListFilePath());
+        new StatusBarFooter(getStatusbarPlaceholder(), Config.getToDoListFilePath());
         new CommandBox(getCommandBoxPlaceholder(), logic);
     }
 

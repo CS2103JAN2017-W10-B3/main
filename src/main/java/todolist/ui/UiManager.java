@@ -14,6 +14,7 @@ import todolist.commons.core.ComponentManager;
 import todolist.commons.core.Config;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.events.storage.DataSavingExceptionEvent;
+import todolist.commons.events.ui.ClearAllSelectionsEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
@@ -122,12 +123,24 @@ public class UiManager extends ComponentManager implements Ui {
         char listType = event.targetIndex.getTaskChar();
         if (listType == 'e' || listType == 'E') {
             mainWindow.getEventListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getFloatListPanel().clearSelection();
+            mainWindow.getTaskListPanel().clearSelection();
+            mainWindow.getCompleteListPanel().clearSelection();
         } else if (listType == 'f' || listType == 'F') {
             mainWindow.getFloatListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getEventListPanel().clearSelection();
+            mainWindow.getTaskListPanel().clearSelection();
+            mainWindow.getCompleteListPanel().clearSelection();
         } else if (listType == 'd' || listType == 'D') {
             mainWindow.getTaskListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getFloatListPanel().clearSelection();
+            mainWindow.getEventListPanel().clearSelection();
+            mainWindow.getCompleteListPanel().clearSelection();
         } else if (listType == 'c' || listType == 'C') {
             mainWindow.getCompleteListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getFloatListPanel().clearSelection();
+            mainWindow.getTaskListPanel().clearSelection();
+            mainWindow.getEventListPanel().clearSelection();
         }
     }
 
@@ -153,5 +166,14 @@ public class UiManager extends ComponentManager implements Ui {
                 mainWindow.getCompleteListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
             }
         }
+    }
+
+    @Subscribe
+    private void handleClearAllSelectionsEvent(ClearAllSelectionsEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        mainWindow.getEventListPanel().clearSelection();
+        mainWindow.getFloatListPanel().clearSelection();
+        mainWindow.getTaskListPanel().clearSelection();
+        mainWindow.getCompleteListPanel().clearSelection();
     }
 }
