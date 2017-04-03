@@ -9,6 +9,7 @@ import todolist.commons.core.ComponentManager;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.model.ToDoListChangedEvent;
+import todolist.commons.events.storage.DirectoryChangedEvent;
 import todolist.commons.util.CollectionUtil;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask;
@@ -73,6 +74,14 @@ public class ModelManager extends ComponentManager implements Model {
     private void indicateToDoListChanged() {
         raise(new ToDoListChangedEvent(todoList));
     }
+
+    //@@author A0110791M
+    /** Raises an event to indicate the user requests a new directory */
+    @Override
+    public void indicateDirectoryChanged(String directoryPath) {
+        raise(new DirectoryChangedEvent(directoryPath));
+    }
+    //@@
 
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {

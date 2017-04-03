@@ -10,6 +10,7 @@ import todolist.commons.core.ComponentManager;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.storage.DataSavingExceptionEvent;
+import todolist.commons.events.storage.DirectoryChangedEvent;
 import todolist.commons.exceptions.DataConversionException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.UserPrefs;
@@ -86,6 +87,20 @@ public class StorageManager extends ComponentManager implements Storage {
         } catch (IOException e) {
             raise(new DataSavingExceptionEvent(e));
         }
+    }
+
+    /** Event handler for when user wants to change directory. */
+    //@@author A0110791M
+    @Override
+    @Subscribe
+    public void handleDirectoryChangedEvent(DirectoryChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Attempting to change directory."));
+        todoListStorage.changeDirectory(event.targetDirectory);
+    }
+
+    @Override
+    public void changeDirectory(String targetDirectory) {
+        // TODO Auto-generated method stub
     }
 
 }

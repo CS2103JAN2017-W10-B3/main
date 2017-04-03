@@ -75,5 +75,7 @@ public interface Model {
 
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
 
-    //@@
+    //@@author A0110791M
+    void indicateDirectoryChanged(String directoryPath);
+
 }

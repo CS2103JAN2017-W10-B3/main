@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import todolist.logic.commands.AddCommand;
+import todolist.logic.commands.ChangeDirectoryCommand;
 import todolist.logic.commands.ClearCommand;
 import todolist.logic.commands.Command;
 import todolist.logic.commands.CompleteCommand;
@@ -90,6 +91,9 @@ public class Parser {
 
         case SaveCommand.COMMAND_WORD:
             return new SaveCommandParser().parse(arguments);
+
+        case ChangeDirectoryCommand.COMMAND_WORD:
+            return new ChangeDirectoryCommandParser().parse(arguments);
 
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
