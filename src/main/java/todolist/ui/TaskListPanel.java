@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -29,6 +30,10 @@ public class TaskListPanel extends UiPart<Region> {
         super(FXML);
         setConnections(taskList);
         addToPlaceholder(taskListPlaceholder);
+        Platform.runLater(() -> {
+            taskListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        });
+
     }
 
     private void setConnections(ObservableList<ReadOnlyTask> taskList) {
@@ -57,6 +62,12 @@ public class TaskListPanel extends UiPart<Region> {
         Platform.runLater(() -> {
             taskListView.scrollTo(index);
             taskListView.getSelectionModel().select(index);
+        });
+    }
+
+    public void clearSelection() {
+        Platform.runLater(() -> {
+            taskListView.getSelectionModel().clearSelection();
         });
     }
     // @@
