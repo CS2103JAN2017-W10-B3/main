@@ -31,12 +31,18 @@ public class EndTime implements Time {
             throw new IllegalValueException(MESSAGE_TIME_CONSTRAINTS);
         }
     }
-
+    
+    /**
+     * Obtain the time value in the form of LocalDateTime
+     */
     @Override
     public LocalDateTime getTimeValue() {
         return this.endTime;
     }
-
+    
+    /**
+     * Obtain a String representation of EndTime
+     */
     @Override
     public String toString() {
         return this.endTime.format(StringUtil.DATE_FORMATTER);
