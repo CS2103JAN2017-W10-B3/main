@@ -15,6 +15,7 @@ import todolist.commons.core.Config;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.events.storage.DataSavingExceptionEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
+import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.events.ui.TaskPanelSelectionChangedEvent;
 import todolist.commons.util.StringUtil;
@@ -46,12 +47,13 @@ public class UiManager extends ComponentManager implements Ui {
         logger.info("Starting UI...");
         primaryStage.setTitle(config.getAppTitle());
 
-        //Set the application icon.
+        // Set the application icon.
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
         try {
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
-            mainWindow.show(); //This should be called before creating other UI parts
+            mainWindow.show(); // This should be called before creating other UI
+                               // parts
             mainWindow.fillInnerParts();
 
         } catch (Throwable e) {
@@ -64,7 +66,7 @@ public class UiManager extends ComponentManager implements Ui {
     public void stop() {
         prefs.updateLastUsedGuiSetting(mainWindow.getCurrentGuiSetting());
         mainWindow.hide();
-        //mainWindow.releaseResources();
+        // mainWindow.releaseResources();
     }
 
     private void showFileOperationAlertAndWait(String description, String details, Throwable cause) {
@@ -81,7 +83,7 @@ public class UiManager extends ComponentManager implements Ui {
     }
 
     private static void showAlertDialogAndWait(Stage owner, AlertType type, String title, String headerText,
-                                               String contentText) {
+            String contentText) {
         final Alert alert = new Alert(type);
         alert.getDialogPane().getStylesheets().add("view/DarkTheme.css");
         alert.initOwner(owner);
@@ -99,7 +101,8 @@ public class UiManager extends ComponentManager implements Ui {
         System.exit(1);
     }
 
-    //==================== Event Handling Code ===============================================================
+    // ==================== Event Handling Code
+    // ===============================================================
 
     @Subscribe
     private void handleDataSavingExceptionEvent(DataSavingExceptionEvent event) {
@@ -131,7 +134,24 @@ public class UiManager extends ComponentManager implements Ui {
     @Subscribe
     private void handleTaskPanelSelectionChangedEvent(TaskPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        //mainWindow.loadTaskPage(event.getNewSelection());
+        // mainWindow.loadTaskPage(event.getNewSelection());
     }
 
+    // @@ A0143648Y
+    @Subscribe
+    private void handleSelectMultipleTargetEvent(SelectMultipleTargetEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        for (int count = 0; count < event.targetIndexes.size(); count++) {
+            char listType = event.targetIndexes.get(count).getTaskChar();
+            if (listType == 'e' || listType == 'E') {
+                mainWindow.getEventListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+            } else if (listType == 'f' || listType == 'F') {
+                mainWindow.getFloatListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+            } else if (listType == 'd' || listType == 'D') {
+                mainWindow.getTaskListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+            } else if (listType == 'c' || listType == 'C') {
+                mainWindow.getCompleteListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+            }
+        }
+    }
 }
