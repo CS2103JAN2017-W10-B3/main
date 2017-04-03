@@ -13,8 +13,6 @@ public class TimeTest {
     public void isValidTime() {
         // blank EndTime
         assertFalse(Time.isValidTime("")); // empty string
-        
-        
 
         // valid Time
         assertTrue(Time.isValidTime("March Fifteenth")); //alphabets
