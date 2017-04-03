@@ -118,8 +118,8 @@ public class LogicManagerTest {
      */
     protected void assertCommandSuccess(String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
-            List<? extends ReadOnlyTask> expectedShownList) {
-        assertCommandBehavior(false, inputCommand, expectedMessage, expectedToDoList, expectedShownList);
+            List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {
+        assertCommandBehavior(false, inputCommand, expectedMessage, expectedToDoList, expectedShownList, taskChar);
     }
 
     /**
@@ -133,8 +133,8 @@ public class LogicManagerTest {
      */
     protected void assertCommandFailure(String inputCommand, String expectedMessage) {
         ToDoList expectedToDoList = new ToDoList(model.getToDoList());
-        List<ReadOnlyTask> expectedShownList = new ArrayList<>(model.getFilteredDeadlineList());
-        assertCommandBehavior(true, inputCommand, expectedMessage, expectedToDoList, expectedShownList);
+        List<ReadOnlyTask> expectedShownList = new ArrayList<>(model.getAllTaskList());
+        assertCommandBehavior(true, inputCommand, expectedMessage, expectedToDoList, expectedShownList, Task.ALL_CHAR);
     }
 
     /**
@@ -149,7 +149,7 @@ public class LogicManagerTest {
      */
     protected void assertCommandBehavior(boolean isCommandExceptionExpected, String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
-            List<? extends ReadOnlyTask> expectedShownList) {
+            List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {
 
         try {
             CommandResult result = logic.execute(inputCommand);
@@ -159,10 +159,10 @@ public class LogicManagerTest {
             assertTrue("CommandException not expected but was thrown.", isCommandExceptionExpected);
             assertEquals(expectedMessage, e.getMessage());
         }
-
-        // Confirm the ui display elements should contain the right data
-        assertEquals(expectedShownList, model.getAllTaskList());
-
+        
+        // Confirm the state of data given by model is as expected
+        assertEquals(expectedShownList, model.getListFromChar(taskChar));
+        
         // Confirm the state of data (saved and in-memory) is as expected
         assertEquals(expectedToDoList, model.getToDoList());
         assertEquals(expectedToDoList, latestSavedToDoList);
@@ -176,14 +176,14 @@ public class LogicManagerTest {
 
     @Test
     public void execute_help() {
-        assertCommandSuccess("help", HelpCommand.SHOWING_HELP_MESSAGE, new ToDoList(), Collections.emptyList());
+        assertCommandSuccess("help", HelpCommand.SHOWING_HELP_MESSAGE, new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
         assertTrue(helpShown);
     }
 
     @Test
     public void execute_exit() {
         assertCommandSuccess("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT,
-                new ToDoList(), Collections.emptyList());
+                new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
     }
 
     @Test
@@ -193,7 +193,7 @@ public class LogicManagerTest {
         model.addTask(helper.generateTask(2));
         model.addTask(helper.generateTask(3));
 
-        assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS, new ToDoList(), Collections.emptyList());
+        assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS, new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
     }
 
 
@@ -395,8 +395,8 @@ public class LogicManagerTest {
         public TestDataHelper() throws IllegalValueException {
             name = new Title("CS2103");
             privateVenue = new Venue("COM1 B103");
-            privateStartTime = new StartTime("Tuesday 11am");
-            privateEndTime = new EndTime("Wednesday 11am");
+            privateStartTime = new StartTime("Today 11am");
+            privateEndTime = new EndTime("Today 12pm");
             privateUrgencyLevel = new UrgencyLevel("3");
             privateDescription = new Description("I love 2103!!!");
             tags = new UniqueTagList(new Tag("tag1"), new Tag("longertag2"));
@@ -423,14 +423,6 @@ public class LogicManagerTest {
             name = new Title("CS2103 Float");
             return new Task(name, privateVenue, null, null,
                     privateUrgencyLevel, privateDescription, tags);
-        }
-        
-        Task cs2103Complete() throws Exception {
-            name = new Title("CS2103 Complete");
-            Task newTask = new Task(name, privateVenue, privateStartTime, privateEndTime,
-                    privateUrgencyLevel, privateDescription, tags);
-            newTask.toggleComplete();
-            return newTask;
         }
 
         /**
