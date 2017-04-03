@@ -18,12 +18,8 @@ public class TimeTest {
         assertTrue(Time.isValidTime("March Fifteenth")); //alphabets
         assertTrue(Time.isValidTime("20170315")); // number
         assertTrue(Time.isValidTime("By end of March")); // alphabets with capital
-        assertTrue(Time.isValidTime("March 15 2017")); // numeric and alphabet
-                                                           // and domain name
-        assertTrue(Time.isValidTime("March 15, 2017")); // mixture of
-                                                               // alphanumeric
-                                                               // and comma
-                                                               // characters
+        assertTrue(Time.isValidTime("March 15 2017")); // numeric and alphabet and domain name
+        assertTrue(Time.isValidTime("March 15, 2017")); // mixture of alphanumeric and comma characters
     }
     
     @Test

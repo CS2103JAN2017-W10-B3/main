@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+//@@author A0122017Y
 public class TitleTest {
 
     @Test
@@ -21,7 +22,7 @@ public class TitleTest {
         assertTrue(Title.isValidTitle("My-SQL testing")); //first word contain symbols
         assertTrue(Title.isValidTitle("debug for CS2103")); // alphanumeric characters
         assertTrue(Title.isValidTitle("Debugging")); // with capital letters
-        assertTrue(Title.isValidTitle("Debugging until the sun rises again at 7am")); // long
-                                                                          // names
+        assertTrue(Title.isValidTitle("Debugging until the sun rises again at 7am")); // long names
     }
+    
 }
