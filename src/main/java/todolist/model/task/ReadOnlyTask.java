@@ -56,33 +56,55 @@ public interface ReadOnlyTask {
                 .append(getTitle() + " ")
                 .append(getVenueString())
                 .append(getDescriptionString())
-                .append(getEndTimeString());
-
-        getTags().forEach(builder::append);
+                .append(getEndTimeString())
+                .append(getTagString());
         return builder.toString();
     }
     /**
-     * Check if venues are present.
+     * Check if venue is present.
      * If null, empty string is returned.
      */
     default String getVenueString() {
         return getVenue().isPresent() ? "At: " + getVenue().get().toString() + " " : "";
     }
-
+    
+    /**
+     * Check if start time is present.
+     * If null, empty string is returned.
+     */
     default String getStartTimeString() {
         return getStartTime().isPresent() ? "Start at: " + getStartTime().get().toString() + " " : "";
     }
-
+    
+    /**
+     * Check if end time is present.
+     * If null, empty string is returned.
+     */
     default String getEndTimeString() {
         return getEndTime().isPresent() ? "Done by: " + getEndTime().get().toString() + " " : "";
     }
-
+    
+    /**
+     * Check if urgency level is present.
+     * If null, empty string is returned.
+     */
     default String getUrgencyLevelString() {
         return getUrgencyLevel().isPresent() ? "Urgency level at: " + getUrgencyLevel().get().toString() + " " : "";
     }
-
+    
+    /**
+     * Check if description is present.
+     * If null, empty string is returned.
+     */
     default String getDescriptionString() {
         return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + " " : "";
+    }
+    
+    /**
+     * Obtain the tag string form the UniqueTagList of the task
+     */
+    default String getTagString() {
+        return getTags().getTagListToString();
     }
 
     //@@ author: A0138628W
