@@ -1,8 +1,11 @@
 package todolist.model;
 
+import java.io.IOException;
 import java.util.Set;
 
 import todolist.commons.core.UnmodifiableObservableList;
+import todolist.commons.exceptions.DataConversionException;
+import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
@@ -28,8 +31,10 @@ public interface Model {
     void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
 
     //@@author A0110791M
-    /** Imports all tasks from given file location */
-    void importTasks(String filePath);
+    /** Imports all tasks from given file location
+     * @throws IOException
+     * @throws DataConversionException */
+    void importTasks(String filePath) throws CommandException, DataConversionException, IOException;
     //@@
 
     /**

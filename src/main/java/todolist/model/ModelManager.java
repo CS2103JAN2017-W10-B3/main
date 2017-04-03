@@ -82,7 +82,7 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new ToDoListChangedEvent(todoList));
     }
 
-    //@@author A0110791M
+    // @@author A0110791M
     /** Raises an event to indicate the user requests a new directory */
     @Override
     public void indicateDirectoryChanged(String directoryPath) {
@@ -91,31 +91,24 @@ public class ModelManager extends ComponentManager implements Model {
 
     /** Imports all tasks from given filePath */
     @Override
-    public void importTasks(String filePath) {
+    public void importTasks(String filePath) throws DataConversionException, IOException {
         Optional<ReadOnlyToDoList> todoListOptional;
         ReadOnlyToDoList initialData;
 
-        try {
-            todoListOptional = Optional.of(XmlFileStorage.loadDataFromSaveFile(new File(filePath)));
-            if (!todoListOptional.isPresent()) {
-                logger.info("Data file not found. Will be starting with a sample ToDoList");
-            }
-            initialData = todoListOptional.orElseGet(SampleDataUtil::getSampleToDoList);
-        } catch (DataConversionException e) {
-            logger.warning("Data file not in the correct format. No tasks imported.");
-            initialData = new ToDoList();
-        } catch (IOException e) {
-            logger.warning("Problem while reading from the file. No tasks imported.");
-            initialData = new ToDoList();
+        todoListOptional = Optional.of(XmlFileStorage.loadDataFromSaveFile(new File(filePath)));
+        if (!todoListOptional.isPresent()) {
+            logger.info("Data file not found. Will be starting with a sample ToDoList");
         }
+        initialData = todoListOptional.orElseGet(SampleDataUtil::getSampleToDoList);
+
         addImportedTasks(initialData);
 
         indicateToDoListChanged();
     }
 
-    private void addImportedTasks (ReadOnlyToDoList importedList) {
+    private void addImportedTasks(ReadOnlyToDoList importedList) {
         ObservableList<ReadOnlyTask> taskList = importedList.getTaskList();
-        for(ReadOnlyTask task: taskList) {
+        for (ReadOnlyTask task : taskList) {
             try {
                 addTask(task);
             } catch (UniqueTaskList.DuplicateTaskException e) {
@@ -126,12 +119,13 @@ public class ModelManager extends ComponentManager implements Model {
 
     public synchronized void addTask(ReadOnlyTask readOnlyTask) throws UniqueTaskList.DuplicateTaskException {
         Task task;
-        task = new Task(readOnlyTask.getTitle(), readOnlyTask.getVenue().orElse(null), readOnlyTask.getStartTime().orElse(null),
+        task = new Task(readOnlyTask.getTitle(), readOnlyTask.getVenue().orElse(null),
+                readOnlyTask.getStartTime().orElse(null),
                 readOnlyTask.getEndTime().orElse(null), readOnlyTask.getUrgencyLevel().orElse(null),
                 readOnlyTask.getDescription().orElse(null), readOnlyTask.getTags());
         todoList.addTask(task);
     }
-    //@@
+    // @@
 
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
@@ -161,7 +155,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateToDoListChanged();
     }
 
-    //@@author A0122017Y
+    // @@author A0122017Y
     private void syncTypeOfTasks() {
         filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
         filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
@@ -177,7 +171,8 @@ public class ModelManager extends ComponentManager implements Model {
         indicateToDoListChanged();
     }
 
-    // =========== Filtered Task List Accessors =============================================================
+    // =========== Filtered Task List Accessors
+    // =============================================================
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
@@ -210,7 +205,8 @@ public class ModelManager extends ComponentManager implements Model {
         sortedComplete.setComparator(ReadOnlyTask.getCompleteComparator());
         return new UnmodifiableObservableList<>(sortedComplete);
     }
-    //@@author A0143648Y
+
+    // @@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
@@ -260,8 +256,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
-
-    // ========== Inner classes/interfaces used for filtering =================================================
+    // ========== Inner classes/interfaces used for filtering
+    // =================================================
 
     interface Expression {
         boolean satisfies(ReadOnlyTask task);
@@ -320,13 +316,14 @@ public class ModelManager extends ComponentManager implements Model {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
-    //@@author A0122017Y
+
+    // @@author A0122017Y
     private class StatusQualifier implements Qualifier {
 
         Boolean status;
 
         StatusQualifier(Status status) {
-            switch(status) {
+            switch (status) {
             case COMPLETED:
                 this.status = true;
                 break;
@@ -349,6 +346,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
+
     private class TagQualifier implements Qualifier {
 
         Set<String> tags;
@@ -360,7 +358,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         @Override
         public boolean run(ReadOnlyTask task) {
-            for (Tag tag:task.getTags()) {
+            for (Tag tag : task.getTags()) {
                 if (this.tags.contains(tag.tagName)) {
                     status = true;
                 }
@@ -374,7 +372,8 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
-    //@@
+
+    // @@
     private boolean hasContainedKeyword(String searchMe, String findMe) {
         searchMe = searchMe.toLowerCase();
         findMe = findMe.toLowerCase();
