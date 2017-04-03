@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
+import todolist.commons.core.UnmodifiableObservableList;
+import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.commons.util.CollectionUtil;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
@@ -61,6 +64,7 @@ public class EditCommand extends UndoableCommand {
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
+        ArrayList<Task> listOfEditedTasks = new ArrayList<Task>();
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
@@ -77,8 +81,18 @@ public class EditCommand extends UndoableCommand {
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
+            listOfEditedTasks.add(editedTask);
         }
+
         model.updateFilteredListToShowAll();
+        filteredTaskListIndexes.clear();
+        for (int count = 0; count < listOfEditedTasks.size(); count++) {
+            UnmodifiableObservableList<ReadOnlyTask> listOfTask = model
+                    .getListFromChar(listOfEditedTasks.get(count).getTaskChar());
+            filteredTaskListIndexes.add(new TaskIndex(listOfEditedTasks.get(count).getTaskChar(),
+                    listOfTask.indexOf(listOfEditedTasks.get(count))));
+        }
+        EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
         commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
         updateUndoLists();
         return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
