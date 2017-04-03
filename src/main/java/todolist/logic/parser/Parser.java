@@ -36,7 +36,8 @@ public class Parser {
     /**
      * Parses user input into command for execution.
      *
-     * @param userInput full user input string
+     * @param userInput
+     *            full user input string
      * @return the command based on the user input
      */
     public Command parseCommand(String userInput) {
@@ -92,7 +93,11 @@ public class Parser {
             return new SaveCommandParser().parse(arguments);
 
         default:
-            return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+            if (ParserUtil.isSingleValidIndex(commandWord) && arguments.isEmpty()) {
+                return new SelectCommandParser().parse(commandWord);
+            } else {
+                return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+            }
         }
     }
 

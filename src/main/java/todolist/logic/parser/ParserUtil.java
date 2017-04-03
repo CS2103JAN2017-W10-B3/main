@@ -136,7 +136,7 @@ public class ParserUtil {
 
     }
 
-    private static boolean isValidIndex(String index) {
+    public static boolean isValidIndex(String index) {
         if (!index.contains(INDEX_RANGE_SYMBOL)) {
             return isSingleValidIndex(index);
         } else {
@@ -144,7 +144,7 @@ public class ParserUtil {
         }
     }
 
-    private static boolean isSingleValidIndex(String index) {
+    public static boolean isSingleValidIndex(String index) {
         if (StringUtil.isUnsignedInteger(index)) {
             return true;
         } else {
@@ -162,7 +162,7 @@ public class ParserUtil {
 
     }
 
-    private static boolean isMultipleValidIndex(String index) {
+    public static boolean isMultipleValidIndex(String index) {
         String[] splitIndex = index.split(INDEX_RANGE_SYMBOL);
         if (!isSingleValidIndex(splitIndex[0])) {
             return false;
