@@ -22,7 +22,7 @@ public class SelectCommand extends Command {
             + ": Selects the task identified by the index number used in the last task listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_SELECT_TASK_SUCCESS = "Selected Task: %1$s";
+    public static final String MESSAGE_SELECT_TASK_SUCCESS = "Selected Task: %1$s" + "\n" + "%2$s";
 
     public SelectCommand(TaskIndex targetIndex) {
         this.targetIndex = targetIndex;
@@ -43,8 +43,8 @@ public class SelectCommand extends Command {
 
         ReadOnlyTask task = lastShownList.get(listIndex - 1);
 
-        String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS, targetIndex) + "\n" + "Task selected: "
-                + task.getTitle().toString() + "\n" + "Description of task: " + task.getDescription().toString();
+        String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS, 
+                targetIndex.toString(), task.toString());
         return new CommandResult(selectCommandResult);
 
     }
