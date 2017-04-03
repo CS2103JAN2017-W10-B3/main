@@ -22,12 +22,11 @@ public class SaveCommand extends Command {
 
     public static final String COMMAND_WORD = "save";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + "\n" + "Saves data file to new location specified. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Saves data file to new location specified. \n"
             + "New folders with the file can be auto-created as long as given directory is valid.\n"
-            + "Main Directory will the dafault save location for any valid but unspecifed file path\n" + "Example: "
-            + COMMAND_WORD + " C: /Users/Computin/Desktop/CS2103" + "Take note: No spacing after :\n"
+            + "Main Directory will be the dafault save location for any valid but unspecifed file path\n"
             + "Parameters: FILEPATH (must be valid)\n" + "Example: " + COMMAND_WORD
-            + " C:/Users/Computing/Desktop/CS2103";
+            + " C:/Users/Computing/Desktop/CS2103 \n" + "Take note: No spacing after :\n";
 
     private static final String MESSAGE_SUCCESS = "Data successfully saved to new location.";
     private static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. Filepath will be reset to old path."

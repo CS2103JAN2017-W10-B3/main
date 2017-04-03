@@ -9,7 +9,7 @@ public class ListTaskUnderTagCommand extends Command {
 
     public static final String COMMAND_WORD = "list#";
     public static final String MESSAGE_SUCCESS = "Tasks under the tags are listed!";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " + tag name: list all tasks under the tag"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " + tag name: list all tasks under the tag. \n"
             + "Example: " + COMMAND_WORD + " family friend school";
 
     private Set<String> keywordSet;
