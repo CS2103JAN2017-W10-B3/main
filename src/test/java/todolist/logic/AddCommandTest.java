@@ -2,11 +2,15 @@ package todolist.logic;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import todolist.logic.commands.AddCommand;
+import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
 import todolist.model.tag.Tag;
+import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.Time;
 import todolist.model.task.Title;
@@ -55,45 +59,50 @@ public class AddCommandTest extends LogicManagerTest{
     }
 
     @Test
-    public void execute_add_successful() throws Exception {
+    public void execute_add_successful_deadline() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Task toBeAdded = helper.cs2103();
         Task toBeAddedDeadline = helper.cs2103Deadline();
-        Task toBeAddedEvent = helper.cs2103Event();
-        Task toBeAddedFloat = helper.cs2103Float();
-        Task toBeAddedComplete = helper.cs2103Complete();
         ToDoList expectedTDL = new ToDoList();
-        expectedTDL.addTask(toBeAdded);
-
-        // execute command and verify result for different types of tasks
-        assertCommandSuccess(helper.generateAddCommand(toBeAdded),
-                String.format(AddCommand.MESSAGE_SUCCESS, toBeAdded),
-                expectedTDL,
-                expectedTDL.getTaskList());
+        expectedTDL.addTask(toBeAddedDeadline);
         
-        assertCommandSuccess(helper.generateAddCommand(toBeAddedDeadline),
+        // execute command and verify result for different types of tasks
+        assertAddCommandSuccess(helper.generateAddCommand(toBeAddedDeadline),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedDeadline),
                 expectedTDL,
-                expectedTDL.getFilteredDeadlines());
+                expectedTDL.getFilteredDeadlines(), Task.DEADLINE_CHAR);
+    }
+    
+    @Test
+    public void execute_add_successful_event() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        Task toBeAddedEvent = helper.cs2103Event();
+        ToDoList expectedTDL = new ToDoList();
+        expectedTDL.addTask(toBeAddedEvent);
         
-        assertCommandSuccess(helper.generateAddCommand(toBeAddedEvent),
+        // execute command and verify result for different types of tasks
+        assertAddCommandSuccess(helper.generateAddCommand(toBeAddedEvent),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedEvent),
                 expectedTDL,
-                expectedTDL.getFilteredDeadlines());
+                expectedTDL.getFilteredEvents(), Task.EVENT_CHAR);
+    }
+    
+    @Test
+    public void execute_add_successful_float() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        Task toBeAddedFloat = helper.cs2103Float();
+        ToDoList expectedTDL = new ToDoList();
+        expectedTDL.addTask(toBeAddedFloat);
         
-        assertCommandSuccess(helper.generateAddCommand(toBeAddedFloat),
+        // execute command and verify result for different types of tasks
+        assertAddCommandSuccess(helper.generateAddCommand(toBeAddedFloat),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedFloat),
                 expectedTDL,
-                expectedTDL.getFilteredDeadlines());
-        
-        assertCommandSuccess(helper.generateAddCommand(toBeAddedComplete),
-                String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedComplete),
-                expectedTDL,
-                expectedTDL.getFilteredDeadlines());
-
+                expectedTDL.getFilteredFloats(), Task.FLOAT_CHAR);
     }
-
+    
     @Test
     public void execute_addDuplicate_notAllowed() throws Exception {
         // setup expectations
@@ -105,6 +114,12 @@ public class AddCommandTest extends LogicManagerTest{
 
         // execute command and verify result
         assertCommandFailure(helper.generateAddCommand(toBeAdded), AddCommand.MESSAGE_DUPLICATE_TASK);
+    }
+    
+    public void assertAddCommandSuccess(String inputCommand, String expectedMessage,
+            ReadOnlyToDoList expectedToDoList,
+            List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {
+        assertCommandBehavior(false, inputCommand, expectedMessage, expectedToDoList, expectedShownList, taskChar);
     }
     
 }
