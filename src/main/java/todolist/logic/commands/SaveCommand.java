@@ -28,8 +28,8 @@ public class SaveCommand extends Command {
             + "Example: " + COMMAND_WORD + " C:/Users/Computing/Desktop/CS2103";
 
     private static final String MESSAGE_SUCCESS = "Data successfully saved to new location.";
-    private static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. Filepath will be reset to old path.\n"
-            + MESSAGE_USAGE;
+    private static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. "
+            + "Filepath will be reset to old path.\n" + MESSAGE_USAGE;
 
     // private static Config config;
     private String newStorageFilePath, oldStorageFilePath;

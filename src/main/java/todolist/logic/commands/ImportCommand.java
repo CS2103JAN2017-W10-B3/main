@@ -15,7 +15,7 @@ public class ImportCommand extends Command {
             + "Example: import C:\\data\\mytodolist \n";
 
     public static final String MESSAGE_SUCCESS = "Successful import from: ";
-    public static final String MESSAGE_FAILURE = "Error encountered, check file format and file path.\n" + MESSAGE_USAGE;
+    public static final String MESSAGE_FAILURE = "Error: please check file format and file path.\n" + MESSAGE_USAGE;
 
     private String sourceFilePath;
 
@@ -34,4 +34,4 @@ public class ImportCommand extends Command {
     }
 
 }
-//@@
+// @@
