@@ -167,4 +167,15 @@ public class UniqueTaskList implements Iterable<Task> {
         return String.join(" ", tagNames);
     }
 
+    public void autoComplete() {
+        for (Task task : internalList) {
+            if (task.getEndTime().isPresent()) {
+                if (task.getEndTime().get().outdated()) {
+                    task.toggleComplete();
+                }
+            }
+        }
+        
+    }
+
 }

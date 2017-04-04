@@ -143,6 +143,7 @@ public class ModelManager extends ComponentManager implements Model {
         todoList.completeTask(taskToComplete);
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
+        
     }
 
     // =========== Filtered Task List Accessors
@@ -211,7 +212,19 @@ public class ModelManager extends ComponentManager implements Model {
         filteredDeadlines.setPredicate(null);
         filteredFloats.setPredicate(null);
         filteredEvents.setPredicate(null);
+        completedTasks.setPredicate(null);
+        syncTaskWithTime();
         syncSumTaskListed();
+        indicateToDoListChanged();
+        
+    }
+
+    private void syncTaskWithTime() {
+        todoList.autoComplete();
+        syncTypeOfTasks();
+        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
+        indicateToDoListChanged();
+
     }
 
     @Override
@@ -223,7 +236,9 @@ public class ModelManager extends ComponentManager implements Model {
         filteredDeadlines.setPredicate(expression::satisfies);
         filteredFloats.setPredicate(expression::satisfies);
         filteredEvents.setPredicate(expression::satisfies);
+        completedTasks.setPredicate(expression::satisfies);
         syncSumTaskListed();
+        indicateToDoListChanged();
         
     }
 
@@ -231,7 +246,8 @@ public class ModelManager extends ComponentManager implements Model {
         int deadlineCounts = filteredDeadlines.size();
         int floatCounts = filteredFloats.size();
         int eventCounts = filteredEvents.size();
-        taskCount = deadlineCounts + floatCounts + eventCounts;
+        int completeCounts = completedTasks.size();
+        taskCount = deadlineCounts + floatCounts + eventCounts + completeCounts;
         
     }
 

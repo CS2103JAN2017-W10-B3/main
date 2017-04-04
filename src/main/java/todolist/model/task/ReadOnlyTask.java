@@ -141,7 +141,7 @@ public interface ReadOnlyTask {
 
         //then by urgency level
         Comparator<ReadOnlyTask> byUrgencyLevel = (t1, t2) -> {
-            return t1.getUrgencyLevel().get().compareTo(t2.getUrgencyLevel().get());
+            return t2.getUrgencyLevel().get().compareTo(t1.getUrgencyLevel().get());
         };
 
         //then by end time
@@ -164,13 +164,13 @@ public interface ReadOnlyTask {
             if (!t1.getUrgencyLevel().isPresent() && !t2.getUrgencyLevel().isPresent()) {
                 return 0;
             } else if (!t1.getUrgencyLevel().isPresent()) {
-                return 1;
-            } else if (!t2.getUrgencyLevel().isPresent()) {
                 return -1;
+            } else if (!t2.getUrgencyLevel().isPresent()) {
+                return 1;
             }
 
             //if both having urgency level
-            return t1.getUrgencyLevel().get().compareTo(t2.getUrgencyLevel().get());
+            return t2.getUrgencyLevel().get().compareTo(t1.getUrgencyLevel().get());
         };
 
         //then by start time

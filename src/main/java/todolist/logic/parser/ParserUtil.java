@@ -148,7 +148,7 @@ public class ParserUtil {
 
     public static boolean isSingleValidIndex(String index) {
         if (StringUtil.isUnsignedInteger(index)) {
-            return false;
+            return true;
         } else {
             char taskType = index.charAt(0);
             if (taskType != Task.DEADLINE_CHAR && taskType != Task.EVENT_CHAR && taskType != Task.FLOAT_CHAR) {

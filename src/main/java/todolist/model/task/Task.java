@@ -47,8 +47,8 @@ public class Task implements ReadOnlyTask {
         this.isCompleted = false;  //by default, task is not completed when initiated
     }
 
-    private boolean isValidTime(StartTime startTime, EndTime endTime) {
-        return !(startTime != null && endTime != null && startTime.getTimeValue().isAfter(endTime.getTimeValue()));
+    public static boolean isValidTime(StartTime startTime, EndTime endTime) {
+        return !(startTime != null && endTime != null && startTime.isValidDuration(endTime));
     }
 
     //@@A0122017Y
