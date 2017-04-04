@@ -10,6 +10,7 @@ import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.TaskIndex;
 
+//@@ author A0143648Y
 /**
  * Selects a task identified using it's last displayed index from the address
  * book.
@@ -24,7 +25,7 @@ public class SelectCommand extends Command {
             + ": Selects the task identified by the index number used in the last task listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_SELECT_TASK_SUCCESS = "Selected Task: %1$s" + "\n" + "%2$s";
+    public static final String MESSAGE_SELECT_TASK_SUCCESS = "Tasks have been succussfully selected!\n";
 
     public SelectCommand(ArrayList<TaskIndex> targetIndexes) {
         this.targetIndexes = targetIndexes;
@@ -47,7 +48,7 @@ public class SelectCommand extends Command {
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(targetIndexes));
         model.updateSelectedIndexes(targetIndexes);
 
-        String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS);
+        String selectCommandResult =MESSAGE_SELECT_TASK_SUCCESS;
         return new CommandResult(selectCommandResult);
 
     }

@@ -28,7 +28,7 @@ public class CompleteCommand extends UndoableCommand {
             + ": Completes the task identified by the index number used in the last task listing.\n"
             + "Parameters: CHAR(d, e or f) + INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD + " e1";
 
-    public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: %1$s";
+    public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: ";
 
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
@@ -48,6 +48,7 @@ public class CompleteCommand extends UndoableCommand {
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<ReadOnlyTask> tasksToComplete = new ArrayList<ReadOnlyTask>();
         ArrayList<TaskIndex> selectedIndexes = new ArrayList<TaskIndex>();
+        String messageSuccessful = new String("");
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
@@ -57,6 +58,7 @@ public class CompleteCommand extends UndoableCommand {
             }
 
             tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
+            messageSuccessful = messageSuccessful +" " + lastShownList.get(filteredTaskListIndex).getTitle().toString();
         }
 
         for (int count = 0; count < tasksToComplete.size(); count++) {
@@ -73,7 +75,7 @@ public class CompleteCommand extends UndoableCommand {
         model.updateSelectedIndexes(selectedIndexes);
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(selectedIndexes));
 
-        return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
+        return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS + messageSuccessful);
     }
 
     @Override

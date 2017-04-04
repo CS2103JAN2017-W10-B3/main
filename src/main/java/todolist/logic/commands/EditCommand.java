@@ -38,7 +38,7 @@ public class EditCommand extends UndoableCommand {
             + "[level/URGENCYLEVEL][des/DESCRIPTION][to/ENDTIME][#TAG]..\n" + "Example: " + COMMAND_WORD
             + " 1 place/Toilet";
 
-    public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Task: %1$s";
+    public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Tasks: ";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book.";
     // @@ A0143648Y
@@ -65,6 +65,7 @@ public class EditCommand extends UndoableCommand {
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<Task> listOfEditedTasks = new ArrayList<Task>();
+        String messageSuccessful = new String("");
         if (filteredTaskListIndexes.isEmpty()) {
             filteredTaskListIndexes.addAll(model.getSelectedIndexes());
             if (filteredTaskListIndexes.isEmpty()) {
@@ -87,6 +88,7 @@ public class EditCommand extends UndoableCommand {
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
+            messageSuccessful = messageSuccessful +" " + editedTask.getTitle().toString();
             listOfEditedTasks.add(editedTask);
         }
 
@@ -96,13 +98,13 @@ public class EditCommand extends UndoableCommand {
             UnmodifiableObservableList<ReadOnlyTask> listOfTask = model
                     .getListFromChar(listOfEditedTasks.get(count).getTaskChar());
             filteredTaskListIndexes.add(new TaskIndex(listOfEditedTasks.get(count).getTaskChar(),
-                    listOfTask.indexOf(listOfEditedTasks.get(count))+1));
+                    listOfTask.indexOf(listOfEditedTasks.get(count)) + 1));
         }
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
         model.updateSelectedIndexes(filteredTaskListIndexes);
         commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
         updateUndoLists();
-        return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
+        return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS + messageSuccessful);
     }
 
     @Override
