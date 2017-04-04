@@ -1,10 +1,12 @@
 package todolist.model;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.DuplicateTaskException;
 import todolist.model.util.Status;
@@ -40,7 +42,7 @@ public interface Model {
      */
     void updateTask(ReadOnlyTask taskToEdit, ReadOnlyTask editedTask) throws UniqueTaskList.DuplicateTaskException;
 
-    //@@author A0143648Y
+    // @@author A0143648Y
     /**
      * Returns the filtered Task list as an
      * {@code UnmodifiableObservableList<ReadOnlyTask>}
@@ -50,10 +52,18 @@ public interface Model {
     UnmodifiableObservableList<ReadOnlyTask> getFilteredEventList();
 
     UnmodifiableObservableList<ReadOnlyTask> getFilteredFloatList();
-    
+
     UnmodifiableObservableList<ReadOnlyTask> getAllTaskList();
 
     UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type);
+
+    void updateSelectedIndexes(ArrayList<TaskIndex> indexes);
+
+    void updateSelectedIndexes(TaskIndex index);
+
+    void clearSelectedIndexes();
+
+    ArrayList<TaskIndex> getSelectedIndexes();
 
     // @@
     /** Updates the filter of the filtered Task list to show all Tasks */
@@ -76,5 +86,5 @@ public interface Model {
 
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
 
-    //@@
+    // @@
 }
