@@ -65,6 +65,12 @@ public class EditCommand extends UndoableCommand {
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<Task> listOfEditedTasks = new ArrayList<Task>();
+        if (filteredTaskListIndexes.isEmpty()) {
+            filteredTaskListIndexes.addAll(model.getSelectedIndexes());
+            if (filteredTaskListIndexes.isEmpty()) {
+                throw new CommandException(Messages.MESSAGE_NO_TASK_SELECTED);
+            }
+        }
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
@@ -90,9 +96,10 @@ public class EditCommand extends UndoableCommand {
             UnmodifiableObservableList<ReadOnlyTask> listOfTask = model
                     .getListFromChar(listOfEditedTasks.get(count).getTaskChar());
             filteredTaskListIndexes.add(new TaskIndex(listOfEditedTasks.get(count).getTaskChar(),
-                    listOfTask.indexOf(listOfEditedTasks.get(count))));
+                    listOfTask.indexOf(listOfEditedTasks.get(count))+1));
         }
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
+        model.updateSelectedIndexes(filteredTaskListIndexes);
         commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
         updateUndoLists();
         return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
