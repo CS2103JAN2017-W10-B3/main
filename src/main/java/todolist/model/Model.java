@@ -1,8 +1,10 @@
 package todolist.model;
 
+import java.io.IOException;
 import java.util.Set;
 
 import todolist.commons.core.UnmodifiableObservableList;
+import todolist.commons.exceptions.DataConversionException;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
@@ -26,6 +28,13 @@ public interface Model {
 
     /** Adds the given Task */
     void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
+
+    //@@author A0110791M
+    /** Imports all tasks from given file location
+     * @throws IOException
+     * @throws DataConversionException */
+    void importTasks(String filePath) throws DataConversionException, IOException;
+    //@@
 
     /**
      * Updates the Task located at {@code filteredTaskListIndex} with
@@ -75,5 +84,7 @@ public interface Model {
 
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
 
-    //@@
+    //@@author A0110791M
+    void changeDirectory(String filePath) throws IOException;
+
 }
