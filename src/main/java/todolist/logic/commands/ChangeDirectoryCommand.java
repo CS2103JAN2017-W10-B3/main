@@ -16,7 +16,7 @@ public class ChangeDirectoryCommand extends Command {
             + "\nExample: import C:\\data\\mytodolist or import C:\\data\\ \n";
 
     public static final String MESSAGE_SUCCESS = "Directory successfully changed from: %s to: %s";
-    public static final String MESSAGE_FAILURE = "Error encountered, please check file path: ";
+    public static final String MESSAGE_FAILURE = "Error encountered, please check file path: %s";
 
     private String filePath;
 
@@ -31,7 +31,7 @@ public class ChangeDirectoryCommand extends Command {
             model.changeDirectory(filePath);
             return new CommandResult(String.format(MESSAGE_SUCCESS, currentFilePath, filePath));
         } catch (IOException e) {
-            return new CommandResult(MESSAGE_FAILURE.concat(filePath));
+            return new CommandResult(String.format(MESSAGE_FAILURE, filePath));
         }
     }
 
