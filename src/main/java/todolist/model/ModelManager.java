@@ -28,6 +28,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     private static final Status INCOMPLETE_STATUS = Status.INCOMPLETE;
     private static final Status COMPLETE_STATUS = Status.COMPLETED;
+    
+    private static int taskCount;
 
     // @@author A0143648Y
     private final ToDoList todoList;
@@ -132,7 +134,8 @@ public class ModelManager extends ComponentManager implements Model {
         filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
         filteredEvents = new FilteredList<>(this.todoList.getFilteredEvents());
         completedTasks = new FilteredList<>(this.todoList.getCompletedTasks());
-
+        syncSumTaskListed();
+        
     }
 
     @Override
@@ -166,6 +169,7 @@ public class ModelManager extends ComponentManager implements Model {
         return new UnmodifiableObservableList<>(sortedFloats);
     }
 
+    @Override
     public UnmodifiableObservableList<ReadOnlyTask> getAllTaskList() {
         return new UnmodifiableObservableList<>(todoList.getTaskList());
     }
@@ -176,12 +180,20 @@ public class ModelManager extends ComponentManager implements Model {
         sortedComplete.setComparator(ReadOnlyTask.getCompleteComparator());
         return new UnmodifiableObservableList<>(sortedComplete);
     }
+    
+    @Override
+    public int getSumTaskListed() {
+        return taskCount;
+    }
 
     // @@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
-
+            
+        case Task.COMPLETE_CHAR: 
+            return getCompletedList();
+            
         case Task.DEADLINE_CHAR:
             return getFilteredDeadlineList();
 
@@ -199,6 +211,7 @@ public class ModelManager extends ComponentManager implements Model {
         filteredDeadlines.setPredicate(null);
         filteredFloats.setPredicate(null);
         filteredEvents.setPredicate(null);
+        syncSumTaskListed();
     }
 
     @Override
@@ -210,6 +223,16 @@ public class ModelManager extends ComponentManager implements Model {
         filteredDeadlines.setPredicate(expression::satisfies);
         filteredFloats.setPredicate(expression::satisfies);
         filteredEvents.setPredicate(expression::satisfies);
+        syncSumTaskListed();
+        
+    }
+
+    private void syncSumTaskListed() {
+        int deadlineCounts = filteredDeadlines.size();
+        int floatCounts = filteredFloats.size();
+        int eventCounts = filteredEvents.size();
+        taskCount = deadlineCounts + floatCounts + eventCounts;
+        
     }
 
     // @@

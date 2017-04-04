@@ -139,14 +139,16 @@ public class ParserUtil {
     public static boolean isValidIndex(String index) {
         if (!index.contains(INDEX_RANGE_SYMBOL)) {
             return isSingleValidIndex(index);
-        } else {
+        } else if (!index.isEmpty() && !index.startsWith(INDEX_RANGE_SYMBOL)) {
             return isMultipleValidIndex(index);
+        } else {
+            return false;
         }
     }
 
     public static boolean isSingleValidIndex(String index) {
         if (StringUtil.isUnsignedInteger(index)) {
-            return true;
+            return false;
         } else {
             char taskType = index.charAt(0);
             if (taskType != Task.DEADLINE_CHAR && taskType != Task.EVENT_CHAR && taskType != Task.FLOAT_CHAR) {

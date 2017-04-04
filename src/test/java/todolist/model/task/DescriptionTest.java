@@ -13,8 +13,6 @@ public class DescriptionTest {
         // invalid urgency level
         assertFalse(Description.isValidDescription("")); // empty string
         assertFalse(Description.isValidDescription(" ")); // spaces only
-        assertFalse(Description.isValidDescription("^")); // only non-alphanumeric character
-        assertFalse(Description.isValidDescription("$%^&aa")); // only alphabetic strings
 
         // valid urgency level
         assertTrue(Description.isValidDescription("a")); // Description with one small letter

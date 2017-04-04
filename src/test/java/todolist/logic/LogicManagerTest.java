@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static todolist.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
 import static todolist.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -21,12 +19,12 @@ import org.junit.rules.TemporaryFolder;
 import com.google.common.eventbus.Subscribe;
 
 import todolist.commons.core.EventsCenter;
+import todolist.commons.core.Messages;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.CommandResult;
-import todolist.logic.commands.ExitCommand;
 import todolist.logic.commands.HelpCommand;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.Model;
@@ -171,18 +169,6 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_help() {
-        assertCommandSuccess("help", HelpCommand.SHOWING_HELP_MESSAGE, new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
-        assertTrue(helpShown);
-    }
-
-    @Test
-    public void execute_exit() {
-        assertCommandSuccess("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT,
-                new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
-    }
-
-    @Test
     public void execute_list_showsAllTasks() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
@@ -213,6 +199,7 @@ public class LogicManagerTest {
         assertCommandFailure(commandWord, expectedMessage); // index missing
         assertCommandFailure(commandWord + " +1", expectedMessage); // index should be unsigned
         assertCommandFailure(commandWord + " -1", expectedMessage); // index should be unsigned
+        assertCommandFailure(commandWord + " s1", expectedMessage); // index should have valid prefix
         assertCommandFailure(commandWord + " 0", expectedMessage); // index cannot be 0
         assertCommandFailure(commandWord + " not_a_number", expectedMessage);
     }
@@ -228,7 +215,7 @@ public class LogicManagerTest {
      *            based on visible index.
      */
     protected void assertIndexNotFoundBehaviorForCommand(String commandWord) throws Exception {
-        String expectedMessage = MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
+        String expectedMessage = Messages.MESSAGE_UNKNOWN_COMMAND;
         TestDataHelper helper = new TestDataHelper();
         List<Task> taskList = helper.generateTaskList(2);
 
@@ -427,7 +414,7 @@ public class LogicManagerTest {
          * Generates a Task object with given name. Other fields will have some
          * dummy values.
          */
-        Task generateTaskWithTitle(String name) throws Exception {
+        Task generateEventTaskWithTitle(String name) throws Exception {
             return new Task(
                     new Title(name),
                     new Venue("location"),

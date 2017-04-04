@@ -43,4 +43,5 @@ public class ClearCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
+    
 }
