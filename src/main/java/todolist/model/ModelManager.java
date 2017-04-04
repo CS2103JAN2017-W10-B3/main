@@ -1,5 +1,6 @@
 package todolist.model;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import todolist.commons.util.CollectionUtil;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
 import todolist.model.util.Status;
@@ -32,8 +34,8 @@ public class ModelManager extends ComponentManager implements Model {
     private FilteredList<ReadOnlyTask> filteredFloats;
     private FilteredList<ReadOnlyTask> filteredDeadlines;
     private FilteredList<ReadOnlyTask> filteredEvents;
-
     private FilteredList<ReadOnlyTask> completedTasks;
+    private ArrayList<TaskIndex> selectedIndexes;
 
     /**
      * Initializes a ModelManager with the given ToDoList and userPrefs.
@@ -45,6 +47,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with to-do list: " + todoList + " and user prefs " + userPrefs);
 
         this.todoList = new ToDoList(todoList);
+        this.selectedIndexes = new ArrayList<TaskIndex>();
         syncTypeOfTasks();
     }
 
@@ -102,7 +105,28 @@ public class ModelManager extends ComponentManager implements Model {
         indicateToDoListChanged();
     }
 
-    //@@author A0122017Y
+    @Override
+    public void updateSelectedIndexes(ArrayList<TaskIndex> indexes) {
+        this.selectedIndexes = indexes;
+    }
+
+    @Override
+    public void updateSelectedIndexes(TaskIndex index) {
+        this.selectedIndexes.clear();
+        this.selectedIndexes.add(index);
+    }
+
+    @Override
+    public ArrayList<TaskIndex> getSelectedIndexes() {
+        return this.selectedIndexes;
+    }
+
+    @Override
+    public void clearSelectedIndexes() {
+        this.selectedIndexes.clear();
+    }
+
+    // @@author A0122017Y
     private void syncTypeOfTasks() {
         filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
         filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
@@ -118,7 +142,8 @@ public class ModelManager extends ComponentManager implements Model {
         indicateToDoListChanged();
     }
 
-    // =========== Filtered Task List Accessors =============================================================
+    // =========== Filtered Task List Accessors
+    // =============================================================
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
@@ -151,7 +176,8 @@ public class ModelManager extends ComponentManager implements Model {
         sortedComplete.setComparator(ReadOnlyTask.getCompleteComparator());
         return new UnmodifiableObservableList<>(sortedComplete);
     }
-    //@@author A0143648Y
+
+    // @@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
@@ -186,6 +212,7 @@ public class ModelManager extends ComponentManager implements Model {
         filteredEvents.setPredicate(expression::satisfies);
     }
 
+    // @@
     @Override
     public void updateFilteredTaskListToShowWithStatus(Status status) {
         if (status == Status.ALL) {
@@ -201,8 +228,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
-
-    // ========== Inner classes/interfaces used for filtering =================================================
+    // ========== Inner classes/interfaces used for filtering
+    // =================================================
 
     interface Expression {
         boolean satisfies(ReadOnlyTask task);
@@ -261,13 +288,15 @@ public class ModelManager extends ComponentManager implements Model {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
-    //@@author A0122017Y
+
+    //
+    // @@author A0122017Y
     private class StatusQualifier implements Qualifier {
 
         Boolean status;
 
         StatusQualifier(Status status) {
-            switch(status) {
+            switch (status) {
             case COMPLETED:
                 this.status = true;
                 break;
@@ -290,6 +319,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
+
     private class TagQualifier implements Qualifier {
 
         Set<String> tags;
@@ -301,7 +331,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         @Override
         public boolean run(ReadOnlyTask task) {
-            for (Tag tag:task.getTags()) {
+            for (Tag tag : task.getTags()) {
                 if (this.tags.contains(tag.tagName)) {
                     status = true;
                 }
@@ -315,7 +345,8 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
-    //@@
+
+    // @@
     private boolean hasContainedKeyword(String searchMe, String findMe) {
         searchMe = searchMe.toLowerCase();
         findMe = findMe.toLowerCase();
