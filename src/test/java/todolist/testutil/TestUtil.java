@@ -73,14 +73,18 @@ public class TestUtil {
                 String.format("Expected %s to be thrown, but nothing was thrown.", expected.getName()));
     }
 
-    private static Task[] getSampleTaskData() {
+    private static Task[] getSampleTaskData() throws IllegalValueException {
         try {
             // CHECKSTYLE.OFF: LineLength
             return new Task[] {
-                new Task(new Title("CS2103 Tutorial"), new Venue("COM1-B103"), new StartTime("Tuesday 10:00"),
-                        new EndTime("Tuesday 11:00"), new UrgencyLevel("5"), new Description("Deadline of V0.2"), new UniqueTagList()),
-                new Task(new Title("DBS Internship interview"), new Venue("Raffles Place"), new StartTime("March 31, 9:30"),
-                        new EndTime("Wednesday 12:00"), new UrgencyLevel("5"), new Description("I love interview"), new UniqueTagList()),
+                new Task(new Title("CS2103 Tutorial"), new Venue("COM1-B103"), 
+                        new StartTime("Tuesday 10:00"), new EndTime("Tuesday 11:00"), 
+                        new UrgencyLevel("5"), new Description("Deadline of V0.2"), new UniqueTagList()),
+                
+                new Task(new Title("DBS Internship interview"), new Venue("Raffles Place"), 
+                        new StartTime("March 31, 9:30"), new EndTime("Wednesday 12:00"), 
+                        new UrgencyLevel("5"), new Description("I love interview"), new UniqueTagList()),
+                
                 new Task(new Title("Hang out with Joe"), new Venue("313 Somerset"), new StartTime("Saturday 11:00"),
                         new EndTime("Saturday 17:00"), new UrgencyLevel("4"), new Description("I love Joe"), new UniqueTagList()),
                 new Task(new Title("Statistics society meeting"), new Venue("S16 04-30"), new StartTime("Every Wednesday 19:00"),
@@ -97,9 +101,7 @@ public class TestUtil {
                         new EndTime("Thursday 11am"), new UrgencyLevel("4"), new Description("I love fanbingbing"), new UniqueTagList()) };
             // CHECKSTYLE.ON: LineLength
         } catch (IllegalValueException e) {
-            assert false;
-            // not possible
-            return null;
+            throw new IllegalValueException("not possible");
         }
     }
 
