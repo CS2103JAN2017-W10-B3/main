@@ -156,14 +156,20 @@ public class UiManager extends ComponentManager implements Ui {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         for (int count = 0; count < event.targetIndexes.size(); count++) {
             char listType = event.targetIndexes.get(count).getTaskChar();
+            if (count == 0) {
+                mainWindow.getEventListPanel().clearSelection();
+                mainWindow.getFloatListPanel().clearSelection();
+                mainWindow.getTaskListPanel().clearSelection();
+                mainWindow.getCompleteListPanel().clearSelection();
+            }
             if (listType == 'e' || listType == 'E') {
-                mainWindow.getEventListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+                mainWindow.getEventListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
             } else if (listType == 'f' || listType == 'F') {
-                mainWindow.getFloatListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+                mainWindow.getFloatListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
             } else if (listType == 'd' || listType == 'D') {
-                mainWindow.getTaskListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+                mainWindow.getTaskListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
             } else if (listType == 'c' || listType == 'C') {
-                mainWindow.getCompleteListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber());
+                mainWindow.getCompleteListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
             }
         }
     }
