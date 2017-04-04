@@ -28,8 +28,6 @@ import todolist.model.task.TaskIndex;
  */
 public class EditCommandParser {
 
-    private static Optional<ArrayList<TaskIndex>> indexes;
-
     // @@ A0143648Y
     /**
      * Parses the given {@code String} of arguments in the context of the
@@ -40,13 +38,18 @@ public class EditCommandParser {
         ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE, PREFIX_VENUE, PREFIX_STARTTIME,
                 PREFIX_ENDTIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
-        List<Optional<String>> preambleFields = ParserUtil.splitPreamble(argsTokenizer.getPreamble().orElse(""), 1);
-        Optional<ArrayList<TaskIndex>> indexes = preambleFields.get(0).flatMap(ParserUtil::parseIndex);
-        if (!indexes.isPresent()) {
-            indexes = EditCommandParser.indexes;
+        String indexesToBeParsed = argsTokenizer.getPreamble().orElse("");
+        Optional<ArrayList<TaskIndex>> indexes;
+        if (indexesToBeParsed.isEmpty()) {
+            indexes = Optional.of(new ArrayList<TaskIndex>());
+        }
+
+        else {
+
+            indexes = ParserUtil.parseIndex(indexesToBeParsed);
+
             if (!indexes.isPresent()) {
-                return new IncorrectCommand(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
             }
         }
         // @@
@@ -87,7 +90,4 @@ public class EditCommandParser {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
-    public static void setIndex(ArrayList<TaskIndex> indexes) {
-        EditCommandParser.indexes = Optional.of(indexes);
-    }
 }
