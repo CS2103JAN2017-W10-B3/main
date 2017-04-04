@@ -96,8 +96,8 @@ public class AddCommand extends UndoableCommand {
             checkValidDuration(tempStartTime, tempEndTime);
         }
 
-        this.toAdd = new Task(tempTitle, tempVenue, tempStartTime, tempEndTime,
-                tempUrgencyLevel, tempDescription, new UniqueTagList(tagSet));
+        this.toAdd = new Task(tempTitle, tempVenue, tempStartTime, tempEndTime, tempUrgencyLevel, tempDescription,
+                new UniqueTagList(tagSet));
     }
 
     private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
@@ -118,8 +118,10 @@ public class AddCommand extends UndoableCommand {
             updateUndoLists();
 
             UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(toAdd.getTaskChar());
-            EventsCenter.getInstance().post(new JumpToListRequestEvent(
-                    new TaskIndex(toAdd.getTaskChar(), lastShownList.indexOf(toAdd))));
+
+            TaskIndex indexToBeSelected = new TaskIndex(toAdd.getTaskChar(), lastShownList.indexOf(toAdd));
+            EventsCenter.getInstance().post(new JumpToListRequestEvent(indexToBeSelected));
+            model.updateSelectedIndexes(indexToBeSelected);
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {

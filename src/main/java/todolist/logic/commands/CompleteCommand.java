@@ -3,7 +3,9 @@ package todolist.logic.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
+import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
@@ -37,8 +39,15 @@ public class CompleteCommand extends UndoableCommand {
 
     @Override
     public CommandResult execute() throws CommandException {
+        if (filteredTaskListIndexes.isEmpty()) {
+            filteredTaskListIndexes.addAll(model.getSelectedIndexes());
+            if (filteredTaskListIndexes.isEmpty()) {
+                throw new CommandException(Messages.MESSAGE_NO_TASK_SELECTED);
+            }
+        }
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<ReadOnlyTask> tasksToComplete = new ArrayList<ReadOnlyTask>();
+        ArrayList<TaskIndex> selectedIndexes = new ArrayList<TaskIndex>();
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
@@ -56,6 +65,13 @@ public class CompleteCommand extends UndoableCommand {
 
         commandResultToUndo = new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
         updateUndoLists();
+
+        List<ReadOnlyTask> completedList = model.getCompletedList();
+        for (int count = 0; count < tasksToComplete.size(); count++) {
+            selectedIndexes.add(new TaskIndex('c', completedList.indexOf(tasksToComplete.get(count)) + 1));
+        }
+        model.updateSelectedIndexes(selectedIndexes);
+        EventsCenter.getInstance().post(new SelectMultipleTargetEvent(selectedIndexes));
 
         return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
     }
