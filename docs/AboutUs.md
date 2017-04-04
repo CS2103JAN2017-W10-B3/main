@@ -35,8 +35,19 @@ Role: Developer <br>
 * In Charge of: Commons <br>
 * Responsibilities: Integration <br>
 * Features implemented:
+	* [Add new feature to a task: Description]
+	* [Undo command]
+	* [Save command]
+	* [Parse multiple indexes]
+	* [Selection of tasks(multiple selection & auto selection)]
+	* [Omit input indexes]
+	* [Search for keywords ]
 * Code written:
+	* [Functional Codes]
 * Major Contributions:
+	* [Refactor tasks from one list to three lists]
+	* [Help in debugging tests]
+	* [Contribute to User stories and Use cases]
 
 
 -----
