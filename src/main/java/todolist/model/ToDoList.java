@@ -75,7 +75,7 @@ public class ToDoList implements ReadOnlyToDoList {
         syncMasterTagListWith(tasks);
     }
 
-//// Task-level operations
+    // Task-level operations
 
     /**
      * Adds a Task to the to-do list.
