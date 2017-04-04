@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import todolist.logic.commands.AddCommand;
+import todolist.logic.commands.ChangeDirectoryCommand;
 import todolist.logic.commands.ClearCommand;
 import todolist.logic.commands.Command;
 import todolist.logic.commands.CompleteCommand;
@@ -15,6 +16,7 @@ import todolist.logic.commands.EditCommand;
 import todolist.logic.commands.ExitCommand;
 import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
+import todolist.logic.commands.ImportCommand;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.ListCommand;
 import todolist.logic.commands.ListTagCommand;
@@ -91,6 +93,12 @@ public class Parser {
 
         case SaveCommand.COMMAND_WORD:
             return new SaveCommandParser().parse(arguments);
+
+        case ChangeDirectoryCommand.COMMAND_WORD:
+            return new ChangeDirectoryCommandParser().parse(arguments);
+
+        case ImportCommand.COMMAND_WORD:
+            return new ImportCommandParser().parse(arguments);
 
         default:
             if (ParserUtil.isValidIndex(commandWord) && arguments.isEmpty()) {
