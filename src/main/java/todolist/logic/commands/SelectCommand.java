@@ -1,9 +1,11 @@
 package todolist.logic.commands;
 
+import java.util.ArrayList;
+
 import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
-import todolist.commons.events.ui.JumpToListRequestEvent;
+import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.TaskIndex;
@@ -14,7 +16,7 @@ import todolist.model.task.TaskIndex;
  */
 public class SelectCommand extends Command {
 
-    private final TaskIndex targetIndex;
+    private final ArrayList<TaskIndex> targetIndexes;
 
     public static final String COMMAND_WORD = "select";
 
@@ -24,27 +26,28 @@ public class SelectCommand extends Command {
 
     public static final String MESSAGE_SELECT_TASK_SUCCESS = "Selected Task: %1$s" + "\n" + "%2$s";
 
-    public SelectCommand(TaskIndex targetIndex) {
-        this.targetIndex = targetIndex;
+    public SelectCommand(ArrayList<TaskIndex> targetIndexes) {
+        this.targetIndexes = targetIndexes;
     }
 
     @Override
     public CommandResult execute() throws CommandException {
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getListFromChar(targetIndex.getTaskChar());
+        for (int count = 0; count < targetIndexes.size(); count++) {
 
-        int listIndex = targetIndex.getTaskNumber();
+            UnmodifiableObservableList<ReadOnlyTask> lastShownList = model
+                    .getListFromChar(targetIndexes.get(count).getTaskChar());
 
-        if (lastShownList.size() < listIndex) {
-            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+            int listIndex = targetIndexes.get(count).getTaskNumber();
+
+            if (lastShownList.size() < listIndex) {
+                throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+            }
         }
 
-        EventsCenter.getInstance()
-                .post(new JumpToListRequestEvent(new TaskIndex(targetIndex.getTaskChar(), listIndex - 1)));
+        EventsCenter.getInstance().post(new SelectMultipleTargetEvent(targetIndexes));
+        model.updateSelectedIndexes(targetIndexes);
 
-        ReadOnlyTask task = lastShownList.get(listIndex - 1);
-
-        String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS, 
-                targetIndex.toString(), task.toString());
+        String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS);
         return new CommandResult(selectCommandResult);
 
     }

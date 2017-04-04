@@ -16,6 +16,7 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute() {
         model.updateFilteredListToShowAll();
+        model.clearSelectedIndexes();
         EventsCenter.getInstance().post(new ClearAllSelectionsEvent());
         return new CommandResult(MESSAGE_SUCCESS);
     }
