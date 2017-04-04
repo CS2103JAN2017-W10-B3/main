@@ -16,8 +16,6 @@ import todolist.model.task.TaskIndex;
 // @@ A0143648Y
 public class DeleteCommandParser {
 
-    private static Optional<ArrayList<TaskIndex>> indexes;
-
     /**
      * Parses the given {@code String} of arguments in the context of the
      * DeleteCommand and returns an DeleteCommand object for execution.
@@ -30,7 +28,4 @@ public class DeleteCommandParser {
         return new DeleteCommand(parseIndexes.get());
     }
 
-    public static void setIndex(ArrayList<TaskIndex> indexes) {
-        DeleteCommandParser.indexes = Optional.of(indexes);
-    }
 }
