@@ -93,10 +93,14 @@ public class Parser {
             return new SaveCommandParser().parse(arguments);
 
         default:
-            if (ParserUtil.isSingleValidIndex(commandWord) && arguments.isEmpty()) {
+            if (ParserUtil.isValidIndex(commandWord) && arguments.isEmpty()) {
                 return new SelectCommandParser().parse(commandWord);
             } else {
-                return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+                if (ParserUtil.isValidIndex(commandWord) && ParserUtil.isValidIndex(arguments.trim())) {
+                    return new SelectCommandParser().parse(commandWord + " " + arguments.trim());
+                } else {
+                    return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+                }
             }
         }
     }
