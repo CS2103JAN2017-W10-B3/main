@@ -24,7 +24,7 @@ public class DeleteCommand extends UndoableCommand {
             + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD
             + " e1 \n";
 
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Number of Tasks deleted: %1$s %2$s";
+    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted: ";
     // @@ A0143648Y
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
 
@@ -39,12 +39,15 @@ public class DeleteCommand extends UndoableCommand {
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<ReadOnlyTask> tasksToDelete = new ArrayList<ReadOnlyTask>();
+        String messageSuccessful = new String("");
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
-            if (lastShownList.size() < filteredTaskListIndex) {
+            if (lastShownList.size() < filteredTaskListIndex + 1) {
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
+            messageSuccessful = messageSuccessful + " "
+                    + lastShownList.get(filteredTaskListIndex).getTitle().toString();
 
             tasksToDelete.add(lastShownList.get(filteredTaskListIndex));
         }
@@ -57,11 +60,11 @@ public class DeleteCommand extends UndoableCommand {
             }
         }
 
-        commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
+        commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS + messageSuccessful);
         updateUndoLists();
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, 
-                tasksToDelete.size(), getTasksToString(tasksToDelete)));
+        return new CommandResult(
+                String.format(MESSAGE_DELETE_TASK_SUCCESS, tasksToDelete.size(), getTasksToString(tasksToDelete)));
     }
 
     @Override
@@ -80,7 +83,7 @@ public class DeleteCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
-    
+
     public String getTasksToString(ArrayList<ReadOnlyTask> tasks) {
         StringBuilder sb = new StringBuilder();
         for (ReadOnlyTask task : tasks) {
@@ -88,7 +91,7 @@ public class DeleteCommand extends UndoableCommand {
             sb.append(task.toString());
         }
         return sb.toString();
-        
+
     }
 
 }
