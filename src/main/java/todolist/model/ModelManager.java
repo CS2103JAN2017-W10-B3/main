@@ -1,21 +1,30 @@
 package todolist.model;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import todolist.commons.core.ComponentManager;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.model.ToDoListChangedEvent;
+import todolist.commons.events.storage.DirectoryChangedEvent;
+import todolist.commons.exceptions.DataConversionException;
 import todolist.commons.util.CollectionUtil;
+import todolist.commons.util.FileUtil;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
+import todolist.model.util.SampleDataUtil;
 import todolist.model.util.Status;
+import todolist.storage.XmlFileStorage;
 
 /**
  * Represents the in-memory model of the to-do list data. All changes to any
@@ -74,17 +83,74 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new ToDoListChangedEvent(todoList));
     }
 
+    // @@author A0110791M
+    /** Changes the directory to the filePath specified and updates the current todoList to match the destination */
     @Override
-    public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
-        todoList.removeTask(target);
+    public void changeDirectory (String filePath) throws IOException {
+        FileUtil.createIfMissing(new File(filePath));
+        try {
+            ReadOnlyToDoList targetList = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
+            indicateDirectoryChanged(filePath);
+            resetData(targetList);
+        } catch (DataConversionException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
+    /** Raises an event to indicate the user requests a new directory */
+    private void indicateDirectoryChanged (String filePath) {
+        raise(new DirectoryChangedEvent(filePath));
+    }
+
+    /** Imports all tasks from given filePath */
+    @Override
+    public void importTasks(String filePath) throws DataConversionException, IOException {
+        Optional<ReadOnlyToDoList> todoListOptional;
+        ReadOnlyToDoList initialData;
+
+        todoListOptional = Optional.of(XmlFileStorage.loadDataFromSaveFile(new File(filePath)));
+        if (!todoListOptional.isPresent()) {
+            logger.info("Data file not found. Will be starting with a sample ToDoList");
+        }
+        initialData = todoListOptional.orElseGet(SampleDataUtil::getSampleToDoList);
+
+        addImportedTasks(initialData);
+
+        indicateToDoListChanged();
+    }
+
+    private void addImportedTasks(ReadOnlyToDoList importedList) {
+        ObservableList<ReadOnlyTask> taskList = importedList.getTaskList();
+        for (ReadOnlyTask task : taskList) {
+            try {
+                addTask(task);
+            } catch (UniqueTaskList.DuplicateTaskException e) {
+                continue;
+            }
+        }
+    }
+
+    public synchronized void addTask(ReadOnlyTask readOnlyTask) throws UniqueTaskList.DuplicateTaskException {
+        Task task;
+        task = new Task(readOnlyTask.getTitle(), readOnlyTask.getVenue().orElse(null),
+                readOnlyTask.getStartTime().orElse(null),
+                readOnlyTask.getEndTime().orElse(null), readOnlyTask.getUrgencyLevel().orElse(null),
+                readOnlyTask.getDescription().orElse(null), readOnlyTask.getTags());
+        todoList.addTask(task);
+    }
+    // @@
+
+    @Override
+    public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
+        todoList.addTask(task);
         syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
     @Override
-    public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
-        todoList.addTask(task);
+    public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
+        todoList.removeTask(target);
         syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
@@ -102,7 +168,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateToDoListChanged();
     }
 
-    //@@author A0122017Y
+    // @@author A0122017Y
     private void syncTypeOfTasks() {
         filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
         filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
@@ -118,7 +184,8 @@ public class ModelManager extends ComponentManager implements Model {
         indicateToDoListChanged();
     }
 
-    // =========== Filtered Task List Accessors =============================================================
+    // =========== Filtered Task List Accessors
+    // =============================================================
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
@@ -151,7 +218,8 @@ public class ModelManager extends ComponentManager implements Model {
         sortedComplete.setComparator(ReadOnlyTask.getCompleteComparator());
         return new UnmodifiableObservableList<>(sortedComplete);
     }
-    //@@author A0143648Y
+
+    // @@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
@@ -201,8 +269,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
-
-    // ========== Inner classes/interfaces used for filtering =================================================
+    // ========== Inner classes/interfaces used for filtering
+    // =================================================
 
     interface Expression {
         boolean satisfies(ReadOnlyTask task);
@@ -261,13 +329,14 @@ public class ModelManager extends ComponentManager implements Model {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
-    //@@author A0122017Y
+
+    // @@author A0122017Y
     private class StatusQualifier implements Qualifier {
 
         Boolean status;
 
         StatusQualifier(Status status) {
-            switch(status) {
+            switch (status) {
             case COMPLETED:
                 this.status = true;
                 break;
@@ -290,6 +359,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
+
     private class TagQualifier implements Qualifier {
 
         Set<String> tags;
@@ -301,7 +371,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         @Override
         public boolean run(ReadOnlyTask task) {
-            for (Tag tag:task.getTags()) {
+            for (Tag tag : task.getTags()) {
                 if (this.tags.contains(tag.tagName)) {
                     status = true;
                 }
@@ -315,7 +385,8 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
-    //@@
+
+    // @@
     private boolean hasContainedKeyword(String searchMe, String findMe) {
         searchMe = searchMe.toLowerCase();
         findMe = findMe.toLowerCase();

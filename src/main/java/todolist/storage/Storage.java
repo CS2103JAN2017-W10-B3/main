@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.storage.DataSavingExceptionEvent;
+import todolist.commons.events.storage.DirectoryChangedEvent;
 import todolist.commons.exceptions.DataConversionException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.UserPrefs;
@@ -35,4 +36,11 @@ public interface Storage extends ToDoListStorage, UserPrefsStorage {
      * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
      */
     void handleToDoListChangedEvent(ToDoListChangedEvent abce);
+
+    //@@author A0110791M
+    /**
+     * Attempts to change the present working directory to what the user specifies
+     * @param targetDirectory   is the file path
+     */
+    void handleDirectoryChangedEvent(DirectoryChangedEvent dce);
 }
