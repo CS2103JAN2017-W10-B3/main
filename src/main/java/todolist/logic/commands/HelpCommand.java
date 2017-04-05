@@ -1,8 +1,7 @@
 package todolist.logic.commands;
 
 
-import todolist.commons.core.EventsCenter;
-import todolist.commons.events.ui.ShowHelpRequestEvent;
+import todolist.logic.parser.CommandSyntax;
 
 /**
  * Format full help instructions for every command for display.
@@ -12,63 +11,44 @@ public class HelpCommand extends Command {
     //@@ author: A0138628W
     private final String commandType;
 
+    private final CommandSyntax commandSyntax;
+
     public static final String COMMAND_WORD = "help";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
             + "Example: " + COMMAND_WORD + "\n"
-            + "Example: " + COMMAND_WORD + " add";
+            + "Example: " + COMMAND_WORD + " add \n";
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
 
-    public HelpCommand() {
+    public HelpCommand(CommandSyntax commandSyntax) {
         commandType = "";
+        this.commandSyntax = commandSyntax;
     }
 
-    public HelpCommand(String commandType) {
+    public HelpCommand(String commandType, CommandSyntax commandSyntax) {
         assert !commandType.isEmpty();
         this.commandType = commandType;
+        this.commandSyntax = commandSyntax;
     }
 
     @Override
     public CommandResult execute() {
         if (commandType.isEmpty()) {
-            EventsCenter.getInstance().post(new ShowHelpRequestEvent());
-            return new CommandResult(SHOWING_HELP_MESSAGE);
+            return new CommandResult(getAllCommandUsageMessage());
         } else {
-            return new CommandResult(getCommandUsageMessage(commandType));
+            return new CommandResult(getSpecificCommandUsageMessage(commandType));
         }
     }
 
-    private String getCommandUsageMessage(String command) {
+    private String getSpecificCommandUsageMessage(String command) {
         assert !command.isEmpty();
-        if (command.equals(AddCommand.COMMAND_WORD)) {
-            return AddCommand.MESSAGE_USAGE;
-        } else if (command.equals(EditCommand.COMMAND_WORD)) {
-            return EditCommand.MESSAGE_USAGE;
-        } else if (command.equals(SelectCommand.COMMAND_WORD)) {
-            return SelectCommand.MESSAGE_USAGE;
-        } else if (command.equals(DeleteCommand.COMMAND_WORD)) {
-            return DeleteCommand.MESSAGE_USAGE;
-        } else if (command.equals(ClearCommand.COMMAND_WORD)) {
-            return ClearCommand.MESSAGE_USAGE;
-        } else if (command.equals(CompleteCommand.COMMAND_WORD)) {
-            return CompleteCommand.MESSAGE_USAGE;
-        } else if (command.equals(FindCommand.COMMAND_WORD)) {
-            return FindCommand.MESSAGE_USAGE;
-        } else if (command.equals(ListCommand.COMMAND_WORD)) {
-            return ListCommand.MESSAGE_USAGE;
-        } else if (command.equals(ListTagCommand.COMMAND_WORD)) {
-            return ListTagCommand.MESSAGE_USAGE;
-        } else if (command.equals(ListTaskUnderTagCommand.COMMAND_WORD)) {
-            return ListTaskUnderTagCommand.MESSAGE_USAGE;
-        } else if (command.equals(ExitCommand.COMMAND_WORD)) {
-            return ExitCommand.MESSAGE_USAGE;
-        } else if (command.equals(UndoCommand.COMMAND_WORD)) {
-            return UndoCommand.MESSAGE_USAGE;
-        } else if (command.equals(SaveCommand.COMMAND_WORD)) {
-            return SaveCommand.MESSAGE_USAGE;
-        } else {
-            return MESSAGE_USAGE;
-        }
+        return commandSyntax.getAvailableCommands().get(command);
+    }
+
+    private String getAllCommandUsageMessage() {
+        StringBuilder sb = new StringBuilder();
+        commandSyntax.getAvailableCommands().forEach((k, v) -> sb.append(v).append("\n"));
+        return sb.toString();
     }
 }

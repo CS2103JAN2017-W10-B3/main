@@ -13,7 +13,7 @@ public class FindCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all tasks that contains any of "
             + "the specified keywords and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " 2103 3269";
+            + "Example: " + COMMAND_WORD + " 2103 3269 \n";
 
     private final Set<String> keywords;
 
