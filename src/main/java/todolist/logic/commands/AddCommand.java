@@ -34,8 +34,8 @@ public class AddCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a Task to the to-do list. \n"
-            + "General usage: add [/venue <VENUE>] [/from <STARTTIME>] [/to <ENDTIME>] "
-            + "[/level <IMPORTANCE>] [/description <DESCRIPTION>] [#<TAGS>] "
+            + "General usage: add TITLE [/venue <VENUE>] [/from <STARTTIME>] [/to <ENDTIME>] "
+            + "[/by <DEADLINE>] [/level <IMPORTANCE>] [/description <DESCRIPTION>] [#<TAGS...>] "
             + "Where the parameters in square brackets are optional; \n"
             + "Date and Time format could be in the format of DD/MM/YY HH:MM, "
             + "or use words like Wed, today, tomorrow \n";

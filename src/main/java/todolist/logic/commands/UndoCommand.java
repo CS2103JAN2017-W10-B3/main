@@ -16,7 +16,7 @@ public class UndoCommand extends Command {
 
     public static final String MESSAGE_UNDO_FAILURE = "No more operations to undo";
     public static final String COMMAND_WORD = "undo";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + "\n" + "Only the last three commands can be recovered "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Only the last three commands can be recovered. \n"
             + "Example: " + COMMAND_WORD;
 
     @Override

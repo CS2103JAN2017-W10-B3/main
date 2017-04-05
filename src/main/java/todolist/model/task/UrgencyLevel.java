@@ -10,8 +10,8 @@ public class UrgencyLevel implements Comparable<UrgencyLevel> {
      */
 
     public static final String MESSAGE_URGENCYLEVEL_CONSTRAINTS = "Task urgency levels should "
-            + "only contain numbers between 1 to 5";
-    public static final String URGENCYLEVEL_VALIDATION_REGEX = "[1-5]";
+            + "only contain numbers between 1 to 3";
+    public static final String URGENCYLEVEL_VALIDATION_REGEX = "[1-3]";
 
     private final String value;
     private final int intValue;
