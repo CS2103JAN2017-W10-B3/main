@@ -26,6 +26,7 @@ import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.CommandResult;
 import todolist.logic.commands.HelpCommand;
+import todolist.logic.commands.ListCommand;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.Model;
 import todolist.model.ModelManager;
@@ -154,9 +155,6 @@ public class LogicManagerTest {
             assertEquals(expectedMessage, e.getMessage());
         }
         
-        // Confirm the state of data given by model is as expected
-        assertEquals(expectedShownList, model.getListFromChar(taskChar));
-        
         // Confirm the state of data (saved and in-memory) is as expected
         assertEquals(expectedToDoList, model.getToDoList());
         assertEquals(expectedToDoList, latestSavedToDoList);
@@ -178,10 +176,10 @@ public class LogicManagerTest {
         // prepare to-do list state
         helper.addToModel(model, 2);
 
-//        assertCommandSuccess("list",
-//                ListCommand.MESSAGE_SUCCESS,
-//                expectedAB,
-//                expectedList);
+        assertCommandSuccess("list",
+                ListCommand.MESSAGE_SUCCESS,
+                expectedAB,
+                expectedList, Task.ALL_CHAR);
     }
 
     /**
@@ -247,8 +245,8 @@ public class LogicManagerTest {
         public TestDataHelper() throws IllegalValueException {
             name = new Title("CS2103");
             privateVenue = new Venue("COM1 B103");
-            privateStartTime = new StartTime("Today 11am");
-            privateEndTime = new EndTime("Today 12pm");
+            privateStartTime = new StartTime("April 30 11am");
+            privateEndTime = new EndTime("April 30 12pm");
             privateUrgencyLevel = new UrgencyLevel("3");
             privateDescription = new Description("I love 2103!!!");
             tags = new UniqueTagList(new Tag("tag1"), new Tag("longertag2"));

@@ -1,11 +1,9 @@
 package todolist.model;
 
-import java.util.ArrayList;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
-
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -65,6 +63,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     // @@
+    
     public ModelManager() {
         this(new ToDoList(), new UserPrefs());
     }
@@ -78,11 +77,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public ReadOnlyToDoList getToDoList() {
         return todoList;
-    }
-
-    @Override
-    public String getTagListToString() {
-        return todoList.getTagListToString();
     }
 
     /** Raises an event to indicate the model has changed */
@@ -192,6 +186,14 @@ public class ModelManager extends ComponentManager implements Model {
     public void clearSelectedIndexes() {
         this.selectedIndexes.clear();
     }
+    
+    /**
+     * Return a string that represents all tags in the to-do list
+     */
+    @Override
+    public String getTagListToString() {
+        return todoList.getTagListToString();
+    }
 
     // @@author A0122017Y
     private void syncTypeOfTasks() {
@@ -273,11 +275,11 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void updateFilteredListToShowAll() {
+        syncTaskWithTime();
         filteredDeadlines.setPredicate(null);
         filteredFloats.setPredicate(null);
         filteredEvents.setPredicate(null);
         completedTasks.setPredicate(null);
-        syncTaskWithTime();
         syncSumTaskListed();
         indicateToDoListChanged();
 

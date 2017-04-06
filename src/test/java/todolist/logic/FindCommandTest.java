@@ -29,7 +29,7 @@ public class FindCommandTest extends LogicManagerTest {
 
         List<Task> fourTasks = helper.generateTaskList(p1, pTarget1, p2, pTarget2);
         ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = helper.generateTaskList(pTarget1, pTarget2);
+        List<Task> expectedList = helper.generateTaskList(pTarget1, pTarget2, p2);
         helper.addToModel(model, fourTasks);
 
         assertCommandSuccess("find KEY",
