@@ -221,6 +221,11 @@ public class ToDoList implements ReadOnlyToDoList {
         return Objects.hash(tasks, tags);
     }
 
+    public void autoComplete() {
+        tasks.autoComplete();
+        
+    }
+
 
 
 }
