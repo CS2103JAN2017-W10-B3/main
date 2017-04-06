@@ -2,6 +2,9 @@ package todolist.model.task;
 
 import java.time.LocalDateTime;
 
+import todolist.commons.exceptions.IllegalValueException;
+import todolist.commons.util.StringUtil;
+
 //@@author A0122017Y
 public class CompleteTime implements Time {
 
@@ -15,6 +18,16 @@ public class CompleteTime implements Time {
         this.completeTime = time;
     }
     
+    public CompleteTime(String completeTimeArg) throws IllegalValueException {
+        assert completeTimeArg != null;
+        completeTimeArg = completeTimeArg.trim();
+        try {
+            this.completeTime = StringUtil.parseStringToTime(completeTimeArg);
+        } catch (IllegalValueException e) {
+            throw new IllegalValueException(MESSAGE_TIME_CONSTRAINTS);
+        }
+    }
+    
     /**
      * Obtain the LocalDateTime value of the complete time
      */
@@ -26,6 +39,11 @@ public class CompleteTime implements Time {
     @Override
     public int compareTo(Time time) {
         return this.completeTime.compareTo(time.getTimeValue());
+    }
+    
+    @Override
+    public String toString() {
+        return this.completeTime.format(StringUtil.DATE_FORMATTER);
     }
 
 }

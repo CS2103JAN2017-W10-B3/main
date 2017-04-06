@@ -208,5 +208,9 @@ public interface ReadOnlyTask {
         return byTaskType.thenComparing(byCompleteTime).thenComparing(byName);
     }
     //@@
+    //author A0143648Y
+    default String getIsCompletedToString(){
+        return this.isTaskCompleted().toString();
+    }
 
 }
