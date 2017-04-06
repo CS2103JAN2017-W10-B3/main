@@ -209,7 +209,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void completeTask(ReadOnlyTask taskToComplete) {
         todoList.completeTask(taskToComplete);
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
 
     }
@@ -289,7 +288,6 @@ public class ModelManager extends ComponentManager implements Model {
 
     private void syncTaskWithTime() {
         todoList.autoComplete();
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
 
     }
