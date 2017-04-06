@@ -73,7 +73,7 @@ public class TestUtil {
                 String.format("Expected %s to be thrown, but nothing was thrown.", expected.getName()));
     }
 
-    private static Task[] getSampleTaskData() throws IllegalValueException {
+    private static Task[] getSampleTaskData() {
         try {
             // CHECKSTYLE.OFF: LineLength
             return new Task[] {
@@ -101,7 +101,8 @@ public class TestUtil {
                         new EndTime("Thursday 11am"), new UrgencyLevel("4"), new Description("I love fanbingbing"), new UniqueTagList()) };
             // CHECKSTYLE.ON: LineLength
         } catch (IllegalValueException e) {
-            throw new IllegalValueException("not possible");
+            assert false;
+            return null;
         }
     }
 
