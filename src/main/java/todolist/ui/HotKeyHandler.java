@@ -32,9 +32,9 @@ public class HotKeyHandler implements EventHandler<KeyEvent> {
         switch (keyCode) {
         case DOWN:
             showCommandsHistory();
-            return;
+            break;
         default:
-            return;
+            break;
         }
     }
 

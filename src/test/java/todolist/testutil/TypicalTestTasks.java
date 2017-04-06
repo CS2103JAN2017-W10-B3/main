@@ -1,7 +1,10 @@
 package todolist.testutil;
 
+import java.util.Arrays;
+
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.model.ToDoList;
+import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 
@@ -62,9 +65,12 @@ public class TypicalTestTasks {
         }
     }
 
+    //@@author A0110791M
     public TestTask[] getTypicalTasks() {
-        return new TestTask[]{cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc,
-            tuitionPartTime, stringsRehearsal, dinnerAuntie};
+        TestTask[] testTasks = new TestTask[]{cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc,
+                tuitionPartTime, stringsRehearsal, dinnerAuntie};
+        Arrays.sort(testTasks, ReadOnlyTask.getEventComparator());
+        return testTasks;
     }
 
     public ToDoList getTypicalToDoList() {
