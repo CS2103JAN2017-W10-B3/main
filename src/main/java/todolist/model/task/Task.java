@@ -162,6 +162,10 @@ public class Task implements ReadOnlyTask {
     public void setCompleteTime(Time completeTime) {
         this.completeTime = completeTime;
     }
+    
+    public void setUrgencyLevel(UrgencyLevel urgencyLevel){
+        this.urgencyLevel = urgencyLevel;
+    }
 
     @Override
     public Time getCompleteTime() {
@@ -218,6 +222,7 @@ public class Task implements ReadOnlyTask {
         this.setStartTime(replacement.getStartTime().orElse(null));
         this.setEndTime(replacement.getEndTime().orElse(null));
         this.setVenue(replacement.getVenue().orElse(null));
+        this.setUrgencyLevel(replacement.getUrgencyLevel().orElse(null));
         this.setDescription(replacement.getDescription().orElse(null));
         this.setTags(replacement.getTags());
     }
