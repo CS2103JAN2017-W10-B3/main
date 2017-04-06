@@ -10,6 +10,9 @@ public interface Time extends Comparable<Time> {
     public static final String MESSAGE_INVALID_DURATION = "Starting time must be before ending time!";
     public static final String MESSAGE_TIME_CONSTRAINTS = "Task start time should be in the form of "
             + "DD/MM/YYYY HH:MM, e.g 20/03/2017 4:18 \n"
+            + "DD MM YYYY HH:MM, e.g 20 Mar 2017 4:18 \n"
+            + "DD MM HH:MM, e.g 20 Mar 4:18 \n"
+            + "Notice that a colon \":\" is needed for time \n"
             + "Or name of the day, e.g Wed 4:18 \n"
             + "Or relative days, e.g tomorrow 4:18 \n"
             + "Notice that no abbreviation is accepted for relatives. e.g tmrw is invalid. ";
