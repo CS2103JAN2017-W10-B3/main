@@ -223,8 +223,29 @@ public class LogicManagerTest {
             model.addTask(p);
         }
 
-        assertCommandFailure(commandWord + " 3", expectedMessage);
+        assertCommandFailure(commandWord + "e9", expectedMessage);
     }
+     //@@author A0122017Y
+    /**
+     * Test if the select method without keyword "select" will throw out error message
+     * if the given index is out of bound
+     * @throws Exception
+     */
+    @Test
+    public void executeIndexNotFoundBehaviorForSelectCommand() throws Exception {
+        String expectedMessage = Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
+        TestDataHelper helper = new TestDataHelper();
+        List<Task> taskList = helper.generateTaskList(2);
+
+        // set AB state to 2 tasks
+        model.resetData(new ToDoList());
+        for (Task p : taskList) {
+            model.addTask(p);
+        }
+
+        assertCommandFailure("e9", expectedMessage);
+    }
+    //@@
 
     /**
      * A utility class to generate test data.
