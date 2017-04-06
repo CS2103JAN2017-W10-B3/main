@@ -37,11 +37,10 @@ public class SelectCommandTest extends LogicManagerTest {
         helper.addToModel(model, threeTasks);
         Task toSelect = threeTasks.get(1);
 
-        assertCommandSuccess("select e2",
+        assertCommandSuccess("e2",
                 String.format(SelectCommand.MESSAGE_SELECT_TASK_SUCCESS, "e2", toSelect.toString()),
                 expectedAB,
                 expectedAB.getFilteredEvents(), Task.EVENT_CHAR);
-        assertEquals(1, targetedJumpIndex);
         assertEquals(model.getFilteredEventList().get(1), threeTasks.get(1));
     }
     
