@@ -126,6 +126,10 @@ public class Task implements ReadOnlyTask {
     // @@ A0143648Y
     @Override
     public Character getTaskChar() {
+        if(isTaskCompleted()){
+            return COMPLETE_CHAR;
+        }
+            else{
         if (isDeadlineTask()) {
             return DEADLINE_CHAR;
         } else if (isEventTask()) {
@@ -133,6 +137,7 @@ public class Task implements ReadOnlyTask {
         } else {
             return FLOAT_CHAR;
         }
+    }
     }
     // @@
 
