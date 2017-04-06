@@ -63,7 +63,7 @@ public class XmlAdaptedTask {
         urgencyLevel = source.getUrgencyLevel().isPresent() ? source.getUrgencyLevel().get().toString() : "";
         description = source.getDescription().isPresent() ? source.getDescription().get().toString() : "";
         isCompleted = source.getIsCompletedToString();
-        completeTime = source.getCompleteTime() != null? source.getCompleteTime().toString() : "";
+        completeTime = source.getCompleteTime() != null? source.getCompleteTime().get().toString() : "";
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));

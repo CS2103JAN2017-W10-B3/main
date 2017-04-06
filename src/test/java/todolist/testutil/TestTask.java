@@ -3,6 +3,7 @@ package todolist.testutil;
 import java.util.Optional;
 
 import todolist.model.tag.UniqueTagList;
+import todolist.model.task.CompleteTime;
 import todolist.model.task.Description;
 import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
@@ -30,7 +31,7 @@ public class TestTask implements ReadOnlyTask {
     private UniqueTagList tags;
     private Category category;
     private Boolean isCompleted;
-    private Time completeTime;
+    private Optional<Time> completeTime;
 
     public TestTask() {
         tags = new UniqueTagList();
@@ -102,7 +103,7 @@ public class TestTask implements ReadOnlyTask {
     }
 
     @Override
-    public Time getCompleteTime() {
+    public Optional<Time> getCompleteTime() {
         return completeTime;
     }
 

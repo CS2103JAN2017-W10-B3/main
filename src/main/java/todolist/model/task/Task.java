@@ -76,7 +76,7 @@ public class Task implements ReadOnlyTask {
     public Task(ReadOnlyTask source) {
         this(source.getTitle(), source.getVenue().orElse(null), source.getStartTime().orElse(null),
                 source.getEndTime().orElse(null), source.getUrgencyLevel().orElse(null),
-                source.getDescription().orElse(null), source.getTags(), source.getCompleteTime(),
+                source.getDescription().orElse(null), source.getTags(), source.getCompleteTime().orElse(null),
                 source.isTaskCompleted());
     }
 
@@ -173,8 +173,8 @@ public class Task implements ReadOnlyTask {
     }
 
     @Override
-    public Time getCompleteTime() {
-        return this.completeTime;
+    public Optional<Time> getCompleteTime() {
+        return Optional.ofNullable(this.completeTime);
     }
 
     @Override
