@@ -1,6 +1,5 @@
 package todolist.model;
 
-
 import java.util.ArrayList;
 
 import java.io.File;
@@ -40,7 +39,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private static final Status INCOMPLETE_STATUS = Status.INCOMPLETE;
     private static final Status COMPLETE_STATUS = Status.COMPLETED;
-    
+
     private static int taskCount;
 
     // @@author A0143648Y
@@ -92,9 +91,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     // @@author A0110791M
-    /** Changes the directory to the filePath specified and updates the current todoList to match the destination */
+    /**
+     * Changes the directory to the filePath specified and updates the current
+     * todoList to match the destination
+     */
     @Override
-    public void changeDirectory (String filePath) throws IOException {
+    public void changeDirectory(String filePath) throws IOException {
         FileUtil.createIfMissing(new File(filePath));
         try {
             ReadOnlyToDoList targetList = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
@@ -106,7 +108,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     /** Raises an event to indicate the user requests a new directory */
-    private void indicateDirectoryChanged (String filePath) {
+    private void indicateDirectoryChanged(String filePath) {
         raise(new DirectoryChangedEvent(filePath));
     }
 
@@ -141,9 +143,9 @@ public class ModelManager extends ComponentManager implements Model {
     public synchronized void addTask(ReadOnlyTask readOnlyTask) throws UniqueTaskList.DuplicateTaskException {
         Task task;
         task = new Task(readOnlyTask.getTitle(), readOnlyTask.getVenue().orElse(null),
-                readOnlyTask.getStartTime().orElse(null),
-                readOnlyTask.getEndTime().orElse(null), readOnlyTask.getUrgencyLevel().orElse(null),
-                readOnlyTask.getDescription().orElse(null), readOnlyTask.getTags());
+                readOnlyTask.getStartTime().orElse(null), readOnlyTask.getEndTime().orElse(null),
+                readOnlyTask.getUrgencyLevel().orElse(null), readOnlyTask.getDescription().orElse(null),
+                readOnlyTask.getTags());
         todoList.addTask(task);
     }
     // @@
@@ -151,7 +153,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         todoList.addTask(task);
-        syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
@@ -159,7 +160,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
         todoList.removeTask(target);
-        syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
@@ -171,11 +171,9 @@ public class ModelManager extends ComponentManager implements Model {
         assert taskToEdit != null;
         assert editedTask != null;
         todoList.updateTask(taskToEdit, editedTask);
-        syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
-
 
     @Override
     public void updateSelectedIndexes(ArrayList<TaskIndex> indexes) {
@@ -198,7 +196,6 @@ public class ModelManager extends ComponentManager implements Model {
         this.selectedIndexes.clear();
     }
 
-
     // @@author A0122017Y
     private void syncTypeOfTasks() {
         filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
@@ -206,7 +203,7 @@ public class ModelManager extends ComponentManager implements Model {
         filteredEvents = new FilteredList<>(this.todoList.getFilteredEvents());
         completedTasks = new FilteredList<>(this.todoList.getCompletedTasks());
         syncSumTaskListed();
-        
+
     }
 
     @Override
@@ -214,7 +211,7 @@ public class ModelManager extends ComponentManager implements Model {
         todoList.completeTask(taskToComplete);
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
-        
+
     }
 
     // =========== Filtered Task List Accessors
@@ -253,21 +250,19 @@ public class ModelManager extends ComponentManager implements Model {
         return new UnmodifiableObservableList<>(sortedComplete);
     }
 
-    
     @Override
     public int getSumTaskListed() {
         return taskCount;
     }
 
-
     // @@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
-            
-        case Task.COMPLETE_CHAR: 
+
+        case Task.COMPLETE_CHAR:
             return getCompletedList();
-            
+
         case Task.DEADLINE_CHAR:
             return getFilteredDeadlineList();
 
@@ -289,12 +284,11 @@ public class ModelManager extends ComponentManager implements Model {
         syncTaskWithTime();
         syncSumTaskListed();
         indicateToDoListChanged();
-        
+
     }
 
     private void syncTaskWithTime() {
         todoList.autoComplete();
-        syncTypeOfTasks();
         updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
 
@@ -312,7 +306,7 @@ public class ModelManager extends ComponentManager implements Model {
         completedTasks.setPredicate(expression::satisfies);
         syncSumTaskListed();
         indicateToDoListChanged();
-        
+
     }
 
     private void syncSumTaskListed() {
@@ -321,7 +315,7 @@ public class ModelManager extends ComponentManager implements Model {
         int eventCounts = filteredEvents.size();
         int completeCounts = completedTasks.size();
         taskCount = deadlineCounts + floatCounts + eventCounts + completeCounts;
-        
+
     }
 
     // @@
@@ -400,7 +394,6 @@ public class ModelManager extends ComponentManager implements Model {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
-
 
     //
 
