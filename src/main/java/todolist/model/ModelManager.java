@@ -153,14 +153,12 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         todoList.addTask(task);
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
         todoList.removeTask(target);
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
@@ -171,7 +169,6 @@ public class ModelManager extends ComponentManager implements Model {
         assert taskToEdit != null;
         assert editedTask != null;
         todoList.updateTask(taskToEdit, editedTask);
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 

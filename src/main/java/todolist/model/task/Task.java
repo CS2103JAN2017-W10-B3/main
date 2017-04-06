@@ -7,8 +7,8 @@ import java.util.Optional;
 import todolist.model.tag.UniqueTagList;
 
 /**
- * Represents a Task in the to-do list.
- * Guarantees: details are present and not null, field values are validated.
+ * Represents a Task in the to-do list. Guarantees: details are present and not
+ * null, field values are validated.
  */
 public class Task implements ReadOnlyTask {
 
@@ -34,37 +34,52 @@ public class Task implements ReadOnlyTask {
     /**
      * Every field must be present and not null.
      */
-    public Task(Title title, Venue venue, StartTime startTime, EndTime endTime,
-            UrgencyLevel urgencyLevel, Description description, UniqueTagList tags) {
+    public Task(Title title, Venue venue, StartTime startTime, EndTime endTime, UrgencyLevel urgencyLevel,
+            Description description, UniqueTagList tags, Time completeTime, boolean isCompleted) {
         this.title = title;
         this.venue = venue;
         this.startTime = startTime;
         this.endTime = endTime;
         this.description = description;
         this.urgencyLevel = urgencyLevel;
-        this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
-        this.category = sortCategory();
-        this.isCompleted = false;  //by default, task is not completed when initiated
+        this.tags = new UniqueTagList(tags); // protect internal tags from
+                                             // changes in the arg list
+        this.isCompleted = isCompleted;
+        this.completeTime = completeTime;
+        this.category = sortCategory();// by default, task is not completed when
+                                       // initiated
+    }
+
+    public Task(Title title, Venue venue, StartTime startTime, EndTime endTime, UrgencyLevel urgencyLevel,
+            Description description, UniqueTagList tags) {
+        this.title = title;
+        this.venue = venue;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.urgencyLevel = urgencyLevel;
+        this.tags = new UniqueTagList(tags); // protect internal tags from
+                                             // changes in the arg list
+        this.isCompleted = false;
+        this.category = sortCategory(); // by default, task is not completed
+                                        // when initiated
     }
 
     public static boolean isValidTime(StartTime startTime, EndTime endTime) {
         return !(startTime != null && endTime != null && startTime.isValidDuration(endTime));
     }
 
-    //@@A0122017Y
+    // @@A0122017Y
     /**
      * Creates a copy of the given ReadOnlyTask.
      */
     public Task(ReadOnlyTask source) {
-        this(source.getTitle(),
-                source.getVenue().orElse(null),
-                source.getStartTime().orElse(null),
-                source.getEndTime().orElse(null),
-                source.getUrgencyLevel().orElse(null),
-                source.getDescription().orElse(null),
-                source.getTags());
+        this(source.getTitle(), source.getVenue().orElse(null), source.getStartTime().orElse(null),
+                source.getEndTime().orElse(null), source.getUrgencyLevel().orElse(null),
+                source.getDescription().orElse(null), source.getTags(), source.getCompleteTime(),
+                source.isTaskCompleted());
     }
-    
+
     /**
      * Sort the task to be a deadline task if it has only the end time.
      */
@@ -73,14 +88,16 @@ public class Task implements ReadOnlyTask {
     }
 
     /**
-     * Sort the task to be an event task if it has both the start time and end time
+     * Sort the task to be an event task if it has both the start time and end
+     * time
      */
     private boolean isEventTask() {
         return this.endTime != null && startTime != null;
     }
-    
+
     /**
-     * Sort the task to be a floating task if it has neither start or end time, or only the start time
+     * Sort the task to be a floating task if it has neither start or end time,
+     * or only the start time
      */
     private boolean isFloatingTask() {
         return this.endTime == null;
@@ -104,9 +121,9 @@ public class Task implements ReadOnlyTask {
         return this.category;
     }
 
-    //@@
+    // @@
 
-    //@@ A0143648Y
+    // @@ A0143648Y
     @Override
     public Character getTaskChar() {
         if (isDeadlineTask()) {
@@ -117,7 +134,7 @@ public class Task implements ReadOnlyTask {
             return FLOAT_CHAR;
         }
     }
-    //@@
+    // @@
 
     public void setTitle(Title name) {
         assert name != null;
@@ -128,7 +145,8 @@ public class Task implements ReadOnlyTask {
     public Title getTitle() {
         return title;
     }
-    //@@author A0122017Y
+
+    // @@author A0122017Y
     public void setEndTime(EndTime endTime) {
         this.endTime = endTime;
     }
@@ -184,7 +202,6 @@ public class Task implements ReadOnlyTask {
         this.description = description;
     }
 
-
     /**
      * Replaces this Task's tags with the tags in the argument tag list.
      */
@@ -214,7 +231,8 @@ public class Task implements ReadOnlyTask {
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
+        // use this method for custom fields hashing instead of implementing
+        // your own
         return Objects.hash(title, venue, endTime, description, tags);
     }
 
@@ -234,7 +252,7 @@ public class Task implements ReadOnlyTask {
             CompleteTime completeTime = new CompleteTime(LocalDateTime.now());
             this.setCompleteTime(completeTime);
         }
-        this.isCompleted = !this.isCompleted;
+        this.isCompleted = true;
     }
 
 }
