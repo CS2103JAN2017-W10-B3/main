@@ -19,10 +19,10 @@ import todolist.model.task.Time;
  */
 public class StringUtil {
 
+    private static final int DAY_INDEX = 0;
     public static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT);
-    private static final int DEADLINE_INDEX = 0;
-    
+
     /**
      * Returns true if the {@code sentence} contains the {@code word}.
      *   Ignores case, but a full word match is required.
@@ -77,6 +77,10 @@ public class StringUtil {
         if (timeArg == null) {
             throw new IllegalValueException(Time.MESSAGE_TIME_CONSTRAINTS);
         }
+        
+        if (!TimeUtil.isValidMonthDay(timeArg)) {
+            throw new IllegalValueException(Time.MESSAGE_TIME_CONSTRAINTS);
+        }
 
         PrettyTimeParser timeParser = new PrettyTimeParser();
         List<Date> parsedResult = timeParser.parse(timeArg);
@@ -87,7 +91,7 @@ public class StringUtil {
         }
 
         //wrap in LocalDateTime class
-        return LocalDateTime.ofInstant(parsedResult.get(DEADLINE_INDEX).toInstant(), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(parsedResult.get(DAY_INDEX).toInstant(), ZoneId.systemDefault());
     }
 
 }
