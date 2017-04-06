@@ -33,7 +33,7 @@ public class StringUtilTest {
         assertFalse(StringUtil.isUnsignedInteger("aaa"));
 
         // EP: zero
-        assertTrue(StringUtil.isUnsignedInteger("0"));
+        assertFalse(StringUtil.isUnsignedInteger("0"));
 
         // EP: signed numbers
         assertFalse(StringUtil.isUnsignedInteger("-1"));
