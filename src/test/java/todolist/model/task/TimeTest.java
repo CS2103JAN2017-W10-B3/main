@@ -25,10 +25,10 @@ public class TimeTest {
     
     @Test
     public void isValidDuration() throws IllegalValueException {
-        StartTime start1 = new StartTime("Today");
+        StartTime start1 = new StartTime("April 30");
         StartTime start3 = new StartTime("Tomorrow");
         
-        EndTime end1 = new EndTime("Tomorrow");
+        EndTime end1 = new EndTime("May 30");
         EndTime end2 = new EndTime("Today");
         EndTime end3 = new EndTime("Two weeks later");
         
