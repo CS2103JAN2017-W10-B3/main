@@ -72,7 +72,7 @@ public class TimeUtilTest {
         assertFalse(TimeUtil.isValidMonthDay("32/03/2017 06:00"));
         
         //Test isValidMonthDay for DD MM YYYY HH:MM or HHam/pm
-        assertTrue(TimeUtil.isValidMonthDay("31 Feb 2017"));
+        assertFalse(TimeUtil.isValidMonthDay("31 Feb 2017"));
         assertFalse(TimeUtil.isValidMonthDay("32 Jan 2017 06:00"));
         
         //Test isValidMonthDay for DD MM HH:MM or HHam/pm
