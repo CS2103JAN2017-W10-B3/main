@@ -59,6 +59,7 @@ public class TaskCardHandle extends GuiHandle {
     }
 
     public List<String> getTags() {
+
         return getTags(getTagsContainer());
     }
 
@@ -83,13 +84,11 @@ public class TaskCardHandle extends GuiHandle {
     }
 
     public boolean isSameTask(ReadOnlyTask task) {
-        return getTitle().equals(task.getTitle().toString());
-//                && getVenue().equals("Venue at: " + task.getVenue().get().toString())
-//                && getEndTime().equals("End at: " + task.getEndTime().get().toString())
-//                && getUrgencyLevel().equals("Urgency: " + task.getUrgencyLevel().get().toString())
-//                && getDescription().equals("Description: " + task.getDescription().get().toString());
-     //         && getTags().equals(getTags(task.getTags()));
-     //         this line somehow causes assertion errors so i commented it out for now. remember to debug this.
+        return getTitle().equals(task.getTitle().toString())
+                && getVenue().equals("At: " + task.getVenue().get().toString())
+                && getStartTime().equals("Start at: " + task.getStartTime().get().toString())
+                && getEndTime().equals("Done by: " + task.getEndTime().get().toString())
+                && getDescription().equals("Description: " + task.getDescription().get().toString());
     }
 
     @Override
