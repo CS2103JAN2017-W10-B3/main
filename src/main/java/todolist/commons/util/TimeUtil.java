@@ -12,6 +12,7 @@ public class TimeUtil extends StringUtil{
             "fri", "sat", "sun"};
     private static final int YEAR_ARG = 2;
     private static final int MONTH_ARG = 1;
+    private static final int DAY_ARG = 0;
     
     //Matching the format DD/MM/YYYY HH:MM
     private static final String TIME_FORMAT_REGEX_1 = "^\\d{1,2}/\\d{1,2}/\\d{4}"
@@ -31,6 +32,7 @@ public class TimeUtil extends StringUtil{
     
     //Matching the format like "next tuesday"
     private static final String TIME_FORMAT_REGEX_5 = "(\\w{3,9}\\s){1,7}?(\\w{3,9})";
+    private static final int DAY_INDEX = 0;
     
     public static boolean isValidFormat(String timeArg) {
         return timeArg.matches(TIME_FORMAT_REGEX_1) ||
@@ -69,22 +71,22 @@ public class TimeUtil extends StringUtil{
     private static int parseDay(String timeArg) {
         if (timeArg.matches(TIME_FORMAT_REGEX_1)) {
             String[] dateTime = timeArg.split(" ");
-            String[] dates = dateTime[0].split("/");
-            return Integer.parseInt(dates[0]);
+            String[] dates = dateTime[DAY_ARG].split("/");
+            return Integer.parseInt(dates[DAY_ARG]);
         } else {
             String[] dateTime = timeArg.split(" ");
-            return Integer.parseInt(dateTime[0]);
+            return Integer.parseInt(dateTime[DAY_ARG]);
         }
     }
 
     private static int parseYear(String timeArg) {
         if (timeArg.matches(TIME_FORMAT_REGEX_1)) {
             String[] dateTime = timeArg.split(" ");
-            String[] dates = dateTime[0].split("/");
-            return Integer.parseInt(dates[0]);
+            String[] dates = dateTime[DAY_ARG].split("/");
+            return Integer.parseInt(dates[DAY_ARG]);
         } else if (timeArg.matches(TIME_FORMAT_REGEX_2)){
             String[] dateTime = timeArg.split(" ");
-            return Integer.parseInt(dateTime[2]);
+            return Integer.parseInt(dateTime[YEAR_ARG]);
         } else {
             return LocalDateTime.now().getYear();
         }
@@ -93,14 +95,14 @@ public class TimeUtil extends StringUtil{
     private static int parseMonth(String timeArg) {
         if (timeArg.matches(TIME_FORMAT_REGEX_1)) {
             String[] dateTime = timeArg.split(" ");
-            String[] dates = dateTime[0].split("/");
-            return Integer.parseInt(dates[1]);
+            String[] dates = dateTime[DAY_INDEX].split("/");
+            return Integer.parseInt(dates[MONTH_ARG]);
         } else if (timeArg.matches(TIME_FORMAT_REGEX_2)) {
             String[] dateTime = timeArg.split(" ");
-            return getMonthIndex(dateTime[1]);
+            return getMonthIndex(dateTime[MONTH_ARG]);
         } else {
             String[] dateTime = timeArg.split(" ");
-            return getMonthIndex(dateTime[1]);
+            return getMonthIndex(dateTime[MONTH_ARG]);
         }
     }
     
