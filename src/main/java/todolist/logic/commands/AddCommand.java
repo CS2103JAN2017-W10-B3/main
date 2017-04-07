@@ -71,6 +71,8 @@ public class AddCommand extends UndoableCommand {
         if (venue.isPresent()) {
             tempVenue = new Venue(venue.get());
         }
+        
+        checkTimeDuplicated(starttime, beginningtime, endtime, deadline);
 
         if (starttime.isPresent() && !beginningtime.isPresent()) {
             tempStartTime = new StartTime(starttime.get());
@@ -102,6 +104,17 @@ public class AddCommand extends UndoableCommand {
 
         this.toAdd = new Task(tempTitle, tempVenue, tempStartTime, tempEndTime, tempUrgencyLevel, tempDescription,
                 new UniqueTagList(tagSet));
+    }
+
+    private void checkTimeDuplicated(Optional<String> starttime, Optional<String> beginningtime,
+            Optional<String> endtime, Optional<String> deadline) throws IllegalValueException{
+        if (starttime.isPresent() && beginningtime.isPresent()) {
+            throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
+        } 
+        if (endtime.isPresent() && deadline.isPresent()) {
+            throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
+        }
+        
     }
 
     private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
