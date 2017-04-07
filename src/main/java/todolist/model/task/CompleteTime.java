@@ -46,4 +46,11 @@ public class CompleteTime implements Time {
         return this.completeTime.format(StringUtil.DATE_FORMATTER);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof CompleteTime // instanceof handles nulls
+                        && this.completeTime.equals(((CompleteTime) other).completeTime)); // state check
+    }
+
 }
