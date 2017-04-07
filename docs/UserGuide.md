@@ -37,49 +37,61 @@ By : `Team SE-EDU`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Jun 2016`  &nbsp;&nbsp;&nbs
 > **Command Format**
 >
 > * Words in `UPPER_CASE` are the parameters.
-> * Items in `SQUARE_BRACKETS` are can have multiples.
+> * Items in `SQUARE_BRACKETS` are optional.
 > * Items with `...` after them can have multiple instances.
 > * Parameters can be in any order.
 
 ### 2.1. Viewing help : `help`
 
-Format: `help`
+Format: `help [COMMAND]`
 
-> A new window will open showing the user guide webpage
-> e.g. `help`
+> * A list of all available commands will be shown in the display area if command parameter is absent.
+> * The usage of the specified command will be shown in the display area if command parameter is present.
+
+Examples:
+
+* `help add`<br>
+  Add command usage would be shown in the display area.
 
 ### 2.2. Adding a task: `add`
 
 Adds a task to the todolist
-Format: `add TITLE /venue /from /to /level /description #[TAG]`
+Format: `add TITLE /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [DATE_TIME] /description [DESCRIPTION] #[TAG]...`
 
-> * TITLE represent the task (complusory)
-> * /venue represents the location for the task
-> * /from represents the starting time of the event task
-> * /to represents the ending time of the event task
-> * /to without /from would change it to deadline task
-> * /level represents the urgency level of the task
-> * /description represents the description of the task*
-> * #[TAG] represents the tag**
-
-Note
-*Tasks can have 4 level of priority (0, 1, 2, 3 with 3 being the highest)
-**Tasks can have any number of tags (including 0)
+> * TITLE represent the task (complusory) <br>
+> * /venue represents the location for the task <br>
+> * /on represents the date of the event task <br>
+> * /from represents the starting time of the event task <br>
+> Note: If /to parameter is not given as well, the task would be changed to a Todo task instead
+> * /to represents the ending time of the event task <br>
+> Note: If /from parameter is not given as well, the task would be changed to a deadline task instead
+> * /by represents the deadline of the deadline task <br>
+> Note: /to parameter and /by parameter are mutually exclusive
+> * /level represents the urgency level of the task <br>
+> Note: Tasks can have 4 level of priority (0 - 3) with 3 being the highest
+> * /description represents the description of the task <br>
+> * #[TAG...] represents the tag <br>
+> Note: Tasks can have any number of tags (including 0)
 
 ### 2.3.1. Listing all tasks : `list`
 
-Shows a list of all tasks in the todolist<br>
-Format: `list`
+Shows a list of tasks in the todolist<br>
+Format: `list /from [DATE_TIME] /to [DATE_TIME]`
 
-### 2.3.2. Listing all tags : `listtag`
+> * /from would show a list of tasks that have Start Time at the specified DATE_TIME (interchangeable with /on)
+> * /to would show a list of tasks that have End Time at the specified DATE_TIME (interchangeable with /by)
 
-Shows a list of all tags in the todolist<br>
-Format: `listtags`
+Examples:
+
+* `list`<br>
+All tasks will be shown
+* `list /from 7 April`<br>
+Tasks with start time of 7 April will be shown
 
 ### 2.4. Editing a task : `edit`
 
 Edits an existing task in the todolist.<br>
-Format: `edit INDEX TITLE /venue /from /to /level /description [#TAG]...`
+Format: `edit INDEX /title [TITLE] /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [LEVEL] /description [DESCRIPTION] #[TAG]...`
 
 > * Edits the task at the specified `INDEX`.
     The index refers to the index number shown in the last task listing.
@@ -90,13 +102,13 @@ Format: `edit INDEX TITLE /venue /from /to /level /description [#TAG]...`
 
 Examples:
 
-* `edit d1 Do tutorial /to 17.09.19`<br>
-  Edits the TITLE and deadline of the 1st float task to be `Do tutorial` and `17.09.19` respectively.
+* `edit d1 /title Do tutorial /to 17.09.19`<br>
+  Edits the title and deadline of the 1st float task to be `Do tutorial` and `17.09.19` respectively.
 
 ### 2.5. Finding all tasks containing any keyword: `find`
 
 Finds tasks that contain any of the given keywords.<br>
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find KEYWORD...`
 
 > * The search is not case sensitive. e.g `lunch` will match `Lunch`
 > * The order of the keywords does not matter. e.g. `Lunch Plan` will match `Plan Lunch`
@@ -113,17 +125,24 @@ Examples:
 ### 2.6. Deleting a task : `delete`
 
 Deletes the specified task from the todolist. <br>
-Format: `delete INDEX`
+Format: `delete INDEX [PARAMETER]...`
 
-> Deletes the task at the specified `INDEX`. <br>
+> * Deletes the task at the specified `INDEX`. <br>
     The index refers to the index number shown in the last task listing.
     Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * If PARAMETER are given, then the specified task parameter would be deleted
+> The parameter refers to the prefix used to indicate the tasks parameters
 
 Examples:
 
 * `list`<br>
   `delete f2`<br>
   Deletes the 2nd float task in the todolist.
+* `list`<br>
+  `delete e4 /from /description`
+  Deletes the end time and description of the 4th event task in the todolist.
+
+**Note: If select was the previous command, index is not needed.**
 
 ###2.7. Complete a task: `done`
 
@@ -156,6 +175,14 @@ Examples:
 * `list`<br>
   `select e2`<br>
   Selects the 2nd event task in the todolist.
+* `list`<br>
+  `select f1-f5` or `select f1-5` or `select f5-1`<br>
+  Selects the 1st to 5th todo task in the todolist.
+* `list`<br>
+  `select e2, d4`<br>
+  Selects the 2nd event task and 4th deadline task in the todolist.
+
+Note: It is not necessary to type in the select command **if the index of the task is given**
 
 ### 2.9. Undoing previous command : `undo`
 
@@ -172,64 +199,91 @@ Format: `clear`
 Exits the program.<br>
 Format: `exit`
 
-###2.12.1 Specifying saved data location: `save`
+###2.12. Saving the data: `save`
 
-Change where the saved data file will be stored in.
+Save a copied data file in another location.
 Format: `save FILE_PATH`
 
 Examples:
 
 * `save C:/Users/Computing/Desktop/CS2103`<br>
-  Change the saved data file location to C:/Users/Computing/Desktop/CS2103.
+  A new copied data file will be created in C:/Users/Computing/Desktop/CS2103.
 
-### 2.12.2 Saving the data
-
+**Note: **
 ToDoList data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.
+
+###2.13. Changing the data file location: `changedir`
+
+Loads the data and set data storage location to filePath.
+Format: `changedir FILE_PATH`
+
+Examples:
+
+* `changedir C:/Users/Computing/Desktop/CS2103`<br>
+  Loads the data and set data storage location to C:/Users/Computing/Desktop/CS2103.
+
+###2.14. Changing the data file location: `import`
+
+Imports tasks from the data file specified.
+Format: `import FILE_PATH`
+
+> * The file in the specified file path should be an xml file 
+> * The path can be relative or absolute addressing
+
+Examples:
+
+* `import C:/Users/Computing/Desktop/CS2103`<br>
+  Import the tasks from the data file in C:/Users/Computing/Desktop/CS2103.
 
 ## 3. FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with
-       the file that contains the data of your previous todolist folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous todolist folder. <br>
 
 ## 4. Command Summary
 
-* **Add**  `add TITLE /venue /from /to /level /description #[TAG]` <br>
-  e.g. `add Do Tutorial /venue CLB /from today 3pm /to today 5pm /level 2 /description for week13 #CS2103`
+* **Add**  `add TITLE /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [DATE_TIME] /description [DESCRIPTION] #[TAG]...` <br>
+  e.g. add Do Tutorial /venue CLB /from today 3pm /to today 5pm /level 2 /description for week13 #CS2103
 
 * **Clear** : `clear` <br>
    e.g.
 
-* **Delete** : `delete INDEX` <br>
-   e.g. `delete f3`
+* **Changedir** : `changedir FILE_PATH` <br>
+   e.g. changedir C:/Users/Computing/Desktop/CS2103
+
+* **Delete** : `delete INDEX [PARAMETER]...` <br>
+   e.g. delete f3
+   e.g. delete f3 /description
 
 * **Done** : `done INDEX` <br>
-   e.g. `done d3`
+   e.g. done d3
 
-* **Edit** : `edit INDEX [TITLE] [/venue] [/from] [/to] [/level] [/description] [#TAG]...` <br>
-e.g. `edit f7 buy calculator`
+* **Edit** : `edit INDEX /title [TITLE] /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [LEVEL] /description [DESCRIPTION] #[TAG]...` <br>
+e.g. edit f7 /title buy calculator
 
 * **Exit** : `exit` <br>
 e.g.
 
-* **Find** : `find KEYWORD [MORE_KEYWORDS]` <br>
-  e.g. `find tutorial quiz`
+* **Find** : `find KEYWORD...` <br>
+  e.g. find tutorial quiz
 
-* **Help** : `help` <br>
-  e.g.
+* **Help** : `help [COMMAND]` <br>
+  e.g. help add
+   
+* **Import** : `import FILE_PATH` <br>
+   e.g. import C:/Users/Computing/Desktop/CS2103
 
-* **List** : `list` <br>
-  e.g.
-
-* **ListTag** : `listtag` <br>
-e.g.
+* **List** : `list /from [DATE_TIME] /to [DATE_TIME]` <br>
+  e.g. list /from 7 April
 
 * **Save** : `save FILE_PATH` <br>
-   e.g. `save C:/Users/Computing/Desktop/CS2103`
+   e.g. save C:/Users/Computing/Desktop/CS2103
 
-* **Select** : `select INDEX` <br>
-  e.g.`select 2`
+* **Select** : `select INDEX...` <br>
+  e.g. select e2
+  e.g. select f1-f5
+  e.g. select d7, e9, f3
 
 * **Undo** : `undo` <br>
-e.g. 'undo'
+e.g.
