@@ -25,7 +25,7 @@ public class SaveCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Saves data file to new location specified. "
             + "New folders with the file can be auto-created as long as given directory or file path is valid.\n"
             + "Main directory will be the default save location for any valid but unspecifed file path\n"
-            + "Example: " + COMMAND_WORD + " C:/Users/Computing/Desktop/CS2103";
+            + "Example: " + COMMAND_WORD + " C:/Users/Computing/Desktop/CS2103 \n";
 
     private static final String MESSAGE_SUCCESS = "Data successfully saved to location: %s";
     private static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. "

@@ -44,6 +44,11 @@ public class ResultDisplay extends UiPart<Region> {
         return resultDisplay;
     }
 
+    public void setDisplayAreaMessage(String message) {
+        displayed.setValue(message);
+    }
+    //@@
+
     @Subscribe
     private void handleNewResultAvailableEvent(NewResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
