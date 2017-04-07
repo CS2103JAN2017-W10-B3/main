@@ -7,6 +7,8 @@
         <endTime isPrivate="false">Tuesday 11:00</endTime>
         <urgencyLevel isPrivate="false">5</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>DBS Internship interview</title>
@@ -15,6 +17,8 @@
         <endTime isPrivate="false">March 31, 12:00</endTime>
         <urgencyLevel isPrivate="false">4</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Hang out with Joe </title>
@@ -23,6 +27,8 @@
         <endTime isPrivate="false">Saturday 17:00</endTime>
         <urgencyLevel isPrivate="false">2</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Statistics society meeting</title>
@@ -31,6 +37,8 @@
         <endTime isPrivate="false">Every Wednesday 21:00</endTime>
         <urgencyLevel isPrivate="false">7</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Tuition part-time job</title>
@@ -39,6 +47,8 @@
         <endTime isPrivate="false">Next Thursday 21:00</endTime>
         <urgencyLevel isPrivate="false">0</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Strings ensemble rehearsal</title>
@@ -47,29 +57,37 @@
         <endTime isPrivate="false">This Friday 17:00</endTime>
         <urgencyLevel isPrivate="false">3</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Dinner with auntie</title>
         <venue isPrivate="false">Home</venue>
-        <startTime isPrivate="false">This Friday 19:00</startTime>
-        <endTime isPrivate="false">This Friday 21:00</endTime>
+        <startTime isPrivate="false">Next Friday 19:00</startTime>
+        <endTime isPrivate="false">Next Friday 21:00</endTime>
         <urgencyLevel isPrivate="false">6</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>MA3269 Quiz</title>
         <venue isPrivate="false">LT26</venue>
-        <startTime isPrivate="false">April 12, 12:00</startTime>
-        <endTime isPrivate="false">April 12, 14:00</endTime>
+        <startTime isPrivate="false">April 30, 12:00</startTime>
+        <endTime isPrivate="false">April 30, 14:00</endTime>
         <urgencyLevel isPrivate="false">8</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Submit FIN3101 Tutorial</title>
         <venue isPrivate="false">Biz1-0748 Prof Tan's office</venue>
-        <startTime isPrivate="false">now</startTime>
-        <endTime isPrivate="false">one hour later</endTime>
+        <startTime isPrivate="false">today</startTime>
+        <endTime isPrivate="false">tomorrow</endTime>
         <urgencyLevel isPrivate="false">2</urgencyLevel>
         <description isPrivate="false">I love you</description>
+        <isCompleted isPrivate="false">false</isCompleted>
+        <completeTime isPrivate="false"></completeTime>
     </tasks>
 </ToDoList>
