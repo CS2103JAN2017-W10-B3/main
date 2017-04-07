@@ -45,8 +45,15 @@ public class CommandSyntax {
         availableCommands.put(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_USAGE);
     }
 
-    public HashMap<String, String> getAvailableCommands() {
-        return availableCommands;
+    public String getSpecificCommandUsageMessage(String command) {
+        assert !command.isEmpty();
+        return availableCommands.get(command);
+    }
+
+    public String getAllCommandUsageMessage() {
+        StringBuilder sb = new StringBuilder();
+        availableCommands.forEach((k, v) -> sb.append(v).append("\n"));
+        return sb.toString();
     }
 
 }

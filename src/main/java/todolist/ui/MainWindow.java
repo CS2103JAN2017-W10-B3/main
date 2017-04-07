@@ -15,6 +15,7 @@ import todolist.commons.core.GuiSettings;
 import todolist.commons.events.ui.ExitAppRequestEvent;
 import todolist.commons.util.FxViewUtil;
 import todolist.logic.Logic;
+import todolist.logic.parser.CommandSyntax;
 import todolist.model.UserPrefs;
 
 /**
@@ -29,12 +30,13 @@ public class MainWindow extends UiPart<Region> {
     private Stage primaryStage;
     private Logic logic;
 
-    // Independent Ui parts residing in this Ui container
     //@@author A0138628W
+    // Independent Ui parts residing in this Ui container
     private TaskListPanel taskListPanel, eventListPanel, floatingListPanel, completeListPanel;
+    private Scroll scroll;
+    //@@
     private Config config;
     private ResultDisplay resultDisplay;
-    private Scroll scroll;
 
     @FXML
     private AnchorPane eventListPlaceholder;
@@ -252,13 +254,13 @@ public class MainWindow extends UiPart<Region> {
                 (int) primaryStage.getX(), (int) primaryStage.getY());
     }
 
+    //@@ author: A0138628W
     @FXML
     public void handleHelp() {
-        HelpWindow helpWindow = new HelpWindow();
-        helpWindow.show();
+        CommandSyntax commandSyntax = new CommandSyntax();
+        resultDisplay.setDisplayAreaMessage(commandSyntax.getAllCommandUsageMessage());
     }
 
-    //@@ author: A0138628W
     @FXML
     public void handleResultUp() {
         scroll.getTextVerticalScrollbar(resultDisplay.getResultDisplayArea());
@@ -378,6 +380,7 @@ public class MainWindow extends UiPart<Region> {
             }
         }
     }
+    //@@
 
     void show() {
         primaryStage.show();

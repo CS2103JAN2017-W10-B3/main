@@ -21,7 +21,7 @@ public class HelpCommandParser {
             return new HelpCommand(commands);
         } else {
             String command = args.trim();
-            if (commands.getAvailableCommands().get(command) != null) {
+            if (commands.getSpecificCommandUsageMessage(command) != null) {
                 return new HelpCommand(command, commands);
             } else {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));

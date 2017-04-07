@@ -35,20 +35,10 @@ public class HelpCommand extends Command {
     @Override
     public CommandResult execute() {
         if (commandType.isEmpty()) {
-            return new CommandResult(getAllCommandUsageMessage());
+            return new CommandResult(commandSyntax.getAllCommandUsageMessage());
         } else {
-            return new CommandResult(getSpecificCommandUsageMessage(commandType));
+            return new CommandResult(commandSyntax.getSpecificCommandUsageMessage(commandType));
         }
     }
 
-    private String getSpecificCommandUsageMessage(String command) {
-        assert !command.isEmpty();
-        return commandSyntax.getAvailableCommands().get(command);
-    }
-
-    private String getAllCommandUsageMessage() {
-        StringBuilder sb = new StringBuilder();
-        commandSyntax.getAvailableCommands().forEach((k, v) -> sb.append(v).append("\n"));
-        return sb.toString();
-    }
 }
