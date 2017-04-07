@@ -147,14 +147,15 @@ public class ToDoList implements ReadOnlyToDoList {
     }
 
     public boolean removeTask(ReadOnlyTask key) throws UniqueTaskList.TaskNotFoundException {
-        if (tasks.remove(key)) {
+        if (tasks.remove(key)) {;
+            syncMasterTagListWith(tasks);
             return true;
         } else {
             throw new UniqueTaskList.TaskNotFoundException();
         }
     }
 
-//// tag-level operations
+    // tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
@@ -164,7 +165,7 @@ public class ToDoList implements ReadOnlyToDoList {
         return this.tags.getTagListToString();
     }
 
-//// util methods
+    // util methods
 
     @Override
     public String toString() {
@@ -192,7 +193,10 @@ public class ToDoList implements ReadOnlyToDoList {
     public ObservableList<ReadOnlyTask> getFilteredEvents() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.EVENT));
     }
-
+    
+    /**
+     * Returns a task list representing all tasks regardless of types
+     */
     @Override
     public ObservableList<ReadOnlyTask> getTaskList() {
         return new UnmodifiableObservableList<>(tasks.asObservableList());
@@ -201,7 +205,10 @@ public class ToDoList implements ReadOnlyToDoList {
     public ObservableList<ReadOnlyTask> getCompletedTasks() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.COMPLETED));
     }
-
+    
+    /**
+     * Returns a task list representing all tags
+     */
     @Override
     public ObservableList<Tag> getTagList() {
         return new UnmodifiableObservableList<>(tags.asObservableList());
@@ -220,7 +227,11 @@ public class ToDoList implements ReadOnlyToDoList {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(tasks, tags);
     }
-
+    
+    //@@author A0122017Y
+    /**
+     * Automatically switch a task to completed if it is overdue
+     */
     public void autoComplete() {
         tasks.autoComplete();
         
