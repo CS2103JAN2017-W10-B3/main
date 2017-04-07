@@ -63,7 +63,7 @@ public class XmlToDoListStorageTest {
     public void readAndSaveToDoList_allInOrder_success() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempToDoList.xml";
         TypicalTestTasks td = new TypicalTestTasks();
-        ToDoList original = td.getTypicalToDoList();
+        ToDoList original = td.getTypicalEventList();
         XmlToDoListStorage xmlToDoListStorage = new XmlToDoListStorage(filePath);
 
         // Save in new file and read back

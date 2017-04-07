@@ -16,7 +16,7 @@ public class SelectCommandTest extends ToDoListGuiTest {
         assertNoTaskSelected();
 
         //assertSelectionSuccess(1); // first Task in the list
-        int taskCount = td.getTypicalTasks().length;
+        int taskCount = td.getTypicalEventTasks().length;
         //assertSelectionSuccess(taskCount); // last Task in the list
         int middleIndex = taskCount / 2;
         //assertSelectionSuccess(middleIndex); // a Task in the middle of the list

@@ -83,6 +83,7 @@ public class TaskCardHandle extends GuiHandle {
         return guiRobot.from(node).lookup(TAGS_FIELD_ID).query();
     }
 
+    //@@author A0110791M
     public boolean isSameTask(ReadOnlyTask task) {
         return getTitle().equals(task.getTitle().toString())
                 && getVenue().equals("At: " + task.getVenue().get().toString())

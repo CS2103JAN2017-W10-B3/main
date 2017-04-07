@@ -40,7 +40,7 @@ public class ToDoListTest {
 
     @Test
     public void resetData_withValidReadOnlyToDoList_replacesData() {
-        ToDoList newData = new TypicalTestTasks().getTypicalToDoList();
+        ToDoList newData = new TypicalTestTasks().getTypicalEventList();
         todooList.resetData(newData);
         assertEquals(newData, todooList);
     }
@@ -59,7 +59,7 @@ public class ToDoListTest {
 
     @Test
     public void resetData_withDuplicateTags_throwsAssertionError() {
-        ToDoList typicalToDoList = new TypicalTestTasks().getTypicalToDoList();
+        ToDoList typicalToDoList = new TypicalTestTasks().getTypicalEventList();
         List<ReadOnlyTask> newTasks = typicalToDoList.getTaskList();
         List<Tag> newTags = new ArrayList<>(typicalToDoList.getTagList());
         // Repeat the first tag twice
