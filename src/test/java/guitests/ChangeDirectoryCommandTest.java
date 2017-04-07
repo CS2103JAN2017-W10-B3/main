@@ -16,12 +16,12 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
     public static final String INVALID_NEW_FILE_PATH = "!@#$%^&*().xml";
 
     @Test
-    public void changeDirectory() {
+    public void changeValidDirectory() {
         TestTask[] expectedList = td.getTypicalEventTasks();
+        int initialNumberOfTasks = taskListPanel.getNumberOfTasks();
+        String currentFilePath = Config.getToDoListFilePath();
 
         //change directory to valid file path
-        String currentFilePath = Config.getToDoListFilePath();
-        int initialNumberOfTasks = taskListPanel.getNumberOfTasks();
         commandBox.runCommand(getChangeDirCommand(VALID_NEW_FILE_PATH));
         assertSuccessMessage(currentFilePath, VALID_NEW_FILE_PATH);
         assertEquals(VALID_NEW_FILE_PATH, Config.getToDoListFilePath());
@@ -30,16 +30,21 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
         int updatedNumberOfTasks = taskListPanel.getNumberOfTasks();
         assertEquals(initialNumberOfTasks, updatedNumberOfTasks);
         assertTrue(taskListPanel.isListMatching(expectedList));
+    }
+
+    @Test
+    public void changeInvalidDirectory() {
+        TestTask[] expectedList = td.getTypicalEventTasks();
+        int initialNumberOfTasks = taskListPanel.getNumberOfTasks();
+        String currentFilePath = Config.getToDoListFilePath();
 
         //change directory to invalid file path
         commandBox.runCommand(getChangeDirCommand(INVALID_NEW_FILE_PATH));
         assertFailureMessage(INVALID_NEW_FILE_PATH);
-
-        currentFilePath = Config.getToDoListFilePath();
-        assertEquals(currentFilePath, VALID_NEW_FILE_PATH);
+        assertEquals(currentFilePath, Config.getToDoListFilePath());
 
         //check data is still preserved
-        updatedNumberOfTasks = taskListPanel.getNumberOfTasks();
+        int updatedNumberOfTasks = taskListPanel.getNumberOfTasks();
         assertEquals(initialNumberOfTasks, updatedNumberOfTasks);
         assertTrue(taskListPanel.isListMatching(expectedList));
     }
