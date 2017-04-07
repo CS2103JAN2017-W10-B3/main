@@ -39,12 +39,6 @@ public class CommandBoxHandle extends GuiHandle {
         guiRobot.sleep(200); //Give time for the command to take effect
     }
 
-    public HelpWindowHandle runHelpCommand() {
-        enterCommand("help");
-        pressEnter();
-        return new HelpWindowHandle(guiRobot, primaryStage);
-    }
-
     public ObservableList<String> getStyleClass() {
         return getNode(COMMAND_INPUT_FIELD_ID).getStyleClass();
     }

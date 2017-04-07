@@ -19,17 +19,19 @@ public class HelpCommand extends Command {
             + "Example: " + COMMAND_WORD + "\n"
             + "Example: " + COMMAND_WORD + " add \n";
 
-    public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
+    public static String SHOWING_HELP_MESSAGE = "Opened help window.";
 
     public HelpCommand(CommandSyntax commandSyntax) {
         commandType = "";
         this.commandSyntax = commandSyntax;
+        SHOWING_HELP_MESSAGE = commandSyntax.getAllCommandUsageMessage();
     }
 
     public HelpCommand(String commandType, CommandSyntax commandSyntax) {
         assert !commandType.isEmpty();
         this.commandType = commandType;
         this.commandSyntax = commandSyntax;
+        SHOWING_HELP_MESSAGE = commandSyntax.getAllCommandUsageMessage();
     }
 
     @Override
