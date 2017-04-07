@@ -25,7 +25,7 @@ public class FindCommand extends Command {
     public CommandResult execute() {
         model.updateFilteredTaskList(keywords);
         return new CommandResult(getMessageForTaskListShownSummary(model.getFilteredDeadlineList().size() +
-                                                                   model.getFilteredEventList().size()+
+                                                                   model.getFilteredEventList().size() +
                                                                    model.getFilteredFloatList().size()));
     }
 
