@@ -25,7 +25,6 @@ import todolist.commons.util.CollectionUtil;
  */
 public class UniqueTagList implements Iterable<Tag> {
 
-    private static final String NO_TAGS_AVAILABLE_MESSAGE = "There are no tags in the to-do list!";
     private final ObservableList<Tag> internalList = FXCollections.observableArrayList();
 
     /**
@@ -139,6 +138,7 @@ public class UniqueTagList implements Iterable<Tag> {
         internalList.add(toAdd);
     }
     
+    //@@author A0122017Y
     /**
      * Removes a Tag from the list
      * 
@@ -151,6 +151,15 @@ public class UniqueTagList implements Iterable<Tag> {
         }
         internalList.remove(toDelete);
     }
+    
+    /**
+     * Check if the internalList is empty
+     */
+    public boolean isEmpty() {
+        return internalList.isEmpty();
+    }
+    
+    //@@
 
     @Override
     public Iterator<Tag> iterator() {
@@ -199,9 +208,6 @@ public class UniqueTagList implements Iterable<Tag> {
     
     
     public String getTagListToString() {
-        if (internalList.isEmpty()) {
-            return NO_TAGS_AVAILABLE_MESSAGE;
-        }
         StringBuilder sb = new StringBuilder();
         for (Tag tag : internalList) {
             sb.append(tag.toString() + " ");
