@@ -147,8 +147,7 @@ public class ToDoList implements ReadOnlyToDoList {
     }
 
     public boolean removeTask(ReadOnlyTask key) throws UniqueTaskList.TaskNotFoundException {
-        if (tasks.remove(key)) {;
-            syncMasterTagListWith(tasks);
+        if (tasks.remove(key)) {
             return true;
         } else {
             throw new UniqueTaskList.TaskNotFoundException();
@@ -234,9 +233,6 @@ public class ToDoList implements ReadOnlyToDoList {
      */
     public void autoComplete() {
         tasks.autoComplete();
-        
     }
-
-
 
 }
