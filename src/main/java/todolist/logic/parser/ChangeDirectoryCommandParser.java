@@ -33,6 +33,11 @@ public class ChangeDirectoryCommandParser {
 
         File file = new File(commandString);
 
+        if (!file.canWrite()) {
+            return new IncorrectCommand(
+                    String.format(ChangeDirectoryCommand.MESSAGE_FAILURE, commandString));
+        }
+
         if (file.isDirectory()) {
             filePath = commandString.concat("\\").concat(Config.DEFAULT_TODOLIST_FILENAME);
         } else if (!commandString.endsWith(".xml")) {
