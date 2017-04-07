@@ -24,6 +24,7 @@ import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UrgencyLevel;
 import todolist.model.task.Venue;
 
+// @@ author A0143648Y
 /**
  * Edits the details of an existing task in the address book.
  */
@@ -41,7 +42,7 @@ public class EditCommand extends UndoableCommand {
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Tasks: ";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book.";
-    // @@ A0143648Y
+
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
     private final EditTaskDescriptor editTaskDescriptor;
     private ReadOnlyToDoList originalToDoList;
@@ -88,7 +89,7 @@ public class EditCommand extends UndoableCommand {
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
-            messageSuccessful = messageSuccessful +" " + editedTask.getTitle().toString();
+            messageSuccessful = messageSuccessful + " " + editedTask.getTitle().toString();
             listOfEditedTasks.add(editedTask);
         }
 
