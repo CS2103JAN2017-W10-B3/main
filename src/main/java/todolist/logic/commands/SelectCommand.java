@@ -44,8 +44,8 @@ public class SelectCommand extends Command {
 
         ReadOnlyTask task = lastShownList.get(listIndex - 1);
 
-        String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS, targetIndex) + "\n" + "Task selected: "
-                + task.getTitle().toString() + "\n" + "Description of task: " + task.getDescription().toString();
+        String selectCommandResult = String.format(MESSAGE_SELECT_TASK_SUCCESS,
+                                                   (targetIndex.getTaskChar().toString()+targetIndex.getTaskNumber().toString()));
         return new CommandResult(selectCommandResult);
 
     }
