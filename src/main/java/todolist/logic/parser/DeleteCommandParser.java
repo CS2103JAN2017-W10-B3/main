@@ -109,7 +109,7 @@ public class DeleteCommandParser {
         }
 
         if (argsTokenizer.getAllValues(PREFIX_TAG).isPresent()) {
-            if (!argsTokenizer.getAllValues(PREFIX_TAG).get().isEmpty())
+            if (!argsTokenizer.getAllValues(PREFIX_TAG).get().get(0).isEmpty())
                 isValid = false;
         }
 

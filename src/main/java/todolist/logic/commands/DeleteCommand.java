@@ -188,7 +188,7 @@ public class DeleteCommand extends UndoableCommand {
     }
 
     private UniqueTagList updateTags(ReadOnlyTask taskToDelete) {
-        if (!deleteTaskDescriptor.ifDescriptionDeleted) {
+        if (!deleteTaskDescriptor.ifTagsDeleted) {
             return taskToDelete.getTags();
         } else {
             return new UniqueTagList(new HashSet<>(Collections.emptyList()));
