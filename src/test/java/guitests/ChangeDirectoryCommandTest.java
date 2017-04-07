@@ -16,7 +16,7 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
     public static final String INVALID_NEW_FILE_PATH = "!@#$%^&*().xml";
 
     @Test
-    public void changeValidDirectory() {
+    public void changeValidDirectory() throws InterruptedException {
         TestTask[] expectedList = td.getTypicalEventTasks();
         int initialNumberOfTasks = taskListPanel.getNumberOfTasks();
         String currentFilePath = Config.getToDoListFilePath();
@@ -53,7 +53,8 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
         return "changedir ".concat(filePath);
     }
 
-    private void assertSuccessMessage(String currentFilePath, String newFilePath) {
+    private void assertSuccessMessage(String currentFilePath, String newFilePath) throws InterruptedException {
+        Thread.sleep(3000);
         String expected = String.format(ChangeDirectoryCommand.MESSAGE_SUCCESS, currentFilePath, newFilePath);
         assertResultMessage(expected);
     }
