@@ -54,7 +54,6 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
     }
 
     private void assertSuccessMessage(String currentFilePath, String newFilePath) throws InterruptedException {
-        Thread.sleep(3000);
         String expected = String.format(ChangeDirectoryCommand.MESSAGE_SUCCESS, currentFilePath, newFilePath);
         assertResultMessage(expected);
     }
