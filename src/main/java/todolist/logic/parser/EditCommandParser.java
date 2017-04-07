@@ -1,6 +1,8 @@
 package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static todolist.logic.parser.CliSyntax.PREFIX_BEGINNINGTIME;
+import static todolist.logic.parser.CliSyntax.PREFIX_DEADLINETIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static todolist.logic.parser.CliSyntax.PREFIX_ENDTIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_STARTTIME;
@@ -12,7 +14,6 @@ import static todolist.logic.parser.CliSyntax.PREFIX_VENUE;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import todolist.commons.exceptions.IllegalValueException;
@@ -37,8 +38,8 @@ public class EditCommandParser {
     public Command parse(String args) {
         Optional<ArrayList<TaskIndex>> indexes;
         assert args != null;
-        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE, PREFIX_VENUE, PREFIX_STARTTIME,
-                PREFIX_ENDTIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
+        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE, PREFIX_VENUE, PREFIX_BEGINNINGTIME, PREFIX_STARTTIME,
+                PREFIX_ENDTIME, PREFIX_DEADLINETIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
         String indexesToBeParsed = argsTokenizer.getPreamble().orElse("");
         if (indexesToBeParsed.isEmpty()) {
@@ -62,8 +63,18 @@ public class EditCommandParser {
         try {
             editTaskDescriptor.setTitle(ParserUtil.parseTitle(argsTokenizer.getValue(PREFIX_TITLE)));
             editTaskDescriptor.setVenue(ParserUtil.parseVenue(argsTokenizer.getValue(PREFIX_VENUE)));
+            if(argsTokenizer.getValue(PREFIX_STARTTIME).isPresent()){
             editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_STARTTIME)));
+            }
+            else{
+            editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_BEGINNINGTIME)));
+            }
+            if(argsTokenizer.getValue(PREFIX_ENDTIME).isPresent()){
             editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_ENDTIME)));
+            }
+            else{
+            editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_DEADLINETIME)));
+            }
             editTaskDescriptor
                     .setUrgencyLevel(ParserUtil.parseUrgencyLevel(argsTokenizer.getValue(PREFIX_URGENCYLEVEL)));
             editTaskDescriptor.setDescription(ParserUtil.parseDescription(argsTokenizer.getValue(PREFIX_DESCRIPTION)));

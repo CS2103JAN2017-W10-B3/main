@@ -13,6 +13,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_TITLE = new Prefix("/title");
     public static final Prefix PREFIX_VENUE = new Prefix("/venue");
     public static final Prefix PREFIX_STARTTIME = new Prefix("/from");
+    public static final Prefix PREFIX_BEGINNINGTIME = new Prefix("/on");
     public static final Prefix PREFIX_ENDTIME = new Prefix("/to");
     public static final Prefix PREFIX_DEADLINETIME = new Prefix("/by");
     public static final Prefix PREFIX_TAG = new Prefix("#");

@@ -53,7 +53,7 @@ public class AddCommand extends UndoableCommand {
      * @throws IllegalValueException
      *             if any of the raw values are invalid
      */
-    public AddCommand(String title, Optional<String> venue, Optional<String> starttime, Optional<String> endtime,
+    public AddCommand(String title, Optional<String> venue, Optional<String> starttime, Optional<String> beginningtime, Optional<String> endtime,
             Optional<String> deadline, Optional<String> urgencyLevel, Optional<String> description, Set<String> tags)
             throws IllegalValueException {
         final List<Tag> tagSet = new ArrayList<>();
@@ -72,8 +72,12 @@ public class AddCommand extends UndoableCommand {
             tempVenue = new Venue(venue.get());
         }
 
-        if (starttime.isPresent()) {
+        if (starttime.isPresent() && !beginningtime.isPresent()) {
             tempStartTime = new StartTime(starttime.get());
+        }
+
+        if (!starttime.isPresent() && beginningtime.isPresent()) {
+            tempStartTime = new StartTime(beginningtime.get());
         }
 
         if (endtime.isPresent() && !deadline.isPresent()) {
