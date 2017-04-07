@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
+import todolist.commons.core.UnmodifiableObservableList;
+import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
@@ -36,7 +39,7 @@ public class DeleteCommand extends UndoableCommand {
             + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD
             + " e1 \n";
 
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted: ";
+    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted/updated: ";
     public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces duplicate tasks in your to-do list. \n"
             + "Please check the parameters you want to delete.";
 
@@ -56,6 +59,7 @@ public class DeleteCommand extends UndoableCommand {
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
+        ArrayList<Task> listOfUpdatedTasks = new ArrayList<Task>();
 
         if (filteredTaskListIndexes.isEmpty()) {
             filteredTaskListIndexes.addAll(model.getSelectedIndexes());
@@ -78,19 +82,22 @@ public class DeleteCommand extends UndoableCommand {
         else {
             for (int count = 0; count < tasksToDelete.size(); count++) {
                 try {
-                    Task deletedTask = createDeletedTask(tasksToDelete.get(count));
-                    model.updateTask(tasksToDelete.get(count), deletedTask);
+                    Task UpdatedTask = createDeletedTask(tasksToDelete.get(count));
+                    model.updateTask(tasksToDelete.get(count), UpdatedTask);
+                    listOfUpdatedTasks.add(UpdatedTask);
                 } catch (UniqueTaskList.DuplicateTaskException dpe) {
                     throw new CommandException(MESSAGE_DUPLICATE_TASK);
                 }
             }
+            updateFilteredTaskListIndexes(listOfUpdatedTasks);
+            EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
         }
 
         commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS + messageSuccessful);
         updateUndoLists();
 
         return new CommandResult(
-                String.format(MESSAGE_DELETE_TASK_SUCCESS, tasksToDelete.size(), getTasksToString(tasksToDelete)));
+                MESSAGE_DELETE_TASK_SUCCESS + messageSuccessful);
     }
 
     private ArrayList<ReadOnlyTask> getTasksToDelete() throws CommandException {
@@ -101,12 +108,22 @@ public class DeleteCommand extends UndoableCommand {
             if (lastShownList.size() < filteredTaskListIndex + 1) {
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
-            messageSuccessful = messageSuccessful + " "
-                    + lastShownList.get(filteredTaskListIndex).getTitle().toString();
+            messageSuccessful = messageSuccessful + "["
+                    + lastShownList.get(filteredTaskListIndex).getTitle().toString() + "] ";
 
             tasksToDelete.add(lastShownList.get(filteredTaskListIndex));
         }
         return tasksToDelete;
+    }
+    
+    private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks){
+        filteredTaskListIndexes.clear();
+        for (int count = 0; count < listOfEditedTasks.size(); count++) {
+            UnmodifiableObservableList<ReadOnlyTask> listOfTask = model
+                    .getListFromChar(listOfEditedTasks.get(count).getTaskChar());
+            filteredTaskListIndexes.add(new TaskIndex(listOfEditedTasks.get(count).getTaskChar(),
+                    listOfTask.indexOf(listOfEditedTasks.get(count)) + 1));
+        }
     }
 
     private Task createDeletedTask(ReadOnlyTask taskToDelete) {

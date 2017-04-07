@@ -154,9 +154,9 @@ public class UiManager extends ComponentManager implements Ui {
     @Subscribe
     private void handleSelectMultipleTargetEvent(SelectMultipleTargetEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        for (int count = 0; count < event.targetIndexes.size(); count++) {
+        for (int count = event.targetIndexes.size() - 1; count >= 0; count--) {
             char listType = event.targetIndexes.get(count).getTaskChar();
-            if (count == 0) {
+            if (count == event.targetIndexes.size() - 1) {
                 mainWindow.getEventListPanel().clearSelection();
                 mainWindow.getFloatListPanel().clearSelection();
                 mainWindow.getTaskListPanel().clearSelection();

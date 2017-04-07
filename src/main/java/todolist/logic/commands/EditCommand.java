@@ -47,6 +47,7 @@ public class EditCommand extends UndoableCommand {
     private final EditTaskDescriptor editTaskDescriptor;
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
+    private String messageSuccessful;
 
     /**
      * @param filteredTaskListIndex
@@ -60,13 +61,13 @@ public class EditCommand extends UndoableCommand {
 
         this.filteredTaskListIndexes = filteredTaskListIndexes;
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
+        messageSuccessful = new String("");
     }
 
     @Override
     public CommandResult execute() throws CommandException {
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<Task> listOfEditedTasks = new ArrayList<Task>();
-        String messageSuccessful = new String("");
         if (filteredTaskListIndexes.isEmpty()) {
             filteredTaskListIndexes.addAll(model.getSelectedIndexes());
             if (filteredTaskListIndexes.isEmpty()) {
@@ -89,11 +90,20 @@ public class EditCommand extends UndoableCommand {
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
-            messageSuccessful = messageSuccessful + " " + editedTask.getTitle().toString();
+            messageSuccessful = messageSuccessful + "[" + editedTask.getTitle().toString() + "] ";
             listOfEditedTasks.add(editedTask);
         }
 
         model.updateFilteredListToShowAll();
+        updateFilteredTaskListIndexes(listOfEditedTasks);
+        EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
+        model.updateSelectedIndexes(filteredTaskListIndexes);
+        commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
+        updateUndoLists();
+        return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS + messageSuccessful);
+    }
+    
+    private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks){
         filteredTaskListIndexes.clear();
         for (int count = 0; count < listOfEditedTasks.size(); count++) {
             UnmodifiableObservableList<ReadOnlyTask> listOfTask = model
@@ -101,11 +111,6 @@ public class EditCommand extends UndoableCommand {
             filteredTaskListIndexes.add(new TaskIndex(listOfEditedTasks.get(count).getTaskChar(),
                     listOfTask.indexOf(listOfEditedTasks.get(count)) + 1));
         }
-        EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
-        model.updateSelectedIndexes(filteredTaskListIndexes);
-        commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
-        updateUndoLists();
-        return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS + messageSuccessful);
     }
 
     @Override
