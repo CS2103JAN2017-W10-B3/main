@@ -51,9 +51,9 @@ public interface ReadOnlyTask {
     //@@ author:A0122017Y
     default String getAsText() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("This is a " + getTaskCategory() + " task, ")
+        builder.append("This is a " + getTaskCategory() + " task; ")
                 .append("Title of task is ")
-                .append(getTitle() + " ")
+                .append(getTitle() + "; ")
                 .append(getVenueString())
                 .append(getDescriptionString())
                 .append(getEndTimeString())
@@ -65,7 +65,7 @@ public interface ReadOnlyTask {
      * If null, empty string is returned.
      */
     default String getVenueString() {
-        return getVenue().isPresent() ? "At: " + getVenue().get().toString() + " " : "";
+        return getVenue().isPresent() ? "At: " + getVenue().get().toString() + "; " : "";
     }
     
     /**
@@ -73,7 +73,7 @@ public interface ReadOnlyTask {
      * If null, empty string is returned.
      */
     default String getStartTimeString() {
-        return getStartTime().isPresent() ? "Start at: " + getStartTime().get().toString() + " " : "";
+        return getStartTime().isPresent() ? "Start at: " + getStartTime().get().toString() + "; " : "";
     }
     
     /**
@@ -81,7 +81,7 @@ public interface ReadOnlyTask {
      * If null, empty string is returned.
      */
     default String getEndTimeString() {
-        return getEndTime().isPresent() ? "Done by: " + getEndTime().get().toString() + " " : "";
+        return getEndTime().isPresent() ? "Done by: " + getEndTime().get().toString() + "; " : "";
     }
     
     /**
@@ -89,7 +89,7 @@ public interface ReadOnlyTask {
      * If null, empty string is returned.
      */
     default String getUrgencyLevelString() {
-        return getUrgencyLevel().isPresent() ? "Urgency level at: " + getUrgencyLevel().get().toString() + " " : "";
+        return getUrgencyLevel().isPresent() ? "Urgency level at: " + getUrgencyLevel().get().toString() + "; " : "";
     }
     
     /**
@@ -97,14 +97,14 @@ public interface ReadOnlyTask {
      * If null, empty string is returned.
      */
     default String getDescriptionString() {
-        return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + " " : "";
+        return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + "; " : "";
     }
     
     /**
      * Obtain the tag string form the UniqueTagList of the task
      */
     default String getTagString() {
-        return getTags().getTagListToString();
+        return !getTags().isEmpty() ? "Tags: " + getTags().getTagListToString() + "; " : "";
     }
 
     //@@ author: A0138628W
@@ -164,9 +164,9 @@ public interface ReadOnlyTask {
             if (!t1.getUrgencyLevel().isPresent() && !t2.getUrgencyLevel().isPresent()) {
                 return 0;
             } else if (!t1.getUrgencyLevel().isPresent()) {
-                return -1;
-            } else if (!t2.getUrgencyLevel().isPresent()) {
                 return 1;
+            } else if (!t2.getUrgencyLevel().isPresent()) {
+                return -1;
             }
 
             //if both having urgency level
