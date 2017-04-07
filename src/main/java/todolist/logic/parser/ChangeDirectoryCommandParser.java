@@ -13,6 +13,8 @@ import todolist.logic.commands.IncorrectCommand;
 //@@author A0110791M
 public class ChangeDirectoryCommandParser {
 
+    private static final String FILE_PATH_REGEX = "([a-zA-Z]:)?(\\\\[a-zA-Z0-9_.-]+)+\\\\?";
+
     public ChangeDirectoryCommandParser() {
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +35,7 @@ public class ChangeDirectoryCommandParser {
 
         File file = new File(commandString);
 
-        if (!file.canWrite()) {
+        if (commandString.matches(FILE_PATH_REGEX)) {
             return new IncorrectCommand(
                     String.format(ChangeDirectoryCommand.MESSAGE_FAILURE, commandString));
         }
