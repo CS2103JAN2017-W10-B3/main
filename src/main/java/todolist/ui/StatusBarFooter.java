@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.events.model.ToDoListChangedEvent;
+import todolist.commons.events.storage.DirectoryChangedEvent;
 import todolist.commons.util.FxViewUtil;
 
 /**
@@ -53,5 +54,12 @@ public class StatusBarFooter extends UiPart<Region> {
         String lastUpdated = (new Date()).toString();
         logger.info(LogsCenter.getEventHandlingLogMessage(tdlce, "Setting last updated status to " + lastUpdated));
         setSyncStatus("Last Updated: " + lastUpdated);
+    }
+
+    /** Event handler for when user wants to change directory. */
+    //@@author A0110791M
+    @Subscribe
+    public void handleDirectoryChangedEvent(DirectoryChangedEvent event) {
+        setSaveLocation(event.targetDirectory);
     }
 }

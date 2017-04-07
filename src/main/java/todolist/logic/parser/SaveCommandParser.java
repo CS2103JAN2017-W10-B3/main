@@ -42,10 +42,10 @@ public class SaveCommandParser {
         }
 
         File file = new File(filePath);
-        if ((new File(filePath.concat(".xml"))).isFile()) {
+        if (file.isDirectory()) {
+            filePath = filePath.concat("\\").concat(Config.DEFAULT_TODOLIST_FILENAME);
+        } else if (!filePath.endsWith(".xml")) {
             filePath = filePath.concat(".xml");
-        } else if (file.isDirectory() || !file.exists()) {
-            filePath = filePath.concat(Config.DEFAULT_TODOLIST_FILENAME);
         }
 
         return new SaveCommand(filePath);
