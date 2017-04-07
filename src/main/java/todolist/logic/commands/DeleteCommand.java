@@ -53,7 +53,7 @@ public class DeleteCommand extends UndoableCommand {
             try {
                 model.deleteTask(tasksToDelete.get(count));
             } catch (TaskNotFoundException tnfe) {
-                assert false : "The target task cannot be missing";
+                assert false : "The target task is missing.";
             }
         }
 
