@@ -8,7 +8,7 @@ import java.util.logging.Level;
  */
 public class Config {
 
-    public static final String DEFAULT_TODOLIST_FOLDERPATH = "/data";
+    public static final String DEFAULT_TODOLIST_FOLDERPATH = "data";
     public static final String DEFAULT_TODOLIST_FILENAME = "/todolist.xml";
     public static final String DEFAULT_TODOLIST_FILEPATH = DEFAULT_TODOLIST_FOLDERPATH + DEFAULT_TODOLIST_FILENAME;
     public static final String DEFAULT_CONFIG_FILE = "config.json";
