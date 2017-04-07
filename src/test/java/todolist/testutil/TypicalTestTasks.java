@@ -68,7 +68,7 @@ public class TypicalTestTasks {
     //@@author A0110791M
     public TestTask[] getTypicalEventTasks() {
         TestTask[] testTasks = new TestTask[]{cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc,
-                                             tuitionPartTime, stringsRehearsal, dinnerAuntie};
+                                              tuitionPartTime, stringsRehearsal, dinnerAuntie};
         Arrays.sort(testTasks, ReadOnlyTask.getEventComparator());
         return testTasks;
     }
