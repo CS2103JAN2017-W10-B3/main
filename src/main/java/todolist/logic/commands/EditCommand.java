@@ -96,6 +96,9 @@ public class EditCommand extends UndoableCommand {
 
         model.updateFilteredListToShowAll();
         updateFilteredTaskListIndexes(listOfEditedTasks);
+
+        assert !filteredTaskListIndexes.isEmpty();
+
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
         model.updateSelectedIndexes(filteredTaskListIndexes);
         commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);

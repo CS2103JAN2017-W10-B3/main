@@ -55,22 +55,9 @@ public class ParserUtil {
 
     }
 
-    public static Optional<TaskIndex> parseSelectIndex(String command) {
-        final Matcher matcher = INDEX_ARGS_FORMAT.matcher(command.trim());
-        if (!matcher.matches()) {
-            return Optional.empty();
-        }
-
-        String index = matcher.group("targetIndex");
-        if (!isSingleValidIndex(index)) {
-            return Optional.empty();
-        }
-
-        return Optional.of(parseCorrectSingleIndex(index));
-
-    }
-
     public static Optional<ArrayList<TaskIndex>> parseCorrectIndex(String[] indexes) {
+        assert indexes != null;
+
         ArrayList<TaskIndex> editedIndexes = new ArrayList<TaskIndex>();
         for (String index : indexes) {
             if (!index.contains(INDEX_RANGE_SYMBOL)) {
@@ -85,6 +72,8 @@ public class ParserUtil {
     }
 
     public static TaskIndex parseCorrectSingleIndex(String index) {
+        assert isSingleValidIndex(index);
+
         Character taskType;
         int taskNumber;
         if (StringUtil.isUnsignedInteger(index)) {
@@ -100,6 +89,8 @@ public class ParserUtil {
     }
 
     public static ArrayList<TaskIndex> parseCorrectMultipleIndex(String index) {
+        assert isMultipleValidIndex(index);
+
         String[] indexes = index.split(INDEX_RANGE_SYMBOL);
         if (StringUtil.isUnsignedInteger(indexes[0])) {
             return Integer.parseInt(indexes[0]) <= Integer.parseInt(indexes[1])
@@ -128,6 +119,7 @@ public class ParserUtil {
 
     public static ArrayList<TaskIndex> generateListOfIndexes(Character taskType, int firstTaskNumber,
             int lastTaskNumber) {
+
         ArrayList<TaskIndex> indexes = new ArrayList<TaskIndex>();
         for (; firstTaskNumber <= lastTaskNumber; firstTaskNumber++) {
             indexes.add(parseCorrectSingleIndex(taskType.toString() + firstTaskNumber));
@@ -169,7 +161,7 @@ public class ParserUtil {
         if (!isSingleValidIndex(splitIndex[0])) {
             return false;
         } else {
-            if (splitIndex.length > 2) {
+            if (splitIndex.length != 2) {
                 return false;
             } else {
                 if (!isSingleValidIndex(splitIndex[1])) {
