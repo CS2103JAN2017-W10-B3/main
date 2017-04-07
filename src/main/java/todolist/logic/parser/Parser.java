@@ -18,9 +18,8 @@ import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
 import todolist.logic.commands.ImportCommand;
 import todolist.logic.commands.IncorrectCommand;
+import todolist.logic.commands.JokeCommand;
 import todolist.logic.commands.ListCommand;
-import todolist.logic.commands.ListTagCommand;
-import todolist.logic.commands.ListTaskUnderTagCommand;
 import todolist.logic.commands.SaveCommand;
 import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.UndoCommand;
@@ -76,17 +75,14 @@ public class Parser {
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
 
-        case ListTagCommand.COMMAND_WORD:
-            return new ListTagCommand();
-
-        case ListTaskUnderTagCommand.COMMAND_WORD:
-            return new ListCommandParser().parseTag(arguments);
-
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
+            
+        case JokeCommand.COMMAND_WORD:
+            return new JokeCommand();
 //@@ author A0143648Y
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
