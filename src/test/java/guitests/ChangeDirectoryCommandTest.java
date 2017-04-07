@@ -13,7 +13,7 @@ import todolist.testutil.TestTask;
 public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
 
     public static final String VALID_NEW_FILE_PATH = "testdata/todolist.xml";
-    public static final String INVALID_NEW_FILE_PATH = "!@#$%^&*().xml";
+    public static final String INVALID_NEW_FILE_PATH = "Z:/*&#(*#.xml";
 
     @Test
     public void changeValidDirectory() throws InterruptedException {
