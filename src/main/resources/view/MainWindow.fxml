@@ -7,6 +7,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -61,13 +63,27 @@
                <children>
                   <VBox prefWidth="100.0">
                      <children>
-                        <Label styleClass="label-event" text="Events" />
+                        <Label styleClass="label-event" text="Events">
+                           <graphic>
+                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/eventlabel.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Label>
                         <AnchorPane fx:id="eventListPlaceholder" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                   <VBox prefWidth="100.0">
                      <children>
-                        <Label styleClass="label-float" text="Floating" />
+                        <Label styleClass="label-float" text="ToDo">
+                           <graphic>
+                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/todolabel.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Label>
                         <AnchorPane fx:id="floatingListPlaceholder" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
@@ -80,13 +96,27 @@
                <children>
                   <VBox prefWidth="100.0">
                      <children>
-                        <Label styleClass="label-deadline" text="Deadline" />
+                        <Label styleClass="label-deadline" text="Deadline">
+                           <graphic>
+                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/deadlinelabel.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Label>
                         <AnchorPane fx:id="taskListPanelPlaceholder" />
                      </children>
                   </VBox>
                   <VBox prefWidth="100.0">
                      <children>
-                        <Label styleClass="label-complete" text="Complete" />
+                        <Label styleClass="label-complete" text="Complete">
+                           <graphic>
+                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/completelabel.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Label>
                         <AnchorPane fx:id="completeListPanelPlaceholder" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
