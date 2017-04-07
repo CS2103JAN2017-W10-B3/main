@@ -31,6 +31,10 @@ public class AddCommandParser {
                         PREFIX_DEADLINETIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
         try {
+            if (argsTokenizer.getValue(PREFIX_ENDTIME).isPresent() &&
+                    argsTokenizer.getValue(PREFIX_DEADLINETIME).isPresent()) {
+                throw new NoSuchElementException();
+            }
             return new AddCommand(
                     argsTokenizer.getPreamble().get(),
                     argsTokenizer.getValue(PREFIX_VENUE),
