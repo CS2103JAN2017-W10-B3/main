@@ -16,6 +16,7 @@ public interface Time extends Comparable<Time> {
             + "Or: name of the day, e.g Wed 4:18 \n"
             + "Or: relative days, e.g tomorrow 4:18 \n"
             + "Notice that no abbreviation is accepted for relatives. e.g tmrw is invalid. ";
+    public static final String MESSAGE_DUPLICATED_TIME_PARAMETERS = "You are having duplicated start or end time!";
 
     static Boolean isValidTime(String test) {
         return test.matches(TIME_VALIDATION_REGEX);
@@ -25,4 +26,6 @@ public interface Time extends Comparable<Time> {
 
     @Override
     int compareTo(Time time);
+    
+    boolean equals(Time time);
 }
