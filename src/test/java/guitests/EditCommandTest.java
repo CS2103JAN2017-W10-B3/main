@@ -118,7 +118,7 @@ public class EditCommandTest extends ToDoListGuiTest {
      */
     private void assertEditSuccess(int filteredTaskListIndex, int todoListIndex,
                                     String detailsToEdit, TestTask editedTask) {
-        commandBox.runCommand("edit " + filteredTaskListIndex + " " + detailsToEdit);
+        commandBox.runCommand("edit e" + filteredTaskListIndex + " " + detailsToEdit);
 
         // confirm the new card contains the right data
         TaskCardHandle editedCard = taskListPanel.navigateToTask(editedTask.getTitle().toString());

@@ -24,7 +24,7 @@ public class DeleteCommand extends UndoableCommand {
             + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD
             + " e1 \n";
 
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
+    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted/updated: [%s]";
     // @@ A0143648Y
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
 
@@ -57,10 +57,11 @@ public class DeleteCommand extends UndoableCommand {
             }
         }
 
-        commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
+        commandResultToUndo = new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS,
+                tasksToDelete.get(0).getTitle()));
         updateUndoLists();
 
-        return new CommandResult(MESSAGE_DELETE_TASK_SUCCESS);
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, tasksToDelete.get(0).getTitle()));
     }
 
     @Override
