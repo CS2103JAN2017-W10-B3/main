@@ -36,8 +36,6 @@ public class XmlAdaptedTask {
     private String description;
     @XmlElement(required = true)
     private String isCompleted;
-    @XmlElement(required = true)
-    private String completeTime;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
