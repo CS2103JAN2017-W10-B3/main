@@ -1,9 +1,9 @@
 package todolist.model.task;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
+import todolist.commons.util.TimeUtil;
 import todolist.model.tag.UniqueTagList;
 
 /**
@@ -24,7 +24,7 @@ public class Task implements ReadOnlyTask {
     private EndTime endTime;
     private Description description;
     private UrgencyLevel urgencyLevel;
-    private Time completeTime;
+    private CompleteTime completeTime;
 
     private Category category;
     private boolean isCompleted;
@@ -35,7 +35,7 @@ public class Task implements ReadOnlyTask {
      * Every field must be present and not null.
      */
     public Task(Title title, Venue venue, StartTime startTime, EndTime endTime, UrgencyLevel urgencyLevel,
-            Description description, UniqueTagList tags, Time completeTime, boolean isCompleted) {
+            Description description, UniqueTagList tags, boolean isCompleted) {
         this.title = title;
         this.venue = venue;
         this.startTime = startTime;
@@ -45,7 +45,6 @@ public class Task implements ReadOnlyTask {
         this.tags = new UniqueTagList(tags); // protect internal tags from
                                              // changes in the arg list
         this.isCompleted = isCompleted;
-        this.completeTime = completeTime;
         this.category = sortCategory();// by default, task is not completed when
                                        // initiated
     }
@@ -66,7 +65,7 @@ public class Task implements ReadOnlyTask {
     }
 
     public static boolean isValidTime(StartTime startTime, EndTime endTime) {
-        return !(startTime != null && endTime != null && startTime.isValidDuration(endTime));
+        return !(startTime != null && endTime != null && TimeUtil.isValidDuration(startTime, endTime));
     }
 
     // @@A0122017Y
@@ -76,7 +75,7 @@ public class Task implements ReadOnlyTask {
     public Task(ReadOnlyTask source) {
         this(source.getTitle(), source.getVenue().orElse(null), source.getStartTime().orElse(null),
                 source.getEndTime().orElse(null), source.getUrgencyLevel().orElse(null),
-                source.getDescription().orElse(null), source.getTags(), source.getCompleteTime().orElse(null),
+                source.getDescription().orElse(null), source.getTags(),
                 source.isTaskCompleted());
     }
 
@@ -163,20 +162,11 @@ public class Task implements ReadOnlyTask {
     public void setStartTime(StartTime startTime) {
         this.startTime = startTime;
     }
-
-    public void setCompleteTime(Time completeTime) {
-        this.completeTime = completeTime;
-    }
     
     public void setUrgencyLevel(UrgencyLevel urgencyLevel){
         this.urgencyLevel = urgencyLevel;
     }
-
-    @Override
-    public Optional<Time> getCompleteTime() {
-        return Optional.ofNullable(this.completeTime);
-    }
-
+    
     @Override
     public Optional<Venue> getVenue() {
         return Optional.ofNullable(this.venue);
@@ -258,11 +248,7 @@ public class Task implements ReadOnlyTask {
 
     @Override
     public void toggleComplete() {
-        if (!this.isCompleted) {
-            CompleteTime completeTime = new CompleteTime(LocalDateTime.now());
-            this.setCompleteTime(completeTime);
-        }
-        this.isCompleted = true;
+        this.isCompleted = !this.isCompleted;
     }
 
 }

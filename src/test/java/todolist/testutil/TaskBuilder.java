@@ -1,8 +1,11 @@
 package todolist.testutil;
 
+import java.util.Optional;
+
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.model.tag.Tag;
 import todolist.model.tag.UniqueTagList;
+import todolist.model.task.CompleteTime;
 import todolist.model.task.Description;
 import todolist.model.task.EndTime;
 import todolist.model.task.StartTime;
@@ -14,7 +17,9 @@ import todolist.model.task.Venue;
  *
  */
 public class TaskBuilder {
-
+    
+    
+    private static final String BOOLEAN_STRING_TRUE = "true";
     private TestTask task;
 
     public TaskBuilder() {
@@ -68,6 +73,20 @@ public class TaskBuilder {
 
     public TestTask build() {
         return this.task;
+    }
+
+    public TaskBuilder withCompleteStatus(String status) {
+        if (status.equalsIgnoreCase(BOOLEAN_STRING_TRUE)) {
+            this.task.toggleComplete();
+        }
+        return this;
+    }
+    
+    public TaskBuilder withCompleteTime(Optional<String> completeTime) throws IllegalValueException {
+        if (completeTime.isPresent()) {
+            this.task.setCompleteTime(new CompleteTime(completeTime.get()));
+        }
+        return this;
     }
 
 }

@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlElement;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.model.tag.Tag;
 import todolist.model.tag.UniqueTagList;
-import todolist.model.task.CompleteTime;
 import todolist.model.task.Description;
 import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
@@ -63,7 +62,6 @@ public class XmlAdaptedTask {
         urgencyLevel = source.getUrgencyLevel().isPresent() ? source.getUrgencyLevel().get().toString() : "";
         description = source.getDescription().isPresent() ? source.getDescription().get().toString() : "";
         isCompleted = source.getIsCompletedToString();
-        completeTime = source.getCompleteTime().isPresent()? source.getCompleteTime().get().toString() : "";
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -87,8 +85,7 @@ public class XmlAdaptedTask {
         final UrgencyLevel urgencyLevel = this.urgencyLevel != "" ? new UrgencyLevel(this.urgencyLevel) : null;
         final Description description = this.description != "" ? new Description(this.description) : null;
         final boolean isCompleted = this.isCompleted.contains("true")? true : false ;
-        final CompleteTime completeTime = !this.completeTime.isEmpty() ? new CompleteTime(this.completeTime) : null;
         final UniqueTagList tags = new UniqueTagList(taskTags);
-        return new Task(title, venue, startTime, endTime, urgencyLevel, description,tags,completeTime,isCompleted);
+        return new Task(title, venue, startTime, endTime, urgencyLevel, description, tags, isCompleted);
     }
 }

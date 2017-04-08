@@ -48,6 +48,7 @@ public class TestTask implements ReadOnlyTask {
         this.urgencyLevel = taskToCopy.getUrgencyLevel();
         this.description = taskToCopy.getDescription();
         this.tags = taskToCopy.getTags();
+        this.isCompleted = taskToCopy.isTaskCompleted();
         this.category = sortCategory();
     }
 
@@ -100,11 +101,6 @@ public class TestTask implements ReadOnlyTask {
     @Override
     public Optional<EndTime> getEndTime() {
         return endTime;
-    }
-
-    @Override
-    public Optional<Time> getCompleteTime() {
-        return completeTime;
     }
 
     @Override
@@ -201,4 +197,9 @@ public class TestTask implements ReadOnlyTask {
     public void toggleComplete() {
         this.isCompleted = !this.isCompleted;
     }
+    
+    public void setCompleteTime(CompleteTime completeTime) {
+        this.completeTime = Optional.of(completeTime);
+    }
+
 }

@@ -17,7 +17,6 @@ public interface ReadOnlyTask {
     Optional<Venue> getVenue();
     Optional<Description> getDescription();
     Optional<UrgencyLevel> getUrgencyLevel();
-    Optional<Time> getCompleteTime();
     public enum Category { DEADLINE, EVENT, FLOAT, COMPLETED }
 
     Category getTaskCategory();
@@ -197,15 +196,10 @@ public interface ReadOnlyTask {
             return t1.getTaskChar().compareTo(t2.getTaskChar());
         };
 
-        //then by complete time
-        Comparator<ReadOnlyTask> byCompleteTime = (t1, t2) -> {
-            return t2.getCompleteTime().get().compareTo(t1.getCompleteTime().get());
-        };
-
         //then by name
         Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
 
-        return byTaskType.thenComparing(byCompleteTime).thenComparing(byName);
+        return byTaskType.thenComparing(byName);
     }
     //@@
     //author A0143648Y

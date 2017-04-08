@@ -19,9 +19,13 @@ import todolist.commons.exceptions.DataConversionException;
 import todolist.commons.util.CollectionUtil;
 import todolist.commons.util.FileUtil;
 import todolist.model.tag.Tag;
+import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.ReadOnlyTask.Category;
+import todolist.model.task.StartTime;
 import todolist.model.task.Task;
 import todolist.model.task.TaskIndex;
+import todolist.model.task.Time;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
 import todolist.model.util.SampleDataUtil;
@@ -295,6 +299,12 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredTaskList(Set<String> keywords) {
         updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords)));
     }
+    
+
+    @Override
+    public void updateFilteredTaskList(Optional<StartTime> startTime, Optional<EndTime> endTime) {
+        updateFilteredTaskList(new PredicateExpression(new DurationQualifier(startTime, endTime)));
+    }
 
     private void updateFilteredTaskList(Expression expression) {
         filteredDeadlines.setPredicate(expression::satisfies);
@@ -446,6 +456,67 @@ public class ModelManager extends ComponentManager implements Model {
         @Override
         public String toString() {
             return (status ? "contains tag!" : "not containing tag!");
+        }
+
+    }
+    
+    private class DurationQualifier implements Qualifier {
+
+        StartTime startTime;
+        EndTime endTime;
+        Boolean status;
+
+        DurationQualifier(Optional<StartTime> start, Optional<EndTime> end) {
+            if (start.isPresent()) {
+                startTime = start.get();
+            } if (end.isPresent()) {
+                endTime = end.get();
+            }
+        }
+
+        @Override
+        public boolean run(ReadOnlyTask task) {
+            if (task.getTaskCategory().equals(Category.DEADLINE)) {
+                return isDeadlineWithinDuration(task); 
+            } else if (task.getTaskCategory().equals(Category.EVENT)) {
+                return isEventWithinDuration(task);
+            } else if (task.getTaskCategory().equals(Category.FLOAT)){
+                return isFloatingWithinDuration(task);
+            } else {
+                return false;
+            }
+        }
+
+        private boolean isFloatingWithinDuration(ReadOnlyTask task) {
+            if (task.getStartTime().isPresent()) {
+                return isTimeInDuration(task.getStartTime().get());
+            } else {
+                return false;
+            }
+        }
+
+        private boolean isEventWithinDuration(ReadOnlyTask task) {
+            return isTimeInDuration(task.getStartTime().get()) && 
+                    isTimeInDuration(task.getEndTime().get());
+        }
+
+        private boolean isDeadlineWithinDuration(ReadOnlyTask task) {
+            return isTimeInDuration(task.getEndTime().get());
+        }
+
+        private boolean isTimeInDuration(Time time) {
+            if (startTime != null && endTime == null) {
+                return startTime.isBefore(time);
+            } if (endTime != null && startTime == null) {
+                return endTime.isAfter(time);
+            } else {
+                return startTime.isBefore(time) && endTime.isAfter(time);
+            }
+        }
+
+        @Override
+        public String toString() {
+            return (status ? "within the period!" : "not within the period!");
         }
 
     }
