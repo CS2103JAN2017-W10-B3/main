@@ -14,8 +14,6 @@ import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.ListCommand;
-import todolist.logic.commands.ListTagCommand;
-import todolist.logic.commands.ListTaskUnderTagCommand;
 import todolist.logic.commands.SaveCommand;
 import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.UndoCommand;
@@ -55,10 +53,6 @@ public class HelpCommandParser {
         } else if (input.equals(FindCommand.COMMAND_WORD)) {
             return true;
         } else if (input.equals(ListCommand.COMMAND_WORD)) {
-            return true;
-        } else if (input.equals(ListTagCommand.COMMAND_WORD)) {
-            return true;
-        } else if (input.equals(ListTaskUnderTagCommand.COMMAND_WORD)) {
             return true;
         } else if (input.equals(ExitCommand.COMMAND_WORD)) {
             return true;

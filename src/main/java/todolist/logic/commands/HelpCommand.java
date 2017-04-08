@@ -56,10 +56,6 @@ public class HelpCommand extends Command {
             return FindCommand.MESSAGE_USAGE;
         } else if (command.equals(ListCommand.COMMAND_WORD)) {
             return ListCommand.MESSAGE_USAGE;
-        } else if (command.equals(ListTagCommand.COMMAND_WORD)) {
-            return ListTagCommand.MESSAGE_USAGE;
-        } else if (command.equals(ListTaskUnderTagCommand.COMMAND_WORD)) {
-            return ListTaskUnderTagCommand.MESSAGE_USAGE;
         } else if (command.equals(ExitCommand.COMMAND_WORD)) {
             return ExitCommand.MESSAGE_USAGE;
         } else if (command.equals(UndoCommand.COMMAND_WORD)) {
