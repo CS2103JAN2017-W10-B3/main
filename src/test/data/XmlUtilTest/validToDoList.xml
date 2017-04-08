@@ -8,7 +8,6 @@
         <urgencyLevel isPrivate="false">5</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>DBS Internship interview</title>
@@ -18,7 +17,6 @@
         <urgencyLevel isPrivate="false">4</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Hang out with Joe </title>
@@ -28,7 +26,6 @@
         <urgencyLevel isPrivate="false">2</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Statistics society meeting</title>
@@ -38,7 +35,6 @@
         <urgencyLevel isPrivate="false">7</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Tuition part-time job</title>
@@ -48,7 +44,6 @@
         <urgencyLevel isPrivate="false">0</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Strings ensemble rehearsal</title>
@@ -58,7 +53,6 @@
         <urgencyLevel isPrivate="false">3</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Dinner with auntie</title>
@@ -68,7 +62,6 @@
         <urgencyLevel isPrivate="false">6</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>MA3269 Quiz</title>
@@ -78,7 +71,6 @@
         <urgencyLevel isPrivate="false">8</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
     <tasks>
         <title>Submit FIN3101 Tutorial</title>
@@ -88,6 +80,5 @@
         <urgencyLevel isPrivate="false">2</urgencyLevel>
         <description isPrivate="false">I love you</description>
         <isCompleted isPrivate="false">false</isCompleted>
-        <completeTime isPrivate="false"></completeTime>
     </tasks>
 </ToDoList>
