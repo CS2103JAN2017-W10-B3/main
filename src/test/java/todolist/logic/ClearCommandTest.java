@@ -19,7 +19,8 @@ public class ClearCommandTest extends LogicManagerTest {
         model.addTask(helper.generateTask(2));
         model.addTask(helper.generateTask(3));
 
-        assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS, new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
+        assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS,
+                new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
     }
 
 }

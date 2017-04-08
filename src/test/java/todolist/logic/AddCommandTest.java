@@ -22,7 +22,7 @@ import todolist.model.task.Venue;
 /*
  * Logic test for Add Command
  */
-public class AddCommandTest extends LogicManagerTest{
+public class AddCommandTest extends LogicManagerTest {
 
     @Test
     public void execute_add_invalidArgsFormat() {

@@ -26,14 +26,14 @@ public class ListCommandTest extends LogicManagerTest{
     @Test
     public void execute_list_within_an_interval() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        Task Target1 = helper.generateEventTaskWithStartTime("13 April 2017");
-        Task Target2 = helper.generateEventTaskWithStartTime("14 April 2017");
+        Task target1 = helper.generateEventTaskWithStartTime("13 April 2017");
+        Task target2 = helper.generateEventTaskWithStartTime("14 April 2017");
         Task p1 = helper.generateEventTaskWithEndTime("30 April 2017");
         Task p2 = helper.generateEventTaskWithEndTime("29 April 2017");
 
-        List<Task> fourTasks = helper.generateTaskList(p1, Target1, p2, Target2);
+        List<Task> fourTasks = helper.generateTaskList(p1, target1, p2, target2);
         ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = helper.generateTaskList(Target1,Target2);
+        List<Task> expectedList = helper.generateTaskList(target1, target2);
         helper.addToModel(model, fourTasks);
 
         assertCommandSuccess("list /from 13 April 2017",
@@ -45,15 +45,15 @@ public class ListCommandTest extends LogicManagerTest{
     @Test
     public void execute_find_isNotCaseSensitive() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        Task Target1 = helper.generateDeadlineTaskWithEndTime("13 April 2017");
-        Task Target2 = helper.generateDeadlineTaskWithEndTime("14 April 2017");
+        Task target1 = helper.generateDeadlineTaskWithEndTime("13 April 2017");
+        Task target2 = helper.generateDeadlineTaskWithEndTime("14 April 2017");
         Task p1 = helper.generateDeadlineTaskWithEndTime("30 April 2017");
         Task p2 = helper.generateDeadlineTaskWithEndTime("29 April 2017");
 
-        List<Task> fourTasks = helper.generateTaskList(p1, Target1, p2, Target2);
+        List<Task> fourTasks = helper.generateTaskList(p1, target1, p2, target2);
         ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList1 = helper.generateTaskList(p1, Target1, p2, Target2);
-        List<Task> expectedList2 = helper.generateTaskList(Target1);
+        List<Task> expectedList1 = helper.generateTaskList(p1, target1, p2, target2);
+        List<Task> expectedList2 = helper.generateTaskList(target1);
         helper.addToModel(model, fourTasks);
 
         assertCommandSuccess("list /by 30 April 2017",

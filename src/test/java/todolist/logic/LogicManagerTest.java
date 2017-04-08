@@ -142,7 +142,8 @@ public class LogicManagerTest {
      * - the backing list shown by UI matches the {@code shownList} <br>
      * - {@code expectedToDoList} was saved to the storage file. <br>
      */
-    protected void assertCommandBehavior(boolean isCommandExceptionExpected, String inputCommand, String expectedMessage,
+    protected void assertCommandBehavior(boolean isCommandExceptionExpected,
+            String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
             List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {
 
