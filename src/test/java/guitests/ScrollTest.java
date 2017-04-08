@@ -19,7 +19,7 @@ public class ScrollTest extends ToDoListGuiTest {
 
     //Scroll is null
     @Test
-    public void scrollbar_isnull() {
+    public void scrollbarIsNull() {
         scrollTest = new Scroll();
         assertNull(scrollTest.getScrollBar());
         assertFalse(scrollTest.isAvailable());
