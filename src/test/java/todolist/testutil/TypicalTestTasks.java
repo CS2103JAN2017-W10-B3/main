@@ -1,7 +1,10 @@
 package todolist.testutil;
 
+import java.util.Arrays;
+
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.model.ToDoList;
+import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 
@@ -52,8 +55,8 @@ public class TypicalTestTasks {
         }
     }
 
-    public static void loadToDoListWithSampleData(ToDoList ab) {
-        for (TestTask task : new TypicalTestTasks().getTypicalTasks()) {
+    public static void loadEventListWithSampleData(ToDoList ab) {
+        for (TestTask task : new TypicalTestTasks().getTypicalEventTasks()) {
             try {
                 ab.addTask(new Task(task));
             } catch (UniqueTaskList.DuplicateTaskException e) {
@@ -62,14 +65,17 @@ public class TypicalTestTasks {
         }
     }
 
-    public TestTask[] getTypicalTasks() {
-        return new TestTask[]{cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc,
-            tuitionPartTime, stringsRehearsal, dinnerAuntie};
+    //@@author A0110791M
+    public TestTask[] getTypicalEventTasks() {
+        TestTask[] testTasks = new TestTask[]{cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc,
+                                              tuitionPartTime, stringsRehearsal, dinnerAuntie};
+        Arrays.sort(testTasks, ReadOnlyTask.getEventComparator());
+        return testTasks;
     }
 
-    public ToDoList getTypicalToDoList() {
+    public ToDoList getTypicalEventList() {
         ToDoList ab = new ToDoList();
-        loadToDoListWithSampleData(ab);
+        loadEventListWithSampleData(ab);
         return ab;
     }
 }

@@ -200,4 +200,5 @@ public class TestTask implements ReadOnlyTask {
     public void toggleComplete() {
         this.isCompleted = !this.isCompleted;
     }
+
 }

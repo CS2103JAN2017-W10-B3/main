@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import guitests.guihandles.TaskCardHandle;
 import todolist.commons.core.Messages;
+import todolist.logic.commands.AddCommand;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
@@ -14,24 +15,24 @@ public class AddCommandTest extends ToDoListGuiTest {
     @Test
     public void add() {
         //add one Task
-        TestTask[] currentList = td.getTypicalTasks();
+        TestTask[] currentList = td.getTypicalEventTasks();
         TestTask taskToAdd = td.ma3269Quiz;
-        //assertAddSuccess(taskToAdd, currentList);
+        assertAddSuccess(taskToAdd, currentList);
         currentList = TestUtil.addTasksToList(currentList, taskToAdd);
 
         //add another Task
         taskToAdd = td.laundry;
-        //assertAddSuccess(taskToAdd, currentList);
+        assertAddSuccess(taskToAdd, currentList);
         currentList = TestUtil.addTasksToList(currentList, taskToAdd);
 
         //add duplicate Task
         commandBox.runCommand(td.ma3269Quiz.getAddCommand());
-        //assertResultMessage(AddCommand.MESSAGE_DUPLICATE_TASK);
-        //assertTrue(taskListPanel.isListMatching(currentList));
+        assertResultMessage(AddCommand.MESSAGE_DUPLICATE_TASK);
+        assertTrue(taskListPanel.isListMatching(currentList));
 
         //add to empty list
         commandBox.runCommand("clear");
-        //assertAddSuccess(td.cs2103Tutorial);
+        assertAddSuccess(td.cs2103Tutorial);
 
         //invalid command
         commandBox.runCommand("adds Johnny");

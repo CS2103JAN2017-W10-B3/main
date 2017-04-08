@@ -90,7 +90,7 @@ public abstract class ToDoListGuiTest {
      */
     protected ToDoList getInitialData() {
         ToDoList ab = new ToDoList();
-        TypicalTestTasks.loadToDoListWithSampleData(ab);
+        TypicalTestTasks.loadEventListWithSampleData(ab);
         return ab;
     }
 
@@ -117,7 +117,7 @@ public abstract class ToDoListGuiTest {
      * Asserts the size of the task list is equal to the given number.
      */
     protected void assertListSize(int size) {
-        int numberOfPeople = taskListPanel.getNumberOfPeople();
+        int numberOfPeople = taskListPanel.getNumberOfTasks();
         assertEquals(size, numberOfPeople);
     }
 

@@ -332,6 +332,7 @@ public class TestUtil {
         return tasks;
     }
 
+    //@@author A0110791M
     /**
      * Appends tasks to the array of tasks.
      *
@@ -344,6 +345,17 @@ public class TestUtil {
     public static TestTask[] addTasksToList(final TestTask[] tasks, TestTask... tasksToAdd) {
         List<TestTask> listOfTasks = asList(tasks);
         listOfTasks.addAll(asList(tasksToAdd));
+        switch (listOfTasks.get(0).getTaskCategory()) {
+        case EVENT:
+            listOfTasks.sort(ReadOnlyTask.getEventComparator());
+            break;
+        case DEADLINE:
+            listOfTasks.sort(ReadOnlyTask.getDeadlineComparator());
+            break;
+        default:
+            listOfTasks.sort(ReadOnlyTask.getFloatingComparator());
+            break;
+        }
         return listOfTasks.toArray(new TestTask[listOfTasks.size()]);
     }
 
