@@ -26,7 +26,7 @@ public class DeleteCommandTest extends LogicManagerTest {
     @Test
     public void executeDeleteRemovesCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        List<Task> threeTasks = helper.generateTaskList(3);
+        List<Task> threeTasks = helper.generateEventTaskList(3);
 
         ToDoList expectedAB = helper.generateToDoList(threeTasks);
         expectedAB.removeTask(threeTasks.get(INDEX_FIRST_TASK));

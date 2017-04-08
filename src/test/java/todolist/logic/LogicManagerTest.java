@@ -220,7 +220,7 @@ public class LogicManagerTest {
      */
     protected void assertIndexNotFoundBehaviorForCommand(String commandWord) throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        List<Task> taskList = helper.generateTaskList(2);
+        List<Task> taskList = helper.generateEventTaskList(2);
 
         // set AB state to 2 tasks
         model.resetData(new ToDoList());
@@ -240,7 +240,7 @@ public class LogicManagerTest {
     public void executeIndexNotFoundBehaviorForSelectCommand() throws Exception {
         String expectedMessage = Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
         TestDataHelper helper = new TestDataHelper();
-        List<Task> taskList = helper.generateTaskList(2);
+        List<Task> taskList = helper.generateEventTaskList(2);
 
         // set AB state to 2 tasks
         model.resetData(new ToDoList());
@@ -311,7 +311,7 @@ public class LogicManagerTest {
         }
 
         /**
-         * Generates a valid task using the given seed.
+         * Generates a valid event task using the given seed.
          * Running this function with the same parameter values guarantees the
          * returned task will have the same state.
          * Each unique seed will generate a unique Task object.
@@ -319,12 +319,52 @@ public class LogicManagerTest {
          * @param seed
          *            used to generate the task data field values
          */
-        public Task generateTask(int seed) throws Exception {
+        public Task generateEventTask(int seed) throws Exception {
             return new Task(
                     new Title("Task " + seed),
                     new Venue("" + Math.abs(seed)),
                     new StartTime("0000"),
                     new EndTime("1200" + seed),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))));
+        }
+
+        /**
+         * Generates a valid deadline task using the given seed.
+         * Running this function with the same parameter values guarantees the
+         * returned task will have the same state.
+         * Each unique seed will generate a unique Task object.
+         *
+         * @param seed
+         *            used to generate the task data field values
+         */
+        public Task generateDeadlineTask(int seed) throws Exception {
+            return new Task(
+                    new Title("Task " + seed),
+                    new Venue("" + Math.abs(seed)),
+                    null,
+                    new EndTime("1200" + seed),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))));
+        }
+
+        /**
+         * Generates a valid deadline task using the given seed.
+         * Running this function with the same parameter values guarantees the
+         * returned task will have the same state.
+         * Each unique seed will generate a unique Task object.
+         *
+         * @param seed
+         *            used to generate the task data field values
+         */
+        public Task generateFloatingTask(int seed) throws Exception {
+            return new Task(
+                    new Title("Task " + seed),
+                    new Venue("" + Math.abs(seed)),
+                    null,
+                    null,
                     new UrgencyLevel("3"),
                     new Description("I love 2103!!"),
                     new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))));
@@ -385,7 +425,7 @@ public class LogicManagerTest {
          *            The ToDoList to which the Tasks will be added
          */
         public void addToToDoList(ToDoList toDoList, int numGenerated) throws Exception {
-            addToToDoList(toDoList, generateTaskList(numGenerated));
+            addToToDoList(toDoList, generateEventTaskList(numGenerated));
         }
 
         /**
@@ -404,7 +444,7 @@ public class LogicManagerTest {
          *            The model to which the Tasks will be added
          */
         public void addToModel(Model model, int numGenerated) throws Exception {
-            addToModel(model, generateTaskList(numGenerated));
+            addToModel(model, generateEventTaskList(numGenerated));
         }
 
         /**
@@ -419,10 +459,10 @@ public class LogicManagerTest {
         /**
          * Generates a list of Tasks based on the flags.
          */
-        public List<Task> generateTaskList(int numGenerated) throws Exception {
+        public List<Task> generateEventTaskList(int numGenerated) throws Exception {
             List<Task> tasks = new ArrayList<>();
             for (int i = 1; i <= numGenerated; i++) {
-                tasks.add(generateTask(i));
+                tasks.add(generateEventTask(i));
             }
             return tasks;
         }

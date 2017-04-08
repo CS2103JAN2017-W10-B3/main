@@ -31,7 +31,7 @@ public class SelectCommandTest extends LogicManagerTest {
     //Check if the message shown is correct if index given is valid
     public void executeSelectJumpsToCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        List<Task> threeTasks = helper.generateTaskList(3);
+        List<Task> threeTasks = helper.generateEventTaskList(3);
 
         ToDoList expectedAB = helper.generateToDoList(threeTasks);
         helper.addToModel(model, threeTasks);

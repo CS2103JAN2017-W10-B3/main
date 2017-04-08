@@ -15,9 +15,9 @@ public class ClearCommandTest extends LogicManagerTest {
     //execute clear command and check the result
     public void executeClear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        model.addTask(helper.generateTask(1));
-        model.addTask(helper.generateTask(2));
-        model.addTask(helper.generateTask(3));
+        model.addTask(helper.generateEventTask(1));
+        model.addTask(helper.generateEventTask(2));
+        model.addTask(helper.generateEventTask(3));
 
         assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS,
                 new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
