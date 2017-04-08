@@ -63,7 +63,7 @@ public class StorageManagerTest {
         ToDoList original = new TypicalTestTasks().getTypicalTaskList();
         storageManager.saveToDoList(original);
         ReadOnlyToDoList retrieved = storageManager.readToDoList().get();
-        ToDoList newtodo = new ToDoList(retrieved);
+
         assertEquals(original, new ToDoList(retrieved));
     }
 
