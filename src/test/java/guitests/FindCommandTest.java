@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import todolist.commons.core.Messages;
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 
 public class FindCommandTest extends ToDoListGuiTest {
@@ -12,11 +13,11 @@ public class FindCommandTest extends ToDoListGuiTest {
     @Test
     public void find_nonEmptyList() {
         assertFindResult("find CS2105"); // no results
-        //assertFindResult("find DBS", td.dbsInterview); // multiple results
+        assertFindResult("find DBS", td.dbsInterview); // multiple results
 
         //find after deleting one result
-        commandBox.runCommand("delete 1");
-        //assertFindResult("find Meier", td.hangOutJoe);
+        commandBox.runCommand("delete e2");
+        assertFindResult("find Joe", td.hangOutJoe);
     }
 
     @Test
@@ -35,6 +36,6 @@ public class FindCommandTest extends ToDoListGuiTest {
         commandBox.runCommand(command);
         assertListSize(expectedHits.length);
         assertResultMessage(expectedHits.length + " tasks listed!");
-        assertTrue(taskListPanel.isListMatching(expectedHits));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedHits));
     }
 }

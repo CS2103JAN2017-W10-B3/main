@@ -17,16 +17,20 @@ public class ImportCommandParser {
 
     public Command parse(String sourceFilePath) {
         String filePath = sourceFilePath.trim();
-        final Matcher matcher = SaveCommandParser.SAVE_ARGS_FORMAT.matcher(filePath);
+        if (filePath.length() == 0) {
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
+        }
 
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
+        final Matcher matcher = ChangeDirectoryCommandParser.FILE_PATH_PATTERN.matcher(filePath);
+        if (matcher.matches()) {
+            return new IncorrectCommand(
+                    String.format(ImportCommand.MESSAGE_FAILURE, filePath));
         }
 
         if (!filePath.endsWith(".xml")) {
             filePath = filePath.concat(".xml");
         }
-
         if (new File(filePath).exists()) {
             return new ImportCommand(filePath);
         } else {

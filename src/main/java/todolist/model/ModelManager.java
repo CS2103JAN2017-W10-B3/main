@@ -84,21 +84,19 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     // @@author A0110791M
-    /** Changes the directory to the filePath specified and updates the current todoList to match the destination */
+    /**
+     * Changes the directory to the filePath specified and updates the current
+     * todoList to match the destination
+     */
     @Override
-    public void changeDirectory (String filePath) throws IOException {
+    public void changeDirectory(String filePath) throws IOException {
         FileUtil.createIfMissing(new File(filePath));
-        try {
-            ReadOnlyToDoList targetList = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
-            indicateDirectoryChanged(filePath);
-            resetData(targetList);
-        } catch (DataConversionException e) {
-            logger.info(e.getMessage());
-        }
+        indicateDirectoryChanged(filePath);
+        indicateToDoListChanged();
     }
 
     /** Raises an event to indicate the user requests a new directory */
-    private void indicateDirectoryChanged (String filePath) {
+    private void indicateDirectoryChanged(String filePath) {
         raise(new DirectoryChangedEvent(filePath));
     }
 

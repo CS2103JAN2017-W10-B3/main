@@ -12,7 +12,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 
-// @@ A0110791M
+//@@author A0110791M
 public class TextFieldAutoCompleter implements ChangeListener<String> {
 
     public static final String[] PREFIXSTRINGS = new String[] {"/venue ", "/from ", "/to ",
@@ -95,6 +95,7 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
             }
         }
     }
-    // @@
 
 }
+//@@
+
