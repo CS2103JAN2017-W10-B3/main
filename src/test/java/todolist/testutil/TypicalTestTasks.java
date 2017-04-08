@@ -74,13 +74,13 @@ public class TypicalTestTasks {
 
             //floats
             planGradTrip = new TaskBuilder().withTitle("Plan for Grad Trip").withTags("gradtrip").withVenue("Online")
-                    .withDescription("Decide when and where.").build();
+                    .withUrgencyLevel("1").withDescription("Decide when and where.").build();
             learnJava = new TaskBuilder().withTitle("Learn Java").withTags("java").withVenue("Online")
-                    .withDescription("Refer to photos gallery on phone for resources.").build();
+                    .withUrgencyLevel("3").withDescription("Refer to photos gallery on phone for resources.").build();
             buyGroceries = new TaskBuilder().withTitle("Buy groceries").withTags("shopping").withVenue("NTUC")
-                     .withDescription("Buy cheddar and mozarella cheese, pepper and milk.").build();
+                    .withUrgencyLevel("2").withDescription("Buy cheddar and mozarella cheese, pepper and milk.").build();
             goGym = new TaskBuilder().withTitle("Go gym").withTags("gym").withVenue("Gym")
-                     .withDescription("Push, pull, legs!").build();
+                    .withUrgencyLevel("1").withDescription("Push, pull, legs!").build();
             // Manually added
             cleanMyRoom = new TaskBuilder().withTitle("Clean my room").withTags("chores").withVenue("my room")
                      .withDescription("Sweep").build();
@@ -135,7 +135,7 @@ public class TypicalTestTasks {
     }
 
     public TestTask[] getTypicalFloatingTasks() {
-        TestTask[] testTasks = new TestTask[]{planGradTrip, learnJava, buyGroceries, goGym};
+        TestTask[] testTasks = new TestTask[]{buyGroceries, goGym, learnJava, planGradTrip};
         Arrays.sort(testTasks, ReadOnlyTask.getFloatingComparator());
         return testTasks;
     }
