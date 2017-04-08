@@ -1,11 +1,10 @@
 package todolist.logic;
 
-import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import java.util.List;
 
 import org.junit.Test;
 
+import todolist.commons.core.Messages;
 import todolist.logic.commands.DeleteCommand;
 import todolist.model.ToDoList;
 import todolist.model.task.Task;
@@ -17,8 +16,10 @@ public class DeleteCommandTest extends LogicManagerTest {
     
     @Test
     public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
-        assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessage);
+        String expectedMessageNoIndex = Messages.MESSAGE_NO_TASK_SELECTED;
+        String expectedMessageWrongIndex = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
+        assertNoIndexSelectedBehaviorForCommand("delete",expectedMessageNoIndex);
+        assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessageWrongIndex);
     }
 
     @Test
