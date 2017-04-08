@@ -167,10 +167,9 @@ public class UniqueTaskList implements Iterable<Task> {
 
     public void autoComplete() {
         for (Task task : internalList) {
-            if (task.getEndTime().isPresent()) {
-                if (task.getEndTime().get().outdated()) {
-                    task.toggleComplete();
-                }
+            if (task.getEndTime().isPresent() &&
+                task.getEndTime().get().outdated()) {
+                task.toggleComplete();
             }
         }
     }

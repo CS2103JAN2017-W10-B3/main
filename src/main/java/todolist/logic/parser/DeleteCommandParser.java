@@ -74,53 +74,44 @@ public class DeleteCommandParser {
             isValid = false;
         }
 
-        if (argsTokenizer.getValue(PREFIX_VENUE).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_VENUE).get().isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getValue(PREFIX_VENUE).isPresent() &&
+            !argsTokenizer.getValue(PREFIX_VENUE).get().isEmpty()) {
+            isValid = false;
         }
 
-        if (argsTokenizer.getValue(PREFIX_STARTTIME).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_STARTTIME).get().isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getValue(PREFIX_STARTTIME).isPresent() &&
+            !argsTokenizer.getValue(PREFIX_STARTTIME).get().isEmpty()) {
+            isValid = false;
         }
 
-        if (argsTokenizer.getValue(PREFIX_BEGINNINGTIME).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_BEGINNINGTIME).get().isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getValue(PREFIX_BEGINNINGTIME).isPresent() &&
+            !argsTokenizer.getValue(PREFIX_BEGINNINGTIME).get().isEmpty()) {
+            isValid = false;
         }
 
-        if (argsTokenizer.getValue(PREFIX_ENDTIME).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_ENDTIME).get().isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getValue(PREFIX_ENDTIME).isPresent() &&
+            !argsTokenizer.getValue(PREFIX_ENDTIME).get().isEmpty()) {
+            isValid = false;
         }
 
-        if (argsTokenizer.getValue(PREFIX_DEADLINETIME).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_DEADLINETIME).get().isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getValue(PREFIX_DEADLINETIME).isPresent() &&
+            !argsTokenizer.getValue(PREFIX_DEADLINETIME).get().isEmpty()) {
+            isValid = false;
         }
 
-        if (argsTokenizer.getValue(PREFIX_URGENCYLEVEL).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_URGENCYLEVEL).get().isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getValue(PREFIX_URGENCYLEVEL).isPresent() &&
+            !argsTokenizer.getValue(PREFIX_URGENCYLEVEL).get().isEmpty()) {
+            isValid = false;
         }
 
-        if (argsTokenizer.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_DESCRIPTION).get().isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getValue(PREFIX_DESCRIPTION).isPresent() &&
+            !argsTokenizer.getValue(PREFIX_DESCRIPTION).get().isEmpty()) {
+            isValid = false;
         }
 
-        if (argsTokenizer.getAllValues(PREFIX_TAG).isPresent()) {
-            if (!argsTokenizer.getAllValues(PREFIX_TAG)
-                    .get().get(0).isEmpty()) {
-                isValid = false;
-            }
+        if (argsTokenizer.getAllValues(PREFIX_TAG).isPresent() &&
+            !argsTokenizer.getAllValues(PREFIX_TAG).get().get(0).isEmpty()) {
+            isValid = false;
         }
 
         return isValid;

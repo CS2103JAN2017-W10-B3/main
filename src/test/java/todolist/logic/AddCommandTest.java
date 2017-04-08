@@ -25,13 +25,13 @@ import todolist.model.task.Venue;
 public class AddCommandTest extends LogicManagerTest {
 
     @Test
-    public void execute_add_invalidArgsFormat() {
+    public void executeAddInvalidArgsFormat() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
         assertCommandFailure("add", expectedMessage);
     }
 
     @Test
-    public void execute_add_invalidTaskData() {
+    public void executeAddInvalidTaskData() {
         //invalid title
         assertCommandFailure("add []\\[;] /venue 12345 /from today /to tomorrow",
                 Title.MESSAGE_TITLE_CONSTRAINTS);
@@ -59,7 +59,7 @@ public class AddCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_add_successful_deadline() throws Exception {
+    public void executeAddSuccessfulDeadline() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAddedDeadline = helper.cs2103Deadline();
@@ -74,7 +74,7 @@ public class AddCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_add_successful_event() throws Exception {
+    public void executeAddSuccessfulEvent() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAddedEvent = helper.cs2103Event();
@@ -89,7 +89,7 @@ public class AddCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_add_successful_float() throws Exception {
+    public void executeAddSuccessfulFloat() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAddedFloat = helper.cs2103Float();
@@ -104,7 +104,7 @@ public class AddCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_addDuplicate_notAllowed() throws Exception {
+    public void executeAddDuplicateNotAllowed() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAdded = helper.cs2103();

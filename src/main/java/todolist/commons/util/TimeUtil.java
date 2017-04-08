@@ -121,15 +121,6 @@ public class TimeUtil extends StringUtil {
         return 0;
     }
 
-    private static int getWeekDayIndex(String dayArg) {
-        for (int i = 0; i < 12; i++) {
-            if (dayArg.toLowerCase().contains(DAYS_OF_WEEK[i])) {
-                return i + 1;
-            }
-        }
-        return 0;
-    }
-
     public static void checkTimeDuplicated(Optional<String> starttime, Optional<String> beginningtime,
             Optional<String> endtime, Optional<String> deadline) throws IllegalValueException {
         if (starttime.isPresent() && beginningtime.isPresent()) {

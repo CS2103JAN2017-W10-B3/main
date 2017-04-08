@@ -62,7 +62,6 @@ public class EditCommand extends UndoableCommand {
 
         this.filteredTaskListIndexes = filteredTaskListIndexes;
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
-        messageSuccessful = new String("");
     }
 
     @Override
@@ -91,7 +90,7 @@ public class EditCommand extends UndoableCommand {
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
-            messageSuccessful = messageSuccessful + "[" + editedTask.getTitle().toString() + "] ";
+            String messageSuccessful = "[" + editedTask.getTitle().toString() + "] ";
             listOfEditedTasks.add(editedTask);
         }
 

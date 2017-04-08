@@ -14,7 +14,7 @@ import todolist.model.task.Task;
 public class HelpCommandTest extends LogicManagerTest {
 
     @Test
-    public void execute_help() {
+    public void executeHelp() {
         assertCommandSuccess("help", HelpCommand.SHOWING_HELP_MESSAGE,
                 new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
         assertTrue(helpShown);

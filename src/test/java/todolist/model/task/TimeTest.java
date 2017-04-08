@@ -32,7 +32,6 @@ public class TimeTest {
 
         EndTime end1 = new EndTime("May 30");
         EndTime end2 = new EndTime("Today");
-        EndTime end3 = new EndTime("Two weeks later");
 
         assertTrue(TimeUtil.isValidDuration(start1, end1));
         assertTrue(start1.isSameDay(start2));

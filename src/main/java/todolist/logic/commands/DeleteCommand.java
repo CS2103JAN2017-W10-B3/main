@@ -55,7 +55,6 @@ public class DeleteCommand extends UndoableCommand {
     public DeleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes, DeleteTaskDescriptor deleteTaskDescriptor) {
         this.filteredTaskListIndexes = filteredTaskListIndexes;
         this.deleteTaskDescriptor = deleteTaskDescriptor;
-        messageSuccessful = new String("");
     }
 
     @Override
@@ -280,12 +279,8 @@ public class DeleteCommand extends UndoableCommand {
         }
 
         public boolean ifDeleteWholeTask() {
-            if (ifVenueDeleted || ifStartTimeDeleted || ifEndTimeDeleted || ifUrgencyDeleted || ifTagsDeleted
-                    || ifDescriptionDeleted) {
-                return false;
-            } else {
-                return true;
-            }
+            return !(ifVenueDeleted || ifStartTimeDeleted || ifEndTimeDeleted
+                || ifUrgencyDeleted || ifTagsDeleted || ifDescriptionDeleted);
         }
 
     }

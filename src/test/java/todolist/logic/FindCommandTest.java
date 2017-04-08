@@ -14,13 +14,13 @@ import todolist.model.task.Task;
 public class FindCommandTest extends LogicManagerTest {
 
     @Test
-    public void execute_find_invalidArgsFormat() {
+    public void executeFindInvalidArgsFormat() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
         assertCommandFailure("find ", expectedMessage);
     }
 
     @Test
-    public void execute_find_onlyMatchesFullWordsInTitles() throws Exception {
+    public void executeFindOnlyMatchesFullWordsInTitles() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Task pTarget1 = helper.generateEventTaskWithTitle("bla bla KEY bla");
         Task pTarget2 = helper.generateEventTaskWithTitle("bla KEY bla bceofeia");
@@ -39,7 +39,7 @@ public class FindCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_find_isNotCaseSensitive() throws Exception {
+    public void executeFindIsNotCaseSensitive() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Task p1 = helper.generateEventTaskWithTitle("bla bla KEY bla");
         Task p2 = helper.generateEventTaskWithTitle("bla KEY bla bceofeia");
@@ -58,7 +58,7 @@ public class FindCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_find_matchesIfAnyKeywordPresent() throws Exception {
+    public void executeFindMatchesIfAnyKeywordPresent() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Task pTarget1 = helper.generateEventTaskWithTitle("bla bla KEY bla");
         Task pTarget2 = helper.generateEventTaskWithTitle("bla rAnDoM bla bceofeia");

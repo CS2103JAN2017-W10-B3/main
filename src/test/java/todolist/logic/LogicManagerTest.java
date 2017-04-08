@@ -219,7 +219,6 @@ public class LogicManagerTest {
      *            based on visible index.
      */
     protected void assertIndexNotFoundBehaviorForCommand(String commandWord) throws Exception {
-        String expectedMessage = Messages.MESSAGE_UNKNOWN_COMMAND;
         TestDataHelper helper = new TestDataHelper();
         List<Task> taskList = helper.generateTaskList(2);
 
@@ -229,7 +228,7 @@ public class LogicManagerTest {
             model.addTask(p);
         }
 
-        assertCommandFailure(commandWord + "e9", expectedMessage);
+        assertCommandFailure(commandWord + "e9", Messages.MESSAGE_UNKNOWN_COMMAND);
     }
      //@@author A0122017Y
     /**
@@ -255,13 +254,13 @@ public class LogicManagerTest {
 
     class TestDataHelper {
 
-        Title name;
-        Venue privateVenue;
-        StartTime privateStartTime;
-        EndTime privateEndTime;
-        UrgencyLevel privateUrgencyLevel;
-        Description privateDescription;
-        UniqueTagList tags;
+        private Title name;
+        private Venue privateVenue;
+        private StartTime privateStartTime;
+        private EndTime privateEndTime;
+        private UrgencyLevel privateUrgencyLevel;
+        private Description privateDescription;
+        private UniqueTagList tags;
 
         /**
          * Default values of different parameters.
@@ -279,7 +278,7 @@ public class LogicManagerTest {
         /**
          * Default task is a deadline task.
          */
-        Task cs2103() throws Exception {
+        public Task cs2103() throws Exception {
             return new Task(name, privateVenue, null, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
@@ -287,7 +286,7 @@ public class LogicManagerTest {
         /**
          * Deadline task with start time set to null
          */
-        Task cs2103Deadline() throws Exception {
+        public Task cs2103Deadline() throws Exception {
             name = new Title("CS2103 Deadline");
             return new Task(name, privateVenue, null, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
@@ -296,7 +295,7 @@ public class LogicManagerTest {
         /**
          * Event task having both start time and end time
          */
-        Task cs2103Event() throws Exception {
+        public Task cs2103Event() throws Exception {
             name = new Title("CS2103 Event");
             return new Task(name, privateVenue, privateStartTime, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
@@ -305,7 +304,7 @@ public class LogicManagerTest {
         /**
          * Floating task having neither start time nor end time
          */
-        Task cs2103Float() throws Exception {
+        public Task cs2103Float() throws Exception {
             name = new Title("CS2103 Float");
             return new Task(name, privateVenue, null, null,
                     privateUrgencyLevel, privateDescription, tags);
@@ -320,7 +319,7 @@ public class LogicManagerTest {
          * @param seed
          *            used to generate the task data field values
          */
-        Task generateTask(int seed) throws Exception {
+        public Task generateTask(int seed) throws Exception {
             return new Task(
                     new Title("Task " + seed),
                     new Venue("" + Math.abs(seed)),
@@ -332,7 +331,7 @@ public class LogicManagerTest {
         }
 
         /** Generates the correct add command based on the task given */
-        String generateAddCommand(Task p) {
+        public String generateAddCommand(Task p) {
             StringBuffer cmd = new StringBuffer();
 
             cmd.append("add ");
@@ -364,7 +363,7 @@ public class LogicManagerTest {
         /**
          * Generates an ToDoList with auto-generated tasks.
          */
-        ToDoList generateToDoList(int numGenerated) throws Exception {
+        public ToDoList generateToDoList(int numGenerated) throws Exception {
             ToDoList todoList = new ToDoList();
             addToToDoList(todoList, numGenerated);
             return todoList;
@@ -373,7 +372,7 @@ public class LogicManagerTest {
         /**
          * Generates an ToDoList based on the list of Tasks given.
          */
-        ToDoList generateToDoList(List<Task> tasks) throws Exception {
+        public ToDoList generateToDoList(List<Task> tasks) throws Exception {
             ToDoList todoList = new ToDoList();
             addToToDoList(todoList, tasks);
             return todoList;
@@ -385,14 +384,14 @@ public class LogicManagerTest {
          * @param toDoList
          *            The ToDoList to which the Tasks will be added
          */
-        void addToToDoList(ToDoList toDoList, int numGenerated) throws Exception {
+        public void addToToDoList(ToDoList toDoList, int numGenerated) throws Exception {
             addToToDoList(toDoList, generateTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Tasks to the given ToDoList
          */
-        void addToToDoList(ToDoList toDoList, List<Task> tasksToAdd) throws Exception {
+        public void addToToDoList(ToDoList toDoList, List<Task> tasksToAdd) throws Exception {
             for (Task t : tasksToAdd) {
                 toDoList.addTask(t);
             }
@@ -404,14 +403,14 @@ public class LogicManagerTest {
          * @param model
          *            The model to which the Tasks will be added
          */
-        void addToModel(Model model, int numGenerated) throws Exception {
+        public void addToModel(Model model, int numGenerated) throws Exception {
             addToModel(model, generateTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Tasks to the given model
          */
-        void addToModel(Model model, List<Task> tasksToAdd) throws Exception {
+        public void addToModel(Model model, List<Task> tasksToAdd) throws Exception {
             for (Task p : tasksToAdd) {
                 model.addTask(p);
             }
@@ -420,7 +419,7 @@ public class LogicManagerTest {
         /**
          * Generates a list of Tasks based on the flags.
          */
-        List<Task> generateTaskList(int numGenerated) throws Exception {
+        public List<Task> generateTaskList(int numGenerated) throws Exception {
             List<Task> tasks = new ArrayList<>();
             for (int i = 1; i <= numGenerated; i++) {
                 tasks.add(generateTask(i));
@@ -428,7 +427,7 @@ public class LogicManagerTest {
             return tasks;
         }
 
-        List<Task> generateTaskList(Task... tasks) {
+        public List<Task> generateTaskList(Task... tasks) {
             return Arrays.asList(tasks);
         }
 
@@ -436,7 +435,7 @@ public class LogicManagerTest {
          * Generates a Task object with given name. Other fields will have some
          * dummy values.
          */
-        Task generateEventTaskWithTitle(String name) throws Exception {
+        public Task generateEventTaskWithTitle(String name) throws Exception {
             return new Task(
                     new Title(name),
                     new Venue("location"),
@@ -451,7 +450,7 @@ public class LogicManagerTest {
          * Generates a Task object with given startTime. Other fields will have some
          * dummy values.
          */
-        Task generateEventTaskWithStartTime(String startTime) throws Exception {
+        public Task generateEventTaskWithStartTime(String startTime) throws Exception {
             return new Task(
                     new Title("LOL"),
                     new Venue("location"),
@@ -466,7 +465,7 @@ public class LogicManagerTest {
          * Generates a Task object with given endTime. Other fields will have some
          * dummy values.
          */
-        Task generateEventTaskWithEndTime(String endTime) throws Exception {
+        public Task generateEventTaskWithEndTime(String endTime) throws Exception {
             return new Task(
                     new Title("LOL"),
                     new Venue("location"),
@@ -481,7 +480,7 @@ public class LogicManagerTest {
          * Generates a Task object with given endTime. Other fields will have some
          * dummy values.
          */
-        Task generateDeadlineTaskWithEndTime(String endTime) throws Exception {
+        public Task generateDeadlineTaskWithEndTime(String endTime) throws Exception {
             return new Task(
                     new Title("Huh"),
                     new Venue("location"),

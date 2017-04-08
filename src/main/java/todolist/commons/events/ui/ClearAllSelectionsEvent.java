@@ -7,9 +7,6 @@ import todolist.commons.events.BaseEvent;
  */
 public class ClearAllSelectionsEvent extends BaseEvent {
 
-    public ClearAllSelectionsEvent() {
-    }
-
     @Override
     public String toString() {
         return this.getClass().getSimpleName();

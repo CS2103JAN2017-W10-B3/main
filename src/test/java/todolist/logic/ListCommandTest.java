@@ -18,13 +18,13 @@ public class ListCommandTest extends LogicManagerTest {
     private static final Logger logger = LogsCenter.getLogger(ListCommandTest.class);
 
     @Test
-    public void execute_find_invalidArgsFormat() {
+    public void executeFindInvalidArgsFormat() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
         assertCommandFailure("find ", expectedMessage);
     }
 
     @Test
-    public void execute_list_within_an_interval() throws Exception {
+    public void executeListWithinAnInterval() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Task target1 = helper.generateEventTaskWithStartTime("13 April 2017");
         Task target2 = helper.generateEventTaskWithStartTime("14 April 2017");
@@ -43,7 +43,7 @@ public class ListCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_find_isNotCaseSensitive() throws Exception {
+    public void executeFindIsNotCaseSensitive() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Task target1 = helper.generateDeadlineTaskWithEndTime("13 April 2017");
         Task target2 = helper.generateDeadlineTaskWithEndTime("14 April 2017");

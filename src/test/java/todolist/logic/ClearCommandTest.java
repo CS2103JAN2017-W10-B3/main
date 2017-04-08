@@ -13,7 +13,7 @@ public class ClearCommandTest extends LogicManagerTest {
 
     @Test
     //execute clear command and check the result
-    public void execute_clear() throws Exception {
+    public void executeClear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         model.addTask(helper.generateTask(1));
         model.addTask(helper.generateTask(2));

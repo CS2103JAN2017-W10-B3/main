@@ -15,7 +15,7 @@ public class DeleteCommandTest extends LogicManagerTest {
     public static final String LINE_BREAK = "\n";
 
     @Test
-    public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeDeleteInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessageNoIndex = Messages.MESSAGE_NO_TASK_SELECTED;
         String expectedMessageWrongIndex =
             String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
@@ -24,7 +24,7 @@ public class DeleteCommandTest extends LogicManagerTest {
     }
 
     @Test
-    public void execute_delete_removesCorrectTask() throws Exception {
+    public void executeDeleteRemovesCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Task> threeTasks = helper.generateTaskList(3);
 

@@ -462,14 +462,14 @@ public class ModelManager extends ComponentManager implements Model {
 
     private class DurationQualifier implements Qualifier {
 
-        StartTime startTime;
-        StartTime today;
-        EndTime endTime;
+        private StartTime startTime;
+        private StartTime today;
+        private EndTime endTime;
         Boolean status;
 
-        DurationQualifier(Optional<StartTime> start, Optional<EndTime> end, Optional<StartTime> today) {
+        DurationQualifier(Optional<StartTime> start, Optional<EndTime> end, Optional<StartTime> day) {
             initStart(start);
-            initToday(today);
+            initToday(day);
             initEnd(end);
         }
 

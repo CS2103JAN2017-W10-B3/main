@@ -49,7 +49,6 @@ public class CompleteCommand extends UndoableCommand {
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<ReadOnlyTask> tasksToComplete = new ArrayList<ReadOnlyTask>();
         ArrayList<TaskIndex> selectedIndexes = new ArrayList<TaskIndex>();
-        String messageSuccessful = new String("");
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
@@ -59,7 +58,7 @@ public class CompleteCommand extends UndoableCommand {
             }
 
             tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
-            messageSuccessful = messageSuccessful + " "
+            String messageSuccessful = " "
                 + lastShownList.get(filteredTaskListIndex).getTitle().toString();
         }
 
