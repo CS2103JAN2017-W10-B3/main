@@ -25,31 +25,31 @@ public class ScrollTest extends ToDoListGuiTest {
         assertFalse(scrollTest.isAvailable());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testGetCurrentValue() {
         scrollTest = new Scroll();
         scrollTest.getCurrentValue();
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testGetMax() {
         scrollTest = new Scroll();
         scrollTest.getMax();
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testGetMin() {
         scrollTest = new Scroll();
         scrollTest.getMin();
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testScrollIncrease() {
         scrollTest = new Scroll();
         scrollTest.scrollIncrease();
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testScrollDecrease() {
         scrollTest = new Scroll();
         scrollTest.scrollDecrease();
