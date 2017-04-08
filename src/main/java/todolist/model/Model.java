@@ -1,15 +1,16 @@
 package todolist.model;
 
 
-import java.util.ArrayList;
-
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
 
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.exceptions.DataConversionException;
+import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.StartTime;
 import todolist.model.task.Task;
 import todolist.model.task.TaskIndex;
 import todolist.model.task.UniqueTaskList;
@@ -105,6 +106,8 @@ public interface Model {
 
     //@@author A0110791M
     void changeDirectory(String filePath) throws IOException;
+
+    void updateFilteredTaskList(Optional<StartTime> startTime, Optional<EndTime> endTime, Optional<StartTime> today);
 
 
 }
