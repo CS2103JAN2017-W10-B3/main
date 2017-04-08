@@ -8,7 +8,7 @@ import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.task.EndTime;
 import todolist.model.task.StartTime;
 
-public class ListByDuration extends Command {
+public class ListByDurationCommand extends Command {
     
     private final Optional<String> startTimeArg;
     private final Optional<String> beginningTimeArg;
@@ -20,7 +20,7 @@ public class ListByDuration extends Command {
     
     
 
-    public ListByDuration(Optional<String> startTimeArg, Optional<String> beginningTimeArg,
+    public ListByDurationCommand(Optional<String> startTimeArg, Optional<String> beginningTimeArg,
             Optional<String> endTimeArg, Optional<String> deadlineArg) throws IllegalValueException {
         this.startTimeArg = startTimeArg;
         this.beginningTimeArg = beginningTimeArg;
