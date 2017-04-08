@@ -5,7 +5,7 @@ public class JokesUtil {
 
     public static final String[] JOKES = {
         "Team work is important; it helps to put the blame on someone else.",
-        "Keep the dream alive: Hit the snooze button."
+        "Keep the dream alive: Hit the snooze button.",
         "Today a man knocked on my door and asked for a small donation towards the local swimming pool."
         + " I gave him a glass of water.",
         "Just read that 4,153,237 people got married last year, "
