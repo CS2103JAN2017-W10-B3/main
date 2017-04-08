@@ -111,13 +111,16 @@ public class DeleteCommandParser {
         }
 
         if (argsTokenizer.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            if (!argsTokenizer.getValue(PREFIX_DESCRIPTION).get().isEmpty())
+            if (!argsTokenizer.getValue(PREFIX_DESCRIPTION).get().isEmpty()) {
                 isValid = false;
+            }
         }
 
         if (argsTokenizer.getAllValues(PREFIX_TAG).isPresent()) {
-            if (!argsTokenizer.getAllValues(PREFIX_TAG).get().get(0).isEmpty())
+            if (!argsTokenizer.getAllValues(PREFIX_TAG)
+                    .get().get(0).isEmpty()) {
                 isValid = false;
+            }
         }
 
         return isValid;

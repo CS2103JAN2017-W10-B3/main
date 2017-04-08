@@ -38,8 +38,9 @@ public class EditCommandParser {
     public Command parse(String args) {
         Optional<ArrayList<TaskIndex>> indexes;
         assert args != null;
-        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE, PREFIX_VENUE, PREFIX_BEGINNINGTIME, PREFIX_STARTTIME,
-                PREFIX_ENDTIME, PREFIX_DEADLINETIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
+        ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE, PREFIX_VENUE,
+                PREFIX_BEGINNINGTIME, PREFIX_STARTTIME, PREFIX_ENDTIME, PREFIX_DEADLINETIME,
+                PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
         String indexesToBeParsed = argsTokenizer.getPreamble().orElse("");
         if (indexesToBeParsed.isEmpty()) {
@@ -64,18 +65,23 @@ public class EditCommandParser {
             if (argsTokenizer.getValue(PREFIX_STARTTIME).isPresent()) {
                 editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_STARTTIME)));
             } else {
-                editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_BEGINNINGTIME)));
+                editTaskDescriptor.setStartTime(ParserUtil
+                        .parseStartTime(argsTokenizer.getValue(PREFIX_BEGINNINGTIME)));
             }
 
             if (argsTokenizer.getValue(PREFIX_ENDTIME).isPresent()) {
                 editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_ENDTIME)));
             } else {
-                editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_DEADLINETIME)));
+                editTaskDescriptor.setEndTime(ParserUtil
+                        .parseEndTime(argsTokenizer.getValue(PREFIX_DEADLINETIME)));
             }
             editTaskDescriptor
-                    .setUrgencyLevel(ParserUtil.parseUrgencyLevel(argsTokenizer.getValue(PREFIX_URGENCYLEVEL)));
-            editTaskDescriptor.setDescription(ParserUtil.parseDescription(argsTokenizer.getValue(PREFIX_DESCRIPTION)));
-            editTaskDescriptor.setTags(parseTagsForEdit(ParserUtil.toSet(argsTokenizer.getAllValues(PREFIX_TAG))));
+                    .setUrgencyLevel(ParserUtil
+                            .parseUrgencyLevel(argsTokenizer.getValue(PREFIX_URGENCYLEVEL)));
+            editTaskDescriptor.setDescription(ParserUtil
+                    .parseDescription(argsTokenizer.getValue(PREFIX_DESCRIPTION)));
+            editTaskDescriptor.setTags(parseTagsForEdit(ParserUtil
+                    .toSet(argsTokenizer.getAllValues(PREFIX_TAG))));
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }
@@ -87,7 +93,7 @@ public class EditCommandParser {
         return new EditCommand(indexes.get(), editTaskDescriptor);
     }
 
-    private boolean hasContainedCompletedTask(Optional<ArrayList<TaskIndex>> indexes){
+    private boolean hasContainedCompletedTask(Optional<ArrayList<TaskIndex>> indexes) {
         boolean hasContained = false;
         for (TaskIndex index: indexes.get()) {
             if (index.getTaskChar() == Task.COMPLETE_CHAR) {

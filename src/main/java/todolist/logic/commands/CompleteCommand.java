@@ -58,7 +58,7 @@ public class CompleteCommand extends UndoableCommand {
             }
 
             tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
-            messageSuccessful = messageSuccessful +" " + lastShownList.get(filteredTaskListIndex).getTitle().toString();
+            messageSuccessful = messageSuccessful + " " + lastShownList.get(filteredTaskListIndex).getTitle().toString();
         }
 
         for (int count = 0; count < tasksToComplete.size(); count++) {

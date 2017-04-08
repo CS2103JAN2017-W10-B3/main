@@ -90,7 +90,7 @@ public class TimeUtil extends StringUtil {
             String[] dateTime = timeArg.split(" ");
             String[] dates = dateTime[DAY_ARG].split("/");
             return Integer.parseInt(dates[DAY_ARG]);
-        } else if (timeArg.matches(TIME_FORMAT_REGEX_2)){
+        } else if (timeArg.matches(TIME_FORMAT_REGEX_2)) {
             String[] dateTime = timeArg.split(" ");
             return Integer.parseInt(dateTime[YEAR_ARG]);
         } else {

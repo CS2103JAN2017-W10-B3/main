@@ -1,7 +1,6 @@
 package todolist.model.task;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.exceptions.DuplicateDataException;
-import todolist.commons.util.CollectionUtil;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask.Category;
 
@@ -19,7 +17,6 @@ import todolist.model.task.ReadOnlyTask.Category;
  * Supports a minimal set of list operations.
  *
  * @see Task#equals(Object)
- * @see CollectionUtil#elementsAreUnique(Collection)
  */
 public class UniqueTaskList implements Iterable<Task> {
 
