@@ -196,5 +196,10 @@ public class TestTask implements ReadOnlyTask {
     public void toggleComplete() {
         this.isCompleted = !this.isCompleted;
     }
+
+    public void setCompleteStatus(boolean status) {
+        this.isCompleted = status;
+        
+    }
     
 }
