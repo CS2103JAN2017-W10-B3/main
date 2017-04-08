@@ -9,6 +9,7 @@ import todolist.commons.core.EventsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
+import todolist.commons.util.TimeUtil;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
@@ -72,7 +73,7 @@ public class AddCommand extends UndoableCommand {
             tempVenue = new Venue(venue.get());
         }
         
-        checkTimeDuplicated(starttime, beginningtime, endtime, deadline);
+        TimeUtil.checkTimeDuplicated(starttime, beginningtime, endtime, deadline);
 
         if (starttime.isPresent() && !beginningtime.isPresent()) {
             tempStartTime = new StartTime(starttime.get());
@@ -106,19 +107,8 @@ public class AddCommand extends UndoableCommand {
                 new UniqueTagList(tagSet));
     }
 
-    private void checkTimeDuplicated(Optional<String> starttime, Optional<String> beginningtime,
-            Optional<String> endtime, Optional<String> deadline) throws IllegalValueException{
-        if (starttime.isPresent() && beginningtime.isPresent()) {
-            throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
-        } 
-        if (endtime.isPresent() && deadline.isPresent()) {
-            throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
-        }
-        
-    }
-
     private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
-        if (!tempStartTime.isValidDuration(tempEndTime)) {
+        if (!TimeUtil.isValidDuration(tempStartTime, tempEndTime)) {
             throw new IllegalValueException(Time.MESSAGE_INVALID_DURATION);
         }
     }
