@@ -443,5 +443,35 @@ public class LogicManagerTest {
                     new Description("I love 2103!!"),
                     new UniqueTagList(new Tag("tag")));
         }
+        
+        /**
+         * Generates a Task object with given startTime. Other fields will have some
+         * dummy values.
+         */
+        Task generateEventTaskWithStartTime(String startTime) throws Exception {
+            return new Task(
+                    new Title("LOL"),
+                    new Venue("location"),
+                    new StartTime(startTime),
+                    new EndTime("December 31, 2020"),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag")));
+        }
+        
+        /**
+         * Generates a Task object with given endTime. Other fields will have some
+         * dummy values.
+         */
+        Task generateEventTaskWithEndTime(String endTime) throws Exception {
+            return new Task(
+                    new Title("LOL"),
+                    new Venue("location"),
+                    new StartTime("today"),
+                    new EndTime(endTime),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag")));
+        }
     }
 }
