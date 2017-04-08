@@ -290,7 +290,7 @@ public class LogicManagerTest {
             return new Task(name, privateVenue, null, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
-        
+
         /**
          * Event task having both start time and end time
          */

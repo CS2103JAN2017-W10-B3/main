@@ -107,7 +107,7 @@ This test script is to assist testers in testing `To-do List` by providing them 
 	> * Newly added task is selected in the event task list panel
 
 2.  Adding an event task with title, venue, start time and end time only
->  To type: `add ST2334 exam /venue MPSH2 /from April 22 9:00 /to April 22 11:00` 
+>  To type: `add ST2334 exam /venue MPSH2 /from April 22 9:00 /to April 22 11:00`
 	> * Added an event task named 'ST2334 exam' with venue at "MPSH2", start time "April 22 2017 9:00" and end time "April 22 2017 11:00"
 	> * Newly added task is selected in the event task list panel
 	> * The newly added task is ranked below the previously added task "ST1131 exam" since it has a starting time later than the previous task.

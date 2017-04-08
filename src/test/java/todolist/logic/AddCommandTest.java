@@ -121,5 +121,5 @@ public class AddCommandTest extends LogicManagerTest{
             List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {
         assertCommandBehavior(false, inputCommand, expectedMessage, expectedToDoList, expectedShownList, taskChar);
     }
-    
+
 }

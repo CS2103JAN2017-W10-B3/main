@@ -168,7 +168,7 @@ public class SampleDataUtil {
                 new Task(new Title("buy new book"), new Venue("popular bookstore at Clementi mall"), null, null,
                         null, null, new UniqueTagList()),
 
-                new Task(new Title("Buy Radwimps concert tickets"), new Venue("online"), 
+                new Task(new Title("Buy Radwimps concert tickets"), new Venue("online"),
                         new StartTime("April 13"), null, null, null, new UniqueTagList("ticket")),
 
                 new Task(new Title("Get new light bulb changed"), null, null, null,
