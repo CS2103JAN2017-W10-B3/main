@@ -67,10 +67,12 @@ public class TypicalTestTasks {
             fypFinalSubmission = new TaskBuilder().withTitle("FYP Online Submission").withVenue("Online")
                      .withEndTime("13 May 12:00").withTags("FYP").withDescription("Submit to online portal.").build();
             // Manually added
-            applyInternship = new TaskBuilder().withTitle("Apply for Internship").withUrgencyLevel("2").withVenue("Online")
-                     .withEndTime("Friday 12:00").withTags("internship").withDescription("Strict deadline!").build();
+            applyInternship = new TaskBuilder().withTitle("Apply for Internship").withUrgencyLevel("2")
+                     .withVenue("Online").withEndTime("Friday 12:00").withTags("internship")
+                     .withDescription("Strict deadline!").build();
             cs2010PS6 = new TaskBuilder().withTitle("CS2010 PS6").withVenue("Online")
-                     .withEndTime("17 April 12:00").withTags("cs2010").withDescription("Save 1 day to do this.").build();
+                     .withEndTime("17 April 12:00").withTags("cs2010")
+                     .withDescription("Save 1 day to do this.").build();
 
             //floats
             planGradTrip = new TaskBuilder().withTitle("Plan for Grad Trip").withTags("gradtrip").withVenue("Online")
@@ -78,7 +80,7 @@ public class TypicalTestTasks {
             learnJava = new TaskBuilder().withTitle("Learn Java").withTags("java").withVenue("Online")
                     .withUrgencyLevel("3").withDescription("Refer to photos gallery on phone for resources.").build();
             buyGroceries = new TaskBuilder().withTitle("Buy groceries").withTags("shopping").withVenue("NTUC")
-                    .withUrgencyLevel("2").withDescription("Buy cheddar and mozarella cheese, pepper and milk.").build();
+                    .withUrgencyLevel("2").withDescription("Buy cheese, pepper and milk.").build();
             goGym = new TaskBuilder().withTitle("Go gym").withTags("gym").withVenue("Gym")
                     .withUrgencyLevel("1").withDescription("Push, pull, legs!").build();
             // Manually added
