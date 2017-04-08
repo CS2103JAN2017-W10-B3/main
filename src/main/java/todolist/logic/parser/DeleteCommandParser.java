@@ -34,7 +34,7 @@ public class DeleteCommandParser {
         Optional<ArrayList<TaskIndex>> indexes;
         assert args != null;
         ArgumentTokenizer argsTokenizer = new ArgumentTokenizer(PREFIX_TITLE, PREFIX_VENUE, PREFIX_STARTTIME,
-                PREFIX_BEGINNINGTIME, PREFIX_ENDTIME, PREFIX_DEADLINETIME, 
+                PREFIX_BEGINNINGTIME, PREFIX_ENDTIME, PREFIX_DEADLINETIME,
                 PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
         String indexesToBeParsed = argsTokenizer.getPreamble().orElse("");

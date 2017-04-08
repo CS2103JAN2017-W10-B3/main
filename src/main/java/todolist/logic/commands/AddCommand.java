@@ -54,9 +54,9 @@ public class AddCommand extends UndoableCommand {
      * @throws IllegalValueException
      *             if any of the raw values are invalid
      */
-    public AddCommand(String title, Optional<String> venue, Optional<String> starttime, 
+    public AddCommand(String title, Optional<String> venue, Optional<String> starttime,
             Optional<String> beginningtime, Optional<String> endtime,
-            Optional<String> deadline, Optional<String> urgencyLevel, 
+            Optional<String> deadline, Optional<String> urgencyLevel,
             Optional<String> description, Set<String> tags)
             throws IllegalValueException {
         final List<Tag> tagSet = new ArrayList<>();
