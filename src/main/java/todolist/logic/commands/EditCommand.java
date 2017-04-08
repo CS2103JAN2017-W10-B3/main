@@ -90,7 +90,7 @@ public class EditCommand extends UndoableCommand {
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
-            String messageSuccessful = "[" + editedTask.getTitle().toString() + "] ";
+            messageSuccessful = "[" + editedTask.getTitle().toString() + "] ";
             listOfEditedTasks.add(editedTask);
         }
 

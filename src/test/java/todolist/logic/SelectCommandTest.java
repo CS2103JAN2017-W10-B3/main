@@ -16,7 +16,7 @@ public class SelectCommandTest extends LogicManagerTest {
 
     @Test
     //Check if the error message is generated if no indexes is given
-    public void executeSelectInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeSelectInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE);
         assertIncorrectIndexFormatBehaviorForCommand("select", expectedMessage);
     }

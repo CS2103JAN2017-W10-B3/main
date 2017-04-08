@@ -15,8 +15,6 @@ public class TimeUtil extends StringUtil {
     private static final int[] DAYS_LEAP = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private static final String[] MONTH_ABBRE = {"jan", "feb", "mar", "apr",
         "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
-    private static final String[] DAYS_OF_WEEK = {"mon", "tue", "wed", "thu",
-        "fri", "sat", "sun"};
     private static final int YEAR_ARG = 2;
     private static final int MONTH_ARG = 1;
     private static final int DAY_ARG = 0;

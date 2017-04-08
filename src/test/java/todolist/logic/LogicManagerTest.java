@@ -228,7 +228,7 @@ public class LogicManagerTest {
             model.addTask(p);
         }
 
-        assertCommandFailure(commandWord + "e9", Messages.MESSAGE_UNKNOWN_COMMAND);
+        assertCommandFailure(commandWord + "e9", MESSAGE_UNKNOWN_COMMAND);
     }
      //@@author A0122017Y
     /**

@@ -33,6 +33,7 @@ public class CompleteCommand extends UndoableCommand {
 
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
+    private String messageSuccessful;
 
     public CompleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes) {
         this.filteredTaskListIndexes = filteredTaskListIndexes;
@@ -58,8 +59,7 @@ public class CompleteCommand extends UndoableCommand {
             }
 
             tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
-            String messageSuccessful = " "
-                + lastShownList.get(filteredTaskListIndex).getTitle().toString();
+            messageSuccessful = " " + lastShownList.get(filteredTaskListIndex).getTitle().toString();
         }
 
         for (int count = 0; count < tasksToComplete.size(); count++) {
