@@ -27,5 +27,7 @@ public interface Time extends Comparable<Time> {
     @Override
     int compareTo(Time time);
     
-    boolean equals(Time time);
+    boolean isBefore(Time time);
+    
+    boolean isAfter(Time time);
 }
