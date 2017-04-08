@@ -31,8 +31,7 @@ public class DeleteCommandTest extends LogicManagerTest {
         helper.addToModel(model, threeTasks);
 
         assertCommandSuccess("delete e2",
-                String.format(DeleteCommand.MESSAGE_DELETE_TASK_SUCCESS, 
-                        INDEX_FIRST_TASK, LINE_BREAK + threeTasks.get(INDEX_FIRST_TASK)),
+                DeleteCommand.MESSAGE_DELETE_TASK_SUCCESS + "[" + threeTasks.get(INDEX_FIRST_TASK).getTitle() + "] ",
                 expectedAB,
                 expectedAB.getFilteredEvents(), Task.EVENT_CHAR);
     }
