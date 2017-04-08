@@ -1,6 +1,12 @@
 package todolist.commons.util;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import todolist.commons.exceptions.IllegalValueException;
+import todolist.model.task.EndTime;
+import todolist.model.task.StartTime;
+import todolist.model.task.Time;
 
 public class TimeUtil extends StringUtil{
     
@@ -122,6 +128,21 @@ public class TimeUtil extends StringUtil{
             }
         }
         return 0;
+    }
+    
+    public static void checkTimeDuplicated(Optional<String> starttime, Optional<String> beginningtime,
+            Optional<String> endtime, Optional<String> deadline) throws IllegalValueException{
+        if (starttime.isPresent() && beginningtime.isPresent()) {
+            throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
+        } 
+        if (endtime.isPresent() && deadline.isPresent()) {
+            throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
+        }
+    }
+    
+    public static Boolean isValidDuration(StartTime startTime, EndTime endTime) {
+        return startTime.getTimeValue().isBefore(endTime.getTimeValue()) 
+                && endTime.getTimeValue().isAfter(LocalDateTime.now());
     }
     
 }
