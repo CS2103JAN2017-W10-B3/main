@@ -1,23 +1,11 @@
 package todolist.model.task;
 
-//@@A0122017Y
-import javafx.util.Pair;
-
 public class TaskIndex {
 
     public static final int MIN_INDEX = 0;
 
     private Character taskChar;
     private Integer taskNumber;
-
-    /**
-     * Initialize TaskIndex using a Pair as input
-     * @param pair
-     */
-    public TaskIndex(Pair<Character, Integer> pair) {
-        taskNumber = pair.getValue();
-        taskChar = pair.getKey();
-    }
 
     /**
      * Initialize TaskIndex using an integer and a character as input
