@@ -12,6 +12,12 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all tasks";
 
+    public static final Object MESSAGE_USAGE = "list all tasks, or happens in specified time intervals!\n"
+            + "list: list all tasks"
+            + "list [/from START] or [/on START]: list all tasks starts after the time point\n"
+            + "Notice that by doing so, all deadline tasks and floating task without a start time will be listed\n"
+            + "list [/to END] or [/by END]: list all tasks ends before the time point";
+
 //author A0143648Y
     @Override
     public CommandResult execute() {
