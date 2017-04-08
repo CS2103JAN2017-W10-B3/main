@@ -31,8 +31,7 @@ public class MainWindow extends UiPart<Region> {
 
     // Independent Ui parts residing in this Ui container
     //@@author A0138628W
-    private TaskListPanel taskListPanel, eventListPanel, floatingListPanel, completeListPanel;
-    private Config config;
+    private TaskListPanel deadlineListPanel, eventListPanel, floatingListPanel, completeListPanel;
     private ResultDisplay resultDisplay;
     private Scroll scroll;
 
@@ -89,7 +88,7 @@ public class MainWindow extends UiPart<Region> {
     private MenuItem completeDown;
 
     @FXML
-    private AnchorPane taskListPanelPlaceholder;
+    private AnchorPane deadlineListPanelPlaceholder;
 
     @FXML
     private AnchorPane resultDisplayPlaceholder;
@@ -103,7 +102,6 @@ public class MainWindow extends UiPart<Region> {
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
-        this.config = config;
 
         // Configure the UI
         setTitle(config.getAppTitle());
@@ -170,12 +168,12 @@ public class MainWindow extends UiPart<Region> {
 
     void fillInnerParts() {
         //@@author A0138628W
-        taskListPanel = new TaskListPanel(getTaskListPlaceholder(), logic.getFilteredDeadlineList());
-        eventListPanel = new TaskListPanel(getEventListPlaceholder(), logic.getFilteredEventList());
-        floatingListPanel = new TaskListPanel(getFloatListPlaceholder(), logic.getFilteredFloatList());
-        completeListPanel = new TaskListPanel(getCompleteListPlaceholder(), logic.getFilteredCompleteList());
+        deadlineListPanel = new DeadlineListPanel(getDeadlineListPlaceholder(), logic.getFilteredDeadlineList());
+        eventListPanel = new EventListPanel(getEventListPlaceholder(), logic.getFilteredEventList());
+        floatingListPanel = new FloatingListPanel(getFloatListPlaceholder(), logic.getFilteredFloatList());
+        completeListPanel = new CompletedListPanel(getCompleteListPlaceholder(), logic.getFilteredCompleteList());
         resultDisplay = new ResultDisplay(getResultDisplayPlaceholder());
-        new StatusBarFooter(getStatusbarPlaceholder(), config.getToDoListFilePath());
+        new StatusBarFooter(getStatusbarPlaceholder(), Config.getToDoListFilePath());
         new CommandBox(getCommandBoxPlaceholder(), logic);
     }
 
@@ -191,8 +189,8 @@ public class MainWindow extends UiPart<Region> {
         return resultDisplayPlaceholder;
     }
 
-    private AnchorPane getTaskListPlaceholder() {
-        return taskListPanelPlaceholder;
+    private AnchorPane getDeadlineListPlaceholder() {
+        return deadlineListPanelPlaceholder;
     }
 
     private AnchorPane getEventListPlaceholder() {
@@ -341,7 +339,7 @@ public class MainWindow extends UiPart<Region> {
 
     @FXML
     public void handleDeadlineUp() {
-        scroll.getListVerticalScrollbar(taskListPanel.getListView());
+        scroll.getListVerticalScrollbar(deadlineListPanel.getListView());
         if (scroll.isAvailable()) {
             if (scroll.getCurrentValue() != scroll.getMin()) {
                 scroll.scrollDecrease();
@@ -351,7 +349,7 @@ public class MainWindow extends UiPart<Region> {
 
     @FXML
     public void handleDeadlineDown() {
-        scroll.getListVerticalScrollbar(taskListPanel.getListView());
+        scroll.getListVerticalScrollbar(deadlineListPanel.getListView());
         if (scroll.isAvailable()) {
             if (scroll.getCurrentValue() != scroll.getMax()) {
                 scroll.scrollIncrease();
@@ -392,7 +390,7 @@ public class MainWindow extends UiPart<Region> {
     }
 
     public TaskListPanel getTaskListPanel() {
-        return this.taskListPanel;
+        return this.deadlineListPanel;
     }
 
     //@@ author: A0138628W

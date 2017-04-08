@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-// @@ A0110791M
+//@@author A0110791M
 public class HotKeyHandler implements EventHandler<KeyEvent> {
 
     private LinkedList<String> commandsHistory;
@@ -65,3 +65,5 @@ public class HotKeyHandler implements EventHandler<KeyEvent> {
     }
 
 }
+//@@
+

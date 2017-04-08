@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import guitests.guihandles.HelpWindowHandle;
+import todolist.model.task.ReadOnlyTask.Category;
 
 public class HelpWindowTest extends ToDoListGuiTest {
 
@@ -18,7 +19,7 @@ public class HelpWindowTest extends ToDoListGuiTest {
         resultDisplay.clickOnTextArea();
         assertHelpWindowOpen(mainMenu.openHelpWindowUsingAccelerator());
 
-        taskListPanel.clickOnListView();
+        taskListPanel.clickOnListView(Category.EVENT);
         assertHelpWindowOpen(mainMenu.openHelpWindowUsingAccelerator());
 
         //browserPanel.clickOnWebView();

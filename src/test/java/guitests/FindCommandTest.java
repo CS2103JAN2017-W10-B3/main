@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import todolist.commons.core.Messages;
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 
 public class FindCommandTest extends ToDoListGuiTest {
@@ -35,6 +36,6 @@ public class FindCommandTest extends ToDoListGuiTest {
         commandBox.runCommand(command);
         assertListSize(expectedHits.length);
         assertResultMessage(expectedHits.length + " tasks listed!");
-        assertTrue(taskListPanel.isListMatching(expectedHits));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedHits));
     }
 }

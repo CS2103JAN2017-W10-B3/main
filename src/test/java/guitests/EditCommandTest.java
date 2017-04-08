@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import guitests.guihandles.TaskCardHandle;
 import todolist.logic.commands.EditCommand;
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
 
@@ -121,12 +122,12 @@ public class EditCommandTest extends ToDoListGuiTest {
         commandBox.runCommand("edit e" + filteredTaskListIndex + " " + detailsToEdit);
 
         // confirm the new card contains the right data
-        TaskCardHandle editedCard = taskListPanel.navigateToTask(editedTask.getTitle().toString());
+        TaskCardHandle editedCard = taskListPanel.navigateToTask(Category.EVENT, editedTask.getTitle().toString());
         assertMatching(editedTask, editedCard);
 
         // confirm the list now contains all previous tasks plus the task with updated details
         expectedTasksList[todoListIndex - 1] = editedTask;
-        assertTrue(taskListPanel.isListMatching(expectedTasksList));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedTasksList));
         assertResultMessage(String.format(EditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask));
     }
 }

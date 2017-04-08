@@ -129,13 +129,13 @@ public class TypicalTestTasks {
 
     public TestTask[] getTypicalDeadlineTasks() {
         TestTask[] testTasks = new TestTask[]{cs2103Submission, cs2103Demo, fypPresentation,
-                                              fypFinalSubmission, applyInternship};
+                                              fypFinalSubmission};
         Arrays.sort(testTasks, ReadOnlyTask.getDeadlineComparator());
         return testTasks;
     }
 
     public TestTask[] getTypicalFloatingTasks() {
-        TestTask[] testTasks = new TestTask[]{planGradTrip, learnJava, buyGroceries, goGym, cleanMyRoom};
+        TestTask[] testTasks = new TestTask[]{planGradTrip, learnJava, buyGroceries, goGym};
         Arrays.sort(testTasks, ReadOnlyTask.getFloatingComparator());
         return testTasks;
     }

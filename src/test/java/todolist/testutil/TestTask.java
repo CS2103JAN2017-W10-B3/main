@@ -34,6 +34,7 @@ public class TestTask implements ReadOnlyTask {
 
     public TestTask() {
         tags = new UniqueTagList();
+        this.category = sortCategory();
     }
 
     /**
@@ -133,15 +134,15 @@ public class TestTask implements ReadOnlyTask {
 
     // @@author A0110791M
     private boolean isDeadlineTask() {
-        return this.endTime != null && startTime == null;
+        return endTime.isPresent() && !startTime.isPresent();
     }
 
     private boolean isEventTask() {
-        return this.endTime != null && startTime != null;
+        return endTime.isPresent() && startTime.isPresent();
     }
 
     private boolean isFloatingTask() {
-        return this.endTime == null;
+        return !endTime.isPresent();
     }
 
     private void updateCategory() {
