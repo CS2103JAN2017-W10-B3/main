@@ -65,7 +65,7 @@ public class StartTime implements Time {
     public boolean isAfter(Time time) {
         return isSameDay(time) || !this.getTimeValue().isBefore(time.getTimeValue());
     }
-    
+
     @Override
     public boolean isSameDay(Time time) {
         return startTime.getDayOfMonth() == time.getTimeValue().getDayOfMonth() &&

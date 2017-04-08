@@ -53,7 +53,7 @@ public class EditCommandParser {
             if (!indexes.isPresent()) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
             }
-            
+
             if(hasContainedCompletedTask(indexes)){
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
             }
@@ -89,7 +89,7 @@ public class EditCommandParser {
 
         return new EditCommand(indexes.get(), editTaskDescriptor);
     }
-    
+
     private boolean hasContainedCompletedTask(Optional<ArrayList<TaskIndex>> indexes){
         boolean hasContained = false;
         for(TaskIndex index: indexes.get()){

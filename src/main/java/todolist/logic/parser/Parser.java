@@ -80,7 +80,7 @@ public class Parser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
-            
+
         case JokeCommand.COMMAND_WORD:
             return new JokeCommand();
 //@@ author A0143648Y

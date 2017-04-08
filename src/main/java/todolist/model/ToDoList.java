@@ -192,7 +192,7 @@ public class ToDoList implements ReadOnlyToDoList {
     public ObservableList<ReadOnlyTask> getFilteredEvents() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.EVENT));
     }
-    
+
     /**
      * Returns a task list representing all tasks regardless of types
      */
@@ -204,7 +204,7 @@ public class ToDoList implements ReadOnlyToDoList {
     public ObservableList<ReadOnlyTask> getCompletedTasks() {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.COMPLETED));
     }
-    
+
     /**
      * Returns a task list representing all tags
      */
@@ -226,7 +226,7 @@ public class ToDoList implements ReadOnlyToDoList {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(tasks, tags);
     }
-    
+
     //@@author A0122017Y
     /**
      * Automatically switch a task to completed if it is overdue

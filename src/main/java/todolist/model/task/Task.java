@@ -161,15 +161,15 @@ public class Task implements ReadOnlyTask {
     public void setStartTime(StartTime startTime) {
         this.startTime = startTime;
     }
-    
+
     public void setUrgencyLevel(UrgencyLevel urgencyLevel){
         this.urgencyLevel = urgencyLevel;
     }
-    
+
     public void setCompleteStatus(boolean status) {
         this.isCompleted = status;
     }
-    
+
     @Override
     public Optional<Venue> getVenue() {
         return Optional.ofNullable(this.venue);

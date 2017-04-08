@@ -137,11 +137,11 @@ public class UniqueTagList implements Iterable<Tag> {
         }
         internalList.add(toAdd);
     }
-    
+
     //@@author A0122017Y
     /**
      * Removes a Tag from the list
-     * 
+     *
      * @throws TagNotExistException if the input tag does not exist in the tag list.
      */
     public void remove(Tag toDelete) throws TagNotExistException{
@@ -151,14 +151,14 @@ public class UniqueTagList implements Iterable<Tag> {
         }
         internalList.remove(toDelete);
     }
-    
+
     /**
      * Check if the internalList is empty
      */
     public boolean isEmpty() {
         return internalList.isEmpty();
     }
-    
+
     //@@
 
     @Override
@@ -195,7 +195,7 @@ public class UniqueTagList implements Iterable<Tag> {
             super("Operation would result in duplicate tags");
         }
     }
-    
+
     // @@author A0122017Y
     /**
      * Signals that the input tag does not exist in the tag list.
@@ -205,8 +205,7 @@ public class UniqueTagList implements Iterable<Tag> {
             super("Tag to be deleted does not exists in the tag list!");
         }
     }
-    
-    
+
     public String getTagListToString() {
         StringBuilder sb = new StringBuilder();
         for (Tag tag : internalList) {

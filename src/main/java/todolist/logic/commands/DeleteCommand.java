@@ -68,7 +68,7 @@ public class DeleteCommand extends UndoableCommand {
             }
         }
         ArrayList<ReadOnlyTask> tasksToDelete = getTasksToDelete();
-        
+
         assert tasksToDelete != null;
 
         if (deleteTaskDescriptor.ifDeleteWholeTask()) {
@@ -92,14 +92,14 @@ public class DeleteCommand extends UndoableCommand {
                 }
             }
             updateFilteredTaskListIndexes(listOfUpdatedTasks);
-            
+
             assert !filteredTaskListIndexes.isEmpty();
-            
+
             EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
         }
 
         commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS + messageSuccessful);
-        
+
         updateUndoLists();
 
         return new CommandResult(
@@ -121,7 +121,7 @@ public class DeleteCommand extends UndoableCommand {
         }
         return tasksToDelete;
     }
-    
+
     private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks){
         filteredTaskListIndexes.clear();
         for (int count = 0; count < listOfEditedTasks.size(); count++) {

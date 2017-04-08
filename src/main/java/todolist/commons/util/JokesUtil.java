@@ -1,7 +1,8 @@
 package todolist.commons.util;
 
+//@@author A0122017Y
 public class JokesUtil {
-    
+
     public static final String[] JOKES = {
             "Team work is important; it helps to put the blame on someone else.",
             "Keep the dream alive: Hit the snooze button.",
@@ -27,5 +28,5 @@ public class JokesUtil {
             "Why did the palm tree get struck by lightning? Because it suay.",
             "Why did Ah Beng force 18 of his friends to watch a movie with him? Because the ad said below 18 not allowed to go in."
     };
-    
+
 }

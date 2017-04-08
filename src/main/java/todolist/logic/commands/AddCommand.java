@@ -72,7 +72,7 @@ public class AddCommand extends UndoableCommand {
         if (venue.isPresent()) {
             tempVenue = new Venue(venue.get());
         }
-        
+
         TimeUtil.checkTimeDuplicated(starttime, beginningtime, endtime, deadline);
 
         if (starttime.isPresent() && !beginningtime.isPresent()) {

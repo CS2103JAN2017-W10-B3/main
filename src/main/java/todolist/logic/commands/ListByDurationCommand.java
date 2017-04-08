@@ -10,17 +10,15 @@ import todolist.model.task.StartTime;
 
 //@@author A0122017Y
 public class ListByDurationCommand extends Command {
-    
+
     private final Optional<String> startTimeArg;
     private final Optional<String> beginningTimeArg;
     private final Optional<String> endTimeArg;
     private final Optional<String> deadlineArg;
-    
+
     private Optional<StartTime> startTime;
     private Optional<EndTime> endTime;
     private Optional<StartTime> today;
-    
-    
 
     public ListByDurationCommand(Optional<String> startTimeArg, Optional<String> beginningTimeArg,
             Optional<String> endTimeArg, Optional<String> deadlineArg) throws IllegalValueException {
@@ -46,7 +44,7 @@ public class ListByDurationCommand extends Command {
             this.startTime = null;
             this.today = null;
         }
-        
+
         if (endTimeArg.isPresent()) {
             this.endTime = Optional.of(new EndTime(endTimeArg.get()));
         } else if (deadlineArg.isPresent()) {
@@ -54,7 +52,6 @@ public class ListByDurationCommand extends Command {
         } else {
             this.endTime = null;
         }
-        
     }
 
     @Override

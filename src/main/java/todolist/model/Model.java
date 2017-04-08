@@ -1,6 +1,5 @@
 package todolist.model;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -83,7 +82,7 @@ public interface Model {
     void updateFilteredListToShowAll();
 
     String getTagListToString();
-    
+
     int getSumTaskListed();
 
     /**

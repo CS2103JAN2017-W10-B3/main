@@ -31,7 +31,7 @@ public class EndTime implements Time {
             throw new IllegalValueException(MESSAGE_TIME_CONSTRAINTS);
         }
     }
-    
+
     /**
      * Obtain the time value in the form of LocalDateTime
      */
@@ -39,7 +39,7 @@ public class EndTime implements Time {
     public LocalDateTime getTimeValue() {
         return this.endTime;
     }
-    
+
     /**
      * Obtain a String representation of EndTime
      */
@@ -68,7 +68,7 @@ public class EndTime implements Time {
     public boolean outdated() {
         return this.endTime.isBefore(LocalDateTime.now());
     }
-    
+
     @Override
     public boolean isBefore(Time time) {
         return isSameDay(time) || !this.getTimeValue().isAfter(time.getTimeValue());
@@ -78,7 +78,7 @@ public class EndTime implements Time {
     public boolean isAfter(Time time) {
         return isSameDay(time) || !this.getTimeValue().isBefore(time.getTimeValue());
     }
-    
+
     @Override
     public boolean isSameDay(Time time) {
         return endTime.getDayOfYear() == time.getTimeValue().getDayOfYear() &&

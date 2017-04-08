@@ -66,7 +66,7 @@ public interface ReadOnlyTask {
     default String getVenueString() {
         return getVenue().isPresent() ? "At: " + getVenue().get().toString() + "; " : "";
     }
-    
+
     /**
      * Check if start time is present.
      * If null, empty string is returned.
@@ -74,7 +74,7 @@ public interface ReadOnlyTask {
     default String getStartTimeString() {
         return getStartTime().isPresent() ? "Start at: " + getStartTime().get().toString() + "; " : "";
     }
-    
+ 
     /**
      * Check if end time is present.
      * If null, empty string is returned.
@@ -82,7 +82,7 @@ public interface ReadOnlyTask {
     default String getEndTimeString() {
         return getEndTime().isPresent() ? "Done by: " + getEndTime().get().toString() + "; " : "";
     }
-    
+ 
     /**
      * Check if urgency level is present.
      * If null, empty string is returned.
@@ -90,7 +90,7 @@ public interface ReadOnlyTask {
     default String getUrgencyLevelString() {
         return getUrgencyLevel().isPresent() ? "Urgency level at: " + getUrgencyLevel().get().toString() + "; " : "";
     }
-    
+ 
     /**
      * Check if description is present.
      * If null, empty string is returned.
@@ -98,7 +98,7 @@ public interface ReadOnlyTask {
     default String getDescriptionString() {
         return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + "; " : "";
     }
-    
+ 
     /**
      * Obtain the tag string form the UniqueTagList of the task
      */

@@ -67,7 +67,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     // @@
-    
+
     public ModelManager() {
         this(new ToDoList(), new UserPrefs());
     }
@@ -190,7 +190,7 @@ public class ModelManager extends ComponentManager implements Model {
     public void clearSelectedIndexes() {
         this.selectedIndexes.clear();
     }
-    
+
     /**
      * Return a string that represents all tags in the to-do list
      */
@@ -299,10 +299,9 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredTaskList(Set<String> keywords) {
         updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords)));
     }
-    
 
     @Override
-    public void updateFilteredTaskList(Optional<StartTime> startTime, 
+    public void updateFilteredTaskList(Optional<StartTime> startTime,
             Optional<EndTime> endTime, Optional<StartTime> today) {
         updateFilteredTaskList(new PredicateExpression(new DurationQualifier(startTime, endTime, today)));
     }
@@ -460,7 +459,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
     }
-    
+
     private class DurationQualifier implements Qualifier {
 
         StartTime startTime;
@@ -481,7 +480,7 @@ public class ModelManager extends ComponentManager implements Model {
                 startTime = null;
             }
         }
-        
+
         public void initToday(Optional<StartTime> today) {
             if (today != null) {
                 this.today = today.get();
@@ -489,7 +488,7 @@ public class ModelManager extends ComponentManager implements Model {
                 today = null;
             }
         }
-        
+
         public void initEnd(Optional<EndTime> end) {
             if (end != null) {
                 this.endTime = end.get();
@@ -501,7 +500,7 @@ public class ModelManager extends ComponentManager implements Model {
         @Override
         public boolean run(ReadOnlyTask task) {
             if (task.getTaskCategory().equals(Category.DEADLINE)) {
-                return isDeadlineWithinDuration(task); 
+                return isDeadlineWithinDuration(task);
             } else if (task.getTaskCategory().equals(Category.EVENT)) {
                 return isEventWithinDuration(task);
             } else if (task.getTaskCategory().equals(Category.FLOAT)){
@@ -513,7 +512,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         private boolean isFloatingWithinDuration(ReadOnlyTask task) {
             if (task.getStartTime().isPresent()) {
-                return isTimeInDuration(task.getStartTime().get()) || 
+                return isTimeInDuration(task.getStartTime().get()) ||
                         isOnTheDay(task.getStartTime().get());
             } else {
                 return false;
@@ -529,13 +528,13 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
         private boolean isEventWithinDuration(ReadOnlyTask task) {
-            return (isTimeInDuration(task.getStartTime().get()) && 
+            return (isTimeInDuration(task.getStartTime().get()) &&
                     isTimeInDuration(task.getEndTime().get())) ||
                     isOnTheDay(task.getStartTime().get());
         }
 
         private boolean isDeadlineWithinDuration(ReadOnlyTask task) {
-            return isTimeInDuration(task.getEndTime().get()) || 
+            return isTimeInDuration(task.getEndTime().get()) ||
                     isOnTheDay(task.getEndTime().get());
         }
 

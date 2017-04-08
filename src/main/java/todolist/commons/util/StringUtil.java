@@ -70,14 +70,14 @@ public class StringUtil {
     public static boolean isUnsignedInteger(String s) {
         return s != null && s.matches("^0*[1-9]\\d*$");
     }
-    
+
     //@@author A0122017Y
     public static LocalDateTime parseStringToTime(String timeArg) throws IllegalValueException {
         //empty start date
         if (timeArg == null) {
             throw new IllegalValueException(Time.MESSAGE_TIME_CONSTRAINTS);
         }
-        
+
         if (!TimeUtil.isValidMonthDay(timeArg)) {
             throw new IllegalValueException(Time.MESSAGE_TIME_CONSTRAINTS);
         }
