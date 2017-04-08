@@ -55,7 +55,7 @@ public class SampleDataUtil {
                         null, null, new UniqueTagList()),
                 
                 new Task(new Title("CIP with Library"), null,
-                        new StartTime("April 18 9:00"), new EndTime("April 12:00"),
+                        new StartTime("April 18 9:00"), new EndTime("April 18 12:00"),
                         null, null, new UniqueTagList()),
                 
                 new Task(new Title("Fire drill with PGP"), null,
