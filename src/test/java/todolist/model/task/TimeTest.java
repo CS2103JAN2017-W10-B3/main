@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import todolist.commons.exceptions.IllegalValueException;
+import todolist.commons.util.TimeUtil;
 
 //@@author A0122017Y
 public class TimeTest {
@@ -32,8 +33,8 @@ public class TimeTest {
         EndTime end2 = new EndTime("Today");
         EndTime end3 = new EndTime("Two weeks later");
         
-        assertTrue(start1.isValidDuration(end1));
-        assertFalse(start3.isValidDuration(end2));
+        assertTrue(TimeUtil.isValidDuration(start1, end1));
+        assertFalse(TimeUtil.isValidDuration(start3, end2));
     }
     
 }
