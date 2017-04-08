@@ -23,8 +23,8 @@ public class TaskListPanel extends UiPart<Region> {
 
     protected ListView<ReadOnlyTask> taskListView;
 
-    public TaskListPanel(String FXML) {
-        super(FXML);
+    public TaskListPanel(String fxml) {
+        super(fxml);
     }
 
     protected void setConnections(ObservableList<ReadOnlyTask> taskList) {
