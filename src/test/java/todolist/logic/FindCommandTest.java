@@ -12,7 +12,7 @@ import todolist.model.ToDoList;
 import todolist.model.task.Task;
 
 public class FindCommandTest extends LogicManagerTest {
-    
+
     @Test
     public void execute_find_invalidArgsFormat() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
@@ -75,5 +75,5 @@ public class FindCommandTest extends LogicManagerTest {
                 expectedAB,
                 expectedList, Task.EVENT_CHAR);
     }
-    
+
 }

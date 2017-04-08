@@ -77,40 +77,40 @@ public class TestUtil {
         try {
             // CHECKSTYLE.OFF: LineLength
             return new Task[] {
-                new Task(new Title("CS2103 Tutorial"), new Venue("COM1-B103"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+                new Task(new Title("CS2103 Tutorial"), new Venue("COM1-B103"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("3"), new Description("Deadline of V0.2"), new UniqueTagList()),
-                
-                new Task(new Title("DBS Internship interview"), new Venue("Raffles Place"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+
+                new Task(new Title("DBS Internship interview"), new Venue("Raffles Place"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("3"), new Description("I love interview"), new UniqueTagList()),
-                
-                new Task(new Title("Hang out with Joe"), new Venue("313 Somerset"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+
+                new Task(new Title("Hang out with Joe"), new Venue("313 Somerset"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("1"), new Description("I love Joe"), new UniqueTagList()),
-                
-                new Task(new Title("Statistics society meeting"), new Venue("S16 04-30"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+
+                new Task(new Title("Statistics society meeting"), new Venue("S16 04-30"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("2"), new Description("I love meeting"), new UniqueTagList()),
-                
-                new Task(new Title("Tuition part-time job"), new Venue("Jun Wei's house at Jurong Ease Avenue 1"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+
+                new Task(new Title("Tuition part-time job"), new Venue("Jun Wei's house at Jurong Ease Avenue 1"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("1"), new Description("I love Part-time"), new UniqueTagList()),
-                
-                new Task(new Title("Strings ensemble rehearsal"), new Venue("UCC hall"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+
+                new Task(new Title("Strings ensemble rehearsal"), new Venue("UCC hall"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("1"), new Description("I love rehearsal"), new UniqueTagList()),
-                
-                new Task(new Title("Dinner with auntie"), new Venue("Home"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+
+                new Task(new Title("Dinner with auntie"), new Venue("Home"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("2"), new Description("I love auntie"), new UniqueTagList()),
-                
+
                 new Task(new Title("MA3269 Quiz"), new Venue("LT26"),
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("3"), new Description("I hate quiz"), new UniqueTagList()),
-                
-                new Task(new Title("Submit FIN3101 Tutorial"), new Venue("Biz1-0748 Prof Tan's office"), 
-                        new StartTime("Today"), new EndTime("Tomorrow"), 
+
+                new Task(new Title("Submit FIN3101 Tutorial"), new Venue("Biz1-0748 Prof Tan's office"),
+                        new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("2"), new Description("I love fanbingbing"), new UniqueTagList()) };
             // CHECKSTYLE.ON: LineLength
         } catch (IllegalValueException e) {

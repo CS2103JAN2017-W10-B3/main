@@ -30,23 +30,23 @@ public class ListCommandParser {
         if (!matcher.matches()) {
             return new ListCommand();
         }
-        
+
         ArgumentTokenizer argsTokenizer =
                 new ArgumentTokenizer(PREFIX_STARTTIME, PREFIX_BEGINNINGTIME, PREFIX_ENDTIME,
                         PREFIX_DEADLINETIME);
         argsTokenizer.tokenize(args);
-        
+
         Optional<String> startTimeArg = argsTokenizer.getValue(PREFIX_STARTTIME);
-        Optional<String> endTimeArg = argsTokenizer.getValue(PREFIX_ENDTIME);    
+        Optional<String> endTimeArg = argsTokenizer.getValue(PREFIX_ENDTIME);
         Optional<String> beginningTimeArg = argsTokenizer.getValue(PREFIX_BEGINNINGTIME);
         Optional<String> deadlineArg = argsTokenizer.getValue(PREFIX_DEADLINETIME);
-        
+
         try {
             TimeUtil.checkTimeDuplicated(startTimeArg,beginningTimeArg, endTimeArg,deadlineArg);
         } catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
         }
-        
+
         try {
             return new ListByDurationCommand(startTimeArg, beginningTimeArg, endTimeArg, deadlineArg);
         } catch (IllegalValueException e) {

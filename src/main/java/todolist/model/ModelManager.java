@@ -472,7 +472,7 @@ public class ModelManager extends ComponentManager implements Model {
             initToday(today);
             initEnd(end);
         }
-        
+
         public void initStart(Optional<StartTime> start) {
             if (start != null) {
                 this.startTime = start.get();

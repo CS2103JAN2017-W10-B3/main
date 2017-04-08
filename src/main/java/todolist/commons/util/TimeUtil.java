@@ -142,7 +142,7 @@ public class TimeUtil extends StringUtil{
     }
 
     public static Boolean isValidDuration(StartTime startTime, EndTime endTime) {
-        return startTime.getTimeValue().isBefore(endTime.getTimeValue()) 
+        return startTime.getTimeValue().isBefore(endTime.getTimeValue())
                 && endTime.getTimeValue().isAfter(LocalDateTime.now());
     }
 

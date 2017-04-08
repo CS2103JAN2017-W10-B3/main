@@ -23,20 +23,20 @@ public class TimeTest {
         assertTrue(Time.isValidTime("March 15 2017")); // numeric and alphabet and domain name
         assertTrue(Time.isValidTime("March 15, 2017")); // mixture of alphanumeric and comma characters
     }
-    
+
     @Test
     public void isValidDuration() throws IllegalValueException {
         StartTime start1 = new StartTime("April 30");
         StartTime start2 = new StartTime("April 30 2017");
         StartTime start3 = new StartTime("Tomorrow");
-        
+
         EndTime end1 = new EndTime("May 30");
         EndTime end2 = new EndTime("Today");
         EndTime end3 = new EndTime("Two weeks later");
-        
+
         assertTrue(TimeUtil.isValidDuration(start1, end1));
         assertTrue(start1.isSameDay(start2));
         assertFalse(TimeUtil.isValidDuration(start3, end2));
     }
-    
+
 }

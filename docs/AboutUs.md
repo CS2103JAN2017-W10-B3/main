@@ -24,7 +24,6 @@ Role: Developer
 	* [Refactor codes from address book to to-do list](https://github.com/CS2103JAN2017-W10-B3/main/commit/d2741b8850d32b0ac848321e9eb167ebb63a702b)
 	* [Integrate PrettyTime package](https://github.com/CS2103JAN2017-W10-B3/main/commit/6f2f3f24f541a82efe95ce08f625fd661b933f62)
 	* Clear model and logic tests
-	
 
 -----
 

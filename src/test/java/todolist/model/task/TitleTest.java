@@ -24,5 +24,5 @@ public class TitleTest {
         assertTrue(Title.isValidTitle("Debugging")); // with capital letters
         assertTrue(Title.isValidTitle("Debugging until the sun rises again at 7am")); // long names
     }
-    
+
 }

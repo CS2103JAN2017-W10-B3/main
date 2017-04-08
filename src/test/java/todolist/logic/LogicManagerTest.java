@@ -154,7 +154,7 @@ public class LogicManagerTest {
             assertTrue("CommandException not expected but was thrown.", isCommandExceptionExpected);
             assertEquals(expectedMessage, e.getMessage());
         }
-        
+
         // Confirm the state of data (saved and in-memory) is as expected
         assertEquals(expectedToDoList, model.getToDoList());
         assertEquals(expectedToDoList, latestSavedToDoList);
@@ -181,7 +181,7 @@ public class LogicManagerTest {
                 expectedAB,
                 expectedList, Task.ALL_CHAR);
     }
-    
+
     protected void assertNoIndexSelectedBehaviorForCommand(String commandWord, String expectedMessage)
             throws Exception {
         assertCommandFailure(commandWord, expectedMessage); // index missing
@@ -250,9 +250,9 @@ public class LogicManagerTest {
         assertCommandFailure("e9", expectedMessage);
     }
     //@@
-    
+
     class TestDataHelper {
-        
+
         Title name;
         Venue privateVenue;
         StartTime privateStartTime;
@@ -260,7 +260,7 @@ public class LogicManagerTest {
         UrgencyLevel privateUrgencyLevel;
         Description privateDescription;
         UniqueTagList tags;
-        
+
         /**
          * Default values of different parameters.
          */
@@ -273,7 +273,7 @@ public class LogicManagerTest {
             privateDescription = new Description("I love 2103!!!");
             tags = new UniqueTagList(new Tag("tag1"), new Tag("longertag2"));
         }
-        
+
         /**
          * Default task is a deadline task.
          */
@@ -281,7 +281,7 @@ public class LogicManagerTest {
             return new Task(name, privateVenue, null, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
-        
+
         /**
          * Deadline task with start time set to null
          */
@@ -299,7 +299,7 @@ public class LogicManagerTest {
             return new Task(name, privateVenue, privateStartTime, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
-        
+
         /**
          * Floating task having neither start time nor end time
          */
@@ -444,7 +444,7 @@ public class LogicManagerTest {
                     new Description("I love 2103!!"),
                     new UniqueTagList(new Tag("tag")));
         }
-        
+
         /**
          * Generates a Task object with given startTime. Other fields will have some
          * dummy values.
@@ -459,7 +459,7 @@ public class LogicManagerTest {
                     new Description("I love 2103!!"),
                     new UniqueTagList(new Tag("tag")));
         }
-        
+
         /**
          * Generates a Task object with given endTime. Other fields will have some
          * dummy values.
@@ -474,7 +474,7 @@ public class LogicManagerTest {
                     new Description("I love 2103!!"),
                     new UniqueTagList(new Tag("tag")));
         }
-        
+
         /**
          * Generates a Task object with given endTime. Other fields will have some
          * dummy values.

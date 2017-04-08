@@ -35,23 +35,23 @@ public class AddCommandTest extends LogicManagerTest{
         //invalid title
         assertCommandFailure("add []\\[;] /venue 12345 /from today /to tomorrow",
                 Title.MESSAGE_TITLE_CONSTRAINTS);
-        
+
         //invalid venue
         assertCommandFailure("add do CS!!! /venue &*))(*)(*) /from today /to tomorrow",
                 Venue.MESSAGE_VENUE_CONSTRAINTS);
-        
+
         //invalid start time
         assertCommandFailure("add Valid Title /venue there /from randomString /to tomorrow",
                 Time.MESSAGE_TIME_CONSTRAINTS);
-        
+
         //invalid end time
         assertCommandFailure("add Valid Title /venue there /from today /to randomString",
                 Time.MESSAGE_TIME_CONSTRAINTS);
-        
+
         //invalid urgency level
         assertCommandFailure("add Valid Title /venue there /level 7",
                 UrgencyLevel.MESSAGE_URGENCYLEVEL_CONSTRAINTS);
-        
+
         //invalid tag
         assertCommandFailure("add Valid Title /venue there /level 2 /description valid #&*",
                 Tag.MESSAGE_TAG_CONSTRAINTS);
@@ -65,14 +65,14 @@ public class AddCommandTest extends LogicManagerTest{
         Task toBeAddedDeadline = helper.cs2103Deadline();
         ToDoList expectedTDL = new ToDoList();
         expectedTDL.addTask(toBeAddedDeadline);
-        
+
         // execute command and verify result for different types of tasks
         assertAddCommandSuccess(helper.generateAddCommand(toBeAddedDeadline),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedDeadline),
                 expectedTDL,
                 expectedTDL.getFilteredDeadlines(), Task.DEADLINE_CHAR);
     }
-    
+
     @Test
     public void execute_add_successful_event() throws Exception {
         // setup expectations
@@ -80,14 +80,14 @@ public class AddCommandTest extends LogicManagerTest{
         Task toBeAddedEvent = helper.cs2103Event();
         ToDoList expectedTDL = new ToDoList();
         expectedTDL.addTask(toBeAddedEvent);
-        
+
         // execute command and verify result for different types of tasks
         assertAddCommandSuccess(helper.generateAddCommand(toBeAddedEvent),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedEvent),
                 expectedTDL,
                 expectedTDL.getFilteredEvents(), Task.EVENT_CHAR);
     }
-    
+
     @Test
     public void execute_add_successful_float() throws Exception {
         // setup expectations
@@ -95,14 +95,14 @@ public class AddCommandTest extends LogicManagerTest{
         Task toBeAddedFloat = helper.cs2103Float();
         ToDoList expectedTDL = new ToDoList();
         expectedTDL.addTask(toBeAddedFloat);
-        
+
         // execute command and verify result for different types of tasks
         assertAddCommandSuccess(helper.generateAddCommand(toBeAddedFloat),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedFloat),
                 expectedTDL,
                 expectedTDL.getFilteredFloats(), Task.FLOAT_CHAR);
     }
-    
+
     @Test
     public void execute_addDuplicate_notAllowed() throws Exception {
         // setup expectations
@@ -115,7 +115,7 @@ public class AddCommandTest extends LogicManagerTest{
         // execute command and verify result
         assertCommandFailure(helper.generateAddCommand(toBeAdded), AddCommand.MESSAGE_DUPLICATE_TASK);
     }
-    
+
     public void assertAddCommandSuccess(String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
             List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {

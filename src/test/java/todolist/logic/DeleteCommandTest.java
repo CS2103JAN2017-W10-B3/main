@@ -10,10 +10,10 @@ import todolist.model.ToDoList;
 import todolist.model.task.Task;
 
 public class DeleteCommandTest extends LogicManagerTest {
-    
+
     public static final int INDEX_FIRST_TASK = 1;
     public static final String LINE_BREAK = "\n";
-    
+
     @Test
     public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
         String expectedMessageNoIndex = Messages.MESSAGE_NO_TASK_SELECTED;
@@ -36,5 +36,5 @@ public class DeleteCommandTest extends LogicManagerTest {
                 expectedAB,
                 expectedAB.getFilteredEvents(), Task.EVENT_CHAR);
     }
-    
+
 }

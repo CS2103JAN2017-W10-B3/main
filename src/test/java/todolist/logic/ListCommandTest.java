@@ -16,7 +16,7 @@ import todolist.model.task.Task;
 //@@author A0122017Y
 public class ListCommandTest extends LogicManagerTest{
     private static final Logger logger = LogsCenter.getLogger(ListCommandTest.class);
-    
+
     @Test
     public void execute_find_invalidArgsFormat() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
@@ -60,12 +60,12 @@ public class ListCommandTest extends LogicManagerTest{
                 Command.getMessageForTaskListShownSummary(expectedList1.size()),
                 expectedAB,
                 expectedList1, Task.EVENT_CHAR);
-        
+
         assertCommandSuccess("list /to 13 April 2017",
                 Command.getMessageForTaskListShownSummary(expectedList2.size()),
                 expectedAB,
                 expectedList2, Task.EVENT_CHAR);
-        
+
     }
-    
+
 }

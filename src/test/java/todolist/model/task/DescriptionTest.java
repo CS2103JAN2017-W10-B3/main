@@ -7,7 +7,7 @@ import org.junit.Test;
 
 //@@author A0122017Y
 public class DescriptionTest {
-    
+
     @Test
     public void isValid() {
         // invalid urgency level

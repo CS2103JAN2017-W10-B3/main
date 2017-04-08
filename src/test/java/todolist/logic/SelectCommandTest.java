@@ -13,7 +13,7 @@ import todolist.model.task.Task;
 
 //@@author A0122017Y
 public class SelectCommandTest extends LogicManagerTest {
-    
+
     @Test
     //Check if the error message is generated if no indexes is given
     public void execute_selectInvalidArgsFormat_errorMessageShown() throws Exception {
@@ -43,5 +43,5 @@ public class SelectCommandTest extends LogicManagerTest {
                 expectedAB.getFilteredEvents(), Task.EVENT_CHAR);
         assertEquals(model.getFilteredEventList().get(1), threeTasks.get(1));
     }
-    
+
 }

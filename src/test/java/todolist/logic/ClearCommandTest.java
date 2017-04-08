@@ -10,7 +10,7 @@ import todolist.model.task.Task;
 
 //@@author A0122017Y
 public class ClearCommandTest extends LogicManagerTest {
-    
+
     @Test
     //execute clear command and check the result
     public void execute_clear() throws Exception {

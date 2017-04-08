@@ -199,7 +199,6 @@ public class TestTask implements ReadOnlyTask {
 
     public void setCompleteStatus(boolean status) {
         this.isCompleted = status;
-        
     }
-    
+
 }
