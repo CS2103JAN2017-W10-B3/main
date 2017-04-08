@@ -24,7 +24,6 @@ public class Task implements ReadOnlyTask {
     private EndTime endTime;
     private Description description;
     private UrgencyLevel urgencyLevel;
-    private CompleteTime completeTime;
 
     private Category category;
     private boolean isCompleted;
