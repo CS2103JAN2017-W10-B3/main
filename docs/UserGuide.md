@@ -73,7 +73,7 @@ Format: `add TITLE /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /
 > * #[TAG...] represents the tag <br>
 > Note: Tasks can have any number of tags (including 0)
 
-### 2.3.1. Listing all tasks : `list`
+### 2.3. Listing all tasks : `list`
 
 Shows a list of tasks in the todolist<br>
 Format: `list /from [DATE_TIME] /to [DATE_TIME]`
