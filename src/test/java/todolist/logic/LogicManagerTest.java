@@ -246,10 +246,7 @@ public class LogicManagerTest {
         assertCommandFailure("e9", expectedMessage);
     }
     //@@
-
-    /**
-     * A utility class to generate test data.
-     */
+    
     class TestDataHelper {
         
         Title name;
@@ -468,6 +465,21 @@ public class LogicManagerTest {
                     new Title("LOL"),
                     new Venue("location"),
                     new StartTime("today"),
+                    new EndTime(endTime),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag")));
+        }
+        
+        /**
+         * Generates a Task object with given endTime. Other fields will have some
+         * dummy values.
+         */
+        Task generateDeadlineTaskWithEndTime(String endTime) throws Exception {
+            return new Task(
+                    new Title("Huh"),
+                    new Venue("location"),
+                    null,
                     new EndTime(endTime),
                     new UrgencyLevel("3"),
                     new Description("I love 2103!!"),
