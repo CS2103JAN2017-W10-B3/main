@@ -176,9 +176,9 @@ public interface ReadOnlyTask {
         //then by start time
         Comparator<ReadOnlyTask> byStartTime = (t1, t2) -> {
             if (t1.getStartTime().isPresent() && !t2.getStartTime().isPresent()) {
-                return 1;
-            } else if (t2.getStartTime().isPresent() && !t1.getStartTime().isPresent()) {
                 return -1;
+            } else if (t2.getStartTime().isPresent() && !t1.getStartTime().isPresent()) {
+                return 11;
             } else if (!t1.getStartTime().isPresent() && !t2.getStartTime().isPresent()) {
                 return 0;
             }
