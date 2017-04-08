@@ -166,6 +166,10 @@ public class Task implements ReadOnlyTask {
         this.urgencyLevel = urgencyLevel;
     }
     
+    public void setCompleteStatus(boolean status) {
+        this.isCompleted = status;
+    }
+    
     @Override
     public Optional<Venue> getVenue() {
         return Optional.ofNullable(this.venue);
