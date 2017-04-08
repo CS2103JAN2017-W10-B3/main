@@ -208,6 +208,8 @@ This test script is to assist testers in testing `To-do List` by providing them 
 
 ### Listing tasks
 
+### Clearing of tasks
+
 ### Completing tasks
 
 ### Changing save location
@@ -218,8 +220,5 @@ This test script is to assist testers in testing `To-do List` by providing them 
 
 ### Auto-complete
 
-### Clearing of tasks
-
 ### Viewing joke
 
-### 
