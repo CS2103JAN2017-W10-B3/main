@@ -302,8 +302,9 @@ public class ModelManager extends ComponentManager implements Model {
     
 
     @Override
-    public void updateFilteredTaskList(Optional<StartTime> startTime, Optional<EndTime> endTime) {
-        updateFilteredTaskList(new PredicateExpression(new DurationQualifier(startTime, endTime)));
+    public void updateFilteredTaskList(Optional<StartTime> startTime, 
+            Optional<EndTime> endTime, Optional<StartTime> today) {
+        updateFilteredTaskList(new PredicateExpression(new DurationQualifier(startTime, endTime, today)));
     }
 
     private void updateFilteredTaskList(Expression expression) {
@@ -463,14 +464,37 @@ public class ModelManager extends ComponentManager implements Model {
     private class DurationQualifier implements Qualifier {
 
         StartTime startTime;
+        StartTime today;
         EndTime endTime;
         Boolean status;
 
-        DurationQualifier(Optional<StartTime> start, Optional<EndTime> end) {
-            if (start.isPresent()) {
-                startTime = start.get();
-            } if (end.isPresent()) {
-                endTime = end.get();
+        DurationQualifier(Optional<StartTime> start, Optional<EndTime> end, Optional<StartTime> today) {
+            initStart(start);
+            initToday(today);
+            initEnd(end);
+        }
+        
+        public void initStart(Optional<StartTime> start) {
+            if (start != null) {
+                this.startTime = start.get();
+            } else {
+                startTime = null;
+            }
+        }
+        
+        public void initToday(Optional<StartTime> today) {
+            if (today != null) {
+                this.today = today.get();
+            } else {
+                today = null;
+            }
+        }
+        
+        public void initEnd(Optional<EndTime> end) {
+            if (end != null) {
+                this.endTime = end.get();
+            } else {
+                endTime = null;
             }
         }
 
@@ -489,28 +513,41 @@ public class ModelManager extends ComponentManager implements Model {
 
         private boolean isFloatingWithinDuration(ReadOnlyTask task) {
             if (task.getStartTime().isPresent()) {
-                return isTimeInDuration(task.getStartTime().get());
+                return isTimeInDuration(task.getStartTime().get()) || 
+                        isOnTheDay(task.getStartTime().get());
+            } else {
+                return false;
+            }
+        }
+
+        private boolean isOnTheDay(Time time) {
+            if (today != null) {
+                return time.isSameDay(today);
             } else {
                 return false;
             }
         }
 
         private boolean isEventWithinDuration(ReadOnlyTask task) {
-            return isTimeInDuration(task.getStartTime().get()) && 
-                    isTimeInDuration(task.getEndTime().get());
+            return (isTimeInDuration(task.getStartTime().get()) && 
+                    isTimeInDuration(task.getEndTime().get())) ||
+                    isOnTheDay(task.getStartTime().get());
         }
 
         private boolean isDeadlineWithinDuration(ReadOnlyTask task) {
-            return isTimeInDuration(task.getEndTime().get());
+            return isTimeInDuration(task.getEndTime().get()) || 
+                    isOnTheDay(task.getEndTime().get());
         }
 
         private boolean isTimeInDuration(Time time) {
             if (startTime != null && endTime == null) {
                 return startTime.isBefore(time);
-            } if (endTime != null && startTime == null) {
+            } else if (endTime != null && startTime == null) {
                 return endTime.isAfter(time);
-            } else {
+            } else if (startTime != null && endTime != null){
                 return startTime.isBefore(time) && endTime.isAfter(time);
+            } else {
+                return false;
             }
         }
 
