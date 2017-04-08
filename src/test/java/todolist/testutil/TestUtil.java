@@ -112,7 +112,6 @@ public class TestUtil {
                 new Task(new Title("Submit FIN3101 Tutorial"), new Venue("Biz1-0748 Prof Tan's office"),
                         new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("2"), new Description("I love fanbingbing"), new UniqueTagList()) };
-
             // CHECKSTYLE.ON: LineLength
         } catch (IllegalValueException e) {
             assert false;
@@ -349,6 +348,7 @@ public class TestUtil {
         return tasks;
     }
 
+    // @@author A0110791M
     /**
      * Appends tasks to the array of tasks.
      *
@@ -361,6 +361,19 @@ public class TestUtil {
     public static TestTask[] addTasksToList(final TestTask[] tasks, TestTask... tasksToAdd) {
         List<TestTask> listOfTasks = asList(tasks);
         listOfTasks.addAll(asList(tasksToAdd));
+        switch (listOfTasks.get(0).getTaskCategory()) {
+        case EVENT:
+            listOfTasks.sort(ReadOnlyTask.getEventComparator());
+            break;
+        case DEADLINE:
+            listOfTasks.sort(ReadOnlyTask.getDeadlineComparator());
+            break;
+        case FLOAT:
+            listOfTasks.sort(ReadOnlyTask.getFloatingComparator());
+            break;
+        default:
+            break;
+        }
         return listOfTasks.toArray(new TestTask[listOfTasks.size()]);
     }
 

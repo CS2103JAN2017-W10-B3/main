@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import guitests.guihandles.TaskCardHandle;
 import todolist.logic.commands.EditCommand;
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
 
@@ -14,7 +15,7 @@ public class EditCommandTest extends ToDoListGuiTest {
 
     // The list of tasks in the task list panel is expected to match this list.
     // This list is updated with every successful call to assertEditSuccess().
-    TestTask[] expectedTasksList = td.getTypicalTasks();
+    TestTask[] expectedTasksList = td.getTypicalEventTasks();
 
     @Test
     public void edit_allFieldsSpecified_success() throws Exception {
@@ -118,15 +119,15 @@ public class EditCommandTest extends ToDoListGuiTest {
      */
     private void assertEditSuccess(int filteredTaskListIndex, int todoListIndex,
                                     String detailsToEdit, TestTask editedTask) {
-        commandBox.runCommand("edit " + filteredTaskListIndex + " " + detailsToEdit);
+        commandBox.runCommand("edit e" + filteredTaskListIndex + " " + detailsToEdit);
 
         // confirm the new card contains the right data
-        TaskCardHandle editedCard = taskListPanel.navigateToTask(editedTask.getTitle().toString());
+        TaskCardHandle editedCard = taskListPanel.navigateToTask(Category.EVENT, editedTask.getTitle().toString());
         assertMatching(editedTask, editedCard);
 
         // confirm the list now contains all previous tasks plus the task with updated details
         expectedTasksList[todoListIndex - 1] = editedTask;
-        assertTrue(taskListPanel.isListMatching(expectedTasksList));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedTasksList));
         assertResultMessage(String.format(EditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask));
     }
 }

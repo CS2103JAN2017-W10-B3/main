@@ -36,14 +36,15 @@ public class DeleteCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the task identified by the index number used in the last task listing. \n"
-            + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n" + "Example: " + COMMAND_WORD
-            + " e1 \n";
+            + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n"
+            + "Example: " + COMMAND_WORD + " e1 \n";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted/updated: ";
     public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces "
             + "duplicate tasks in your to-do list. \n"
             + "Please check the parameters you want to delete.";
 
+    // @@ A0143648Y
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
     private final DeleteTaskDescriptor deleteTaskDescriptor;
     private String messageSuccessful;
@@ -192,6 +193,7 @@ public class DeleteCommand extends UndoableCommand {
         } else {
             return new UniqueTagList(new HashSet<>(Collections.emptyList()));
         }
+
     }
 
     @Override

@@ -38,7 +38,7 @@ public class EditCommand extends UndoableCommand {
             + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) [TITLE] /venue [VENUE] "
             + "/from [STARTTIME] /to [ENDTIME] /by [DEADLINETIME] "
             + "/level [URGENCYLEVEL] /description [DESCRIPTION] #[TAG..]\n"
-            + "Example: " + COMMAND_WORD + " f1 /venue Toilet";
+            + "Example: " + COMMAND_WORD + " f1 /venue Toilet \n";
 
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Tasks: ";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";

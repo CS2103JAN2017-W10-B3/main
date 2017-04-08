@@ -60,7 +60,7 @@ public class StorageManagerTest {
          * More extensive testing of UserPref saving/reading is done in {@link
          * XmlToDoListStorageTest} class.
          */
-        ToDoList original = new TypicalTestTasks().getTypicalToDoList();
+        ToDoList original = new TypicalTestTasks().getTypicalTaskList();
         storageManager.saveToDoList(original);
         ReadOnlyToDoList retrieved = storageManager.readToDoList().get();
         //assertEquals(original, new ToDoList(retrieved));

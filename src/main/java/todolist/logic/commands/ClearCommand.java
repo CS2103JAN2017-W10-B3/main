@@ -12,7 +12,7 @@ public class ClearCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Clears all tasks in ToDoList. \n"
-            + "Example: " + COMMAND_WORD;
+            + "Example: " + COMMAND_WORD + "\n";
     public static final String MESSAGE_SUCCESS = "To-do list has been cleared!";
     public static final String MESSAGE_RESTORED = "To-do list has been restored!";
     private ReadOnlyToDoList originalToDoList;

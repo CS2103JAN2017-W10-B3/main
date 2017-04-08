@@ -1,20 +1,30 @@
 package todolist.testutil;
 
+import java.util.Arrays;
+
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.model.ToDoList;
+import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 import todolist.model.task.UniqueTaskList;
 
+//@@author A0110791M
 /**
- *
+ * Utility class to generate test tasks for testing.
  */
 public class TypicalTestTasks {
 
+    //events
     public TestTask cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc, tuitionPartTime,
         stringsRehearsal, dinnerAuntie, ma3269Quiz, laundry;
+    //deadlines
+    public TestTask cs2103Submission, cs2103Demo, fypPresentation, fypFinalSubmission, applyInternship, cs2010PS6;
+    //floats
+    public TestTask planGradTrip, learnJava, buyGroceries, goGym, cleanMyRoom, chaseAfterDebts;
 
     public TypicalTestTasks() {
         try {
+            //events
             cs2103Tutorial = new TaskBuilder().withTitle("CS2103 Tutorial").withVenue("COM1-B103")
                     .withStartTime("Today").withEndTime("Tomorrow")
                     .withTags("lesson").withUrgencyLevel("3").withDescription("I love you")
@@ -60,8 +70,24 @@ public class TypicalTestTasks {
         }
     }
 
-    public static void loadToDoListWithSampleData(ToDoList ab) {
-        for (TestTask task : new TypicalTestTasks().getTypicalTasks()) {
+    public static void loadTaskListWithSampleData(ToDoList ab) {
+        for (TestTask task : new TypicalTestTasks().getTypicalEventTasks()) {
+            try {
+                ab.addTask(new Task(task));
+            } catch (UniqueTaskList.DuplicateTaskException e) {
+                assert false : "not possible";
+            }
+        }
+
+        for (TestTask task : new TypicalTestTasks().getTypicalDeadlineTasks()) {
+            try {
+                ab.addTask(new Task(task));
+            } catch (UniqueTaskList.DuplicateTaskException e) {
+                assert false : "not possible";
+            }
+        }
+
+        for (TestTask task : new TypicalTestTasks().getTypicalFloatingTasks()) {
             try {
                 ab.addTask(new Task(task));
             } catch (UniqueTaskList.DuplicateTaskException e) {
@@ -70,14 +96,30 @@ public class TypicalTestTasks {
         }
     }
 
-    public TestTask[] getTypicalTasks() {
-        return new TestTask[]{cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc,
-            tuitionPartTime, stringsRehearsal, dinnerAuntie};
+
+    public TestTask[] getTypicalEventTasks() {
+        TestTask[] testTasks = new TestTask[]{cs2103Tutorial, dbsInterview, hangOutJoe, statsSoc,
+                                              tuitionPartTime, stringsRehearsal, dinnerAuntie};
+        Arrays.sort(testTasks, ReadOnlyTask.getEventComparator());
+        return testTasks;
     }
 
-    public ToDoList getTypicalToDoList() {
+    public TestTask[] getTypicalDeadlineTasks() {
+        TestTask[] testTasks = new TestTask[]{cs2103Submission, cs2103Demo, fypPresentation,
+                                              fypFinalSubmission};
+        Arrays.sort(testTasks, ReadOnlyTask.getDeadlineComparator());
+        return testTasks;
+    }
+
+    public TestTask[] getTypicalFloatingTasks() {
+        TestTask[] testTasks = new TestTask[]{buyGroceries, goGym, learnJava, planGradTrip};
+        Arrays.sort(testTasks, ReadOnlyTask.getFloatingComparator());
+        return testTasks;
+    }
+
+    public ToDoList getTypicalTaskList() {
         ToDoList ab = new ToDoList();
-        loadToDoListWithSampleData(ab);
+        loadTaskListWithSampleData(ab);
         return ab;
     }
 }

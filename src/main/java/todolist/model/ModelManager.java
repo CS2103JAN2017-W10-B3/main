@@ -96,13 +96,8 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void changeDirectory(String filePath) throws IOException {
         FileUtil.createIfMissing(new File(filePath));
-        try {
-            ReadOnlyToDoList targetList = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
-            indicateDirectoryChanged(filePath);
-            resetData(targetList);
-        } catch (DataConversionException e) {
-            logger.info(e.getMessage());
-        }
+        indicateDirectoryChanged(filePath);
+        indicateToDoListChanged();
     }
 
     /** Raises an event to indicate the user requests a new directory */

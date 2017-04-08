@@ -155,7 +155,7 @@ public interface ReadOnlyTask {
     }
 
     /**
-     * For floating tasks, first by urgency level, then by start time if any, then by end time, then by name
+     * For floating tasks, first by urgency level, then by start time if any, then by name
      */
     public static Comparator<ReadOnlyTask> getFloatingComparator() {
         //first by urgency level
@@ -187,7 +187,7 @@ public interface ReadOnlyTask {
         //then by name
         Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
 
-        return byUrgencyLevel.thenComparing(byStartTime).thenComparing(byName);
+        return byUrgencyLevel.thenComparing(byName);
     }
 
     public static Comparator<ReadOnlyTask> getCompleteComparator() {

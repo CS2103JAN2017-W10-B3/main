@@ -26,7 +26,8 @@ public class CompleteCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Completes the task identified by the index number used in the last task listing.\n"
-            + "Parameters: CHAR(d, e or f) + INDEX (must be a positive integer)\n" + "Example: " + COMMAND_WORD + " e1";
+            + "Parameters: CHAR(d, e or f) + INDEX (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " e1 \n";
 
     public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: ";
 

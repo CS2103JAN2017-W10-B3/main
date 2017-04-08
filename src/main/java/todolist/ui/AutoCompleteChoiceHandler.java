@@ -4,9 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 
+//@@author A0110791M
 public class AutoCompleteChoiceHandler implements EventHandler<ActionEvent> {
 
-    // @@ A0110791M
     private String optionChosen, precedingText;
     private AutoCompleteTextField choiceHandlerHost;
     private ContextMenu popupList;
@@ -35,6 +35,6 @@ public class AutoCompleteChoiceHandler implements EventHandler<ActionEvent> {
             return currentText.substring(0, indexOfLastSpacing + 1);
         }
     }
-    // @@
 
 }
+//@@
