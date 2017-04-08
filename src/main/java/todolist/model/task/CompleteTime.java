@@ -52,5 +52,15 @@ public class CompleteTime implements Time {
                 || (other instanceof CompleteTime // instanceof handles nulls
                         && this.completeTime.equals(((CompleteTime) other).completeTime)); // state check
     }
+    
+    @Override
+    public boolean isBefore(Time time) {
+        return this.getTimeValue().isBefore(time.getTimeValue());
+    }
+
+    @Override
+    public boolean isAfter(Time time) {
+        return this.getTimeValue().isAfter(time.getTimeValue());
+    }
 
 }

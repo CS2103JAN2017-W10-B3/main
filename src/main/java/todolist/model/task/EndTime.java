@@ -68,4 +68,15 @@ public class EndTime implements Time {
     public boolean outdated() {
         return this.endTime.isBefore(LocalDateTime.now());
     }
+    
+    @Override
+    public boolean isBefore(Time time) {
+        return this.getTimeValue().isBefore(time.getTimeValue());
+    }
+
+    @Override
+    public boolean isAfter(Time time) {
+        return this.getTimeValue().isAfter(time.getTimeValue());
+    }
+    
 }

@@ -56,9 +56,14 @@ public class StartTime implements Time {
         return this.getTimeValue().compareTo(time.getTimeValue());
     }
 
-    public Boolean isValidDuration(EndTime endTime) {
-        return this.getTimeValue().isBefore(endTime.getTimeValue()) 
-                && this.getTimeValue().isAfter(LocalDateTime.now());
+    @Override
+    public boolean isBefore(Time time) {
+        return this.getTimeValue().isBefore(time.getTimeValue());
+    }
+
+    @Override
+    public boolean isAfter(Time time) {
+        return this.getTimeValue().isAfter(time.getTimeValue());
     }
 
 }
