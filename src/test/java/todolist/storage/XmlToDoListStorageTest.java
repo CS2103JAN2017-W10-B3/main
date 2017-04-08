@@ -72,7 +72,7 @@ public class XmlToDoListStorageTest {
 
         // Modify data, overwrite exiting file, and read back
         original.addTask(new Task(td.ma3269Quiz));
-        original.removeTask(new Task(td.cs2103Tutorial));
+        //original.removeTask(new Task(td.cs2103Tutorial));
         xmlToDoListStorage.saveToDoList(original, filePath);
         readBack = xmlToDoListStorage.readToDoList(filePath).get();
         //assertEquals(original, new ToDoList(readBack));
