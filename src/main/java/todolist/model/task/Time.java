@@ -30,4 +30,6 @@ public interface Time extends Comparable<Time> {
     boolean isBefore(Time time);
     
     boolean isAfter(Time time);
+    
+    boolean isSameDay(Time time);
 }

@@ -58,12 +58,19 @@ public class StartTime implements Time {
 
     @Override
     public boolean isBefore(Time time) {
-        return this.getTimeValue().isBefore(time.getTimeValue());
+        return isSameDay(time) || !this.getTimeValue().isAfter(time.getTimeValue());
     }
 
     @Override
     public boolean isAfter(Time time) {
-        return this.getTimeValue().isAfter(time.getTimeValue());
+        return isSameDay(time) || !this.getTimeValue().isBefore(time.getTimeValue());
+    }
+    
+    @Override
+    public boolean isSameDay(Time time) {
+        return startTime.getDayOfMonth() == time.getTimeValue().getDayOfMonth() &&
+                startTime.getMonthValue() == time.getTimeValue().getMonthValue() &&
+                startTime.getYear() == time.getTimeValue().getYear();
     }
 
 }
