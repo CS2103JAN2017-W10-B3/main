@@ -79,7 +79,7 @@ public class Parser {
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
+            return new HelpCommandParser().parse(arguments);
 
         case JokeCommand.COMMAND_WORD:
             return new JokeCommand();

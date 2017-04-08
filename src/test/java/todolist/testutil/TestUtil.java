@@ -112,6 +112,7 @@ public class TestUtil {
                 new Task(new Title("Submit FIN3101 Tutorial"), new Venue("Biz1-0748 Prof Tan's office"),
                         new StartTime("Today"), new EndTime("Tomorrow"),
                         new UrgencyLevel("2"), new Description("I love fanbingbing"), new UniqueTagList()) };
+
             // CHECKSTYLE.ON: LineLength
         } catch (IllegalValueException e) {
             assert false;

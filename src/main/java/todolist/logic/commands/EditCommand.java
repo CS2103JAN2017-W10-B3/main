@@ -35,9 +35,10 @@ public class EditCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the task identified "
             + "by the index number used in the last task listing. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer)[TITLE][place/VENUE][from/STARTTIME]"
-            + "[level/URGENCYLEVEL][des/DESCRIPTION][to/ENDTIME][#TAG]..\n" + "Example: " + COMMAND_WORD
-            + " 1 place/Toilet";
+            + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) [TITLE] /venue [VENUE] "
+            + "/from [STARTTIME] /to [ENDTIME] /by [DEADLINETIME] "
+            + "/level [URGENCYLEVEL] /description [DESCRIPTION] #[TAG..]\n"
+            + "Example: " + COMMAND_WORD + " f1 /venue Toilet";
 
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Tasks: ";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
