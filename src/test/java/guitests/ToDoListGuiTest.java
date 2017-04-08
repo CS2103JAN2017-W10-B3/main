@@ -26,6 +26,7 @@ import todolist.commons.core.EventsCenter;
 import todolist.commons.events.BaseEvent;
 import todolist.model.ToDoList;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestUtil;
 import todolist.testutil.TypicalTestTasks;
 
@@ -90,7 +91,7 @@ public abstract class ToDoListGuiTest {
      */
     protected ToDoList getInitialData() {
         ToDoList ab = new ToDoList();
-        TypicalTestTasks.loadEventListWithSampleData(ab);
+        TypicalTestTasks.loadTaskListWithSampleData(ab);
         return ab;
     }
 
@@ -117,7 +118,7 @@ public abstract class ToDoListGuiTest {
      * Asserts the size of the task list is equal to the given number.
      */
     protected void assertListSize(int size) {
-        int numberOfPeople = taskListPanel.getNumberOfTasks();
+        int numberOfPeople = taskListPanel.getNumberOfTasks(Category.EVENT);
         assertEquals(size, numberOfPeople);
     }
 

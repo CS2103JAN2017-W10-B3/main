@@ -83,13 +83,23 @@ public class TaskCardHandle extends GuiHandle {
         return guiRobot.from(node).lookup(TAGS_FIELD_ID).query();
     }
 
-    //@@author A0110791M
+    // @@author A0110791M
     public boolean isSameTask(ReadOnlyTask task) {
-        return getTitle().equals(task.getTitle().toString())
-                && getVenue().equals("At: " + task.getVenue().get().toString())
-                && getStartTime().equals("Start at: " + task.getStartTime().get().toString())
-                && getEndTime().equals("Done by: " + task.getEndTime().get().toString())
-                && getDescription().equals("Description: " + task.getDescription().get().toString());
+        Boolean isSame = getTitle().equals(task.getTitle().toString());
+        if (task.getVenue().isPresent()) {
+            isSame = isSame && getVenue().equals("At: " + task.getVenue().get().toString());
+        }
+        if (task.getStartTime().isPresent()) {
+            isSame = isSame && getStartTime().equals("Start at: " + task.getStartTime().get().toString());
+        }
+        if (task.getEndTime().isPresent()) {
+            isSame = isSame && getEndTime().equals("Done by: " + task.getEndTime().get().toString());
+        }
+        if (task.getDescription().isPresent()) {
+            isSame = isSame && getDescription().equals("Description: " + task.getDescription().get().toString());
+        }
+
+        return isSame;
     }
 
     @Override

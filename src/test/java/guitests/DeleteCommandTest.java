@@ -5,6 +5,7 @@ import static todolist.logic.commands.DeleteCommand.MESSAGE_DELETE_TASK_SUCCESS;
 
 import org.junit.Test;
 
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
@@ -46,7 +47,7 @@ public class DeleteCommandTest extends ToDoListGuiTest {
         commandBox.runCommand("delete e" + targetIndexOneIndexed);
 
         //confirm the list now contains all previous persons except the deleted person
-        assertTrue(taskListPanel.isListMatching(expectedRemainder));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedRemainder));
 
         //confirm the result message is correct
         assertResultMessage(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete.getTitle().toString()));

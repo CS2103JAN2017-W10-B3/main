@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import todolist.commons.core.Config;
 import todolist.logic.commands.ChangeDirectoryCommand;
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 
 //@@author A0110791M
@@ -31,7 +32,7 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
     @Test
     public void changeValidDirectory() {
         TestTask[] expectedList = td.getTypicalEventTasks();
-        int initialNumberOfTasks = taskListPanel.getNumberOfTasks();
+        int initialNumberOfTasks = taskListPanel.getNumberOfTasks(Category.EVENT);
         String currentFilePath = Config.getToDoListFilePath();
 
         //change directory to valid file path
@@ -40,15 +41,15 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
         assertEquals(VALID_NEW_FILE_PATH, Config.getToDoListFilePath());
 
         //check data is preserved
-        int updatedNumberOfTasks = taskListPanel.getNumberOfTasks();
+        int updatedNumberOfTasks = taskListPanel.getNumberOfTasks(Category.EVENT);
         assertEquals(initialNumberOfTasks, updatedNumberOfTasks);
-        assertTrue(taskListPanel.isListMatching(expectedList));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedList));
     }
 
     @Test
     public void changeInvalidDirectory() {
         TestTask[] expectedList = td.getTypicalEventTasks();
-        int initialNumberOfTasks = taskListPanel.getNumberOfTasks();
+        int initialNumberOfTasks = taskListPanel.getNumberOfTasks(Category.EVENT);
         String currentFilePath = Config.getToDoListFilePath();
 
         //change directory to invalid file path
@@ -57,9 +58,9 @@ public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
         assertEquals(currentFilePath, Config.getToDoListFilePath());
 
         //check data is still preserved
-        int updatedNumberOfTasks = taskListPanel.getNumberOfTasks();
+        int updatedNumberOfTasks = taskListPanel.getNumberOfTasks(Category.EVENT);
         assertEquals(initialNumberOfTasks, updatedNumberOfTasks);
-        assertTrue(taskListPanel.isListMatching(expectedList));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedList));
     }
 
     private String getChangeDirCommand(String filePath) {

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.ReadOnlyTask.Category;
 
 public class SelectCommandTest extends ToDoListGuiTest {
 
@@ -46,14 +47,14 @@ public class SelectCommandTest extends ToDoListGuiTest {
     }
 
     private void assertTaskSelected(int index) {
-        assertEquals(taskListPanel.getSelectedTasks().size(), 1);
-        ReadOnlyTask selectedTask = taskListPanel.getSelectedTasks().get(0);
-        assertEquals(taskListPanel.getTask(index - 1), selectedTask);
+        assertEquals(taskListPanel.getSelectedTasks(Category.EVENT).size(), 1);
+        ReadOnlyTask selectedTask = taskListPanel.getSelectedTasks(Category.EVENT).get(0);
+        assertEquals(taskListPanel.getTask(Category.EVENT, index - 1), selectedTask);
         //TODO: confirm the correct page is loaded in the Browser Panel
     }
 
     private void assertNoTaskSelected() {
-        assertEquals(taskListPanel.getSelectedTasks().size(), 0);
+        assertEquals(taskListPanel.getSelectedTasks(Category.EVENT).size(), 0);
     }
 
 }

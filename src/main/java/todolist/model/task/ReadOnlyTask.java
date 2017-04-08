@@ -134,7 +134,7 @@ public interface ReadOnlyTask {
     }
 
     /**
-     * For floating tasks, first by urgency level, then by start time if any, then by end time, then by name
+     * For floating tasks, first by urgency level, then by start time if any, then by name
      */
     public static Comparator<ReadOnlyTask> getFloatingComparator() {
         //first by urgency level
@@ -151,22 +151,10 @@ public interface ReadOnlyTask {
             return t1.getUrgencyLevel().get().compareTo(t2.getUrgencyLevel().get());
         };
 
-        //then by start time
-        Comparator<ReadOnlyTask> byStartTime = (t1, t2) -> {
-            if (t1.getStartTime().isPresent() && !t2.getStartTime().isPresent()) {
-                return 1;
-            } else if (t2.getStartTime().isPresent() && !t1.getStartTime().isPresent()) {
-                return -1;
-            } else if (!t1.getStartTime().isPresent() && !t2.getStartTime().isPresent()) {
-                return 0;
-            }
-            return t1.getStartTime().get().compareTo(t2.getStartTime().get());
-        };
-
         //then by name
         Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
 
-        return byUrgencyLevel.thenComparing(byStartTime).thenComparing(byName);
+        return byUrgencyLevel.thenComparing(byName);
     }
 
     public static Comparator<ReadOnlyTask> getCompleteComparator() {
