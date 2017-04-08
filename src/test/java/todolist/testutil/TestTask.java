@@ -3,7 +3,6 @@ package todolist.testutil;
 import java.util.Optional;
 
 import todolist.model.tag.UniqueTagList;
-import todolist.model.task.CompleteTime;
 import todolist.model.task.Description;
 import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
@@ -198,8 +197,4 @@ public class TestTask implements ReadOnlyTask {
         this.isCompleted = !this.isCompleted;
     }
     
-    public void setCompleteTime(CompleteTime completeTime) {
-        this.completeTime = Optional.of(completeTime);
-    }
-
 }
