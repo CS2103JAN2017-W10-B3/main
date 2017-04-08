@@ -28,5 +28,16 @@ public class HelpCommandTest extends ToDoListGuiTest {
         //run help NotExistingCommand
         commandBox.runCommand("help scroll");
         assertResultMessage(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+
+        //run with f1 accelerator
+        mainMenu.useF1Accelerator();
+        assertResultMessage(commandSyntaxTest.getAllCommandUsageMessage());
+
+        //run help clear so that the message would change
+        commandBox.runCommand("help clear");
+
+        //clicking on help menu
+        mainMenu.clickOn("Help", "F1");
+        assertResultMessage(commandSyntaxTest.getAllCommandUsageMessage());
     }
 }

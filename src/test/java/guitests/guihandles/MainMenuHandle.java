@@ -20,7 +20,7 @@ public class MainMenuHandle extends GuiHandle {
         return this;
     }
 
-    private void useF1Accelerator() {
+    public void useF1Accelerator() {
         guiRobot.push(KeyCode.F1);
         guiRobot.sleep(500);
     }
