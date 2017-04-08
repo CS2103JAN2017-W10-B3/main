@@ -22,11 +22,11 @@ public class TestTask implements ReadOnlyTask {
     public static final char EVENT_CHAR = 'e';
 
     private Title title;
-    private Optional<Venue> venue;
-    private Optional<StartTime> startTime;
-    private Optional<EndTime> endTime;
-    private Optional<UrgencyLevel> urgencyLevel;
-    private Optional<Description> description;
+    private Optional<Venue> venue = Optional.empty();
+    private Optional<StartTime> startTime = Optional.empty();
+    private Optional<EndTime> endTime = Optional.empty();
+    private Optional<UrgencyLevel> urgencyLevel = Optional.empty();
+    private Optional<Description> description = Optional.empty();
     private UniqueTagList tags;
     private Category category;
     private Boolean isCompleted;
