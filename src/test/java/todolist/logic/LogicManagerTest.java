@@ -181,6 +181,11 @@ public class LogicManagerTest {
                 expectedAB,
                 expectedList, Task.ALL_CHAR);
     }
+    
+    protected void assertNoIndexSelectedBehaviorForCommand(String commandWord, String expectedMessage)
+            throws Exception {
+        assertCommandFailure(commandWord, expectedMessage); // index missing
+    }
 
     /**
      * Confirms the 'invalid argument index number behaviour' for the given
@@ -194,7 +199,6 @@ public class LogicManagerTest {
      */
     protected void assertIncorrectIndexFormatBehaviorForCommand(String commandWord, String expectedMessage)
             throws Exception {
-        assertCommandFailure(commandWord, expectedMessage); // index missing
         assertCommandFailure(commandWord + " +1", expectedMessage); // index should be unsigned
         assertCommandFailure(commandWord + " -1", expectedMessage); // index should be unsigned
         assertCommandFailure(commandWord + " s1", expectedMessage); // index should have valid prefix
