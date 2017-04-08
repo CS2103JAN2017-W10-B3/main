@@ -27,4 +27,5 @@ public class JokesUtil {
             "Why did the palm tree get struck by lightning? Because it suay.",
             "Why did Ah Beng force 18 of his friends to watch a movie with him? Because the ad said below 18 not allowed to go in."
     };
+    
 }
