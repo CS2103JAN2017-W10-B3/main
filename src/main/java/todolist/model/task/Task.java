@@ -126,7 +126,7 @@ public class Task implements ReadOnlyTask {
     public Character getTaskChar() {
         if (isTaskCompleted()) {
             return COMPLETE_CHAR;
-        } else{
+        } else {
             if (isDeadlineTask()) {
                 return DEADLINE_CHAR;
             } else if (isEventTask()) {
