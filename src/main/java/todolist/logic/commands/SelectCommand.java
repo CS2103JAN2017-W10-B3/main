@@ -48,7 +48,7 @@ public class SelectCommand extends Command {
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(targetIndexes));
         model.updateSelectedIndexes(targetIndexes);
 
-        String selectCommandResult =MESSAGE_SELECT_TASK_SUCCESS;
+        String selectCommandResult = MESSAGE_SELECT_TASK_SUCCESS;
         return new CommandResult(selectCommandResult);
 
     }

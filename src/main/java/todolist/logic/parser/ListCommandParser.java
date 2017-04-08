@@ -42,7 +42,7 @@ public class ListCommandParser {
         Optional<String> deadlineArg = argsTokenizer.getValue(PREFIX_DEADLINETIME);
 
         try {
-            TimeUtil.checkTimeDuplicated(startTimeArg,beginningTimeArg, endTimeArg,deadlineArg);
+            TimeUtil.checkTimeDuplicated(startTimeArg, beginningTimeArg, endTimeArg, deadlineArg);
         } catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
         }

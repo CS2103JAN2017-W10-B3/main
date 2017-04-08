@@ -503,7 +503,7 @@ public class ModelManager extends ComponentManager implements Model {
                 return isDeadlineWithinDuration(task);
             } else if (task.getTaskCategory().equals(Category.EVENT)) {
                 return isEventWithinDuration(task);
-            } else if (task.getTaskCategory().equals(Category.FLOAT)){
+            } else if (task.getTaskCategory().equals(Category.FLOAT)) {
                 return isFloatingWithinDuration(task);
             } else {
                 return false;
@@ -543,7 +543,7 @@ public class ModelManager extends ComponentManager implements Model {
                 return startTime.isBefore(time);
             } else if (endTime != null && startTime == null) {
                 return endTime.isAfter(time);
-            } else if (startTime != null && endTime != null){
+            } else if (startTime != null && endTime != null) {
                 return startTime.isBefore(time) && endTime.isAfter(time);
             } else {
                 return false;

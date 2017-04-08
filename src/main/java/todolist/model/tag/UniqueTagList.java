@@ -144,7 +144,7 @@ public class UniqueTagList implements Iterable<Tag> {
      *
      * @throws TagNotExistException if the input tag does not exist in the tag list.
      */
-    public void remove(Tag toDelete) throws TagNotExistException{
+    public void remove(Tag toDelete) throws TagNotExistException {
         assert toDelete != null;
         if (!contains(toDelete)) {
             throw new TagNotExistException();

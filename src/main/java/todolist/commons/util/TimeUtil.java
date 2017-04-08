@@ -9,14 +9,14 @@ import todolist.model.task.StartTime;
 import todolist.model.task.Time;
 
 //@@author A0122017Y
-public class TimeUtil extends StringUtil{
+public class TimeUtil extends StringUtil {
 
     private static final int[] DAYS_NON_LEAP = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private static final int[] DAYS_LEAP = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private static final String[] MONTH_ABBRE = {"jan", "feb", "mar", "apr",
-            "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
+        "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
     private static final String[] DAYS_OF_WEEK = {"mon", "tue", "wed", "thu",
-            "fri", "sat", "sun"};
+        "fri", "sat", "sun"};
     private static final int YEAR_ARG = 2;
     private static final int MONTH_ARG = 1;
     private static final int DAY_ARG = 0;
@@ -61,10 +61,9 @@ public class TimeUtil extends StringUtil{
             int month = parseMonth(timeArg);
             int day = parseDay(timeArg);
             if (isLeapYear(year)) {
-                return day <= DAYS_LEAP[month-1];
-            }
-            else {
-                return day <= DAYS_NON_LEAP[month-1];
+                return day <= DAYS_LEAP[month - 1];
+            } else {
+                return day <= DAYS_NON_LEAP[month - 1];
             }
         }
         return true;
@@ -116,7 +115,7 @@ public class TimeUtil extends StringUtil{
     private static int getMonthIndex(String monthArg) {
         for (int i = 0; i < 12; i++) {
             if (monthArg.toLowerCase().contains(MONTH_ABBRE[i])) {
-                return i+1;
+                return i + 1;
             }
         }
         return 0;
@@ -125,14 +124,14 @@ public class TimeUtil extends StringUtil{
     private static int getWeekDayIndex(String dayArg) {
         for (int i = 0; i < 12; i++) {
             if (dayArg.toLowerCase().contains(DAYS_OF_WEEK[i])) {
-                return i+1;
+                return i + 1;
             }
         }
         return 0;
     }
 
     public static void checkTimeDuplicated(Optional<String> starttime, Optional<String> beginningtime,
-            Optional<String> endtime, Optional<String> deadline) throws IllegalValueException{
+            Optional<String> endtime, Optional<String> deadline) throws IllegalValueException {
         if (starttime.isPresent() && beginningtime.isPresent()) {
             throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
         }

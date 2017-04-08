@@ -91,6 +91,9 @@ public interface Model {
      */
     void updateFilteredTaskList(Set<String> keywords);
 
+    void updateFilteredTaskList(Optional<StartTime> startTime, Optional<EndTime> endTime, Optional<StartTime> today);
+
+
     // @@ author A0122017Y
     void updateFilteredTaskListToShowWithStatus(Status status);
 
@@ -105,8 +108,5 @@ public interface Model {
 
     //@@author A0110791M
     void changeDirectory(String filePath) throws IOException;
-
-    void updateFilteredTaskList(Optional<StartTime> startTime, Optional<EndTime> endTime, Optional<StartTime> today);
-
 
 }

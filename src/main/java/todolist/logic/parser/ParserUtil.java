@@ -143,7 +143,8 @@ public class ParserUtil {
             return true;
         } else {
             char taskType = index.charAt(0);
-            if (taskType != Task.DEADLINE_CHAR && taskType != Task.EVENT_CHAR && taskType != Task.FLOAT_CHAR && taskType != Task.COMPLETE_CHAR) {
+            if (taskType != Task.DEADLINE_CHAR && taskType != Task.EVENT_CHAR &&
+                    taskType != Task.FLOAT_CHAR && taskType != Task.COMPLETE_CHAR) {
                 return false;
             } else {
                 if (StringUtil.isUnsignedInteger(index.substring(1))) {

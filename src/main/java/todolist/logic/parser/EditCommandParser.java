@@ -44,9 +44,7 @@ public class EditCommandParser {
         String indexesToBeParsed = argsTokenizer.getPreamble().orElse("");
         if (indexesToBeParsed.isEmpty()) {
             indexes = Optional.of(new ArrayList<TaskIndex>());
-        }
-
-        else {
+        } else {
 
             indexes = ParserUtil.parseIndex(indexesToBeParsed);
 
@@ -54,7 +52,7 @@ public class EditCommandParser {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
             }
 
-            if(hasContainedCompletedTask(indexes)){
+            if (hasContainedCompletedTask(indexes)) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
             }
         }
@@ -63,17 +61,16 @@ public class EditCommandParser {
         try {
             editTaskDescriptor.setTitle(ParserUtil.parseTitle(argsTokenizer.getValue(PREFIX_TITLE)));
             editTaskDescriptor.setVenue(ParserUtil.parseVenue(argsTokenizer.getValue(PREFIX_VENUE)));
-            if(argsTokenizer.getValue(PREFIX_STARTTIME).isPresent()){
-            editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_STARTTIME)));
+            if (argsTokenizer.getValue(PREFIX_STARTTIME).isPresent()) {
+                editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_STARTTIME)));
+            } else {
+                editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_BEGINNINGTIME)));
             }
-            else{
-            editTaskDescriptor.setStartTime(ParserUtil.parseStartTime(argsTokenizer.getValue(PREFIX_BEGINNINGTIME)));
-            }
-            if(argsTokenizer.getValue(PREFIX_ENDTIME).isPresent()){
-            editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_ENDTIME)));
-            }
-            else{
-            editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_DEADLINETIME)));
+
+            if (argsTokenizer.getValue(PREFIX_ENDTIME).isPresent()) {
+                editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_ENDTIME)));
+            } else {
+                editTaskDescriptor.setEndTime(ParserUtil.parseEndTime(argsTokenizer.getValue(PREFIX_DEADLINETIME)));
             }
             editTaskDescriptor
                     .setUrgencyLevel(ParserUtil.parseUrgencyLevel(argsTokenizer.getValue(PREFIX_URGENCYLEVEL)));
@@ -92,8 +89,8 @@ public class EditCommandParser {
 
     private boolean hasContainedCompletedTask(Optional<ArrayList<TaskIndex>> indexes){
         boolean hasContained = false;
-        for(TaskIndex index: indexes.get()){
-            if(index.getTaskChar() == Task.COMPLETE_CHAR){
+        for (TaskIndex index: indexes.get()) {
+            if (index.getTaskChar() == Task.COMPLETE_CHAR) {
                 hasContained = true;
             }
         }

@@ -12,7 +12,7 @@ public class JokeCommand extends Command {
     private static final String MESSAGE_SUCCESS = "You must be laughing :D";
 
     private int randomGenerator() {
-        return (int) Math.floor(Math.random()*JOKES.length);
+        return (int) Math.floor(Math.random() * JOKES.length);
     }
 
     private String jokeGenerator() {

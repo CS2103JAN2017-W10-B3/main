@@ -40,7 +40,8 @@ public class DeleteCommand extends UndoableCommand {
             + " e1 \n";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted/updated: ";
-    public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces duplicate tasks in your to-do list. \n"
+    public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces "
+            + "duplicate tasks in your to-do list. \n"
             + "Please check the parameters you want to delete.";
 
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
@@ -79,14 +80,12 @@ public class DeleteCommand extends UndoableCommand {
                     assert false : "The target task cannot be missing";
                 }
             }
-        }
-
-        else {
+        } else {
             for (int count = 0; count < tasksToDelete.size(); count++) {
                 try {
-                    Task UpdatedTask = createDeletedTask(tasksToDelete.get(count));
-                    model.updateTask(tasksToDelete.get(count), UpdatedTask);
-                    listOfUpdatedTasks.add(UpdatedTask);
+                    Task updatedTask = createDeletedTask(tasksToDelete.get(count));
+                    model.updateTask(tasksToDelete.get(count), updatedTask);
+                    listOfUpdatedTasks.add(updatedTask);
                 } catch (UniqueTaskList.DuplicateTaskException dpe) {
                     throw new CommandException(MESSAGE_DUPLICATE_TASK);
                 }
@@ -122,7 +121,7 @@ public class DeleteCommand extends UndoableCommand {
         return tasksToDelete;
     }
 
-    private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks){
+    private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks) {
         filteredTaskListIndexes.clear();
         for (int count = 0; count < listOfEditedTasks.size(); count++) {
             UnmodifiableObservableList<ReadOnlyTask> listOfTask = model

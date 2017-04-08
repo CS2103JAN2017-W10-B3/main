@@ -44,7 +44,7 @@ public class Task implements ReadOnlyTask {
         this.tags = new UniqueTagList(tags); // protect internal tags from
                                              // changes in the arg list
         this.isCompleted = isCompleted;
-        this.category = sortCategory();// by default, task is not completed when
+        this.category = sortCategory(); // by default, task is not completed when
                                        // initiated
     }
 
@@ -124,18 +124,17 @@ public class Task implements ReadOnlyTask {
     // @@ A0143648Y
     @Override
     public Character getTaskChar() {
-        if(isTaskCompleted()){
+        if (isTaskCompleted()) {
             return COMPLETE_CHAR;
+        } else{
+            if (isDeadlineTask()) {
+                return DEADLINE_CHAR;
+            } else if (isEventTask()) {
+                return EVENT_CHAR;
+            } else {
+                return FLOAT_CHAR;
+            }
         }
-            else{
-        if (isDeadlineTask()) {
-            return DEADLINE_CHAR;
-        } else if (isEventTask()) {
-            return EVENT_CHAR;
-        } else {
-            return FLOAT_CHAR;
-        }
-    }
     }
     // @@
 
@@ -162,7 +161,7 @@ public class Task implements ReadOnlyTask {
         this.startTime = startTime;
     }
 
-    public void setUrgencyLevel(UrgencyLevel urgencyLevel){
+    public void setUrgencyLevel(UrgencyLevel urgencyLevel) {
         this.urgencyLevel = urgencyLevel;
     }
 

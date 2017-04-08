@@ -106,7 +106,7 @@ public class EditCommand extends UndoableCommand {
         return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS + messageSuccessful);
     }
 
-    private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks){
+    private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks) {
         filteredTaskListIndexes.clear();
         for (int count = 0; count < listOfEditedTasks.size(); count++) {
             UnmodifiableObservableList<ReadOnlyTask> listOfTask = model

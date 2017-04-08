@@ -82,7 +82,7 @@ public class XmlAdaptedTask {
         final EndTime endTime = !this.endTime.isEmpty() ? new EndTime(this.endTime) : null;
         final UrgencyLevel urgencyLevel = this.urgencyLevel != "" ? new UrgencyLevel(this.urgencyLevel) : null;
         final Description description = this.description != "" ? new Description(this.description) : null;
-        final boolean isCompleted = this.isCompleted.contains("true")? true : false ;
+        final boolean isCompleted = this.isCompleted.contains("true") ? true : false;
         final UniqueTagList tags = new UniqueTagList(taskTags);
         return new Task(title, venue, startTime, endTime, urgencyLevel, description, tags, isCompleted);
     }

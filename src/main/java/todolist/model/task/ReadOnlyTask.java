@@ -203,7 +203,7 @@ public interface ReadOnlyTask {
     }
     //@@
     //author A0143648Y
-    default String getIsCompletedToString(){
+    default String getIsCompletedToString() {
         return this.isTaskCompleted().toString();
     }
 
