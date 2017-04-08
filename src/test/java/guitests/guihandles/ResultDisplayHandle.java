@@ -27,7 +27,7 @@ public class ResultDisplayHandle extends GuiHandle {
         return getResultDisplay().getText();
     }
 
-    private TextArea getResultDisplay() {
+    public TextArea getResultDisplay() {
         return getNode(RESULT_DISPLAY_ID);
     }
 }
