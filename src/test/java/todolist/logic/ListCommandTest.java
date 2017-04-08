@@ -14,7 +14,7 @@ import todolist.model.ToDoList;
 import todolist.model.task.Task;
 
 //@@author A0122017Y
-public class ListCommandTest extends LogicManagerTest{
+public class ListCommandTest extends LogicManagerTest {
     private static final Logger logger = LogsCenter.getLogger(ListCommandTest.class);
 
     @Test

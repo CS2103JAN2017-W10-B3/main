@@ -91,16 +91,33 @@ public interface Model {
      */
     void updateFilteredTaskList(Set<String> keywords);
 
+    // @@ author A0122017Y
+    /**
+     * Updates the filter of the filtered Task list to filter by the given
+     * start and end time values, or a given day
+     */
     void updateFilteredTaskList(Optional<StartTime> startTime, Optional<EndTime> endTime, Optional<StartTime> today);
 
-
-    // @@ author A0122017Y
+    /**
+     * Updates the filter of the filtered Task list to filter by the given
+     * status enum
+     */
     void updateFilteredTaskListToShowWithStatus(Status status);
 
+    /**
+     * Updates the filter of the filtered Task list to filter by the given
+     * set of tag
+     */
     void updateFilteredTaskListToShowWithTag(Set<String> keywordSet);
 
+    /**
+     * Mark a task to be completed
+     */
     void completeTask(ReadOnlyTask taskToComplete);
 
+    /**
+     * Obtain the list of completed tasks
+     */
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
 
 

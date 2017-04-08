@@ -1,6 +1,5 @@
 package todolist.model.task;
 
-
 import todolist.commons.exceptions.IllegalValueException;
 
 /**

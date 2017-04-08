@@ -18,8 +18,8 @@ public class DeleteCommandTest extends LogicManagerTest {
     public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
         String expectedMessageNoIndex = Messages.MESSAGE_NO_TASK_SELECTED;
         String expectedMessageWrongIndex =
-            String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT,DeleteCommand.MESSAGE_USAGE);
-        assertNoIndexSelectedBehaviorForCommand("delete",expectedMessageNoIndex);
+            String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
+        assertNoIndexSelectedBehaviorForCommand("delete", expectedMessageNoIndex);
         assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessageWrongIndex);
     }
 

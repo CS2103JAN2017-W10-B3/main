@@ -1,6 +1,5 @@
 package todolist.model;
 
-
 import javafx.collections.ObservableList;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask;

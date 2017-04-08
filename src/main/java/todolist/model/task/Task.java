@@ -148,7 +148,6 @@ public class Task implements ReadOnlyTask {
         return title;
     }
 
-    // @@author A0122017Y
     public void setEndTime(EndTime endTime) {
         this.endTime = endTime;
     }

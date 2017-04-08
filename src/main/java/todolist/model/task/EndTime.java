@@ -65,20 +65,36 @@ public class EndTime implements Time {
         return this.getTimeValue().compareTo(time.getTimeValue());
     }
 
+    //@@author A0122017Y
+    /**
+     * Check if the task deadline has already been passed
+     * @return
+     */
     public boolean outdated() {
         return this.endTime.isBefore(LocalDateTime.now());
     }
 
+    /**
+     * Check if the underlying time value is before or equal to the input
+     * By default, time values on the same day are treated as equal
+     */
     @Override
     public boolean isBefore(Time time) {
         return isSameDay(time) || !this.getTimeValue().isAfter(time.getTimeValue());
     }
 
+    /**
+     * Check if the underlying time value is after or equal to the input
+     * By default, time values on the same day are treated as equal
+     */
     @Override
     public boolean isAfter(Time time) {
         return isSameDay(time) || !this.getTimeValue().isBefore(time.getTimeValue());
     }
 
+    /**
+     * Check if the underlying time value is happening on the same day as the input
+     */
     @Override
     public boolean isSameDay(Time time) {
         return endTime.getDayOfYear() == time.getTimeValue().getDayOfYear() &&

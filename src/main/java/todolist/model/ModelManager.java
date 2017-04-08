@@ -200,6 +200,9 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     // @@author A0122017Y
+    /**
+     * Synchronize the task lists with the respective task type.
+     */
     private void syncTypeOfTasks() {
         filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
         filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
@@ -209,6 +212,9 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
+    /**
+     * Mark a task in the list to completed
+     */
     @Override
     public void completeTask(ReadOnlyTask taskToComplete) {
         todoList.completeTask(taskToComplete);
@@ -218,7 +224,6 @@ public class ModelManager extends ComponentManager implements Model {
 
     // =========== Filtered Task List Accessors
     // =============================================================
-
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
         SortedList<ReadOnlyTask> sortedDeadlines = new SortedList<>(filteredDeadlines);

@@ -99,7 +99,8 @@ public class LogicManagerTest {
     @Test
     public void execute_invalid() {
         String invalidCommand = "       ";
-        assertCommandFailure(invalidCommand, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+        assertCommandFailure(invalidCommand, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                HelpCommand.MESSAGE_USAGE));
     }
 
     /**

@@ -1,6 +1,5 @@
 package todolist.logic.commands;
 
-
 import todolist.commons.core.EventsCenter;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
 

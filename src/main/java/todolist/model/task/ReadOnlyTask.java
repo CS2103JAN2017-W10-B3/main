@@ -110,10 +110,10 @@ public interface ReadOnlyTask {
     default int getUrgencyLevelInt() {
         return getUrgencyLevel().isPresent() ? getUrgencyLevel().get().getIntValue() : 0;
     }
-    //@@ author
+    //@@
 
     //====================Comparators for tasks======================
-
+    //@@author A0122017Y
     /**
      * For deadline tasks, first by deadline, then by name
      */
