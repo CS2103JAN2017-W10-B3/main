@@ -4,7 +4,6 @@ import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.io.File;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import todolist.commons.core.Config;
 import todolist.logic.commands.Command;
@@ -24,21 +23,19 @@ import todolist.logic.commands.SaveCommand;
  */
 public class SaveCommandParser {
 
-    public static final Pattern SAVE_ARGS_FORMAT = Pattern.compile("(?<arguments>.*)");
-
     public SaveCommandParser() {
     }
 
     public Command parse(String args) {
         String filePath = args.trim();
-        final Matcher matcher = SAVE_ARGS_FORMAT.matcher(filePath);
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SaveCommand.MESSAGE_USAGE));
+        //@@author A0110791M
+        if (filePath.length() == 0) {
+            return new SaveCommand(Config.getToDoListFilePath());
         }
 
-        //@@author A0110791M
-        if (filePath.endsWith(".xml")) {
-            return new SaveCommand(filePath);
+        final Matcher matcher = ChangeDirectoryCommandParser.FILE_PATH_PATTERN.matcher(filePath);
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SaveCommand.MESSAGE_USAGE));
         }
 
         File file = new File(filePath);
