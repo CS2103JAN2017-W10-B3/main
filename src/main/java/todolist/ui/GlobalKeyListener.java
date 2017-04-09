@@ -36,8 +36,7 @@ public class GlobalKeyListener implements NativeKeyListener {
     public void nativeKeyReleased(NativeKeyEvent e) {
         if (e.getKeyCode() == NativeKeyEvent.VC_CONTROL) {
             isCtrlPressed = false;
-        }
-        else if (e.getKeyCode() == NativeKeyEvent.VC_T) {
+        } else if (e.getKeyCode() == NativeKeyEvent.VC_T) {
             isTPressed = false;
         }
     }

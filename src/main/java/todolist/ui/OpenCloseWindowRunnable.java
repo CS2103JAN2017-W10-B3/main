@@ -28,6 +28,7 @@ public class OpenCloseWindowRunnable implements Runnable {
             break;
         case "exit":
             mainWindow.handleExit();
+            break;
         default:
             break;
         }

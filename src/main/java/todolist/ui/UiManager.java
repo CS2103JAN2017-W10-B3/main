@@ -115,7 +115,8 @@ public class UiManager extends ComponentManager implements Ui {
                 public void handle(WindowEvent t) {
                     stage.hide();
                     if (firstTime) {
-                        trayIcon.displayMessage("ToDoList running in background.", "Press hotkeys to open.", TrayIcon.MessageType.INFO);
+                        trayIcon.displayMessage("ToDoList running in background.", "Press hotkeys to open.",
+                                TrayIcon.MessageType.INFO);
                         firstTime = false;
                     }
                 }
@@ -161,8 +162,7 @@ public class UiManager extends ComponentManager implements Ui {
 
         try {
             GlobalScreen.registerNativeHook();
-        }
-        catch (NativeHookException ex) {
+        } catch (NativeHookException ex) {
             logger.info("There was a problem registering the native hook.");
             logger.info(ex.getMessage());
         }
