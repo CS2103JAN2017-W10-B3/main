@@ -451,6 +451,17 @@ public class LogicManagerTest {
         }
 
         /**
+         * Generates a list of Floating Tasks based on the flags.
+         */
+        public List<Task> generateFloatTaskList(int numGenerated) throws Exception {
+            List<Task> tasks = new ArrayList<>();
+            for (int i = 1; i <= numGenerated; i++) {
+                tasks.add(generateFloatingTask(i));
+            }
+            return tasks;
+        }
+
+        /**
          * Generates a list of Deadline Tasks based on the flags.
          */
         public List<Task> generateDeadlineTaskList(int numGenerated) throws Exception {

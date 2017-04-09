@@ -44,4 +44,49 @@ public class SelectCommandTest extends LogicManagerTest {
         assertEquals(model.getFilteredEventList().get(1), threeTasks.get(1));
     }
 
+    @Test
+    //Check if the message shown is correct if index given is valid
+    public void executeMultipleSelectJumpsToCorrectTask() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Task> threeTasks = helper.generateEventTaskList(5);
+
+        ToDoList expectedAB = helper.generateToDoList(threeTasks);
+        helper.addToModel(model, threeTasks);
+
+        assertCommandSuccess("e1-3",
+                SelectCommand.MESSAGE_SELECT_TASK_SUCCESS,
+                expectedAB,
+                expectedAB.getFilteredEvents(), Task.EVENT_CHAR);
+    }
+
+    @Test
+    //Check if the message shown is correct if interval given is inverted
+    public void executeMultipleSelectJumpsToCorrectDeadline() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Task> threeTasks = helper.generateDeadlineTaskList(5);
+
+        ToDoList expectedAB = helper.generateToDoList(threeTasks);
+        helper.addToModel(model, threeTasks);
+
+        assertCommandSuccess("4-2",
+                SelectCommand.MESSAGE_SELECT_TASK_SUCCESS,
+                expectedAB,
+                expectedAB.getFilteredDeadlines(), Task.DEADLINE_CHAR);
+    }
+
+    @Test
+    //Check if the message shown is correct if index given is in the format of jumps
+    public void executeMultipleIntervalSelectFloat() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Task> threeTasks = helper.generateFloatTaskList(6);
+
+        ToDoList expectedAB = helper.generateToDoList(threeTasks);
+        helper.addToModel(model, threeTasks);
+
+        assertCommandSuccess("f5-2 f1-3",
+                SelectCommand.MESSAGE_SELECT_TASK_SUCCESS,
+                expectedAB,
+                expectedAB.getFilteredFloats(), Task.FLOAT_CHAR);
+    }
+
 }
