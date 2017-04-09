@@ -62,11 +62,14 @@ public class TypicalTestTasks {
                     .withEndTime("Tuesday 11:00").withTags("lesson").withUrgencyLevel("3")
                     .withDescription("Submit jar file + all the documents.").withCompleteStatus("false").build();
             cs2103Demo = new TaskBuilder().withTitle("CS2103 Project Demo").withVenue("COM1-B103")
-                    .withEndTime("Wednesday 10:00").withTags("lesson").withDescription("12min presentation").withCompleteStatus("false").build();
+                    .withEndTime("Wednesday 10:00").withTags("lesson").withDescription("12min presentation")
+                    .withCompleteStatus("false").build();
             fypPresentation = new TaskBuilder().withTitle("FYP Presentation").withVenue("EA-06-06")
-                     .withEndTime("Wednesday 13:00").withTags("FYP").withDescription("FINAL PRESENTATION").withCompleteStatus("false").build();
+                     .withEndTime("Wednesday 13:00").withTags("FYP").withDescription("FINAL PRESENTATION")
+                     .withCompleteStatus("false").build();
             fypFinalSubmission = new TaskBuilder().withTitle("FYP Online Submission").withVenue("Online")
-                     .withEndTime("13 May 12:00").withTags("FYP").withDescription("Submit to online portal.").withCompleteStatus("false").build();
+                     .withEndTime("13 May 12:00").withTags("FYP").withDescription("Submit to online portal.")
+                     .withCompleteStatus("false").build();
 
             // Manually added
             applyInternship = new TaskBuilder().withTitle("Apply for Internship").withUrgencyLevel("2")
@@ -78,11 +81,14 @@ public class TypicalTestTasks {
 
             //floats
             planGradTrip = new TaskBuilder().withTitle("Plan for Grad Trip").withTags("gradtrip").withVenue("Online")
-                    .withUrgencyLevel("1").withDescription("Decide when and where.").withCompleteStatus("false").build();
+                    .withUrgencyLevel("1").withDescription("Decide when and where.")
+                    .withCompleteStatus("false").build();
             learnJava = new TaskBuilder().withTitle("Learn Java").withTags("java").withVenue("Online")
-                    .withUrgencyLevel("3").withDescription("Refer to photos gallery on phone for resources.").withCompleteStatus("false").build();
+                    .withUrgencyLevel("3").withDescription("Refer to photos gallery on phone for resources.")
+                    .withCompleteStatus("false").build();
             buyGroceries = new TaskBuilder().withTitle("Buy groceries").withTags("shopping").withVenue("NTUC")
-                    .withUrgencyLevel("2").withDescription("Buy cheese, pepper and milk.").withCompleteStatus("false").build();
+                    .withUrgencyLevel("2").withDescription("Buy cheese, pepper and milk.")
+                    .withCompleteStatus("false").build();
             goGym = new TaskBuilder().withTitle("Go gym").withTags("gym").withVenue("Gym")
                     .withUrgencyLevel("1").withDescription("Push, pull, legs!").withCompleteStatus("false").build();
             // Manually added
