@@ -45,7 +45,6 @@ public class CommandBox extends UiPart<Region> {
             CommandResult commandResult = logic.execute(commandTextField.getText());
 
             // add new words to keywords list
-            commandTextField.addKeyWords();
             commandTextField.addCommandHistory();
 
             // process result of the command
