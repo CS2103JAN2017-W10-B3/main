@@ -40,11 +40,11 @@ public class TaskListPanelHandle extends GuiHandle {
         ListView<ReadOnlyTask> taskList = getListView(taskType);
         return taskList.getSelectionModel().getSelectedItems();
     }
-
+/*
     public ListView<ReadOnlyTask> getListView() {
         return getNode(EVENT_LIST_VIEW_ID);
     }
-
+*/
     public ListView<ReadOnlyTask> getListView(Category taskType) {
         ListView<ReadOnlyTask> listView;
         switch (taskType) {

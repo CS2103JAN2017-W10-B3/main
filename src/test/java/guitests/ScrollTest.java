@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import todolist.model.task.ReadOnlyTask.Category;
 import todolist.ui.Scroll;
 
 public class ScrollTest extends ToDoListGuiTest {
@@ -60,7 +61,7 @@ public class ScrollTest extends ToDoListGuiTest {
     @Test
     public void testGettingOfScrollBarWithList() {
         scrollTest = new Scroll();
-        scrollTest.getListVerticalScrollbar(taskListPanel.getListView());
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
         assertNotNull(scrollTest.getScrollBar());
         assertTrue(scrollTest.isAvailable());
     }
@@ -76,24 +77,74 @@ public class ScrollTest extends ToDoListGuiTest {
         assertTrue(scrollTest.isAvailable());
     }
 
+    //Scroll Down
     @Test
     public void testScrollingIncrease() {
         scrollTest = new Scroll();
-        scrollTest.getListVerticalScrollbar(taskListPanel.getListView());
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
         double oldValue = scrollTest.getCurrentValue();
         scrollTest.scrollIncrease();
         double newValue = scrollTest.getCurrentValue();
-        assertTrue(oldValue <= newValue);
+        assertTrue(oldValue < newValue);
     }
 
+    //Scroll Up
     @Test
     public void testScrollingDecrease() {
         scrollTest = new Scroll();
-        scrollTest.getListVerticalScrollbar(taskListPanel.getListView());
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        scrollTest.scrollIncrease();
+        scrollTest.scrollIncrease();
         double oldValue = scrollTest.getCurrentValue();
         scrollTest.scrollDecrease();
         double newValue = scrollTest.getCurrentValue();
-        assertTrue(oldValue >= newValue);
+        assertTrue(oldValue > newValue);
+    }
+
+    //Scroll Down with accelerators
+    @Test
+    public void testScrollingIncreaseWithAccelerator() {
+        scrollTest = new Scroll();
+        double oldValue, newValue;
+
+        //Result Display
+        commandBox.runCommand("help");
+        scrollTest.getTextVerticalScrollbar(resultDisplay.getResultDisplay());
+        oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltRAccelerator();
+        newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+
+        //Event list
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltEAccelerator();
+        newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+
+        //Float list
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.FLOAT));
+        oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltFAccelerator();
+        newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+
+        //Deadline list
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.DEADLINE));
+        oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltDAccelerator();
+        newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+
+        //Complete list
+        commandBox.runCommand("done f3");
+        commandBox.runCommand("done e1");
+        commandBox.runCommand("done d2");
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.COMPLETED));
+        oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltCAccelerator();
+        newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
     }
 
 }
