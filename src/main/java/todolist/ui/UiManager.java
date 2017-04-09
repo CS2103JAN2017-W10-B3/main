@@ -7,6 +7,7 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +53,7 @@ public class UiManager extends ComponentManager implements Ui {
     private MainWindow mainWindow;
     private TrayIcon trayIcon;
     private Boolean firstTime = true;
+    private static Semaphore semaphore = new Semaphore(1);
 
     public UiManager(Logic logic, Config config, UserPrefs prefs) {
         super();
@@ -75,15 +77,26 @@ public class UiManager extends ComponentManager implements Ui {
             // This should be called before creating other UI parts
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
 
-            // Create the keystroke listeners
-            //initiateGlobalKeyListener(mainWindow);
+            if (semaphore.tryAcquire()) {
+                // Create the keystroke listeners
+                initiateGlobalKeyListener(mainWindow);
+                semaphore.release();
+            }
 
-            // Create the tray icon.
-            initializeTray(primaryStage);
+            if (semaphore.tryAcquire()) {
+                // Create the tray icon.
+                initializeTray(primaryStage);
+                semaphore.release();
+            }
 
-            //mainWindow.show(); // uncomment this to start with main window
-            // showing or not showing
-            mainWindow.fillInnerParts();
+            if (semaphore.tryAcquire()) {
+                // Create the tray icon.
+                // mainWindow.show(); // uncomment this to start with main
+                // window
+                // showing or not showing
+                mainWindow.fillInnerParts();
+                semaphore.release();
+            }
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
