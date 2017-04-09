@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Test;
 
 import todolist.logic.commands.AddCommand;
+import todolist.logic.commands.UndoCommand;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
 import todolist.model.tag.Tag;
@@ -64,13 +65,20 @@ public class AddCommandTest extends LogicManagerTest {
         TestDataHelper helper = new TestDataHelper();
         Task toBeAddedDeadline = helper.cs2103Deadline();
         ToDoList expectedTDL = new ToDoList();
+        ToDoList originalTDL = new ToDoList(expectedTDL);
         expectedTDL.addTask(toBeAddedDeadline);
+        String feedbackToUser = String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedDeadline);
 
         // execute command and verify result for different types of tasks
         assertAddCommandSuccess(helper.generateAddCommand(toBeAddedDeadline),
-                String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedDeadline),
+                feedbackToUser,
                 expectedTDL,
                 expectedTDL.getFilteredDeadlines(), Task.DEADLINE_CHAR);
+
+        // execute undo
+        assertCommandSuccess("undo",
+                String.format(UndoCommand.MESSAGE_UNDO_SUCCESS, feedbackToUser),
+                originalTDL, originalTDL.getFilteredDeadlines(), Task.DEADLINE_CHAR);
     }
 
     @Test
@@ -79,28 +87,41 @@ public class AddCommandTest extends LogicManagerTest {
         TestDataHelper helper = new TestDataHelper();
         Task toBeAddedEvent = helper.cs2103Event();
         ToDoList expectedTDL = new ToDoList();
+        ToDoList originalTDL = new ToDoList(expectedTDL);
         expectedTDL.addTask(toBeAddedEvent);
+        String feedbackToUser = String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedEvent);
 
         // execute command and verify result for different types of tasks
         assertAddCommandSuccess(helper.generateAddCommand(toBeAddedEvent),
-                String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedEvent),
+                feedbackToUser,
                 expectedTDL,
                 expectedTDL.getFilteredEvents(), Task.EVENT_CHAR);
+
+        // execute undo
+        assertCommandSuccess("undo",
+                String.format(UndoCommand.MESSAGE_UNDO_SUCCESS, feedbackToUser),
+                originalTDL, originalTDL.getFilteredEvents(), Task.EVENT_CHAR);
     }
 
     @Test
-    public void executeAddSuccessfulFloat() throws Exception {
+    public void executeAddSuccessfulAndUndoFloat() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAddedFloat = helper.cs2103Float();
         ToDoList expectedTDL = new ToDoList();
+        ToDoList originalTDL = new ToDoList(expectedTDL);
         expectedTDL.addTask(toBeAddedFloat);
+        String feedbackToUser = String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedFloat);
 
         // execute command and verify result for different types of tasks
         assertAddCommandSuccess(helper.generateAddCommand(toBeAddedFloat),
-                String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedFloat),
+                feedbackToUser,
                 expectedTDL,
                 expectedTDL.getFilteredFloats(), Task.FLOAT_CHAR);
+
+        assertCommandSuccess("undo",
+                String.format(UndoCommand.MESSAGE_UNDO_SUCCESS, feedbackToUser),
+                originalTDL, originalTDL.getFilteredFloats(), Task.FLOAT_CHAR);
     }
 
     @Test
