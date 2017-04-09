@@ -32,7 +32,6 @@ public class TrayIconListener implements ActionListener {
             exit();
             break;
         default:
-            System.out.println(e.toString());
             break;
         }
     }
