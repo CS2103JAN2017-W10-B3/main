@@ -9,7 +9,7 @@ public class JokeCommand extends Command {
 
     private static final String[] JOKES = JokesUtil.JOKES;
 
-    private static final String MESSAGE_SUCCESS = "You must be laughing :D";
+    public static final String MESSAGE_SUCCESS = "You must be laughing :D";
 
     private int randomGenerator() {
         return (int) Math.floor(Math.random() * JOKES.length);
