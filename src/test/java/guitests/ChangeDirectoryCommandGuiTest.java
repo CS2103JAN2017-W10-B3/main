@@ -12,7 +12,7 @@ import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 
 //@@author A0110791M
-public class ChangeDirectoryCommandTest extends ToDoListGuiTest {
+public class ChangeDirectoryCommandGuiTest extends ToDoListGuiTest {
 
     public static final String VALID_NEW_FILE_PATH = "testdata/todolist.xml";
     public static final String INVALID_FILE_PATH = ":*?\"<>|";

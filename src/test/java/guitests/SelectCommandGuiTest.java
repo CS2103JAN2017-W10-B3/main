@@ -7,7 +7,7 @@ import org.junit.Test;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.ReadOnlyTask.Category;
 
-public class SelectCommandTest extends ToDoListGuiTest {
+public class SelectCommandGuiTest extends ToDoListGuiTest {
 
 
     @Test

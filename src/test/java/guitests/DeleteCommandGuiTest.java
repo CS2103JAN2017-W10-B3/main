@@ -9,7 +9,7 @@ import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
-public class DeleteCommandTest extends ToDoListGuiTest {
+public class DeleteCommandGuiTest extends ToDoListGuiTest {
 
     @Test
     public void delete() {

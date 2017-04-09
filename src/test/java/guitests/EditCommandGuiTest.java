@@ -11,7 +11,7 @@ import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
 
 // TODO: reduce GUI tests by transferring some tests to be covered by lower level tests.
-public class EditCommandTest extends ToDoListGuiTest {
+public class EditCommandGuiTest extends ToDoListGuiTest {
 
     // The list of tasks in the task list panel is expected to match this list.
     // This list is updated with every successful call to assertEditSuccess().
@@ -103,7 +103,7 @@ public class EditCommandTest extends ToDoListGuiTest {
 
     @Test
     public void edit_duplicateTask_failure() {
-        commandBox.runCommand("edit 3 Alice Pauline v/85355255 s/alice@gmail.com "
+        commandBox.runCommand("edit e3 Alice Pauline /venue 85355255 s/alice@gmail.com "
                                 + "e/123, Jurong West Ave 6, #heyhey");
         //assertResultMessage(EditCommand.MESSAGE_DUPLICATE_TASK);
     }

@@ -8,7 +8,7 @@ import todolist.commons.core.Messages;
 import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 
-public class FindCommandTest extends ToDoListGuiTest {
+public class FindCommandGuiTest extends ToDoListGuiTest {
 
     @Test
     public void find_nonEmptyList() {
