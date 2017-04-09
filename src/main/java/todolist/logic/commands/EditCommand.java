@@ -126,7 +126,7 @@ public class EditCommand extends UndoableCommand {
                 logger.info("-------[Execution Of EditCommand Failed]");
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
-            messageSuccessful = messageSuccessful + "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString()
+            messageSuccessful = "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString()
                     + "] ";
 
             tasksToEdit.add(lastShownList.get(filteredTaskListIndex));

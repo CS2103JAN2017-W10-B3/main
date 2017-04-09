@@ -8,7 +8,6 @@ import todolist.logic.commands.ClearCommand;
 import todolist.model.ToDoList;
 import todolist.model.task.Task;
 
-//@@author A0122017Y
 public class ClearCommandTest extends LogicManagerTest {
 
     @Test

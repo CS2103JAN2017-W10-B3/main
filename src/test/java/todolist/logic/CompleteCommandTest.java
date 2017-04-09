@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import todolist.logic.commands.CompleteCommand;
-import todolist.logic.commands.UndoCommand;
 import todolist.model.ToDoList;
 import todolist.model.task.Task;
 
@@ -148,9 +147,5 @@ public class CompleteCommandTest extends LogicManagerTest {
             expectedAB.getCompletedTasks(), Task.COMPLETE_CHAR);
         assertEquals(model.getCompletedList().get(0), toComplete);
 
-        String feedbackToUser = CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + toComplete.getTitleFormattedString();
-        assertCommandSuccess("undo",
-                UndoCommand.MESSAGE_UNDO_SUCCESS + feedbackToUser,
-                originalTDL, originalTDL.getCompletedTasks(), Task.COMPLETE_CHAR);
     }
 }
