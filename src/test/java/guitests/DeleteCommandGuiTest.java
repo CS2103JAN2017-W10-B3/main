@@ -1,7 +1,6 @@
 package guitests;
 
 import static org.junit.Assert.assertTrue;
-import static todolist.logic.commands.DeleteCommand.MESSAGE_DELETE_TASK_SUCCESS;
 
 import org.junit.Test;
 
@@ -9,48 +8,81 @@ import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
+//@@ author A0143648Y
 public class DeleteCommandGuiTest extends ToDoListGuiTest {
 
     @Test
     public void delete() {
 
-        //delete the first in the list
-        TestTask[] currentList = td.getTypicalEventTasks();
-        int targetIndex = 1;
-        assertDeleteSuccess(targetIndex, currentList);
+        TestTask[] currentEventList = td.getTypicalEventTasks();
+        TestTask[] currentDeadlineList = td.getTypicalDeadlineTasks();
+        TestTask[] currentFloatingList = td.getTypicalFloatingTasks();
 
-        //delete the last in the list
-        currentList = TestUtil.removeTaskFromList(currentList, targetIndex);
-        targetIndex = currentList.length;
-        assertDeleteSuccess(targetIndex, currentList);
+        // delete the first in the eventlist
+        String toDelete = "e1";
+        currentEventList = TestUtil.removeTaskFromList(currentEventList, 1);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
 
-        //delete from the middle of the list
-        currentList = TestUtil.removeTaskFromList(currentList, targetIndex);
-        targetIndex = currentList.length / 2;
-        assertDeleteSuccess(targetIndex, currentList);
+        // delete the last in the eventlist
+        toDelete = "e" + currentEventList.length;
+        currentEventList = TestUtil.removeTaskFromList(currentEventList, currentEventList.length);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
 
-        //invalid index
-        commandBox.runCommand("delete " + currentList.length + 1);
+        // invalid index
+        commandBox.runCommand("delete " + "e" + currentEventList.length + 1);
         assertResultMessage("The task index provided is invalid");
+
+        // delete the first in the deadlinelist
+        toDelete = "d1";
+        currentDeadlineList = TestUtil.removeTaskFromList(currentDeadlineList, 1);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
+
+        // invalid index
+        commandBox.runCommand("delete " + "d" + currentDeadlineList.length + 1);
+        assertResultMessage("The task index provided is invalid");
+
+        // delete the first in the Floatinglist
+        toDelete = "f1";
+        currentFloatingList = TestUtil.removeTaskFromList(currentFloatingList, 1);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
+
+        // invalid index
+        commandBox.runCommand("delete " + "f" + currentFloatingList.length + 1);
+        assertResultMessage("The task index provided is invalid");
+
+        toDelete = "e1-2";
+        currentEventList = TestUtil.removeTaskFromList(currentEventList, 1, 2);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
+
+        toDelete = "d1-2";
+        currentDeadlineList = TestUtil.removeTaskFromList(currentDeadlineList, 1, 2);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
+
+        toDelete = "f1-2";
+        currentFloatingList = TestUtil.removeTaskFromList(currentFloatingList, 1, 2);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
+
+        toDelete = "e1 f1 d1";
+        currentEventList = TestUtil.removeTaskFromList(currentEventList, 1);
+        currentDeadlineList = TestUtil.removeTaskFromList(currentDeadlineList, 1);
+        currentFloatingList = TestUtil.removeTaskFromList(currentFloatingList, 1);
+        assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
 
     }
 
     /**
-     * Runs the delete command to delete the person at specified index and confirms the result is correct.
-     * @param targetIndexOneIndexed e.g. index 1 to delete the first person in the list,
-     * @param currentList A copy of the current list of persons (before deletion).
+     * Runs the delete command to delete the tasks at specified indexes and
+     * confirms the result is correct.
      */
-    private void assertDeleteSuccess(int targetIndexOneIndexed, final TestTask[] currentList) {
-        TestTask personToDelete = currentList[targetIndexOneIndexed - 1]; // -1 as array uses zero indexing
-        TestTask[] expectedRemainder = TestUtil.removeTaskFromList(currentList, targetIndexOneIndexed);
+    private void assertDeleteSuccess(String toDelete, TestTask[] expectedEventRemainder,
+            TestTask[] expectedDeadlineRemainder, TestTask[] expectedFloatingRemainder) {
 
-        commandBox.runCommand("delete e" + targetIndexOneIndexed);
+        commandBox.runCommand("delete " + toDelete);
 
-        //confirm the list now contains all previous persons except the deleted person
-        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedRemainder));
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedEventRemainder));
+        assertTrue(taskListPanel.isListMatching(Category.FLOAT, expectedFloatingRemainder));
+        assertTrue(taskListPanel.isListMatching(Category.DEADLINE, expectedDeadlineRemainder));
 
-        //confirm the result message is correct
-        assertResultMessage(MESSAGE_DELETE_TASK_SUCCESS + "[" + personToDelete.getTitle().toString() + "] ");
     }
 
 }
