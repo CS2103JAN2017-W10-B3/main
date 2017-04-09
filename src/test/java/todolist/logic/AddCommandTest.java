@@ -77,7 +77,7 @@ public class AddCommandTest extends LogicManagerTest {
 
         // execute undo
         assertCommandSuccess("undo",
-                UndoCommand.MESSAGE_UNDO_SUCCESS+feedbackToUser,
+                UndoCommand.MESSAGE_UNDO_SUCCESS + feedbackToUser,
                 originalTDL, originalTDL.getFilteredDeadlines(), Task.DEADLINE_CHAR);
     }
 

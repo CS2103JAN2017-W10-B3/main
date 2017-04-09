@@ -31,9 +31,7 @@ public class UndoCommand extends Command {
                     .get(UndoableCommand.previousCommandResults.size() - 1).feedbackToUser);
             UndoableCommand.previousCommandResults.remove(UndoableCommand.previousCommandResults.size() - 1);
             return new CommandResult(MESSAGE_UNDO_SUCCESS + feedbackToUser);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new CommandException(MESSAGE_UNDO_FAILURE);
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             throw new CommandException(MESSAGE_UNDO_FAILURE);
         }
 

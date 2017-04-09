@@ -15,6 +15,7 @@ public class UndoCommandTest extends LogicManagerTest {
     @Test
     public void executeUndoCommandFailure() {
         String expectedMessage = UndoCommand.MESSAGE_UNDO_FAILURE;
+        AddCommand.resetLists();
         assertCommandFailure("undo", expectedMessage);
     }
 
@@ -25,9 +26,11 @@ public class UndoCommandTest extends LogicManagerTest {
         Task toBeAddedDeadline = helper.cs2103Deadline();
         Task toBeEdited = new Task(toBeAddedDeadline);
         ToDoList expectedTDL = new ToDoList();
+        model.resetData(expectedTDL);
         ToDoList twiceUndo = new ToDoList(expectedTDL);
         expectedTDL.addTask(toBeAddedDeadline);
         String feedbackToUser = String.format(AddCommand.MESSAGE_SUCCESS, toBeAddedDeadline);
+        AddCommand.resetLists();
 
         // execute command and verify result for different types of tasks
         assertCommandSuccess(helper.generateAddCommand(toBeAddedDeadline),

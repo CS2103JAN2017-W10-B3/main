@@ -1,6 +1,7 @@
 package todolist.logic;
 
 import static org.junit.Assert.assertEquals;
+import static todolist.commons.core.Messages.MESSAGE_NO_TASK_SELECTED;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,13 @@ import todolist.model.ToDoList;
 import todolist.model.task.Task;
 
 public class CompleteCommandTest extends LogicManagerTest {
+
+    @Test
+    public void executeAddInvalidArgsFormat() {
+        String expectedMessage = MESSAGE_NO_TASK_SELECTED;
+        assertCommandFailure("done", expectedMessage);
+    }
+
     @Test
     //Check if the message shown is correct if index given is valid
     public void executeCompleteEventTask() throws Exception {

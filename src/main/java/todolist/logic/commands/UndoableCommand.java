@@ -1,5 +1,6 @@
 package todolist.logic.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import todolist.model.ReadOnlyToDoList;
@@ -13,4 +14,9 @@ public abstract class UndoableCommand extends Command {
     protected static List<CommandResult> previousCommandResults;
 
     public abstract void updateUndoLists();
+
+    public static void resetLists() {
+        previousToDoLists = new ArrayList<ReadOnlyToDoList>();
+        previousCommandResults = new ArrayList<CommandResult>();
+    }
 }
