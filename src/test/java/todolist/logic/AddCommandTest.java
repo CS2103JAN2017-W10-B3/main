@@ -57,6 +57,10 @@ public class AddCommandTest extends LogicManagerTest {
         assertCommandFailure("add Valid Title /venue there /level 2 /description valid #&*",
                 Tag.MESSAGE_TAG_CONSTRAINTS);
 
+        //invalid duplicated time parameters
+        assertCommandFailure("add Valid Title /to Tomorrow /by Next Monday /description valid",
+                Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
+
     }
 
     @Test
