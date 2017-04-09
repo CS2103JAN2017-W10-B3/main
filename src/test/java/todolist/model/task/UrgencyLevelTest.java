@@ -5,9 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+//@@author A0122017Y
 public class UrgencyLevelTest {
     @Test
-    //@@A0122017Y
+
     public void isValid() {
         // invalid urgency level
         assertFalse(UrgencyLevel.isValidUrgencyLevel("")); // empty string

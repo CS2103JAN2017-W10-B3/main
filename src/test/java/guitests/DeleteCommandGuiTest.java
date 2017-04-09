@@ -9,7 +9,7 @@ import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
-public class DeleteCommandTest extends ToDoListGuiTest {
+public class DeleteCommandGuiTest extends ToDoListGuiTest {
 
     @Test
     public void delete() {
@@ -50,7 +50,7 @@ public class DeleteCommandTest extends ToDoListGuiTest {
         assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedRemainder));
 
         //confirm the result message is correct
-        assertResultMessage(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete.getTitle().toString()));
+        assertResultMessage(MESSAGE_DELETE_TASK_SUCCESS + "[" + personToDelete.getTitle().toString() + "] ");
     }
 
 }

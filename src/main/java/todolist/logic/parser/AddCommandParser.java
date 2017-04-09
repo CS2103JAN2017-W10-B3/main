@@ -1,6 +1,7 @@
 package todolist.logic.parser;
 
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static todolist.logic.parser.CliSyntax.PREFIX_BEGINNINGTIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_DEADLINETIME;
 import static todolist.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static todolist.logic.parser.CliSyntax.PREFIX_ENDTIME;
@@ -15,6 +16,7 @@ import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.AddCommand;
 import todolist.logic.commands.Command;
 import todolist.logic.commands.IncorrectCommand;
+import todolist.model.task.Time;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -27,18 +29,19 @@ public class AddCommandParser {
      */
     public Command parse(String args) {
         ArgumentTokenizer argsTokenizer =
-                new ArgumentTokenizer(PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_ENDTIME,
+                new ArgumentTokenizer(PREFIX_VENUE, PREFIX_STARTTIME, PREFIX_BEGINNINGTIME, PREFIX_ENDTIME,
                         PREFIX_DEADLINETIME, PREFIX_URGENCYLEVEL, PREFIX_DESCRIPTION, PREFIX_TAG);
         argsTokenizer.tokenize(args);
         try {
             if (argsTokenizer.getValue(PREFIX_ENDTIME).isPresent() &&
                     argsTokenizer.getValue(PREFIX_DEADLINETIME).isPresent()) {
-                throw new NoSuchElementException();
+                throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
             }
             return new AddCommand(
                     argsTokenizer.getPreamble().get(),
                     argsTokenizer.getValue(PREFIX_VENUE),
                     argsTokenizer.getValue(PREFIX_STARTTIME),
+                    argsTokenizer.getValue(PREFIX_BEGINNINGTIME),
                     argsTokenizer.getValue(PREFIX_ENDTIME),
                     argsTokenizer.getValue(PREFIX_DEADLINETIME),
                     argsTokenizer.getValue(PREFIX_URGENCYLEVEL),

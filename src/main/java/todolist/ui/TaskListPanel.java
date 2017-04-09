@@ -48,7 +48,22 @@ public class TaskListPanel extends UiPart<Region> {
         });
     }
 
-    //@@ author: A0138628W
+    // @@ author A0143648Y
+    public void selectTheTarget(int index) {
+        Platform.runLater(() -> {
+            taskListView.scrollTo(index);
+            taskListView.getSelectionModel().select(index);
+        });
+    }
+
+    public void clearSelection() {
+        Platform.runLater(() -> {
+            taskListView.getSelectionModel().clearSelection();
+        });
+    }
+    // @@
+
+    // @@ author: A0138628W
     public ListView<ReadOnlyTask> getListView() {
         return taskListView;
     }
@@ -57,8 +72,8 @@ public class TaskListPanel extends UiPart<Region> {
         Platform.runLater(() -> {
             taskListView.scrollTo(index);
             taskListView.getSelectionModel().clearAndSelect(index);
-//            DeleteCommandParser.setIndex(index + 1);
-//            EditCommandParser.setIndex(index + 1);
+            // DeleteCommandParser.setIndex(index + 1);
+            // EditCommandParser.setIndex(index + 1);
         });
     }
 

@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static todolist.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
 import static todolist.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -21,17 +19,13 @@ import org.junit.rules.TemporaryFolder;
 import com.google.common.eventbus.Subscribe;
 
 import todolist.commons.core.EventsCenter;
+import todolist.commons.core.Messages;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
-import todolist.logic.commands.AddCommand;
-import todolist.logic.commands.ClearCommand;
+import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.CommandResult;
-import todolist.logic.commands.DeleteCommand;
-import todolist.logic.commands.ExitCommand;
-import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
-import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.Model;
 import todolist.model.ModelManager;
@@ -57,26 +51,26 @@ public class LogicManagerTest {
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
 
-    private Model model;
-    private Logic logic;
+    protected Model model;
+    protected Logic logic;
 
     // These are for checking the correctness of the events raised
-    private ReadOnlyToDoList latestSavedToDoList;
-    private boolean helpShown;
-    private int targetedJumpIndex;
+    protected ReadOnlyToDoList latestSavedToDoList;
+    protected boolean helpShown;
+    protected int targetedJumpIndex;
 
     @Subscribe
-    private void handleLocalModelChangedEvent(ToDoListChangedEvent abce) {
+    protected void handleLocalModelChangedEvent(ToDoListChangedEvent abce) {
         latestSavedToDoList = new ToDoList(abce.data);
     }
 
     @Subscribe
-    private void handleShowHelpRequestEvent(ShowHelpRequestEvent she) {
+    protected void handleShowHelpRequestEvent(ShowHelpRequestEvent she) {
         helpShown = true;
     }
 
     @Subscribe
-    private void handleJumpToListRequestEvent(JumpToListRequestEvent je) {
+    protected void handleJumpToListRequestEvent(JumpToListRequestEvent je) {
         targetedJumpIndex = je.targetIndex.getTaskNumber();
     }
 
@@ -104,7 +98,8 @@ public class LogicManagerTest {
     @Test
     public void execute_invalid() {
         String invalidCommand = "       ";
-        assertCommandFailure(invalidCommand, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+        assertCommandFailure(invalidCommand, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                HelpCommand.MESSAGE_USAGE));
     }
 
     /**
@@ -116,10 +111,10 @@ public class LogicManagerTest {
      * @see #assertCommandBehavior(boolean, String, String, ReadOnlyToDoList,
      *      List)
      */
-    private void assertCommandSuccess(String inputCommand, String expectedMessage,
+    protected void assertCommandSuccess(String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
-            List<? extends ReadOnlyTask> expectedShownList) {
-        assertCommandBehavior(false, inputCommand, expectedMessage, expectedToDoList, expectedShownList);
+            List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {
+        assertCommandBehavior(false, inputCommand, expectedMessage, expectedToDoList, expectedShownList, taskChar);
     }
 
     /**
@@ -131,10 +126,10 @@ public class LogicManagerTest {
      * @see #assertCommandBehavior(boolean, String, String, ReadOnlyToDoList,
      *      List)
      */
-    private void assertCommandFailure(String inputCommand, String expectedMessage) {
+    protected void assertCommandFailure(String inputCommand, String expectedMessage) {
         ToDoList expectedToDoList = new ToDoList(model.getToDoList());
-        List<ReadOnlyTask> expectedShownList = new ArrayList<>(model.getFilteredDeadlineList());
-        assertCommandBehavior(true, inputCommand, expectedMessage, expectedToDoList, expectedShownList);
+        List<ReadOnlyTask> expectedShownList = new ArrayList<>(model.getAllTaskList());
+        assertCommandBehavior(true, inputCommand, expectedMessage, expectedToDoList, expectedShownList, Task.ALL_CHAR);
     }
 
     /**
@@ -147,9 +142,10 @@ public class LogicManagerTest {
      * - the backing list shown by UI matches the {@code shownList} <br>
      * - {@code expectedToDoList} was saved to the storage file. <br>
      */
-    private void assertCommandBehavior(boolean isCommandExceptionExpected, String inputCommand, String expectedMessage,
+    protected void assertCommandBehavior(boolean isCommandExceptionExpected,
+            String inputCommand, String expectedMessage,
             ReadOnlyToDoList expectedToDoList,
-            List<? extends ReadOnlyTask> expectedShownList) {
+            List<? extends ReadOnlyTask> expectedShownList, Character taskChar) {
 
         try {
             CommandResult result = logic.execute(inputCommand);
@@ -159,9 +155,6 @@ public class LogicManagerTest {
             assertTrue("CommandException not expected but was thrown.", isCommandExceptionExpected);
             assertEquals(expectedMessage, e.getMessage());
         }
-
-        // Confirm the ui display elements should contain the right data
-        assertEquals(expectedShownList, model.getFilteredDeadlineList());
 
         // Confirm the state of data (saved and in-memory) is as expected
         assertEquals(expectedToDoList, model.getToDoList());
@@ -174,95 +167,9 @@ public class LogicManagerTest {
         assertCommandFailure(unknownCommand, MESSAGE_UNKNOWN_COMMAND);
     }
 
-    @Test
-    public void execute_help() {
-        //assertCommandSuccess("help", HelpCommand.SHOWING_HELP_MESSAGE, new ToDoList(), Collections.emptyList());
-        //assertTrue(helpShown);
-    }
-
-    @Test
-    public void execute_exit() {
-        assertCommandSuccess("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT,
-                new ToDoList(), Collections.emptyList());
-    }
-
-    @Test
-    public void execute_clear() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        model.addTask(helper.generateTask(1));
-        model.addTask(helper.generateTask(2));
-        model.addTask(helper.generateTask(3));
-
-        assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS, new ToDoList(), Collections.emptyList());
-    }
-
-    @Test
-    public void execute_add_invalidArgsFormat() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
-        //assertCommandFailure("add wrong args wrong args", expectedMessage);
-        //assertCommandFailure("add Valid Title 12345 e/valid@email.butNoVenuePrefix a/valid,address", expectedMessage);
-        //assertCommandFailure("add Valid Title p/12345 valid@email.butNoPrefix a/valid, address", expectedMessage);
-        //assertCommandFailure("add Valid Title p/12345 e/valid@email.butNoEndTimePrefix valid, address",
-        //        expectedMessage);
-    }
-
-    @Test
-    public void execute_add_invalidTaskData() {
-//        assertCommandFailure("add []\\[;] v/12345 s/valid@e.mail e/valid, address",
-//                Title.MESSAGE_TITLE_CONSTRAINTS);
-//        assertCommandFailure("add Valid Title v/not_numbers s/valid@e.mail e/valid, address",
-//                Venue.MESSAGE_VENUE_CONSTRAINTS);
-//        assertCommandFailure("add Valid Title v/12345 s/notAnStartTime e/valid, address",
-//                StartTime.MESSAGE_STARTTIME_CONSTRAINTS);
-//        assertCommandFailure("add Valid Title v/12345 s/valid@e.mail e/valid, address t/invalid_-[.tag",
-//                Tag.MESSAGE_TAG_CONSTRAINTS);
-
-    }
-
-    @Test
-    public void execute_add_successful() throws Exception {
-        // setup expectations
-        TestDataHelper helper = new TestDataHelper();
-        Task toBeAdded = helper.cs2103();
-        ToDoList expectedAB = new ToDoList();
-        expectedAB.addTask(toBeAdded);
-
-        // execute command and verify result
-//        assertCommandSuccess(helper.generateAddCommand(toBeAdded),
-//                String.format(AddCommand.MESSAGE_SUCCESS, toBeAdded),
-//                expectedAB,
-//                expectedAB.getTaskList());
-
-    }
-
-    @Test
-    public void execute_addDuplicate_notAllowed() throws Exception {
-        // setup expectations
-        TestDataHelper helper = new TestDataHelper();
-        Task toBeAdded = helper.cs2103();
-
-        // setup starting state
-        model.addTask(toBeAdded); // task already in internal address book
-
-        // execute command and verify result
-        assertCommandFailure(helper.generateAddCommand(toBeAdded), AddCommand.MESSAGE_DUPLICATE_TASK);
-
-    }
-
-    @Test
-    public void execute_list_showsAllTasks() throws Exception {
-        // prepare expectations
-        TestDataHelper helper = new TestDataHelper();
-        ToDoList expectedAB = helper.generateToDoList(2);
-        List<? extends ReadOnlyTask> expectedList = expectedAB.getTaskList();
-
-        // prepare address book state
-        helper.addToModel(model, 2);
-
-//        assertCommandSuccess("list",
-//                ListCommand.MESSAGE_SUCCESS,
-//                expectedAB,
-//                expectedList);
+    protected void assertNoIndexSelectedBehaviorForCommand(String commandWord, String expectedMessage)
+            throws Exception {
+        assertCommandFailure(commandWord, expectedMessage); // index missing
     }
 
     /**
@@ -275,18 +182,12 @@ public class LogicManagerTest {
      *            list
      *            based on visible index.
      */
-    private void assertIncorrectIndexFormatBehaviorForCommand(String commandWord, String expectedMessage)
+    protected void assertIncorrectIndexFormatBehaviorForCommand(String commandWord, String expectedMessage)
             throws Exception {
-        assertCommandFailure(commandWord, expectedMessage); // index missing
-        assertCommandFailure(commandWord + " +1", expectedMessage); // index
-                                                                    // should be
-                                                                    // unsigned
-        assertCommandFailure(commandWord + " -1", expectedMessage); // index
-                                                                    // should be
-                                                                    // unsigned
-        assertCommandFailure(commandWord + " 0", expectedMessage); // index
-                                                                   // cannot be
-                                                                   // 0
+        assertCommandFailure(commandWord + " +1", expectedMessage); // index should be unsigned
+        assertCommandFailure(commandWord + " -1", expectedMessage); // index should be unsigned
+        assertCommandFailure(commandWord + " s1", expectedMessage); // index should have valid prefix
+        assertCommandFailure(commandWord + " 0", expectedMessage); // index cannot be 0
         assertCommandFailure(commandWord + " not_a_number", expectedMessage);
     }
 
@@ -300,10 +201,9 @@ public class LogicManagerTest {
      *            list
      *            based on visible index.
      */
-    private void assertIndexNotFoundBehaviorForCommand(String commandWord) throws Exception {
-        String expectedMessage = MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
+    protected void assertIndexNotFoundBehaviorForCommand(String commandWord) throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        List<Task> taskList = helper.generateTaskList(2);
+        List<Task> taskList = helper.generateEventTaskList(2);
 
         // set AB state to 2 tasks
         model.resetData(new ToDoList());
@@ -311,146 +211,90 @@ public class LogicManagerTest {
             model.addTask(p);
         }
 
-        assertCommandFailure(commandWord + " 3", expectedMessage);
+        assertCommandFailure(commandWord + "e9", MESSAGE_UNKNOWN_COMMAND);
     }
-
-    @Test
-    public void execute_selectInvalidArgsFormat_errorMessageShown() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE);
-        assertIncorrectIndexFormatBehaviorForCommand("select", expectedMessage);
-    }
-
-    @Test
-    public void execute_selectIndexNotFound_errorMessageShown() throws Exception {
-        assertIndexNotFoundBehaviorForCommand("select");
-    }
-
-    @Test
-    public void execute_select_jumpsToCorrectTask() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        List<Task> threeTasks = helper.generateTaskList(3);
-
-        ToDoList expectedAB = helper.generateToDoList(threeTasks);
-        helper.addToModel(model, threeTasks);
-
-//        assertCommandSuccess("select f2",
-//                String.format(SelectCommand.MESSAGE_SELECT_TASK_SUCCESS, 2),
-//                expectedAB,
-//                expectedAB.getTaskList());
-        //assertEquals(1, targetedJumpIndex);
-        //assertEquals(model.getFilteredDeadlineList().get(1), threeTasks.get(1));
-    }
-
-    @Test
-    public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
-        //assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessage);
-    }
-
-    @Test
-    public void execute_deleteIndexNotFound_errorMessageShown() throws Exception {
-        assertIndexNotFoundBehaviorForCommand("delete");
-    }
-
-    @Test
-    public void execute_delete_removesCorrectTask() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        List<Task> threeTasks = helper.generateTaskList(3);
-
-        ToDoList expectedAB = helper.generateToDoList(threeTasks);
-        expectedAB.removeTask(threeTasks.get(1));
-        helper.addToModel(model, threeTasks);
-
-//        //assertCommandSuccess("delete e2",
-//                String.format(DeleteCommand.MESSAGE_DELETE_TASK_SUCCESS, threeTasks.get(1)),
-//                expectedAB,
-//                expectedAB.getTaskList());
-    }
-
-    @Test
-    public void execute_find_invalidArgsFormat() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
-        assertCommandFailure("find ", expectedMessage);
-    }
-
-    @Test
-    public void execute_find_onlyMatchesFullWordsInTitles() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Task pTarget1 = helper.generateTaskWithTitle("bla bla KEY bla");
-        Task pTarget2 = helper.generateTaskWithTitle("bla KEY bla bceofeia");
-        Task p1 = helper.generateTaskWithTitle("KE Y");
-        Task p2 = helper.generateTaskWithTitle("KEYKEYKEY sduauo");
-
-        List<Task> fourTasks = helper.generateTaskList(p1, pTarget1, p2, pTarget2);
-        ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = helper.generateTaskList(pTarget1, pTarget2);
-        helper.addToModel(model, fourTasks);
-
-//        assertCommandSuccess("find KEY",
-//                Command.getMessageForTaskListShownSummary(expectedList.size()),
-//                expectedAB,
-//                expectedList);
-    }
-
-    @Test
-    public void execute_find_isNotCaseSensitive() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Task p1 = helper.generateTaskWithTitle("bla bla KEY bla");
-        Task p2 = helper.generateTaskWithTitle("bla KEY bla bceofeia");
-        Task p3 = helper.generateTaskWithTitle("key key");
-        Task p4 = helper.generateTaskWithTitle("KEy sduauo");
-
-        List<Task> fourTasks = helper.generateTaskList(p3, p1, p4, p2);
-        ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = fourTasks;
-        helper.addToModel(model, fourTasks);
-
-//        //assertCommandSuccess("find KEY",
-//                Command.getMessageForTaskListShownSummary(expectedList.size()),
-//                expectedAB,
-//                expectedList);
-    }
-
-    @Test
-    public void execute_find_matchesIfAnyKeywordPresent() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Task pTarget1 = helper.generateTaskWithTitle("bla bla KEY bla");
-        Task pTarget2 = helper.generateTaskWithTitle("bla rAnDoM bla bceofeia");
-        Task pTarget3 = helper.generateTaskWithTitle("key key");
-        Task p1 = helper.generateTaskWithTitle("sduauo");
-
-        List<Task> fourTasks = helper.generateTaskList(pTarget1, p1, pTarget2, pTarget3);
-        ToDoList expectedAB = helper.generateToDoList(fourTasks);
-        List<Task> expectedList = helper.generateTaskList(pTarget1, pTarget2, pTarget3);
-        helper.addToModel(model, fourTasks);
-
-//        //assertCommandSuccess("find key rAnDoM",
-//                Command.getMessageForTaskListShownSummary(expectedList.size()),
-//                expectedAB,
-//                expectedList);
-    }
-
+     //@@author A0122017Y
     /**
-     * A utility class to generate test data.
+     * Test if the select method without keyword "select" will throw out error message
+     * if the given index is out of bound
+     * @throws Exception
      */
+    @Test
+    public void executeIndexNotFoundBehaviorForSelectCommand() throws Exception {
+        String expectedMessage = Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
+        TestDataHelper helper = new TestDataHelper();
+        List<Task> taskList = helper.generateEventTaskList(2);
+
+        // set AB state to 2 tasks
+        model.resetData(new ToDoList());
+        for (Task p : taskList) {
+            model.addTask(p);
+        }
+
+        assertCommandFailure("e9", expectedMessage);
+    }
+    //@@
+
     class TestDataHelper {
 
-        Task cs2103() throws Exception {
-            Title name = new Title("CS2103 Tutorial");
-            Venue privateVenue = new Venue("COM1 B103");
-            StartTime privateStartTime = new StartTime("Wed 10am");
-            EndTime privateEndTime = new EndTime("Wednesday 11am");
-            UrgencyLevel privateUrgencyLevel = new UrgencyLevel("3");
-            Description privateDescription = new Description("I love 2103!!!");
-            Tag tag1 = new Tag("tag1");
-            Tag tag2 = new Tag("longertag2");
-            UniqueTagList tags = new UniqueTagList(tag1, tag2);
+        private Title name;
+        private Venue privateVenue;
+        private StartTime privateStartTime;
+        private EndTime privateEndTime;
+        private UrgencyLevel privateUrgencyLevel;
+        private Description privateDescription;
+        private UniqueTagList tags;
+
+        /**
+         * Default values of different parameters.
+         */
+        public TestDataHelper() throws IllegalValueException {
+            name = new Title("CS2103");
+            privateVenue = new Venue("COM1 B103");
+            privateStartTime = new StartTime("April 30 11am");
+            privateEndTime = new EndTime("April 30 12pm");
+            privateUrgencyLevel = new UrgencyLevel("3");
+            privateDescription = new Description("I love 2103!!!");
+            tags = new UniqueTagList(new Tag("tag1"), new Tag("longertag2"));
+        }
+
+        /**
+         * Default task is a deadline task.
+         */
+        public Task cs2103() throws Exception {
+            return new Task(name, privateVenue, null, privateEndTime,
+                    privateUrgencyLevel, privateDescription, tags);
+        }
+
+        /**
+         * Deadline task with start time set to null
+         */
+        public Task cs2103Deadline() throws Exception {
+            name = new Title("CS2103 Deadline");
+            return new Task(name, privateVenue, null, privateEndTime,
+                    privateUrgencyLevel, privateDescription, tags);
+        }
+
+        /**
+         * Event task having both start time and end time
+         */
+        public Task cs2103Event() throws Exception {
+            name = new Title("CS2103 Event");
             return new Task(name, privateVenue, privateStartTime, privateEndTime,
                     privateUrgencyLevel, privateDescription, tags);
         }
 
         /**
-         * Generates a valid task using the given seed.
+         * Floating task having neither start time nor end time
+         */
+        public Task cs2103Float() throws Exception {
+            name = new Title("CS2103 Float");
+            return new Task(name, privateVenue, null, null,
+                    privateUrgencyLevel, privateDescription, tags);
+        }
+
+        /**
+         * Generates a valid event task using the given seed.
          * Running this function with the same parameter values guarantees the
          * returned task will have the same state.
          * Each unique seed will generate a unique Task object.
@@ -458,7 +302,7 @@ public class LogicManagerTest {
          * @param seed
          *            used to generate the task data field values
          */
-        Task generateTask(int seed) throws Exception {
+        public Task generateEventTask(int seed) throws Exception {
             return new Task(
                     new Title("Task " + seed),
                     new Venue("" + Math.abs(seed)),
@@ -469,8 +313,48 @@ public class LogicManagerTest {
                     new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))));
         }
 
+        /**
+         * Generates a valid deadline task using the given seed.
+         * Running this function with the same parameter values guarantees the
+         * returned task will have the same state.
+         * Each unique seed will generate a unique Task object.
+         *
+         * @param seed
+         *            used to generate the task data field values
+         */
+        public Task generateDeadlineTask(int seed) throws Exception {
+            return new Task(
+                    new Title("Task " + seed),
+                    new Venue("" + Math.abs(seed)),
+                    null,
+                    new EndTime("1200" + seed),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))));
+        }
+
+        /**
+         * Generates a valid deadline task using the given seed.
+         * Running this function with the same parameter values guarantees the
+         * returned task will have the same state.
+         * Each unique seed will generate a unique Task object.
+         *
+         * @param seed
+         *            used to generate the task data field values
+         */
+        public Task generateFloatingTask(int seed) throws Exception {
+            return new Task(
+                    new Title("Task " + seed),
+                    new Venue("" + Math.abs(seed)),
+                    null,
+                    null,
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))));
+        }
+
         /** Generates the correct add command based on the task given */
-        String generateAddCommand(Task p) {
+        public String generateAddCommand(Task p) {
             StringBuffer cmd = new StringBuffer();
 
             cmd.append("add ");
@@ -502,37 +386,37 @@ public class LogicManagerTest {
         /**
          * Generates an ToDoList with auto-generated tasks.
          */
-        ToDoList generateToDoList(int numGenerated) throws Exception {
-            ToDoList addressBook = new ToDoList();
-            addToToDoList(addressBook, numGenerated);
-            return addressBook;
+        public ToDoList generateToDoList(int numGenerated) throws Exception {
+            ToDoList todoList = new ToDoList();
+            addToToDoList(todoList, numGenerated);
+            return todoList;
         }
 
         /**
          * Generates an ToDoList based on the list of Tasks given.
          */
-        ToDoList generateToDoList(List<Task> tasks) throws Exception {
-            ToDoList addressBook = new ToDoList();
-            addToToDoList(addressBook, tasks);
-            return addressBook;
+        public ToDoList generateToDoList(List<Task> tasks) throws Exception {
+            ToDoList todoList = new ToDoList();
+            addToToDoList(todoList, tasks);
+            return todoList;
         }
 
         /**
          * Adds auto-generated Task objects to the given ToDoList
          *
-         * @param addressBook
+         * @param toDoList
          *            The ToDoList to which the Tasks will be added
          */
-        void addToToDoList(ToDoList toDoList, int numGenerated) throws Exception {
-            addToToDoList(toDoList, generateTaskList(numGenerated));
+        public void addToToDoList(ToDoList toDoList, int numGenerated) throws Exception {
+            addToToDoList(toDoList, generateEventTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Tasks to the given ToDoList
          */
-        void addToToDoList(ToDoList toDoList, List<Task> tasksToAdd) throws Exception {
-            for (Task p : tasksToAdd) {
-                toDoList.addTask(p);
+        public void addToToDoList(ToDoList toDoList, List<Task> tasksToAdd) throws Exception {
+            for (Task t : tasksToAdd) {
+                toDoList.addTask(t);
             }
         }
 
@@ -542,14 +426,14 @@ public class LogicManagerTest {
          * @param model
          *            The model to which the Tasks will be added
          */
-        void addToModel(Model model, int numGenerated) throws Exception {
-            addToModel(model, generateTaskList(numGenerated));
+        public void addToModel(Model model, int numGenerated) throws Exception {
+            addToModel(model, generateEventTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Tasks to the given model
          */
-        void addToModel(Model model, List<Task> tasksToAdd) throws Exception {
+        public void addToModel(Model model, List<Task> tasksToAdd) throws Exception {
             for (Task p : tasksToAdd) {
                 model.addTask(p);
             }
@@ -558,15 +442,15 @@ public class LogicManagerTest {
         /**
          * Generates a list of Tasks based on the flags.
          */
-        List<Task> generateTaskList(int numGenerated) throws Exception {
+        public List<Task> generateEventTaskList(int numGenerated) throws Exception {
             List<Task> tasks = new ArrayList<>();
             for (int i = 1; i <= numGenerated; i++) {
-                tasks.add(generateTask(i));
+                tasks.add(generateEventTask(i));
             }
             return tasks;
         }
 
-        List<Task> generateTaskList(Task... tasks) {
+        public List<Task> generateTaskList(Task... tasks) {
             return Arrays.asList(tasks);
         }
 
@@ -574,12 +458,57 @@ public class LogicManagerTest {
          * Generates a Task object with given name. Other fields will have some
          * dummy values.
          */
-        Task generateTaskWithTitle(String name) throws Exception {
+        public Task generateEventTaskWithTitle(String name) throws Exception {
             return new Task(
                     new Title(name),
                     new Venue("location"),
                     new StartTime("Today"),
                     new EndTime("Tomorrow"),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag")));
+        }
+
+        /**
+         * Generates a Task object with given startTime. Other fields will have some
+         * dummy values.
+         */
+        public Task generateEventTaskWithStartTime(String startTime) throws Exception {
+            return new Task(
+                    new Title("LOL"),
+                    new Venue("location"),
+                    new StartTime(startTime),
+                    new EndTime("December 31, 2020"),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag")));
+        }
+
+        /**
+         * Generates a Task object with given endTime. Other fields will have some
+         * dummy values.
+         */
+        public Task generateEventTaskWithEndTime(String endTime) throws Exception {
+            return new Task(
+                    new Title("LOL"),
+                    new Venue("location"),
+                    new StartTime("today"),
+                    new EndTime(endTime),
+                    new UrgencyLevel("3"),
+                    new Description("I love 2103!!"),
+                    new UniqueTagList(new Tag("tag")));
+        }
+
+        /**
+         * Generates a Task object with given endTime. Other fields will have some
+         * dummy values.
+         */
+        public Task generateDeadlineTaskWithEndTime(String endTime) throws Exception {
+            return new Task(
+                    new Title("Huh"),
+                    new Venue("location"),
+                    null,
+                    new EndTime(endTime),
                     new UrgencyLevel("3"),
                     new Description("I love 2103!!"),
                     new UniqueTagList(new Tag("tag")));

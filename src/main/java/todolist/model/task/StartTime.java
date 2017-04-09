@@ -11,12 +11,6 @@ import todolist.commons.util.StringUtil;
  */
 public class StartTime implements Time {
 
-    public static final String MESSAGE_STARTTIME_CONSTRAINTS = "Task start time should be in the form of "
-            + "DD/MM/YYYY HH:MM, e.g 20/03/2017 4:18 \n"
-            + "Or name of the day, e.g Wed 4:18 \n"
-            + "Or relative days, e.g tomorrow 4:18 \n"
-            + "Notice that no abbreviation is accepted for relatives. e.g tmrw is invalid. ";
-
     public static final String STARTTIME_VALIDATION_REGEX = ".+";
 
     private LocalDateTime startTime;
@@ -27,7 +21,7 @@ public class StartTime implements Time {
         try {
             this.startTime = StringUtil.parseStringToTime(startTimeArg);
         } catch (IllegalValueException e) {
-            throw new IllegalValueException(StringUtil.TIME_CONSTRAINTS);
+            throw new IllegalValueException(MESSAGE_TIME_CONSTRAINTS);
         }
     }
 
@@ -62,8 +56,33 @@ public class StartTime implements Time {
         return this.getTimeValue().compareTo(time.getTimeValue());
     }
 
-    public Boolean isValidDuration(EndTime endTime) {
-        return this.getTimeValue().isBefore(endTime.getTimeValue());
+    //@@author A0122017Y
+    /**
+     * Check if the underlying time value is before or equal to the input
+     * By default, time values on the same day are treated as equal
+     */
+    @Override
+    public boolean isBefore(Time time) {
+        return isSameDay(time) || !this.getTimeValue().isAfter(time.getTimeValue());
+    }
+
+    /**
+     * Check if the underlying time value is after or equal to the input
+     * By default, time values on the same day are treated as equal
+     */
+    @Override
+    public boolean isAfter(Time time) {
+        return isSameDay(time) || !this.getTimeValue().isBefore(time.getTimeValue());
+    }
+
+    /**
+     * Check if the underlying time value is happening on the same day as the input
+     */
+    @Override
+    public boolean isSameDay(Time time) {
+        return startTime.getDayOfMonth() == time.getTimeValue().getDayOfMonth() &&
+                startTime.getMonthValue() == time.getTimeValue().getMonthValue() &&
+                startTime.getYear() == time.getTimeValue().getYear();
     }
 
 }

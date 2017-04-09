@@ -34,6 +34,8 @@ public class XmlAdaptedTask {
     private String urgencyLevel;
     @XmlElement(required = true)
     private String description;
+    @XmlElement(required = true)
+    private String isCompleted;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -57,6 +59,7 @@ public class XmlAdaptedTask {
         endTime = source.getEndTime().isPresent() ? source.getEndTime().get().toString() : "";
         urgencyLevel = source.getUrgencyLevel().isPresent() ? source.getUrgencyLevel().get().toString() : "";
         description = source.getDescription().isPresent() ? source.getDescription().get().toString() : "";
+        isCompleted = source.getIsCompletedToString();
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -75,11 +78,12 @@ public class XmlAdaptedTask {
         }
         final Title title = new Title(this.title);
         final Venue venue = this.venue == "" ? null : new Venue(this.venue);
-        final StartTime startTime = (this.startTime.length() > 0) ? new StartTime(this.startTime) : null;
-        final EndTime endTime = this.endTime.length() > 0 ? new EndTime(this.endTime) : null;
+        final StartTime startTime = !this.startTime.isEmpty() ? new StartTime(this.startTime) : null;
+        final EndTime endTime = !this.endTime.isEmpty() ? new EndTime(this.endTime) : null;
         final UrgencyLevel urgencyLevel = this.urgencyLevel != "" ? new UrgencyLevel(this.urgencyLevel) : null;
         final Description description = this.description != "" ? new Description(this.description) : null;
+        final boolean isCompleted = this.isCompleted.contains("true") ? true : false;
         final UniqueTagList tags = new UniqueTagList(taskTags);
-        return new Task(title, venue, startTime, endTime, urgencyLevel, description, tags);
+        return new Task(title, venue, startTime, endTime, urgencyLevel, description, tags, isCompleted);
     }
 }

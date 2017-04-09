@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ToDoList>
+    <tasks>
+        <title>CS2103 Tutorial</title>
+        <venue>COM1-B103</venue>
+        <startTime>Apr 19, 2017 9:00 AM</startTime>
+        <endTime>Apr 19, 2017 10:00 AM</endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description>Deadline of V0.6</description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>CS2100 Quiz</title>
+        <venue>SR1</venue>
+        <startTime>Apr 11, 2017 9:00 AM</startTime>
+        <endTime>Apr 11, 2017 10:00 AM</endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>exams</tagged>
+    </tasks>
+    <tasks>
+        <title>GET1028 Quiz</title>
+        <venue>LT9</venue>
+        <startTime>Apr 12, 2017 9:00 AM</startTime>
+        <endTime>Apr 12, 2017 10:00 AM</endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description>10% of grade</description>
+        <isCompleted>false</isCompleted>
+        <tagged>exams</tagged>
+    </tasks>
+    <tasks>
+        <title>FIN3101 Final</title>
+        <venue>LT16</venue>
+        <startTime>Apr 12, 2017 7:00 PM</startTime>
+        <endTime>Apr 12, 2017 9:00 PM</endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description>30% of grade</description>
+        <isCompleted>false</isCompleted>
+        <tagged>exams</tagged>
+    </tasks>
+    <tasks>
+        <title>Charlie's birthday</title>
+        <venue></venue>
+        <startTime>Apr 13, 2017 7:00 PM</startTime>
+        <endTime>Apr 13, 2017 11:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>friends</tagged>
+    </tasks>
+    <tasks>
+        <title>BBQ Party</title>
+        <venue>East coast park</venue>
+        <startTime>Apr 14, 2017 9:00 AM</startTime>
+        <endTime>Apr 14, 2017 10:00 AM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Dinner with Betty</title>
+        <venue></venue>
+        <startTime>Apr 15, 2017 9:00 PM</startTime>
+        <endTime>Apr 15, 2017 11:00 PM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description>Hang out for the first time</description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Recruitment talk with Dell</title>
+        <venue>MPSH</venue>
+        <startTime>Apr 16, 2017 9:00 AM</startTime>
+        <endTime>Apr 16, 2017 10:00 AM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Project group meeting</title>
+        <venue>COM1 basement</venue>
+        <startTime>Apr 17, 2017 9:00 AM</startTime>
+        <endTime>Apr 17, 2017 10:00 AM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>CIP with Library</title>
+        <venue></venue>
+        <startTime>Apr 18, 2017 9:00 AM</startTime>
+        <endTime>Apr 18, 2017 12:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Fire drill with PGP</title>
+        <venue></venue>
+        <startTime>Apr 20, 2017 3:00 AM</startTime>
+        <endTime>Apr 20, 2017 4:00 AM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>CCA meeting</title>
+        <venue>COM1-B103</venue>
+        <startTime>Apr 21, 2017 9:00 AM</startTime>
+        <endTime>Apr 21, 2017 10:00 AM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description>Last meeting</description>
+        <isCompleted>false</isCompleted>
+        <tagged>CCA</tagged>
+    </tasks>
+    <tasks>
+        <title>CS1010S Staff meeting</title>
+        <venue>COM2-0226</venue>
+        <startTime>Apr 22, 2017 9:00 AM</startTime>
+        <endTime>Apr 22, 2017 11:00 AM</endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>work</tagged>
+    </tasks>
+    <tasks>
+        <title>Piano concert rehearsal</title>
+        <venue>UCC hall</venue>
+        <startTime>Apr 23, 2017 9:00 AM</startTime>
+        <endTime>Apr 23, 2017 10:00 PM</endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>ST2132 exam</title>
+        <venue>MPSH3</venue>
+        <startTime>Apr 24, 2017 9:00 AM</startTime>
+        <endTime>Apr 24, 2017 11:00 AM</endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>exams</tagged>
+    </tasks>
+    <tasks>
+        <title>CS1010S help session</title>
+        <venue>COM1 SR2</venue>
+        <startTime>Apr 24, 2017 3:00 PM</startTime>
+        <endTime>Apr 24, 2017 4:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>job</tagged>
+    </tasks>
+    <tasks>
+        <title>Chinese Drama at RJC</title>
+        <venue>RJ auditorium</venue>
+        <startTime>Apr 24, 2017 7:00 PM</startTime>
+        <endTime>Apr 24, 2017 9:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>performances</tagged>
+    </tasks>
+    <tasks>
+        <title>String conert at Esplanade</title>
+        <venue></venue>
+        <startTime>Apr 25, 2017 7:00 PM</startTime>
+        <endTime>Apr 25, 2017 8:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>CS2100 Report</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 12, 2017 11:59 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description>I love CS2100</description>
+        <isCompleted>false</isCompleted>
+        <tagged>Assignment</tagged>
+    </tasks>
+    <tasks>
+        <title>LAJ1201 Essay</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 13, 2017 10:00 AM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>Assignment</tagged>
+    </tasks>
+    <tasks>
+        <title>GET1006 Essay</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 14, 2017 11:59 PM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>Assignment</tagged>
+    </tasks>
+    <tasks>
+        <title>Submit claim form to PGP office</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 15, 2017 10:00 AM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description>Claim money</description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Case report</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 16, 2017 11:00 AM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>Assignment</tagged>
+    </tasks>
+    <tasks>
+        <title>Reply Amazon's offer</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 17, 2017 3:00 PM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>job</tagged>
+    </tasks>
+    <tasks>
+        <title>fix bug in web app</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 18, 2017 6:00 PM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>job</tagged>
+    </tasks>
+    <tasks>
+        <title>finish marking assignments</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 19, 2017 10:00 AM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>job</tagged>
+    </tasks>
+    <tasks>
+        <title>Clear all pending comments</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 20, 2017 6:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>job</tagged>
+    </tasks>
+    <tasks>
+        <title>Fill up module survey</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 21, 2017 10:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>school</tagged>
+    </tasks>
+    <tasks>
+        <title>Internship report</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 22, 2017 10:00 AM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>job</tagged>
+    </tasks>
+    <tasks>
+        <title>Java assignment</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 23, 2017 3:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Japanese language school signing up</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 24, 2017 7:00 PM</endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>SEP module mapping submission</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 24, 2017 4:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>school</tagged>
+    </tasks>
+    <tasks>
+        <title>Design project initial idea</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 25, 2017 5:35 PM</endTime>
+        <urgencyLevel>1</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Investment Society year book article submission</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime>Apr 26, 2017 8:00 PM</endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Do laundry</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Do Tutorials</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Call grandma</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description>Interview her for project about aging population</description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>buy new book</title>
+        <venue>popular bookstore at Clementi mall</venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Buy Radwimps concert tickets</title>
+        <venue>online</venue>
+        <startTime>Apr 13, 2017 10:20 PM</startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+        <tagged>ticket</tagged>
+    </tasks>
+    <tasks>
+        <title>Get new light bulb changed</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Buy a new belt</title>
+        <venue>Uniqlo at Kent Ridge</venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Eat an apple</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Go eat SAKURA sushi</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Try new outlets of Sushi express</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description>Opening soon at Kent Ridge</description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Fix bugs in to-do list</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Write test codes</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Clear GUI tests</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel>3</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Print new notes</title>
+        <venue></venue>
+        <startTime>Apr 20, 2017 10:00 AM</startTime>
+        <endTime></endTime>
+        <urgencyLevel>2</urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Ride bicycle</title>
+        <venue>Westcoast Park</venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel></urgencyLevel>
+        <description></description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tasks>
+        <title>Visit Uncle</title>
+        <venue></venue>
+        <startTime></startTime>
+        <endTime></endTime>
+        <urgencyLevel>1</urgencyLevel>
+        <description>Get Ang pau</description>
+        <isCompleted>false</isCompleted>
+    </tasks>
+    <tags>exams</tags>
+    <tags>friends</tags>
+    <tags>CCA</tags>
+    <tags>work</tags>
+    <tags>job</tags>
+    <tags>performances</tags>
+    <tags>Assignment</tags>
+    <tags>school</tags>
+    <tags>ticket</tags>
+</ToDoList>

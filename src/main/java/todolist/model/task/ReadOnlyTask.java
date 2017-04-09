@@ -17,7 +17,6 @@ public interface ReadOnlyTask {
     Optional<Venue> getVenue();
     Optional<Description> getDescription();
     Optional<UrgencyLevel> getUrgencyLevel();
-    Time getCompleteTime();
     public enum Category { DEADLINE, EVENT, FLOAT, COMPLETED }
 
     Category getTaskCategory();
@@ -51,48 +50,70 @@ public interface ReadOnlyTask {
     //@@ author:A0122017Y
     default String getAsText() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("This is a " + getTaskCategory() + " task, ")
+        builder.append("This is a " + getTaskCategory() + " task; ")
                 .append("Title of task is ")
-                .append(getTitle() + " ")
+                .append(getTitle() + "; ")
                 .append(getVenueString())
                 .append(getDescriptionString())
-                .append(getEndTimeString());
-
-        getTags().forEach(builder::append);
+                .append(getEndTimeString())
+                .append(getTagString());
         return builder.toString();
     }
     /**
-     * Check if venues are present.
+     * Check if venue is present.
      * If null, empty string is returned.
      */
     default String getVenueString() {
-        return getVenue().isPresent() ? "At: " + getVenue().get().toString() + " " : "";
+        return getVenue().isPresent() ? "At: " + getVenue().get().toString() + "; " : "";
     }
 
+    /**
+     * Check if start time is present.
+     * If null, empty string is returned.
+     */
     default String getStartTimeString() {
-        return getStartTime().isPresent() ? "Start at: " + getStartTime().get().toString() + " " : "";
+        return getStartTime().isPresent() ? "Start at: " + getStartTime().get().toString() + "; " : "";
     }
 
+    /**
+     * Check if end time is present.
+     * If null, empty string is returned.
+     */
     default String getEndTimeString() {
-        return getEndTime().isPresent() ? "Done by: " + getEndTime().get().toString() + " " : "";
+        return getEndTime().isPresent() ? "Done by: " + getEndTime().get().toString() + "; " : "";
     }
 
+    /**
+     * Check if urgency level is present.
+     * If null, empty string is returned.
+     */
     default String getUrgencyLevelString() {
-        return getUrgencyLevel().isPresent() ? "Urgency level at: " + getUrgencyLevel().get().toString() + " " : "";
+        return getUrgencyLevel().isPresent() ? "Urgency level at: " + getUrgencyLevel().get().toString() + "; " : "";
     }
 
+    /**
+     * Check if description is present.
+     * If null, empty string is returned.
+     */
     default String getDescriptionString() {
-        return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + " " : "";
+        return getDescription().isPresent() ? "Description: " + getDescription().get().toString() + "; " : "";
+    }
+
+    /**
+     * Obtain the tag string form the UniqueTagList of the task
+     */
+    default String getTagString() {
+        return !getTags().isEmpty() ? "Tags: " + getTags().getTagListToString() + "; " : "";
     }
 
     //@@ author: A0138628W
     default int getUrgencyLevelInt() {
         return getUrgencyLevel().isPresent() ? getUrgencyLevel().get().getIntValue() : 0;
     }
-    //@@ author
+    //@@
 
     //====================Comparators for tasks======================
-
+    //@@author A0122017Y
     /**
      * For deadline tasks, first by deadline, then by name
      */
@@ -119,7 +140,7 @@ public interface ReadOnlyTask {
 
         //then by urgency level
         Comparator<ReadOnlyTask> byUrgencyLevel = (t1, t2) -> {
-            return t1.getUrgencyLevel().get().compareTo(t2.getUrgencyLevel().get());
+            return t2.getUrgencyLevel().get().compareTo(t1.getUrgencyLevel().get());
         };
 
         //then by end time
@@ -148,7 +169,7 @@ public interface ReadOnlyTask {
             }
 
             //if both having urgency level
-            return t1.getUrgencyLevel().get().compareTo(t2.getUrgencyLevel().get());
+            return t2.getUrgencyLevel().get().compareTo(t1.getUrgencyLevel().get());
         };
 
         //then by name
@@ -163,16 +184,15 @@ public interface ReadOnlyTask {
             return t1.getTaskChar().compareTo(t2.getTaskChar());
         };
 
-        //then by complete time
-        Comparator<ReadOnlyTask> byCompleteTime = (t1, t2) -> {
-            return t2.getCompleteTime().compareTo(t1.getCompleteTime());
-        };
-
         //then by name
         Comparator<ReadOnlyTask> byName = (t1, t2) -> t1.getTitle().compareTo(t2.getTitle());
 
-        return byTaskType.thenComparing(byCompleteTime).thenComparing(byName);
+        return byTaskType.thenComparing(byName);
     }
     //@@
+    //author A0143648Y
+    default String getIsCompletedToString() {
+        return this.isTaskCompleted().toString();
+    }
 
 }

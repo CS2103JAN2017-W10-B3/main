@@ -15,6 +15,7 @@ import todolist.model.task.Venue;
  */
 public class TaskBuilder {
 
+    private static final String BOOLEAN_STRING_TRUE = "true";
     private TestTask task;
 
     public TaskBuilder() {
@@ -68,6 +69,16 @@ public class TaskBuilder {
 
     public TestTask build() {
         return this.task;
+    }
+
+    //@@author A0122017Y
+    public TaskBuilder withCompleteStatus(String status) {
+        if (status.equalsIgnoreCase(BOOLEAN_STRING_TRUE)) {
+            this.task.setCompleteStatus(true);
+        } else {
+            this.task.setCompleteStatus(false);
+        }
+        return this;
     }
 
 }

@@ -1,12 +1,17 @@
 package todolist.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
 
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.exceptions.DataConversionException;
+import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.StartTime;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.DuplicateTaskException;
 import todolist.model.util.Status;
@@ -49,7 +54,7 @@ public interface Model {
      */
     void updateTask(ReadOnlyTask taskToEdit, ReadOnlyTask editedTask) throws UniqueTaskList.DuplicateTaskException;
 
-    //@@author A0143648Y
+    // @@author A0143648Y
     /**
      * Returns the filtered Task list as an
      * {@code UnmodifiableObservableList<ReadOnlyTask>}
@@ -60,13 +65,25 @@ public interface Model {
 
     UnmodifiableObservableList<ReadOnlyTask> getFilteredFloatList();
 
+    UnmodifiableObservableList<ReadOnlyTask> getAllTaskList();
+
     UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type);
+
+    void updateSelectedIndexes(ArrayList<TaskIndex> indexes);
+
+    void updateSelectedIndexes(TaskIndex index);
+
+    void clearSelectedIndexes();
+
+    ArrayList<TaskIndex> getSelectedIndexes();
 
     // @@
     /** Updates the filter of the filtered Task list to show all Tasks */
     void updateFilteredListToShowAll();
 
     String getTagListToString();
+
+    int getSumTaskListed();
 
     /**
      * Updates the filter of the filtered Task list to filter by the given
@@ -75,14 +92,30 @@ public interface Model {
     void updateFilteredTaskList(Set<String> keywords);
 
     // @@ author A0122017Y
+    /**
+     * Updates the filter of the filtered Task list to filter by the given
+     * start and end time values, or a given day
+     */
+    void updateFilteredTaskList(Optional<StartTime> startTime, Optional<EndTime> endTime, Optional<StartTime> today);
+
+    /**
+     * Updates the filter of the filtered Task list to filter by the given
+     * status enum
+     */
     void updateFilteredTaskListToShowWithStatus(Status status);
 
-    void updateFilteredTaskListToShowWithTag(Set<String> keywordSet);
-
+    /**
+     * Mark a task to be completed
+     */
     void completeTask(ReadOnlyTask taskToComplete);
 
-
+    /**
+     * Obtain the list of completed tasks
+     */
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
+
+
+    // @@
 
     //@@author A0110791M
     void changeDirectory(String filePath) throws IOException;

@@ -19,7 +19,7 @@ import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.DuplicateTaskException;
 
 /**
- * Wraps all data at the address-book level
+ * Wraps all data at the to-do list level
  * Duplicates are not allowed (by .equals comparison)
  */
 public class ToDoList implements ReadOnlyToDoList {
@@ -75,7 +75,7 @@ public class ToDoList implements ReadOnlyToDoList {
         syncMasterTagListWith(tasks);
     }
 
-//// Task-level operations
+    // Task-level operations
 
     /**
      * Adds a Task to the to-do list.
@@ -154,7 +154,7 @@ public class ToDoList implements ReadOnlyToDoList {
         }
     }
 
-//// tag-level operations
+    // tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
@@ -164,7 +164,7 @@ public class ToDoList implements ReadOnlyToDoList {
         return this.tags.getTagListToString();
     }
 
-//// util methods
+    // util methods
 
     @Override
     public String toString() {
@@ -193,6 +193,9 @@ public class ToDoList implements ReadOnlyToDoList {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.EVENT));
     }
 
+    /**
+     * Returns a task list representing all tasks regardless of types
+     */
     @Override
     public ObservableList<ReadOnlyTask> getTaskList() {
         return new UnmodifiableObservableList<>(tasks.asObservableList());
@@ -202,6 +205,9 @@ public class ToDoList implements ReadOnlyToDoList {
         return new UnmodifiableObservableList<>(tasks.getFilteredTaskList(Category.COMPLETED));
     }
 
+    /**
+     * Returns a task list representing all tags
+     */
     @Override
     public ObservableList<Tag> getTagList() {
         return new UnmodifiableObservableList<>(tags.asObservableList());
@@ -221,6 +227,12 @@ public class ToDoList implements ReadOnlyToDoList {
         return Objects.hash(tasks, tags);
     }
 
-
+    //@@author A0122017Y
+    /**
+     * Automatically switch a task to completed if it is overdue
+     */
+    public void autoComplete() {
+        tasks.autoComplete();
+    }
 
 }

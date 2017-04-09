@@ -14,7 +14,9 @@ import todolist.commons.core.ComponentManager;
 import todolist.commons.core.Config;
 import todolist.commons.core.LogsCenter;
 import todolist.commons.events.storage.DataSavingExceptionEvent;
+import todolist.commons.events.ui.ClearAllSelectionsEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
+import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.events.ui.TaskPanelSelectionChangedEvent;
 import todolist.commons.util.StringUtil;
@@ -46,12 +48,13 @@ public class UiManager extends ComponentManager implements Ui {
         logger.info("Starting UI...");
         primaryStage.setTitle(config.getAppTitle());
 
-        //Set the application icon.
+        // Set the application icon.
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
         try {
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
-            mainWindow.show(); //This should be called before creating other UI parts
+            mainWindow.show(); // This should be called before creating other UI
+                               // parts
             mainWindow.fillInnerParts();
 
         } catch (Throwable e) {
@@ -64,7 +67,7 @@ public class UiManager extends ComponentManager implements Ui {
     public void stop() {
         prefs.updateLastUsedGuiSetting(mainWindow.getCurrentGuiSetting());
         mainWindow.hide();
-        //mainWindow.releaseResources();
+        // mainWindow.releaseResources();
     }
 
     private void showFileOperationAlertAndWait(String description, String details, Throwable cause) {
@@ -81,7 +84,7 @@ public class UiManager extends ComponentManager implements Ui {
     }
 
     private static void showAlertDialogAndWait(Stage owner, AlertType type, String title, String headerText,
-                                               String contentText) {
+            String contentText) {
         final Alert alert = new Alert(type);
         alert.getDialogPane().getStylesheets().add("view/DarkTheme.css");
         alert.initOwner(owner);
@@ -99,7 +102,8 @@ public class UiManager extends ComponentManager implements Ui {
         System.exit(1);
     }
 
-    //==================== Event Handling Code ===============================================================
+    // ==================== Event Handling Code
+    // ===============================================================
 
     @Subscribe
     private void handleDataSavingExceptionEvent(DataSavingExceptionEvent event) {
@@ -119,19 +123,63 @@ public class UiManager extends ComponentManager implements Ui {
         char listType = event.targetIndex.getTaskChar();
         if (listType == 'e' || listType == 'E') {
             mainWindow.getEventListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getFloatListPanel().clearSelection();
+            mainWindow.getTaskListPanel().clearSelection();
+            mainWindow.getCompleteListPanel().clearSelection();
         } else if (listType == 'f' || listType == 'F') {
             mainWindow.getFloatListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getEventListPanel().clearSelection();
+            mainWindow.getTaskListPanel().clearSelection();
+            mainWindow.getCompleteListPanel().clearSelection();
         } else if (listType == 'd' || listType == 'D') {
             mainWindow.getTaskListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getFloatListPanel().clearSelection();
+            mainWindow.getEventListPanel().clearSelection();
+            mainWindow.getCompleteListPanel().clearSelection();
         } else if (listType == 'c' || listType == 'C') {
             mainWindow.getCompleteListPanel().scrollTo(event.targetIndex.getTaskNumber());
+            mainWindow.getFloatListPanel().clearSelection();
+            mainWindow.getTaskListPanel().clearSelection();
+            mainWindow.getEventListPanel().clearSelection();
         }
     }
 
     @Subscribe
     private void handleTaskPanelSelectionChangedEvent(TaskPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        //mainWindow.loadTaskPage(event.getNewSelection());
+        // mainWindow.loadTaskPage(event.getNewSelection());
     }
 
+    // @@ A0143648Y
+    @Subscribe
+    private void handleSelectMultipleTargetEvent(SelectMultipleTargetEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        for (int count = event.targetIndexes.size() - 1; count >= 0; count--) {
+            char listType = event.targetIndexes.get(count).getTaskChar();
+            if (count == event.targetIndexes.size() - 1) {
+                mainWindow.getEventListPanel().clearSelection();
+                mainWindow.getFloatListPanel().clearSelection();
+                mainWindow.getTaskListPanel().clearSelection();
+                mainWindow.getCompleteListPanel().clearSelection();
+            }
+            if (listType == 'e' || listType == 'E') {
+                mainWindow.getEventListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
+            } else if (listType == 'f' || listType == 'F') {
+                mainWindow.getFloatListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
+            } else if (listType == 'd' || listType == 'D') {
+                mainWindow.getTaskListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
+            } else if (listType == 'c' || listType == 'C') {
+                mainWindow.getCompleteListPanel().selectTheTarget(event.targetIndexes.get(count).getTaskNumber() - 1);
+            }
+        }
+    }
+
+    @Subscribe
+    private void handleClearAllSelectionsEvent(ClearAllSelectionsEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        mainWindow.getEventListPanel().clearSelection();
+        mainWindow.getFloatListPanel().clearSelection();
+        mainWindow.getTaskListPanel().clearSelection();
+        mainWindow.getCompleteListPanel().clearSelection();
+    }
 }

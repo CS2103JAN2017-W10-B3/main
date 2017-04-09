@@ -1,6 +1,5 @@
 package todolist.model.tag;
 
-
 import todolist.commons.exceptions.IllegalValueException;
 
 /**
@@ -50,6 +49,7 @@ public class Tag {
     /**
      * Format state as text for viewing.
      */
+    @Override
     public String toString() {
         return '[' + tagName + ']';
     }

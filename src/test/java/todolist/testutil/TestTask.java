@@ -7,7 +7,6 @@ import todolist.model.task.Description;
 import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.StartTime;
-import todolist.model.task.Time;
 import todolist.model.task.Title;
 import todolist.model.task.UrgencyLevel;
 import todolist.model.task.Venue;
@@ -30,7 +29,6 @@ public class TestTask implements ReadOnlyTask {
     private UniqueTagList tags;
     private Category category;
     private Boolean isCompleted;
-    private Time completeTime;
 
     public TestTask() {
         tags = new UniqueTagList();
@@ -48,6 +46,7 @@ public class TestTask implements ReadOnlyTask {
         this.urgencyLevel = taskToCopy.getUrgencyLevel();
         this.description = taskToCopy.getDescription();
         this.tags = taskToCopy.getTags();
+        this.isCompleted = taskToCopy.isTaskCompleted();
         this.category = sortCategory();
     }
 
@@ -100,11 +99,6 @@ public class TestTask implements ReadOnlyTask {
     @Override
     public Optional<EndTime> getEndTime() {
         return endTime;
-    }
-
-    @Override
-    public Time getCompleteTime() {
-        return completeTime;
     }
 
     @Override
@@ -200,6 +194,10 @@ public class TestTask implements ReadOnlyTask {
     @Override
     public void toggleComplete() {
         this.isCompleted = !this.isCompleted;
+    }
+
+    public void setCompleteStatus(boolean status) {
+        this.isCompleted = status;
     }
 
 }

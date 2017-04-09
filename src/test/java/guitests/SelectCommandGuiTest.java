@@ -7,7 +7,7 @@ import org.junit.Test;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.ReadOnlyTask.Category;
 
-public class SelectCommandTest extends ToDoListGuiTest {
+public class SelectCommandGuiTest extends ToDoListGuiTest {
 
 
     @Test
@@ -42,7 +42,7 @@ public class SelectCommandTest extends ToDoListGuiTest {
 
     private void assertSelectionSuccess(int index) {
         commandBox.runCommand("select e" + index);
-        assertResultMessage("Selected Task: e" + index);
+        assertResultMessage("Tasks have been succussfully selected!\n");
         assertTaskSelected(index);
     }
 

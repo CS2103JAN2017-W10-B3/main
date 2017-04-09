@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.exceptions.DuplicateDataException;
-import todolist.commons.util.CollectionUtil;
 import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask.Category;
 
@@ -18,7 +17,6 @@ import todolist.model.task.ReadOnlyTask.Category;
  * Supports a minimal set of list operations.
  *
  * @see Task#equals(Object)
- * @see CollectionUtil#elementsAreUnique(Collection)
  */
 public class UniqueTaskList implements Iterable<Task> {
 
@@ -165,6 +163,15 @@ public class UniqueTaskList implements Iterable<Task> {
             return MESSAGE_NO_TAGS_AVAILABLE;
         }
         return String.join(" ", tagNames);
+    }
+
+    public void autoComplete() {
+        for (Task task : internalList) {
+            if (task.getEndTime().isPresent() &&
+                task.getEndTime().get().outdated()) {
+                task.toggleComplete();
+            }
+        }
     }
 
 }

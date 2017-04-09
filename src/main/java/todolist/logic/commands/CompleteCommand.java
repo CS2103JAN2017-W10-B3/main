@@ -3,7 +3,9 @@ package todolist.logic.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import todolist.commons.core.EventsCenter;
 import todolist.commons.core.Messages;
+import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
 import todolist.model.ToDoList;
@@ -27,10 +29,11 @@ public class CompleteCommand extends UndoableCommand {
             + "Parameters: CHAR(d, e or f) + INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " e1 \n";
 
-    public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: %1$s";
+    public static final String MESSAGE_COMPLETE_TASK_SUCCESS = "Completed Task: ";
 
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
+    private String messageSuccessful;
 
     public CompleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes) {
         this.filteredTaskListIndexes = filteredTaskListIndexes;
@@ -38,8 +41,15 @@ public class CompleteCommand extends UndoableCommand {
 
     @Override
     public CommandResult execute() throws CommandException {
+        if (filteredTaskListIndexes.isEmpty()) {
+            filteredTaskListIndexes.addAll(model.getSelectedIndexes());
+            if (filteredTaskListIndexes.isEmpty()) {
+                throw new CommandException(Messages.MESSAGE_NO_TASK_SELECTED);
+            }
+        }
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<ReadOnlyTask> tasksToComplete = new ArrayList<ReadOnlyTask>();
+        ArrayList<TaskIndex> selectedIndexes = new ArrayList<TaskIndex>();
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
             List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
@@ -49,6 +59,7 @@ public class CompleteCommand extends UndoableCommand {
             }
 
             tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
+            messageSuccessful = " " + lastShownList.get(filteredTaskListIndex).getTitle().toString();
         }
 
         for (int count = 0; count < tasksToComplete.size(); count++) {
@@ -58,18 +69,25 @@ public class CompleteCommand extends UndoableCommand {
         commandResultToUndo = new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
         updateUndoLists();
 
-        return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
+        List<ReadOnlyTask> completedList = model.getCompletedList();
+        for (int count = 0; count < tasksToComplete.size(); count++) {
+            selectedIndexes.add(new TaskIndex('c', completedList.indexOf(tasksToComplete.get(count)) + 1));
+        }
+        model.updateSelectedIndexes(selectedIndexes);
+        EventsCenter.getInstance().post(new SelectMultipleTargetEvent(selectedIndexes));
+
+        return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS + messageSuccessful);
     }
 
     @Override
     public void updateUndoLists() {
         if (previousToDoLists == null) {
-            previousToDoLists = new ArrayList<ReadOnlyToDoList>(3);
-            previousCommandResults = new ArrayList<CommandResult>(3);
+            previousToDoLists = new ArrayList<ReadOnlyToDoList>(UNDO_HISTORY_SIZE);
+            previousCommandResults = new ArrayList<CommandResult>(UNDO_HISTORY_SIZE);
         }
-        if (previousToDoLists.size() >= 3) {
-            previousToDoLists.remove(0);
-            previousCommandResults.remove(0);
+        if (previousToDoLists.size() >= UNDO_HISTORY_SIZE) {
+            previousToDoLists.remove(ITEM_TO_BE_REMOVED_FROM_HISTORY);
+            previousCommandResults.remove(ITEM_TO_BE_REMOVED_FROM_HISTORY);
             previousToDoLists.add(originalToDoList);
             previousCommandResults.add(commandResultToUndo);
         } else {
@@ -77,5 +95,6 @@ public class CompleteCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
+
 
 }

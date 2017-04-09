@@ -6,7 +6,7 @@ We are a team based in the [School of Computing, National University of Singapor
 
 #### [Chen PengHao](https://github.com/chenpenghao) <br>
 <img src="images/ChenPengHao.png" width="150"><br>
-Role: Team Lead
+Role: Developer
 
 * In Charge of: Model <br>
 * Responsibilities: Scheduling <br>
@@ -25,18 +25,28 @@ Role: Team Lead
 	* [Integrated PrettyTime package](https://github.com/CS2103JAN2017-W10-B3/main/commit/6f2f3f24f541a82efe95ce08f625fd661b933f62)
 	* Cleared model and logic tests
 
-
 -----
 
 #### [Jia YiLin](https://github.com/emiyak)
 <img src="images/JiaYiLin.png" width="150"><br>
 Role: Developer <br>
 
-In Charge of: Commons <br>
-Responsibilities: Integration <br>
-Features implemented:
-Code written:
-Major Contributions:
+* In Charge of: Commons <br>
+* Responsibilities: Integration <br>
+* Features implemented:
+	* [Add new feature to a task: Description]
+	* [Undo command]
+	* [Save command]
+	* [Parse multiple indexes]
+	* [Selection of tasks(multiple selection & auto selection)]
+	* [Omit input indexes]
+	* [Search for keywords ]
+* Code written:
+	* [Functional Codes]
+* Major Contributions:
+	* [Refactor tasks from one list to three lists]
+	* [Help in debugging tests]
+	* [Contribute to User stories and Use cases]
 
 
 -----
@@ -45,11 +55,12 @@ Major Contributions:
 <img src="images/WangChi.png" width="150"><br>
 Role: Developer <br>
 
-In Charge of: Storage & Logic <br>
-Responsibilities: Testing <br>
-Features implemented:
-Code written:
-Major Contributions:
+* In Charge of: Storage & Logic <br>
+* Responsibilities: Testing <br>
+* Features implemented:
+* Code written:
+* Major Contributions:
+
 
 -----
 
@@ -57,10 +68,12 @@ Major Contributions:
 <img src="images/YinaToh.png" width="150"><br>
 Role: Developer <br>
 
-In Charge of: UI <br>
-Responsibilities: Documentation <br>
-Features implemented:
-Code written:
-Major Contributions:
+* In Charge of: UI <br>
+* Responsibilities: Documentation <br>
+* Features implemented:
+* Code written:
+* Major Contributions:
+
+
 
 -----

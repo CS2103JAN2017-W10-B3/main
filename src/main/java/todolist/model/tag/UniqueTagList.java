@@ -25,7 +25,6 @@ import todolist.commons.util.CollectionUtil;
  */
 public class UniqueTagList implements Iterable<Tag> {
 
-    private static final String NO_TAGS_AVAILABLE_MESSAGE = "There are no tags in the to-do list!";
     private final ObservableList<Tag> internalList = FXCollections.observableArrayList();
 
     /**
@@ -139,6 +138,29 @@ public class UniqueTagList implements Iterable<Tag> {
         internalList.add(toAdd);
     }
 
+    //@@author A0122017Y
+    /**
+     * Removes a Tag from the list
+     *
+     * @throws TagNotExistException if the input tag does not exist in the tag list.
+     */
+    public void remove(Tag toDelete) throws TagNotExistException {
+        assert toDelete != null;
+        if (!contains(toDelete)) {
+            throw new TagNotExistException();
+        }
+        internalList.remove(toDelete);
+    }
+
+    /**
+     * Check if the internalList is empty
+     */
+    public boolean isEmpty() {
+        return internalList.isEmpty();
+    }
+
+    //@@
+
     @Override
     public Iterator<Tag> iterator() {
         return internalList.iterator();
@@ -174,13 +196,22 @@ public class UniqueTagList implements Iterable<Tag> {
         }
     }
 
-    // @@ A0110791M
-    public String getTagListToString() {
-        String tagListString = "";
-        for (Tag tag : internalList) {
-            tagListString.concat(tag.toString());
+    // @@author A0122017Y
+    /**
+     * Signals that the input tag does not exist in the tag list.
+     */
+    public static class TagNotExistException extends Exception {
+        protected TagNotExistException() {
+            super("Tag to be deleted does not exists in the tag list!");
         }
-        return tagListString;
+    }
+
+    public String getTagListToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Tag tag : internalList) {
+            sb.append(tag.toString() + " ");
+        }
+        return sb.toString();
     }
     // @@
 

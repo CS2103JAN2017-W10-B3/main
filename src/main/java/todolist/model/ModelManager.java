@@ -2,6 +2,7 @@ package todolist.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -17,9 +18,13 @@ import todolist.commons.events.storage.DirectoryChangedEvent;
 import todolist.commons.exceptions.DataConversionException;
 import todolist.commons.util.CollectionUtil;
 import todolist.commons.util.FileUtil;
-import todolist.model.tag.Tag;
+import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
+import todolist.model.task.ReadOnlyTask.Category;
+import todolist.model.task.StartTime;
 import todolist.model.task.Task;
+import todolist.model.task.TaskIndex;
+import todolist.model.task.Time;
 import todolist.model.task.UniqueTaskList;
 import todolist.model.task.UniqueTaskList.TaskNotFoundException;
 import todolist.model.util.SampleDataUtil;
@@ -36,13 +41,15 @@ public class ModelManager extends ComponentManager implements Model {
     private static final Status INCOMPLETE_STATUS = Status.INCOMPLETE;
     private static final Status COMPLETE_STATUS = Status.COMPLETED;
 
+    private static int taskCount;
+
     // @@author A0143648Y
     private final ToDoList todoList;
     private FilteredList<ReadOnlyTask> filteredFloats;
     private FilteredList<ReadOnlyTask> filteredDeadlines;
     private FilteredList<ReadOnlyTask> filteredEvents;
-
     private FilteredList<ReadOnlyTask> completedTasks;
+    private ArrayList<TaskIndex> selectedIndexes;
 
     /**
      * Initializes a ModelManager with the given ToDoList and userPrefs.
@@ -54,10 +61,12 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with to-do list: " + todoList + " and user prefs " + userPrefs);
 
         this.todoList = new ToDoList(todoList);
+        this.selectedIndexes = new ArrayList<TaskIndex>();
         syncTypeOfTasks();
     }
 
     // @@
+
     public ModelManager() {
         this(new ToDoList(), new UserPrefs());
     }
@@ -71,11 +80,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public ReadOnlyToDoList getToDoList() {
         return todoList;
-    }
-
-    @Override
-    public String getTagListToString() {
-        return todoList.getTagListToString();
     }
 
     /** Raises an event to indicate the model has changed */
@@ -131,9 +135,9 @@ public class ModelManager extends ComponentManager implements Model {
     public synchronized void addTask(ReadOnlyTask readOnlyTask) throws UniqueTaskList.DuplicateTaskException {
         Task task;
         task = new Task(readOnlyTask.getTitle(), readOnlyTask.getVenue().orElse(null),
-                readOnlyTask.getStartTime().orElse(null),
-                readOnlyTask.getEndTime().orElse(null), readOnlyTask.getUrgencyLevel().orElse(null),
-                readOnlyTask.getDescription().orElse(null), readOnlyTask.getTags());
+                readOnlyTask.getStartTime().orElse(null), readOnlyTask.getEndTime().orElse(null),
+                readOnlyTask.getUrgencyLevel().orElse(null), readOnlyTask.getDescription().orElse(null),
+                readOnlyTask.getTags());
         todoList.addTask(task);
     }
     // @@
@@ -141,16 +145,12 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         todoList.addTask(task);
-        syncTypeOfTasks();
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
         todoList.removeTask(target);
-        syncTypeOfTasks();
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
@@ -161,30 +161,63 @@ public class ModelManager extends ComponentManager implements Model {
         assert taskToEdit != null;
         assert editedTask != null;
         todoList.updateTask(taskToEdit, editedTask);
-        syncTypeOfTasks();
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
     }
 
+    @Override
+    public void updateSelectedIndexes(ArrayList<TaskIndex> indexes) {
+        this.selectedIndexes = indexes;
+    }
+
+    @Override
+    public void updateSelectedIndexes(TaskIndex index) {
+        this.selectedIndexes.clear();
+        this.selectedIndexes.add(index);
+    }
+
+    @Override
+    public ArrayList<TaskIndex> getSelectedIndexes() {
+        return this.selectedIndexes;
+    }
+
+    @Override
+    public void clearSelectedIndexes() {
+        this.selectedIndexes.clear();
+    }
+
+    /**
+     * Return a string that represents all tags in the to-do list
+     */
+    @Override
+    public String getTagListToString() {
+        return todoList.getTagListToString();
+    }
+
     // @@author A0122017Y
+    /**
+     * Synchronize the task lists with the respective task type.
+     */
     private void syncTypeOfTasks() {
         filteredDeadlines = new FilteredList<>(this.todoList.getFilteredDeadlines());
         filteredFloats = new FilteredList<>(this.todoList.getFilteredFloats());
         filteredEvents = new FilteredList<>(this.todoList.getFilteredEvents());
         completedTasks = new FilteredList<>(this.todoList.getCompletedTasks());
+        syncSumTaskListed();
 
     }
 
+    /**
+     * Mark a task in the list to completed
+     */
     @Override
     public void completeTask(ReadOnlyTask taskToComplete) {
         todoList.completeTask(taskToComplete);
-        updateFilteredTaskListToShowWithStatus(INCOMPLETE_STATUS);
         indicateToDoListChanged();
+
     }
 
     // =========== Filtered Task List Accessors
     // =============================================================
-
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList() {
         SortedList<ReadOnlyTask> sortedDeadlines = new SortedList<>(filteredDeadlines);
@@ -206,6 +239,7 @@ public class ModelManager extends ComponentManager implements Model {
         return new UnmodifiableObservableList<>(sortedFloats);
     }
 
+    @Override
     public UnmodifiableObservableList<ReadOnlyTask> getAllTaskList() {
         return new UnmodifiableObservableList<>(todoList.getTaskList());
     }
@@ -217,10 +251,18 @@ public class ModelManager extends ComponentManager implements Model {
         return new UnmodifiableObservableList<>(sortedComplete);
     }
 
+    @Override
+    public int getSumTaskListed() {
+        return taskCount;
+    }
+
     // @@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
+
+        case Task.COMPLETE_CHAR:
+            return getCompletedList();
 
         case Task.DEADLINE_CHAR:
             return getFilteredDeadlineList();
@@ -236,9 +278,20 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void updateFilteredListToShowAll() {
+        syncTaskWithTime();
         filteredDeadlines.setPredicate(null);
         filteredFloats.setPredicate(null);
         filteredEvents.setPredicate(null);
+        completedTasks.setPredicate(null);
+        syncSumTaskListed();
+        indicateToDoListChanged();
+
+    }
+
+    private void syncTaskWithTime() {
+        todoList.autoComplete();
+        indicateToDoListChanged();
+
     }
 
     @Override
@@ -246,12 +299,32 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords)));
     }
 
+    @Override
+    public void updateFilteredTaskList(Optional<StartTime> startTime,
+            Optional<EndTime> endTime, Optional<StartTime> today) {
+        updateFilteredTaskList(new PredicateExpression(new DurationQualifier(startTime, endTime, today)));
+    }
+
     private void updateFilteredTaskList(Expression expression) {
         filteredDeadlines.setPredicate(expression::satisfies);
         filteredFloats.setPredicate(expression::satisfies);
         filteredEvents.setPredicate(expression::satisfies);
+        completedTasks.setPredicate(expression::satisfies);
+        syncSumTaskListed();
+        indicateToDoListChanged();
+
     }
 
+    private void syncSumTaskListed() {
+        int deadlineCounts = filteredDeadlines.size();
+        int floatCounts = filteredFloats.size();
+        int eventCounts = filteredEvents.size();
+        int completeCounts = completedTasks.size();
+        taskCount = deadlineCounts + floatCounts + eventCounts + completeCounts;
+
+    }
+
+    // @@
     @Override
     public void updateFilteredTaskListToShowWithStatus(Status status) {
         if (status == Status.ALL) {
@@ -259,12 +332,6 @@ public class ModelManager extends ComponentManager implements Model {
         } else {
             updateFilteredTaskList(new PredicateExpression(new StatusQualifier(status)));
         }
-    }
-
-    @Override
-    public void updateFilteredTaskListToShowWithTag(Set<String> keywordSet) {
-        updateFilteredTaskList(new PredicateExpression(new TagQualifier(keywordSet)));
-
     }
 
     // ========== Inner classes/interfaces used for filtering
@@ -328,6 +395,8 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
+    //
+
     // @@author A0122017Y
     private class StatusQualifier implements Qualifier {
 
@@ -358,28 +427,99 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
-    private class TagQualifier implements Qualifier {
+    private class DurationQualifier implements Qualifier {
 
-        Set<String> tags;
+        private StartTime startTime;
+        private StartTime today;
+        private EndTime endTime;
         Boolean status;
 
-        TagQualifier(Set<String> tags) {
-            this.tags = tags;
+        DurationQualifier(Optional<StartTime> start, Optional<EndTime> end, Optional<StartTime> day) {
+            initStart(start);
+            initToday(day);
+            initEnd(end);
+        }
+
+        public void initStart(Optional<StartTime> start) {
+            if (start != null) {
+                this.startTime = start.get();
+            } else {
+                startTime = null;
+            }
+        }
+
+        public void initToday(Optional<StartTime> today) {
+            if (today != null) {
+                this.today = today.get();
+            } else {
+                today = null;
+            }
+        }
+
+        public void initEnd(Optional<EndTime> end) {
+            if (end != null) {
+                this.endTime = end.get();
+            } else {
+                endTime = null;
+            }
         }
 
         @Override
         public boolean run(ReadOnlyTask task) {
-            for (Tag tag : task.getTags()) {
-                if (this.tags.contains(tag.tagName)) {
-                    status = true;
-                }
+            if (task.getTaskCategory().equals(Category.DEADLINE)) {
+                return isDeadlineWithinDuration(task);
+            } else if (task.getTaskCategory().equals(Category.EVENT)) {
+                return isEventWithinDuration(task);
+            } else if (task.getTaskCategory().equals(Category.FLOAT)) {
+                return isFloatingWithinDuration(task);
+            } else {
+                return false;
             }
-            return status;
+        }
+
+        private boolean isFloatingWithinDuration(ReadOnlyTask task) {
+            if (task.getStartTime().isPresent()) {
+                return isTimeInDuration(task.getStartTime().get()) ||
+                        isOnTheDay(task.getStartTime().get());
+            } else {
+                return false;
+            }
+        }
+
+        private boolean isOnTheDay(Time time) {
+            if (today != null) {
+                return time.isSameDay(today);
+            } else {
+                return false;
+            }
+        }
+
+        private boolean isEventWithinDuration(ReadOnlyTask task) {
+            return (isTimeInDuration(task.getStartTime().get()) &&
+                    isTimeInDuration(task.getEndTime().get())) ||
+                    isOnTheDay(task.getStartTime().get());
+        }
+
+        private boolean isDeadlineWithinDuration(ReadOnlyTask task) {
+            return isTimeInDuration(task.getEndTime().get()) ||
+                    isOnTheDay(task.getEndTime().get());
+        }
+
+        private boolean isTimeInDuration(Time time) {
+            if (startTime != null && endTime == null) {
+                return startTime.isBefore(time);
+            } else if (endTime != null && startTime == null) {
+                return endTime.isAfter(time);
+            } else if (startTime != null && endTime != null) {
+                return startTime.isBefore(time) && endTime.isAfter(time);
+            } else {
+                return false;
+            }
         }
 
         @Override
         public String toString() {
-            return (status ? "contains tag!" : "not containing tag!");
+            return (status ? "within the period!" : "not within the period!");
         }
 
     }

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import todolist.model.task.ReadOnlyTask.Category;
 
-public class ClearCommandTest extends ToDoListGuiTest {
+public class ClearCommandGuiTest extends ToDoListGuiTest {
 
     @Test
     public void clear() {

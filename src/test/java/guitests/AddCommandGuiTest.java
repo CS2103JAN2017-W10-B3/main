@@ -2,9 +2,12 @@ package guitests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.logging.Logger;
+
 import org.junit.Test;
 
 import guitests.guihandles.TaskCardHandle;
+import todolist.commons.core.LogsCenter;
 import todolist.commons.core.Messages;
 import todolist.logic.commands.AddCommand;
 import todolist.model.task.ReadOnlyTask.Category;
@@ -12,8 +15,9 @@ import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
 //@@author A0110791M
-public class AddCommandTest extends ToDoListGuiTest {
+public class AddCommandGuiTest extends ToDoListGuiTest {
 
+    private final Logger logger = LogsCenter.getLogger(AddCommandGuiTest.class);
     @Test
     public void addEvents() {
         //add one Task
@@ -34,7 +38,9 @@ public class AddCommandTest extends ToDoListGuiTest {
 
         //add to empty list
         commandBox.runCommand("clear");
-        assertAddSuccess(Category.EVENT, td.cs2103Tutorial);
+        TestTask task2ToAdd = td.cs2103Tutorial;
+        currentList = new TestTask[0];
+        assertAddSuccess(Category.EVENT, task2ToAdd, currentList);
 
         //invalid command
         commandBox.runCommand("adds Johnny");
@@ -46,6 +52,7 @@ public class AddCommandTest extends ToDoListGuiTest {
         //add one Task
         TestTask[] currentList = td.getTypicalDeadlineTasks();
         TestTask taskToAdd = td.applyInternship;
+        logger.info(taskToAdd.getTitle().toString());
         assertAddSuccess(Category.DEADLINE, taskToAdd, currentList);
         currentList = TestUtil.addTasksToList(currentList, taskToAdd);
 

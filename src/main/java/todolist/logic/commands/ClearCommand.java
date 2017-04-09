@@ -32,12 +32,12 @@ public class ClearCommand extends UndoableCommand {
     @Override
     public void updateUndoLists() {
         if (previousToDoLists == null) {
-            previousToDoLists = new ArrayList<ReadOnlyToDoList>(3);
-            previousCommandResults = new ArrayList<CommandResult>(3);
+            previousToDoLists = new ArrayList<ReadOnlyToDoList>(UNDO_HISTORY_SIZE);
+            previousCommandResults = new ArrayList<CommandResult>(UNDO_HISTORY_SIZE);
         }
-        if (previousToDoLists.size() >= 3) {
-            previousToDoLists.remove(0);
-            previousCommandResults.remove(0);
+        if (previousToDoLists.size() >= UNDO_HISTORY_SIZE) {
+            previousToDoLists.remove(ITEM_TO_BE_REMOVED_FROM_HISTORY);
+            previousCommandResults.remove(ITEM_TO_BE_REMOVED_FROM_HISTORY);
             previousToDoLists.add(originalToDoList);
             previousCommandResults.add(commandResultToUndo);
         } else {
@@ -45,4 +45,5 @@ public class ClearCommand extends UndoableCommand {
             previousCommandResults.add(commandResultToUndo);
         }
     }
+
 }

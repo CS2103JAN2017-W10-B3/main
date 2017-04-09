@@ -18,9 +18,8 @@ import todolist.logic.commands.FindCommand;
 import todolist.logic.commands.HelpCommand;
 import todolist.logic.commands.ImportCommand;
 import todolist.logic.commands.IncorrectCommand;
+import todolist.logic.commands.JokeCommand;
 import todolist.logic.commands.ListCommand;
-import todolist.logic.commands.ListTagCommand;
-import todolist.logic.commands.ListTaskUnderTagCommand;
 import todolist.logic.commands.SaveCommand;
 import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.UndoCommand;
@@ -38,7 +37,8 @@ public class Parser {
     /**
      * Parses user input into command for execution.
      *
-     * @param userInput full user input string
+     * @param userInput
+     *            full user input string
      * @return the command based on the user input
      */
     public Command parseCommand(String userInput) {
@@ -47,7 +47,7 @@ public class Parser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
 
-        final String commandWord = matcher.group("commandWord");
+        final String commandWord = matcher.group("commandWord").toLowerCase();
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
 
@@ -73,13 +73,7 @@ public class Parser {
             return new FindCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
-            return new ListCommand();
-
-        case ListTagCommand.COMMAND_WORD:
-            return new ListTagCommand();
-
-        case ListTaskUnderTagCommand.COMMAND_WORD:
-            return new ListCommandParser().parseTag(arguments);
+            return new ListCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
@@ -87,6 +81,9 @@ public class Parser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommandParser().parse(arguments);
 
+        case JokeCommand.COMMAND_WORD:
+            return new JokeCommand();
+//@@ author A0143648Y
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
 
@@ -100,7 +97,15 @@ public class Parser {
             return new ImportCommandParser().parse(arguments);
 
         default:
-            return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+            if (ParserUtil.isValidIndex(commandWord) && arguments.isEmpty()) {
+                return new SelectCommandParser().parse(commandWord);
+            } else {
+                if (ParserUtil.isValidIndex(commandWord) && ParserUtil.isValidIndex(arguments.trim())) {
+                    return new SelectCommandParser().parse(commandWord + " " + arguments.trim());
+                } else {
+                    return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+                }
+            }
         }
     }
 
