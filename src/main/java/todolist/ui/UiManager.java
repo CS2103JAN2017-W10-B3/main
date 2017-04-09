@@ -85,7 +85,7 @@ public class UiManager extends ComponentManager implements Ui {
             initiateGlobalKeyListener(mainWindow);
 
             // Create the tray icon.
-            initializeTray(primaryStage);
+            //initializeTray(primaryStage);
 
             mainWindow.show();
             mainWindow.fillInnerParts();
