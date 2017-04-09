@@ -38,8 +38,6 @@ public class CommandSyntax {
         availableCommands.put(HelpCommand.COMMAND_WORD, HelpCommand.MESSAGE_USAGE);
         availableCommands.put(ImportCommand.COMMAND_WORD, ImportCommand.MESSAGE_USAGE);
         availableCommands.put(ListCommand.COMMAND_WORD, ListCommand.MESSAGE_USAGE);
-        //availableCommands.put(ListTagCommand.COMMAND_WORD, ListTagCommand.MESSAGE_USAGE);
-        //availableCommands.put(ListTaskUnderTagCommand.COMMAND_WORD, ListTaskUnderTagCommand.MESSAGE_USAGE);
         availableCommands.put(SaveCommand.COMMAND_WORD, SaveCommand.MESSAGE_USAGE);
         availableCommands.put(SelectCommand.COMMAND_WORD, SelectCommand.MESSAGE_USAGE);
         availableCommands.put(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_USAGE);

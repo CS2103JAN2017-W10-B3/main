@@ -189,6 +189,9 @@ public interface ReadOnlyTask {
 
         return byTaskType.thenComparing(byName);
     }
+
+    String getTitleFormattedString();
+
     //@@
     //author A0143648Y
     default String getIsCompletedToString() {

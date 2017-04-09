@@ -200,4 +200,9 @@ public class TestTask implements ReadOnlyTask {
         this.isCompleted = status;
     }
 
+    @Override
+    public String getTitleFormattedString() {
+        return "[" + getTitle().toString() + "]";
+    }
+
 }

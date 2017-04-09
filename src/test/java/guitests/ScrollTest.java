@@ -1,0 +1,348 @@
+package guitests;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+import todolist.model.task.ReadOnlyTask.Category;
+import todolist.ui.Scroll;
+
+public class ScrollTest extends ToDoListGuiTest {
+    //@@author: A0138628W
+    /**
+     * Scroll for testing
+     * It should test when there is no scroll bar and when there is
+     */
+    private Scroll scrollTest;
+
+    //Scroll is null
+    @Test
+    public void scrollbarIsNull() {
+        scrollTest = new Scroll();
+        assertNull(scrollTest.getScrollBar());
+        assertFalse(scrollTest.isAvailable());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testGetCurrentValue() {
+        scrollTest = new Scroll();
+        scrollTest.getCurrentValue();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testGetMax() {
+        scrollTest = new Scroll();
+        scrollTest.getMax();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testGetMin() {
+        scrollTest = new Scroll();
+        scrollTest.getMin();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testScrollIncrease() {
+        scrollTest = new Scroll();
+        scrollTest.scrollIncrease();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testScrollDecrease() {
+        scrollTest = new Scroll();
+        scrollTest.scrollDecrease();
+    }
+
+    //Scroll test with scroll bar
+
+    @Test
+    public void testGettingOfScrollBarWithList() {
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        assertNotNull(scrollTest.getScrollBar());
+        assertTrue(scrollTest.isAvailable());
+    }
+
+    @Test
+    public void testGettingOfScrollBarWithText() {
+        scrollTest = new Scroll();
+        scrollTest.getTextVerticalScrollbar(resultDisplay.getResultDisplay());
+        assertNotNull(scrollTest.getScrollBar());
+        assertTrue(scrollTest.isAvailable());
+        scrollTest.getTextHorizontalScrollbar(resultDisplay.getResultDisplay());
+        assertNotNull(scrollTest.getScrollBar());
+        assertTrue(scrollTest.isAvailable());
+    }
+
+    //Scroll Down
+    @Test
+    public void testScrollingIncrease() {
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        double oldValue = scrollTest.getCurrentValue();
+        scrollTest.scrollIncrease();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    //Scroll Up
+    @Test
+    public void testScrollingDecrease() {
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        scrollTest.scrollIncrease();
+        scrollTest.scrollIncrease();
+        double oldValue = scrollTest.getCurrentValue();
+        scrollTest.scrollDecrease();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    //Scroll Down with accelerators
+    @Test
+    public void scrollingIncreaseWithAcceleratorResult() {
+        //Result Display
+        scrollTest = new Scroll();
+        commandBox.runCommand("help");
+        scrollTest.getTextVerticalScrollbar(resultDisplay.getResultDisplay());
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltRAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithAcceleratorEvent() {
+        //Event list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltEAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithAcceleratorFloat() {
+        //Float list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.FLOAT));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltFAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithAcceleratorDeadline() {
+        //Deadline list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.DEADLINE));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltDAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithAcceleratorComplete() {
+        //Complete list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.COMPLETED));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlAltCAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+    //Scrolling down with accelerator ends here
+
+    //Scroll Up with accelerator
+    @Test
+    public void scrollingDecreaseWithAcceleratorResult() {
+        //Result Display
+        scrollTest = new Scroll();
+        scrollTest.getTextVerticalScrollbar(resultDisplay.getResultDisplay());
+        scrollTest.scrollIncrease();
+        scrollTest.scrollIncrease();
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlShiftRAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithAcceleratorEvent() {
+        //Event List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        scrollTest.scrollIncrease();
+        scrollTest.scrollIncrease();
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlShiftEAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithAcceleratorFloat() {
+        //Float List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.FLOAT));
+        commandBox.runCommand("select f2");
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlShiftFAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithAcceleratorDeadline() {
+        //Deadline List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.DEADLINE));
+        commandBox.runCommand("select d2");
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlShiftDAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithAcceleratorComplete() {
+        //Complete List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.COMPLETED));
+        scrollTest.scrollIncrease();
+        scrollTest.scrollIncrease();
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.useCtrlShiftCAccelerator();
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+    //Scrolling Up with accelerator ends
+
+    //Scroll Down with ClickOn
+    @Test
+    public void scrollingIncreaseWithClickOnResult() {
+        //Result Display
+        scrollTest = new Scroll();
+        commandBox.runCommand("help");
+        scrollTest.getTextVerticalScrollbar(resultDisplay.getResultDisplay());
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Result Display Down");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithClickOnEvent() {
+        //Event list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Events Down");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithClickOnFloat() {
+        //Float list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.FLOAT));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Floating Down");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithClickOnDeadline() {
+        //Deadline list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.DEADLINE));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Deadline Down");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+
+    @Test
+    public void scrollingIncreaseWithClickOnComplete() {
+        //Complete list
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.COMPLETED));
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Complete Down");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue < newValue);
+    }
+    //Scrolling down with ClickOn ends here
+
+    //Scroll Up with ClickOn
+    @Test
+    public void scrollingDecreaseWithClickOnResult() {
+        //Result Display
+        scrollTest = new Scroll();
+        scrollTest.getTextVerticalScrollbar(resultDisplay.getResultDisplay());
+        scrollTest.scrollIncrease();
+        scrollTest.scrollIncrease();
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Result Display Up");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithClickOnEvent() {
+        //Event List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
+        commandBox.runCommand("select e2");
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Events Up");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithClickOnFloat() {
+        //Float List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.FLOAT));
+        commandBox.runCommand("select f2");
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Floating Up");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithClickOnDeadline() {
+        //Deadline List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.DEADLINE));
+        commandBox.runCommand("select d2");
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Deadline Up");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+
+    @Test
+    public void scrollingDecreaseWithClickOnComplete() {
+        //Complete List
+        scrollTest = new Scroll();
+        scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.COMPLETED));
+        scrollTest.scrollIncrease();
+        scrollTest.scrollIncrease();
+        double oldValue = scrollTest.getCurrentValue();
+        mainMenu.clickOn("Help", "Complete Up");
+        double newValue = scrollTest.getCurrentValue();
+        assertTrue(oldValue > newValue);
+    }
+    //Scroll Up with ClickOn ends
+}

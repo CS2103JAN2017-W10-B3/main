@@ -16,6 +16,7 @@ import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.AddCommand;
 import todolist.logic.commands.Command;
 import todolist.logic.commands.IncorrectCommand;
+import todolist.model.task.Time;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -34,7 +35,7 @@ public class AddCommandParser {
         try {
             if (argsTokenizer.getValue(PREFIX_ENDTIME).isPresent() &&
                     argsTokenizer.getValue(PREFIX_DEADLINETIME).isPresent()) {
-                throw new NoSuchElementException();
+                throw new IllegalValueException(Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
             }
             return new AddCommand(
                     argsTokenizer.getPreamble().get(),

@@ -81,8 +81,6 @@ public interface Model {
     /** Updates the filter of the filtered Task list to show all Tasks */
     void updateFilteredListToShowAll();
 
-    String getTagListToString();
-
     int getSumTaskListed();
 
     /**
@@ -103,12 +101,6 @@ public interface Model {
      * status enum
      */
     void updateFilteredTaskListToShowWithStatus(Status status);
-
-    /**
-     * Updates the filter of the filtered Task list to filter by the given
-     * set of tag
-     */
-    void updateFilteredTaskListToShowWithTag(Set<String> keywordSet);
 
     /**
      * Mark a task to be completed
