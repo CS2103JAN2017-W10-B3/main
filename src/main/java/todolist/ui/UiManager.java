@@ -1,14 +1,26 @@
 package todolist.ui;
 
+import java.awt.AWTException;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import todolist.MainApp;
 import todolist.commons.core.ComponentManager;
 import todolist.commons.core.Config;
@@ -35,6 +47,7 @@ public class UiManager extends ComponentManager implements Ui {
     private Config config;
     private UserPrefs prefs;
     private MainWindow mainWindow;
+    private TrayIcon trayIcon;
 
     public UiManager(Logic logic, Config config, UserPrefs prefs) {
         super();
@@ -50,6 +63,7 @@ public class UiManager extends ComponentManager implements Ui {
 
         // Set the application icon.
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
+        createTrayIcon(primaryStage);
 
         try {
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
@@ -60,6 +74,68 @@ public class UiManager extends ComponentManager implements Ui {
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
             showFatalErrorDialogAndShutdown("Fatal error during initializing", e);
+        }
+    }
+
+    public void createTrayIcon(final Stage stage) {
+        if (SystemTray.isSupported()) {
+            // get the SystemTray instance
+            SystemTray tray = SystemTray.getSystemTray();
+
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent t) {
+                    //hide(stage);
+                    stage.hide();
+                }
+            });
+            // create a action listener to listen for default action executed on the tray icon
+            final ActionListener closeListener = new ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    System.exit(0);
+                }
+            };
+
+            ActionListener showListener = new ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            stage.show();
+                        }
+                    });
+                }
+            };
+
+            // create a popup menu
+            PopupMenu popup = new PopupMenu();
+
+            MenuItem showItem = new MenuItem("Show ToDoList");
+            showItem.addActionListener(showListener);
+            popup.add(showItem);
+
+            MenuItem closeItem = new MenuItem("Exit");
+            closeItem.addActionListener(closeListener);
+            popup.add(closeItem);
+
+            // construct a TrayIcon
+            try {
+                trayIcon = new TrayIcon(ImageIO.read(new File(ICON_APPLICATION)), "Title", popup);
+            } catch (IOException e) {
+                logger.info(e.getMessage());
+            }
+            // set the TrayIcon properties
+            //trayIcon.addActionListener(showListener);
+            // ...
+            // add the tray image
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e) {
+                System.err.println(e);
+            }
+            // ...
         }
     }
 
