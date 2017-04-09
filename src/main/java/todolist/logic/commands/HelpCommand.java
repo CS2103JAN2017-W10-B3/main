@@ -41,9 +41,9 @@ public class HelpCommand extends Command {
             return new CommandResult(commandSyntax.getSpecificCommandUsageMessage(commandType));
         }
     }
-    
+
     public static String getHelpMessage() {
-        return helpMessage;
+        return showingHelpMessage;
     }
 
     private String getCommandUsageMessage(String command) {
