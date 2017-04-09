@@ -77,7 +77,7 @@ public class AddCommandTest extends LogicManagerTest {
 
         // execute undo
         assertCommandSuccess("undo",
-                String.format(UndoCommand.MESSAGE_UNDO_SUCCESS, feedbackToUser),
+                UndoCommand.MESSAGE_UNDO_SUCCESS+feedbackToUser,
                 originalTDL, originalTDL.getFilteredDeadlines(), Task.DEADLINE_CHAR);
     }
 
@@ -99,7 +99,7 @@ public class AddCommandTest extends LogicManagerTest {
 
         // execute undo
         assertCommandSuccess("undo",
-                String.format(UndoCommand.MESSAGE_UNDO_SUCCESS, feedbackToUser),
+                UndoCommand.MESSAGE_UNDO_SUCCESS + feedbackToUser,
                 originalTDL, originalTDL.getFilteredEvents(), Task.EVENT_CHAR);
     }
 
@@ -120,7 +120,7 @@ public class AddCommandTest extends LogicManagerTest {
                 expectedTDL.getFilteredFloats(), Task.FLOAT_CHAR);
 
         assertCommandSuccess("undo",
-                String.format(UndoCommand.MESSAGE_UNDO_SUCCESS, feedbackToUser),
+                UndoCommand.MESSAGE_UNDO_SUCCESS + feedbackToUser,
                 originalTDL, originalTDL.getFilteredFloats(), Task.FLOAT_CHAR);
     }
 
