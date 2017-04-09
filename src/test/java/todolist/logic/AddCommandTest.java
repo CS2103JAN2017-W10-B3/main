@@ -61,6 +61,10 @@ public class AddCommandTest extends LogicManagerTest {
         assertCommandFailure("add Valid Title /to Tomorrow /by Next Monday /description valid",
                 Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
 
+        //invalid duplicated time parameters
+        assertCommandFailure("add Valid Title /from Tomorrow /on Next Monday /description valid",
+                Time.MESSAGE_DUPLICATED_TIME_PARAMETERS);
+
         //invalid task with invalid duration
         assertCommandFailure("add Valid Title /from Jan 1, 2000 /to Jan 2, 2000 /description valid",
                 Time.MESSAGE_INVALID_DURATION);

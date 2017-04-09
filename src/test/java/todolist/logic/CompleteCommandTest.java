@@ -57,6 +57,25 @@ public class CompleteCommandTest extends LogicManagerTest {
                 expectedAB.getCompletedTasks(), Task.COMPLETE_CHAR);
     }
 
+    @Test
+    //Check if the message shown is correct if index given is valid
+    public void executeCompleteMultipleTasksWithSingleIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Task> eightTasks = helper.generateDeadlineTaskList(8);
+
+        ToDoList expectedAB = helper.generateToDoList(eightTasks);
+        helper.addToModel(model, eightTasks);
+        List<Task> toComplete = new ArrayList<Task>();
+        toComplete.add(eightTasks.get(1));
+        toComplete.add(eightTasks.get(2));
+        toComplete.add(eightTasks.get(3));
+
+        assertCommandSuccess("done 2-4",
+                CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + messageBuilder(toComplete),
+                expectedAB,
+                expectedAB.getCompletedTasks(), Task.COMPLETE_CHAR);
+    }
+
     private String messageBuilder(List<Task> toComplete) {
         StringBuilder sb = new StringBuilder();
         for (Task task : toComplete) {
