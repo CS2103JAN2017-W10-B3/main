@@ -37,10 +37,11 @@ public class ListByDurationCommand extends Command {
         } else {
             this.endTime = null;
         }
-        
+
     }
 
-    private void initStartTime(Optional<String> startTimeArg, Optional<String> beginningTimeArg) throws IllegalValueException {
+    private void initStartTime(Optional<String> startTimeArg, Optional<String> beginningTimeArg)
+            throws IllegalValueException {
         if (startTimeArg.isPresent()) {
             this.startTime = Optional.of(new StartTime(startTimeArg.get()));
             this.today = null;
@@ -51,7 +52,7 @@ public class ListByDurationCommand extends Command {
             this.startTime = null;
             this.today = null;
         }
-        
+
     }
 
     @Override
