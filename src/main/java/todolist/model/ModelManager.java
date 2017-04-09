@@ -94,6 +94,7 @@ public class ModelManager extends ComponentManager implements Model {
      */
     @Override
     public void changeDirectory(String filePath) throws IOException {
+        assert(filePath != null);
         FileUtil.createIfMissing(new File(filePath));
         indicateDirectoryChanged(filePath);
         indicateToDoListChanged();

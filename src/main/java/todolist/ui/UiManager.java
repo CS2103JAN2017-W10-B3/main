@@ -76,7 +76,7 @@ public class UiManager extends ComponentManager implements Ui {
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
 
             // Create the keystroke listeners
-            initiateGlobalKeyListener(mainWindow);
+            //initiateGlobalKeyListener(mainWindow);
 
             // Create the tray icon.
             initializeTray(primaryStage);
@@ -213,7 +213,7 @@ public class UiManager extends ComponentManager implements Ui {
         logger.severe(title + " " + e.getMessage() + StringUtil.getDetails(e));
         showAlertDialogAndWait(Alert.AlertType.ERROR, title, e.getMessage(), e.toString());
         Platform.exit();
-        System.exit(0);
+        System.exit(1);
     }
 
     // ==================== Event Handling Code
