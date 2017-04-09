@@ -60,7 +60,7 @@ public class UiManager extends ComponentManager implements Ui {
         this.prefs = prefs;
     }
 
-    //@@author A0110791M
+    // @@author A0110791M
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting UI...");
@@ -80,17 +80,21 @@ public class UiManager extends ComponentManager implements Ui {
             showFatalErrorDialogAndShutdown("Fatal error during initializing", e);
         }
 
+        try {
         // Create the keystroke listeners
         initiateGlobalKeyListener(mainWindow);
 
         // Create the tray icon.
         initializeTray(primaryStage);
+        } catch (Exception e) {
+            logger.info("Could not initiate tray/shortcut key.");
+        }
 
         mainWindow.show();
     }
 
     /*
-     *  Load the icon image and then call for tray setup.
+     * Load the icon image and then call for tray setup.
      */
     private void initializeTray(Stage primaryStage) {
         BufferedImage trayIconImage = null;
@@ -99,59 +103,60 @@ public class UiManager extends ComponentManager implements Ui {
         } catch (IOException e) {
             logger.info(e.getMessage());
         }
-        createTrayIcon(primaryStage, trayIconImage);
-    }
-
-    /*
-     *  Setup the tray and all the tray properties.
-     */
-    private void createTrayIcon(final Stage stage, BufferedImage trayIconImage) {
         if (SystemTray.isSupported()) {
-            SystemTray tray = SystemTray.getSystemTray();
-
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent t) {
-                    stage.hide();
-                    if (firstTime) {
-                        trayIcon.displayMessage("ToDoList running in background.", "Press hotkeys to open.",
-                                TrayIcon.MessageType.INFO);
-                        firstTime = false;
-                    }
-                }
-            });
-            // create listener for clicks on tray icon
-            final TrayIconListener trayIconListener = new TrayIconListener(mainWindow);
-
-            // create a popup menu
-            PopupMenu popup = new PopupMenu();
-
-            MenuItem showItem = new MenuItem("Show");
-            showItem.addActionListener(trayIconListener);
-            popup.add(showItem);
-
-            MenuItem hideItem = new MenuItem("Hide");
-            hideItem.addActionListener(trayIconListener);
-            popup.add(hideItem);
-
-            MenuItem exitItem = new MenuItem("Exit");
-            exitItem.addActionListener(trayIconListener);
-            popup.add(exitItem);
-
-            trayIcon = new TrayIcon(trayIconImage, "ToDoList", popup);
-            trayIcon.addActionListener(trayIconListener);
-
-            // add the tray image
-            try {
-                tray.add(trayIcon);
-            } catch (AWTException e) {
-                System.err.println(e);
-            }
+            createTrayIcon(primaryStage, trayIconImage);
         }
     }
 
     /*
-     *  Sets up the global key listener which listens for the keystrokes even when app is out of focus
+     * Setup the tray and all the tray properties.
+     */
+    private void createTrayIcon(final Stage stage, BufferedImage trayIconImage) {
+        SystemTray tray = SystemTray.getSystemTray();
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                stage.hide();
+                if (firstTime) {
+                    trayIcon.displayMessage("ToDoList running in background.", "Press hotkeys to open.",
+                            TrayIcon.MessageType.INFO);
+                    firstTime = false;
+                }
+            }
+        });
+        // create listener for clicks on tray icon
+        final TrayIconListener trayIconListener = new TrayIconListener(mainWindow);
+
+        // create a popup menu
+        PopupMenu popup = new PopupMenu();
+
+        MenuItem showItem = new MenuItem("Show");
+        showItem.addActionListener(trayIconListener);
+        popup.add(showItem);
+
+        MenuItem hideItem = new MenuItem("Hide");
+        hideItem.addActionListener(trayIconListener);
+        popup.add(hideItem);
+
+        MenuItem exitItem = new MenuItem("Exit");
+        exitItem.addActionListener(trayIconListener);
+        popup.add(exitItem);
+
+        trayIcon = new TrayIcon(trayIconImage, "ToDoList", popup);
+        trayIcon.addActionListener(trayIconListener);
+
+        // add the tray image
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.err.println(e);
+        }
+    }
+
+    /*
+     * Sets up the global key listener which listens for the keystrokes even
+     * when app is out of focus
      */
     private void initiateGlobalKeyListener(MainWindow mainWindow) {
         // Get rid of default log messages.
@@ -168,7 +173,7 @@ public class UiManager extends ComponentManager implements Ui {
         GlobalScreen.addNativeKeyListener(new GlobalKeyListener(mainWindow));
 
     }
-    //@@
+    // @@
 
     @Override
     public void stop() {
