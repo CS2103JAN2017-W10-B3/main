@@ -140,7 +140,7 @@ public class ModelManager extends ComponentManager implements Model {
                 readOnlyTask.getTags());
         todoList.addTask(task);
     }
-    // @@
+    //@@
 
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
@@ -184,8 +184,8 @@ public class ModelManager extends ComponentManager implements Model {
     public void clearSelectedIndexes() {
         this.selectedIndexes.clear();
     }
-
-    // @@author A0122017Y
+     //@@
+    //@@author A0122017Y
     /**
      * Synchronize the task lists with the respective task type.
      */
@@ -387,7 +387,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
-    //
+    //@@
 
     // @@author A0122017Y
     private class StatusQualifier implements Qualifier {
@@ -516,7 +516,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
-    // @@
+    //@@
+    //@@author A0143648Y
     private boolean hasContainedKeyword(String searchMe, String findMe) {
         searchMe = searchMe.toLowerCase();
         findMe = findMe.toLowerCase();

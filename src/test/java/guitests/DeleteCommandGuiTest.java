@@ -18,35 +18,28 @@ public class DeleteCommandGuiTest extends ToDoListGuiTest {
         TestTask[] currentDeadlineList = td.getTypicalDeadlineTasks();
         TestTask[] currentFloatingList = td.getTypicalFloatingTasks();
 
-        // delete the first in the eventlist
         String toDelete = "e1";
         currentEventList = TestUtil.removeTaskFromList(currentEventList, 1);
         assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
 
-        // delete the last in the eventlist
         toDelete = "e" + currentEventList.length;
         currentEventList = TestUtil.removeTaskFromList(currentEventList, currentEventList.length);
         assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
 
-        // invalid index
         commandBox.runCommand("delete " + "e" + currentEventList.length + 1);
         assertResultMessage("The task index provided is invalid");
 
-        // delete the first in the deadlinelist
         toDelete = "d1";
         currentDeadlineList = TestUtil.removeTaskFromList(currentDeadlineList, 1);
         assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
 
-        // invalid index
         commandBox.runCommand("delete " + "d" + currentDeadlineList.length + 1);
         assertResultMessage("The task index provided is invalid");
 
-        // delete the first in the Floatinglist
         toDelete = "f1";
         currentFloatingList = TestUtil.removeTaskFromList(currentFloatingList, 1);
         assertDeleteSuccess(toDelete, currentEventList, currentDeadlineList, currentFloatingList);
 
-        // invalid index
         commandBox.runCommand("delete " + "f" + currentFloatingList.length + 1);
         assertResultMessage("The task index provided is invalid");
 

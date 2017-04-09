@@ -239,6 +239,11 @@ public class DeleteCommand extends UndoableCommand {
 
     }
 
+    /**
+     * Stores which parameters are to be deleted.
+     * True means to be deleted and false means not.
+     */
+
     public static class DeleteTaskDescriptor {
         private boolean ifVenueDeleted;
         private boolean ifStartTimeDeleted;

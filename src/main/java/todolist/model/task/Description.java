@@ -15,7 +15,7 @@ public class Description {
     private final String value;
 
     /**
-     * Validates given start time.
+     * Validates given description.
      *
      * @throws IllegalValueException
      *             if given start time string is invalid.
@@ -34,7 +34,7 @@ public class Description {
     }
 
     /**
-     * Returns true if a given string is a valid task start time.
+     * Returns true if a given string is a valid test description.
      */
     public static boolean isValidDescription(String test) {
         return test.matches(DESCRIPTION_VALIDATION_REGEX);

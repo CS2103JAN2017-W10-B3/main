@@ -8,9 +8,7 @@ import todolist.logic.commands.exceptions.CommandException;
 //@@author A0143648Y
 /**
  * Undoes the most recent modification to the ToDoList
- *
- * @author Jia Yilin
- *
+ * Only last 3 undoable commands are recorded
  */
 public class UndoCommand extends Command {
     private final Logger logger = LogsCenter.getLogger(UndoCommand.class);

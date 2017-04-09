@@ -68,6 +68,10 @@ public class DeleteCommandParser {
 
     }
 
+    /**
+     * Check if the user input is valid
+     * A valid input should only contain prefixes separated by white spaces
+     */
     private boolean isValidDeleteArgs(ArgumentTokenizer argsTokenizer) {
         boolean isValid = true;
         if (argsTokenizer.getValue(PREFIX_TITLE).isPresent()) {

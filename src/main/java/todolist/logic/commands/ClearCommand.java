@@ -29,6 +29,10 @@ public class ClearCommand extends UndoableCommand {
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
+    /**
+     * Update {@code previousToDoLists} with the todolist before last edition
+     * and {@code previousCommand} with the command just executed
+     */
     @Override
     public void updateUndoLists() {
         if (previousToDoLists == null) {

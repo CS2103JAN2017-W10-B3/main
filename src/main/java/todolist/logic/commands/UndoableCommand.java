@@ -6,6 +6,9 @@ import java.util.List;
 import todolist.model.ReadOnlyToDoList;
 
 //@@author A0143648Y
+/**
+ * An abstract class to keep a record of the todolist and command histories
+ */
 public abstract class UndoableCommand extends Command {
     protected static final int UNDO_HISTORY_SIZE = 3;
     protected static final int ITEM_TO_BE_REMOVED_FROM_HISTORY = 0;

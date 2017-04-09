@@ -24,13 +24,12 @@ import todolist.logic.commands.IncorrectCommand;
 import todolist.model.tag.UniqueTagList;
 import todolist.model.task.Task;
 import todolist.model.task.TaskIndex;
-
+//@@author A0143648Y
 /**
  * Parses input arguments and creates a new EditCommand object
  */
 public class EditCommandParser {
 
-  //@@author A0143648Y
     /**
      * Parses the given {@code String} of arguments in the context of the
      * EditCommand and returns an EditCommand object for execution.
@@ -93,6 +92,10 @@ public class EditCommandParser {
         return new EditCommand(indexes.get(), editTaskDescriptor);
     }
 
+    /**
+     * Check if the user input indexes{@ indexes} contain "c" which stands for completed tasks
+     * Completed tasks are not allowed to be edited
+     */
     private boolean hasContainedCompletedTask(Optional<ArrayList<TaskIndex>> indexes) {
         boolean hasContained = false;
         for (TaskIndex index: indexes.get()) {

@@ -36,8 +36,8 @@ public class ParserUtil {
 
   //@@author A0143648Y
     /**
-     * Returns the specified index in the {@code command} if it is a positive
-     * unsigned integer Returns an {@code Optional.empty()} otherwise.
+     * Returns the specified indexes in the {@code command} if it is a valid
+     * index Returns an {@code Optional.empty()} otherwise.
      */
     public static Optional<ArrayList<TaskIndex>> parseIndex(String command) {
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(command.trim());
@@ -55,6 +55,10 @@ public class ParserUtil {
 
     }
 
+    /**
+     * Returns the specified indexes in the {@code indexes}
+     * {@code indexes} should be passed through isValidIndex first before passed into this method
+     */
     public static Optional<ArrayList<TaskIndex>> parseCorrectIndex(String[] indexes) {
         assert indexes != null;
 
@@ -71,6 +75,9 @@ public class ParserUtil {
 
     }
 
+    /**
+     * Returns the specified single index in the {@code indexes}
+     */
     public static TaskIndex parseCorrectSingleIndex(String index) {
         assert isSingleValidIndex(index);
 
@@ -88,6 +95,9 @@ public class ParserUtil {
 
     }
 
+    /**
+     * Returns the specified multiple index in the {@code indexes}
+     */
     public static ArrayList<TaskIndex> parseCorrectMultipleIndex(String index) {
         assert isMultipleValidIndex(index);
 
@@ -117,6 +127,10 @@ public class ParserUtil {
 
     }
 
+    /**
+     * Returns a list of TaskIndex generated from {@code taskType} starting from {@code firstTaskNumber}
+     * to {@code} lastTaskNumber
+     */
     public static ArrayList<TaskIndex> generateListOfIndexes(Character taskType, int firstTaskNumber,
             int lastTaskNumber) {
 
@@ -128,6 +142,9 @@ public class ParserUtil {
 
     }
 
+    /**
+     * Returns if {@code index} is a valid index input
+     */
     public static boolean isValidIndex(String index) {
         if (!index.contains(INDEX_RANGE_SYMBOL)) {
             return isSingleValidIndex(index);
@@ -138,6 +155,9 @@ public class ParserUtil {
         }
     }
 
+    /**
+     * Returns if {@code index} is a valid single index input
+     */
     public static boolean isSingleValidIndex(String index) {
         if (StringUtil.isUnsignedInteger(index)) {
             return true;
@@ -157,6 +177,9 @@ public class ParserUtil {
 
     }
 
+    /**
+     * Returns if {@code index} is a valid multiple index input
+     */
     public static boolean isMultipleValidIndex(String index) {
         String[] splitIndex = index.split(INDEX_RANGE_SYMBOL);
         if (!isSingleValidIndex(splitIndex[0])) {
@@ -186,7 +209,7 @@ public class ParserUtil {
         }
     }
 
-    // @@
+    //@@
     /**
      * Returns a new Set populated by all elements in the given list of strings
      * Returns an empty set if the given {@code Optional} is empty, or if the

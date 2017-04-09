@@ -56,28 +56,56 @@ public interface Model {
 
   //@@author A0143648Y
     /**
-     * Returns the filtered Task list as an
+     * Returns the filtered Deadline Task list as an
      * {@code UnmodifiableObservableList<ReadOnlyTask>}
      */
     UnmodifiableObservableList<ReadOnlyTask> getFilteredDeadlineList();
 
+    /**
+     * Returns the filtered Event list as an
+     * {@code UnmodifiableObservableList<ReadOnlyTask>}
+     */
     UnmodifiableObservableList<ReadOnlyTask> getFilteredEventList();
 
+    /**
+     * Returns the filtered Floating Task list as an
+     * {@code UnmodifiableObservableList<ReadOnlyTask>}
+     */
     UnmodifiableObservableList<ReadOnlyTask> getFilteredFloatList();
 
+    /**
+     * Returns the filtered Task list containing all tasks as an
+     * {@code UnmodifiableObservableList<ReadOnlyTask>}
+     */
     UnmodifiableObservableList<ReadOnlyTask> getAllTaskList();
 
+    /**
+     * Returns the correct type of Task list from
+     * {@code type}}
+     */
     UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type);
 
+    /**
+     * Updates current Task Indexes being selected from {@code indexes}
+     */
     void updateSelectedIndexes(ArrayList<TaskIndex> indexes);
 
+    /**
+     * Updates current Task Indexes being selected from {@code index}
+     */
     void updateSelectedIndexes(TaskIndex index);
 
+    /**
+     * Clear all current Task Indexes being selected
+     */
     void clearSelectedIndexes();
 
+    /**
+     * Returns a list of current selected Task Indexes
+     */
     ArrayList<TaskIndex> getSelectedIndexes();
 
-    // @@
+    //@@
     /** Updates the filter of the filtered Task list to show all Tasks */
     void updateFilteredListToShowAll();
 
@@ -89,7 +117,7 @@ public interface Model {
      */
     void updateFilteredTaskList(Set<String> keywords);
 
-    // @@ author A0122017Y
+    //@@ author A0122017Y
     /**
      * Updates the filter of the filtered Task list to filter by the given
      * start and end time values, or a given day
@@ -113,7 +141,7 @@ public interface Model {
     UnmodifiableObservableList<ReadOnlyTask> getCompletedList();
 
 
-    // @@
+    //@@
 
     //@@author A0110791M
     void changeDirectory(String filePath) throws IOException;

@@ -10,7 +10,6 @@ import todolist.logic.commands.Command;
 import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.SaveCommand;
 
-//@@author A0143648Y
 
 /**
  * Parses arguments in the context of the save command.

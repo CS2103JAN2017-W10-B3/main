@@ -86,7 +86,7 @@ public class Parser {
 
         case JokeCommand.COMMAND_WORD:
             return new JokeCommand();
-          //@@author A0143648Y
+
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
 
@@ -98,7 +98,7 @@ public class Parser {
 
         case ImportCommand.COMMAND_WORD:
             return new ImportCommandParser().parse(arguments);
-
+            //@@author A0143648Y
         default:
             if (ParserUtil.isValidIndex(commandWord) && arguments.isEmpty()) {
                 return new SelectCommandParser().parse(commandWord);

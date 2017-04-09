@@ -80,6 +80,10 @@ public class CompleteCommand extends UndoableCommand {
         return new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS + messageSuccessful);
     }
 
+    /**
+     * Update {@code previousToDoLists} with the todolist before last edition
+     * and {@code previousCommand} with the command just executed
+     */
     @Override
     public void updateUndoLists() {
         if (previousToDoLists == null) {
