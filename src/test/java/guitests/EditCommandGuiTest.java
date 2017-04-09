@@ -12,7 +12,7 @@ import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
-//@@author A0143648Y
+//@@ author A0143648Y
 public class EditCommandGuiTest extends ToDoListGuiTest {
 
     TestTask[] currentEventList = td.getTypicalEventTasks();
@@ -22,7 +22,7 @@ public class EditCommandGuiTest extends ToDoListGuiTest {
     String toEdit = "";
 
     @Test
-    public void edit_multiple_floating_starttime_success() throws Exception {
+    public void editMultipleFloatingStarttimeSuccess() throws Exception {
         toEdit = "f3-4 /from June 3, 11:00";
         commandBox.runCommand("edit " + toEdit);
         TestTask learnJava = new TaskBuilder().withTitle("Learn Java").withTags("java").withVenue("Online")
@@ -41,7 +41,7 @@ public class EditCommandGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void edit_single_event_endtime_success() throws Exception {
+    public void editSingleEventEndtimeSuccess() throws Exception {
         toEdit = "e2 /to May 31, 12:30";
         commandBox.runCommand("edit " + toEdit);
         TestTask dbsInterview = new TaskBuilder().withTitle("DBS Internship interview").withVenue("Raffles Place")
@@ -57,7 +57,7 @@ public class EditCommandGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void edit_single_floating_urgencylevel_success() throws Exception {
+    public void editSingleFloatingUrgencylevelSuccess() throws Exception {
         toEdit = "f1 /level 1";
         commandBox.runCommand("edit " + toEdit);
         TestTask buyGroceries = new TaskBuilder().withTitle("Buy groceries").withTags("shopping").withVenue("NTUC")
@@ -72,7 +72,7 @@ public class EditCommandGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void edit_single_event_title_success() throws Exception {
+    public void editSingleEventTitleSuccess() throws Exception {
         toEdit = "e1 /title GER1000 Tutorial";
         commandBox.runCommand("edit " + toEdit);
         TestTask cs2103Tutorial = new TaskBuilder().withTitle("GER1000 Tutorial").withVenue("COM1-B103")
@@ -86,7 +86,7 @@ public class EditCommandGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void edit_single_deadline_venue_success() throws Exception {
+    public void editSingleDeadlineVenueSuccess() throws Exception {
         toEdit = "d1 /venue FASS-B103";
         commandBox.runCommand("edit " + toEdit);
         TestTask cs2103Submission = new TaskBuilder().withTitle("CS2103 Tutorial").withVenue("FASS-B103")
@@ -100,7 +100,7 @@ public class EditCommandGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void edit_single_floating_tag_success() throws Exception {
+    public void editSingleFloatingTagSuccess() throws Exception {
         toEdit = "f1 /description Buy oranges";
         commandBox.runCommand("edit " + toEdit);
         TestTask buyGroceries = new TaskBuilder().withTitle("Buy groceries").withTags("shopping").withVenue("NTUC")

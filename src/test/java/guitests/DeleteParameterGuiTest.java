@@ -11,7 +11,7 @@ import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
-//@@author A0143648Y
+//@@ author A0143648Y
 public class DeleteParameterGuiTest extends ToDoListGuiTest {
 
     TestTask[] currentEventList = td.getTypicalEventTasks();
@@ -21,7 +21,7 @@ public class DeleteParameterGuiTest extends ToDoListGuiTest {
     String toDelete = "";
 
     @Test
-    public void delete_multiple_deadline_endtime_success() throws Exception {
+    public void deleteMultipleDeadlineEndtimeSuccess() throws Exception {
         toDelete = "d3-4 /to";
         commandBox.runCommand("delete " + toDelete);
         TestTask fypPresentation = new TaskBuilder().withTitle("FYP Presentation").withVenue("EA-06-06")
@@ -40,7 +40,7 @@ public class DeleteParameterGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void delete_single_event_endtime_success() throws Exception {
+    public void deleteSingleEventEndtimeSuccess() throws Exception {
         toDelete = "e2 /to";
         commandBox.runCommand("delete " + toDelete);
         TestTask dbsInterview = new TaskBuilder().withTitle("DBS Internship interview").withVenue("Raffles Place")
@@ -56,7 +56,7 @@ public class DeleteParameterGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void delete_single_floating_urgencylevel_success() throws Exception {
+    public void deleteSingleFloatingUrgencylevelSuccess() throws Exception {
         toDelete = "f1 /level";
         commandBox.runCommand("delete " + toDelete);
         TestTask buyGroceries = new TaskBuilder().withTitle("Buy groceries").withVenue("NTUC")
@@ -71,7 +71,7 @@ public class DeleteParameterGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void delete_single_event_description_success() throws Exception {
+    public void deleteSingleEventDescriptionSuccess() throws Exception {
         toDelete = "e1 /description";
         commandBox.runCommand("delete " + toDelete);
         TestTask cs2103Tutorial = new TaskBuilder().withTitle("CS2103 Tutorial").withVenue("COM1-B103")
@@ -85,7 +85,7 @@ public class DeleteParameterGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void delete_single_deadline_venue_success() throws Exception {
+    public void deleteSingleDeadlineVenueSuccess() throws Exception {
         toDelete = "d1 /venue";
         commandBox.runCommand("delete " + toDelete);
         TestTask cs2103Submission = new TaskBuilder().withTitle("CS2103 Tutorial")
@@ -99,7 +99,7 @@ public class DeleteParameterGuiTest extends ToDoListGuiTest {
     }
 
     @Test
-    public void delete_single_floating_tag_success() throws Exception {
+    public void deleteSingleFloatingTagSuccess() throws Exception {
         toDelete = "f1 #";
         commandBox.runCommand("delete " + toDelete);
         TestTask buyGroceries = new TaskBuilder().withTitle("Buy groceries").withVenue("NTUC")

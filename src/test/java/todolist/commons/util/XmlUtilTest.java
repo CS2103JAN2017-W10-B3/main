@@ -28,44 +28,44 @@ public class XmlUtilTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void getDataFromFile_nullFile_AssertionError() throws Exception {
+    public void getDataFromFileNullFileAssertionError() throws Exception {
         thrown.expect(AssertionError.class);
         XmlUtil.getDataFromFile(null, ToDoList.class);
     }
 
     @Test
-    public void getDataFromFile_nullClass_AssertionError() throws Exception {
+    public void getDataFromFileNullClassAssertionError() throws Exception {
         thrown.expect(AssertionError.class);
         XmlUtil.getDataFromFile(VALID_FILE, null);
     }
 
     @Test
-    public void getDataFromFile_missingFile_FileNotFoundException() throws Exception {
+    public void getDataFromFileMissingFileFileNotFoundException() throws Exception {
         thrown.expect(FileNotFoundException.class);
         XmlUtil.getDataFromFile(MISSING_FILE, ToDoList.class);
     }
 
     @Test
-    public void getDataFromFile_emptyFile_DataFormatMismatchException() throws Exception {
+    public void getDataFromFileEmptyFileDataFormatMismatchException() throws Exception {
         thrown.expect(JAXBException.class);
         XmlUtil.getDataFromFile(EMPTY_FILE, ToDoList.class);
     }
 
     @Test
-    public void getDataFromFile_validFile_validResult() throws Exception {
+    public void getDataFromFileValidFileValidResult() throws Exception {
         XmlSerializableToDoList dataFromFile = XmlUtil.getDataFromFile(VALID_FILE, XmlSerializableToDoList.class);
         assertEquals(9, dataFromFile.getTaskList().size());
         assertEquals(0, dataFromFile.getTagList().size());
     }
 
     @Test
-    public void saveDataToFile_nullFile_AssertionError() throws Exception {
+    public void saveDataToFileNullFileAssertionError() throws Exception {
         thrown.expect(AssertionError.class);
         XmlUtil.saveDataToFile(null, new ToDoList());
     }
 
     @Test
-    public void saveDataToFile_nullClass_AssertionError() throws Exception {
+    public void saveDataToFileNullClassAssertionError() throws Exception {
         thrown.expect(AssertionError.class);
         XmlUtil.saveDataToFile(VALID_FILE, null);
     }
@@ -77,7 +77,7 @@ public class XmlUtilTest {
     }
 
     @Test
-    public void saveDataToFile_validFile_dataSaved() throws Exception {
+    public void saveDataToFileValidFileDataSaved() throws Exception {
         TEMP_FILE.createNewFile();
         XmlSerializableToDoList dataToWrite = new XmlSerializableToDoList(new ToDoList());
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
