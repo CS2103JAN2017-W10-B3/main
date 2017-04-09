@@ -2,132 +2,135 @@ package guitests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import guitests.guihandles.TaskCardHandle;
-import todolist.logic.commands.EditCommand;
 import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
+import todolist.testutil.TestUtil;
 
-// TODO: reduce GUI tests by transferring some tests to be covered by lower level tests.
+//@@ author A0143648Y
 public class EditCommandGuiTest extends ToDoListGuiTest {
 
-    // The list of tasks in the task list panel is expected to match this list.
-    // This list is updated with every successful call to assertEditSuccess().
-    TestTask[] expectedTasksList = td.getTypicalEventTasks();
+    TestTask[] currentEventList = td.getTypicalEventTasks();
+    TestTask[] currentDeadlineList = td.getTypicalDeadlineTasks();
+    TestTask[] currentFloatingList = td.getTypicalFloatingTasks();
+    ArrayList<TestTask> updatedTasks = new ArrayList<TestTask>();
+    String toEdit = "";
 
     @Test
-    public void edit_allFieldsSpecified_success() throws Exception {
-        String detailsToEdit = "Super Supper /venue Al Amaan's /from 10pm /to 12am #bff";
-        int todoListIndex = 1;
-
-        TestTask editedTask = new TaskBuilder().withTitle("Supper").withVenue("Ameen's")
-                .withStartTime("12am").withEndTime("6am")
-                .withUrgencyLevel("1").withDescription("HUNGRYYY").withTags("husband").build();
-
-        //assertEditSuccess(todoListIndex, todoListIndex, detailsToEdit, editedTask);
+    public void edit_multiple_floating_starttime_success() throws Exception {
+        toEdit = "f3-4 /from June 3, 11:00";
+        commandBox.runCommand("edit " + toEdit);
+        TestTask learnJava = new TaskBuilder().withTitle("Learn Java").withTags("java").withVenue("Online")
+                .withStartTime("June 3, 11:00").withUrgencyLevel("1")
+                .withDescription("Refer to photos gallery on phone for resources.").withCompleteStatus("false").build();
+        TestTask planGradTrip = new TaskBuilder().withTitle("Plan for Grad Trip").withTags("gradtrip")
+                .withVenue("Online").withStartTime("June 3, 11:00").withUrgencyLevel("1")
+                .withDescription("Decide when and where.").withCompleteStatus("false").build();
+        updatedTasks.clear();
+        updatedTasks.add(learnJava);
+        updatedTasks.add(planGradTrip);
+        currentFloatingList = TestUtil.removeTaskFromList(currentFloatingList, 3, 4);
+        currentFloatingList = TestUtil.addTasksToList(currentFloatingList, learnJava, planGradTrip);
+        assertCardMatching(Category.FLOAT, updatedTasks);
+        assertEditSuccess(currentEventList, currentDeadlineList, currentFloatingList);
     }
 
     @Test
-    public void edit_notAllFieldsSpecified_success() throws Exception {
-        String detailsToEdit = "t/sweetie t/bestie";
-        int todoListIndex = 2;
-
-        TestTask taskToEdit = expectedTasksList[todoListIndex - 1];
-        TestTask editedTask = new TaskBuilder(taskToEdit).withTags("sweetie", "bestie").build();
-
-        //assertEditSuccess(todoListIndex, todoListIndex, detailsToEdit, editedTask);
+    public void edit_single_event_endtime_success() throws Exception {
+        toEdit = "e2 /to May 31, 12:30";
+        commandBox.runCommand("edit " + toEdit);
+        TestTask dbsInterview = new TaskBuilder().withTitle("DBS Internship interview").withVenue("Raffles Place")
+                .withStartTime("May 31, 9:30").withEndTime("May 31, 12:30")
+                .withTags("interview", "internship", "important").withUrgencyLevel("3").withDescription("I love you")
+                .withCompleteStatus("false").build();
+        updatedTasks.clear();
+        updatedTasks.add(dbsInterview);
+        currentEventList = TestUtil.removeTaskFromList(currentEventList, 2);
+        currentEventList = TestUtil.addTasksToList(currentEventList, dbsInterview);
+        assertCardMatching(Category.EVENT, updatedTasks);
+        assertEditSuccess(currentEventList, currentDeadlineList, currentFloatingList);
     }
 
     @Test
-    public void edit_clearTags_success() throws Exception {
-        String detailsToEdit = "t/";
-        int todoListIndex = 2;
-
-        TestTask taskToEdit = expectedTasksList[todoListIndex - 1];
-        TestTask editedTask = new TaskBuilder(taskToEdit).withTags().build();
-
-        //assertEditSuccess(todoListIndex, todoListIndex, detailsToEdit, editedTask);
+    public void edit_single_floating_urgencylevel_success() throws Exception {
+        toEdit = "f1 /level 1";
+        commandBox.runCommand("edit " + toEdit);
+        TestTask buyGroceries = new TaskBuilder().withTitle("Buy groceries").withTags("shopping").withVenue("NTUC")
+                .withUrgencyLevel("1").withDescription("Buy cheese, pepper and milk.").withCompleteStatus("false")
+                .build();
+        updatedTasks.clear();
+        updatedTasks.add(buyGroceries);
+        currentFloatingList = TestUtil.removeTaskFromList(currentFloatingList, 1);
+        currentFloatingList = TestUtil.addTasksToList(currentFloatingList, buyGroceries);
+        assertCardMatching(Category.FLOAT, updatedTasks);
+        assertEditSuccess(currentEventList, currentDeadlineList, currentFloatingList);
     }
 
     @Test
-    public void edit_findThenEdit_success() throws Exception {
-        commandBox.runCommand("find Tuition part-time job");
-
-        String detailsToEdit = "Belle";
-        int filteredTaskListIndex = 1;
-        int todoListIndex = 5;
-
-        TestTask taskToEdit = expectedTasksList[todoListIndex - 1];
-        TestTask editedTask = new TaskBuilder(taskToEdit).withTitle("Belle").build();
-
-        //assertEditSuccess(filteredTaskListIndex, todoListIndex, detailsToEdit, editedTask);
+    public void edit_single_event_title_success() throws Exception {
+        toEdit = "e1 /title GER1000 Tutorial";
+        commandBox.runCommand("edit " + toEdit);
+        TestTask cs2103Tutorial = new TaskBuilder().withTitle("GER1000 Tutorial").withVenue("COM1-B103")
+                .withStartTime("May 30, 10:00").withEndTime("May 30, 11:00").withTags("lesson").withUrgencyLevel("3")
+                .withDescription("I love you").withCompleteStatus("false").build();
+        updatedTasks.clear();
+        updatedTasks.add(cs2103Tutorial);
+        currentEventList[0] = cs2103Tutorial;
+        assertCardMatching(Category.EVENT, updatedTasks);
+        assertEditSuccess(currentEventList, currentDeadlineList, currentFloatingList);
     }
 
     @Test
-    public void edit_missingTaskIndex_failure() {
-        commandBox.runCommand("edit Bobby");
-        //assertResultMessage(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+    public void edit_single_deadline_venue_success() throws Exception {
+        toEdit = "d1 /venue FASS-B103";
+        commandBox.runCommand("edit " + toEdit);
+        TestTask cs2103Submission = new TaskBuilder().withTitle("CS2103 Tutorial").withVenue("FASS-B103")
+                .withEndTime("June 1, 11:00").withTags("lesson").withUrgencyLevel("3")
+                .withDescription("Submit jar file + all the documents.").withCompleteStatus("false").build();
+        updatedTasks.clear();
+        updatedTasks.add(cs2103Submission);
+        currentDeadlineList[0] = cs2103Submission;
+        assertCardMatching(Category.DEADLINE, updatedTasks);
+        assertEditSuccess(currentEventList, currentDeadlineList, currentFloatingList);
     }
 
     @Test
-    public void edit_invalidTaskIndex_failure() {
-        commandBox.runCommand("edit 8 Bobby");
-        //assertResultMessage(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+    public void edit_single_floating_tag_success() throws Exception {
+        toEdit = "f1 /description Buy oranges";
+        commandBox.runCommand("edit " + toEdit);
+        TestTask buyGroceries = new TaskBuilder().withTitle("Buy groceries").withTags("shopping").withVenue("NTUC")
+                .withUrgencyLevel("2").withDescription("Buy oranges").withCompleteStatus("false").build();
+        updatedTasks.clear();
+        updatedTasks.add(buyGroceries);
+        currentFloatingList[0] = buyGroceries;
+        assertCardMatching(Category.FLOAT, updatedTasks);
+        assertEditSuccess(currentEventList, currentDeadlineList, currentFloatingList);
     }
 
-    @Test
-    public void edit_noFieldsSpecified_failure() {
-        commandBox.runCommand("edit 1");
-        assertResultMessage(EditCommand.MESSAGE_NOT_EDITED);
-    }
+    private void assertCardMatching(Category category, ArrayList<TestTask> updatedTasks) {
 
-    @Test
-    public void edit_invalidValues_failure() {
-//        commandBox.runCommand("edit 1 *&");
-//        assertResultMessage(Title.MESSAGE_TITLE_CONSTRAINTS);
-//
-//        commandBox.runCommand("edit 1 v/abcd");
-//        assertResultMessage(Venue.MESSAGE_VENUE_CONSTRAINTS);
-//
-//        commandBox.runCommand("edit 1 s/yahoo!!!");
-//        assertResultMessage(StartTime.MESSAGE_STARTTIME_CONSTRAINTS);
-//
-//        commandBox.runCommand("edit 1 e/");
-//        assertResultMessage(EndTime.MESSAGE_ENDTIME_CONSTRAINTS);
-//
-//        commandBox.runCommand("edit 1 t/*&");
-//        assertResultMessage(Tag.MESSAGE_TAG_CONSTRAINTS);
-    }
-
-    @Test
-    public void edit_duplicateTask_failure() {
-        commandBox.runCommand("edit e3 Alice Pauline /venue 85355255 s/alice@gmail.com "
-                                + "e/123, Jurong West Ave 6, #heyhey");
-        //assertResultMessage(EditCommand.MESSAGE_DUPLICATE_TASK);
+        // confirm the new card contains the right data
+        for (TestTask updatedTask : updatedTasks) {
+            TaskCardHandle editedCard = taskListPanel.navigateToTask(category, updatedTask.getTitle().toString());
+            assertMatching(updatedTask, editedCard);
+        }
     }
 
     /**
-     * Checks whether the edited task has the correct updated details.
-     *
-     * @param filteredTaskListIndex index of task to edit in filtered list
-     * @param ToDoListIndex index of task to edit in the address book.
-     *      Must refer to the same task as {@code filteredTaskListIndex}
-     * @param detailsToEdit details to edit the task with as input to the edit command
-     * @param editedTask the expected task after editing the task's details
+     * Runs the delete command to delete the tasks at specified indexes and
+     * confirms the result is correct.
      */
-    private void assertEditSuccess(int filteredTaskListIndex, int todoListIndex,
-                                    String detailsToEdit, TestTask editedTask) {
-        commandBox.runCommand("edit e" + filteredTaskListIndex + " " + detailsToEdit);
+    private void assertEditSuccess(TestTask[] expectedEventRemainder, TestTask[] expectedDeadlineRemainder,
+            TestTask[] expectedFloatingRemainder) {
+        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedEventRemainder));
+        assertTrue(taskListPanel.isListMatching(Category.FLOAT, expectedFloatingRemainder));
+        assertTrue(taskListPanel.isListMatching(Category.DEADLINE, expectedDeadlineRemainder));
 
-        // confirm the new card contains the right data
-        TaskCardHandle editedCard = taskListPanel.navigateToTask(Category.EVENT, editedTask.getTitle().toString());
-        assertMatching(editedTask, editedCard);
-
-        // confirm the list now contains all previous tasks plus the task with updated details
-        expectedTasksList[todoListIndex - 1] = editedTask;
-        assertTrue(taskListPanel.isListMatching(Category.EVENT, expectedTasksList));
-        assertResultMessage(String.format(EditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask));
     }
+
 }
