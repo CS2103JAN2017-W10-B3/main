@@ -42,7 +42,7 @@ public class SelectCommandGuiTest extends ToDoListGuiTest {
 
     private void assertSelectionSuccess(int index) {
         commandBox.runCommand("select e" + index);
-        assertResultMessage("Selected Task: e" + index);
+        assertResultMessage("Tasks have been succussfully selected!\n");
         assertTaskSelected(index);
     }
 
