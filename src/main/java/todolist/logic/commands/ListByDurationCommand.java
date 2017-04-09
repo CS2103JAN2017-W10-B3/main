@@ -25,6 +25,22 @@ public class ListByDurationCommand extends Command {
 
     private void initDuration(Optional<String> startTimeArg, Optional<String> beginningTimeArg,
             Optional<String> endTimeArg, Optional<String> deadlineArg) throws IllegalValueException {
+        initStartTime(startTimeArg, beginningTimeArg);
+        initEndTime(endTimeArg, deadlineArg);
+    }
+
+    private void initEndTime(Optional<String> endTimeArg, Optional<String> deadlineArg) throws IllegalValueException {
+        if (endTimeArg.isPresent()) {
+            this.endTime = Optional.of(new EndTime(endTimeArg.get()));
+        } else if (deadlineArg.isPresent()) {
+            this.endTime = Optional.of(new EndTime(deadlineArg.get()));
+        } else {
+            this.endTime = null;
+        }
+        
+    }
+
+    private void initStartTime(Optional<String> startTimeArg, Optional<String> beginningTimeArg) throws IllegalValueException {
         if (startTimeArg.isPresent()) {
             this.startTime = Optional.of(new StartTime(startTimeArg.get()));
             this.today = null;
@@ -35,14 +51,7 @@ public class ListByDurationCommand extends Command {
             this.startTime = null;
             this.today = null;
         }
-
-        if (endTimeArg.isPresent()) {
-            this.endTime = Optional.of(new EndTime(endTimeArg.get()));
-        } else if (deadlineArg.isPresent()) {
-            this.endTime = Optional.of(new EndTime(deadlineArg.get()));
-        } else {
-            this.endTime = null;
-        }
+        
     }
 
     @Override

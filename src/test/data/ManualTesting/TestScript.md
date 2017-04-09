@@ -180,12 +180,12 @@ This test script is to assist testers in testing `To-do List` by providing them 
 7.  Select multiple floating tasks without keyword "select"
 >  To type: `f1-3`
 	> * The floating tasks with index f1, f2 and f3 will be selected and highlighted in grey in the floating task panel
-	
+
 8.  Select multiple floating tasks without keyword "select", with the number sequence inverted
 >  To type: `e4-2`
 	> * The floating tasks with index e4, e3 and e2 will be selected and highlighted in grey in the floating task panel
-	
-9.  Select multiple floating tasks without keyword "select", with the number sequence inverted, and without specifying the task 
+
+9.  Select multiple floating tasks without keyword "select", with the number sequence inverted, and without specifying the task
 >  To type: `4-2`
 	> * The deadline tasks with index d4, d3 and d2 will be selected and highlighted in grey in the deadline task panel
 
@@ -242,12 +242,12 @@ This test script is to assist testers in testing `To-do List` by providing them 
 >  To type: `9-6` followed by `edit  #school`
 	> * The deadline tasks with indexes d6, d7, d8 and d9 are selected in deadline task panel after the first command, then the tags of the task are updated to having only #school after the second command.
 	> * The edited tasks are selected in the deadline task panel and highlighted as grey.
-	
+
 11.  Deleting a the start time parameter from an event task
 >  To type: `delete e1 /from`
 	> * The event task with index has its start time reset to null. Notice that such changes causes a change in task category also.
 	> * Thus the new task is displayed and highlighted in grey in the deadline task list, since it is now fitting under the definition for deadline task.
-	
+
 12.  Deleting the venue parameter from a floating task
 >  To type: `delete f1 /venue`
 	> * The floating task with the index f1 will have its venue value deleted and reset to null, if there were any.
@@ -256,27 +256,27 @@ This test script is to assist testers in testing `To-do List` by providing them 
 
 13.  Deleting the description parameter from a task after selecting it beforehand
 >  To type: `d1` followed by `delete /description`
-	> * The deadline task with the index d1 will have its description value deleted and reset to null, if there were any. 
+	> * The deadline task with the index d1 will have its description value deleted and reset to null, if there were any.
 	> * In anyway, the task with the parameter deleted will be highlighted in grey and selected in the deadline task list.
-	
+
 14.  Deleting the urgency level parameter from multiple tasks after selecting them beforehand
 >  To type: `e2-4` followed by `delete /level`
-	> * The event tasks with the indexes e2, e3 and e4 will have their urgency level values deleted and reset to null, if there were any. 
+	> * The event tasks with the indexes e2, e3 and e4 will have their urgency level values deleted and reset to null, if there were any.
 	> * In anyway, the task with the parameter deleted will be highlighted in grey and selected in the event task list.
-	
+
 14.  Deleting the tag parameter from multiple tasks
 >  To type: `delete 5-3 #`
-	> * The deadline tasks with the indexes d3, d4 and d5 will have their tags deleted and reset to null, if there were any. 
+	> * The deadline tasks with the indexes d3, d4 and d5 will have their tags deleted and reset to null, if there were any.
 	> * The hash sign is the prefix for tags to signify that tags are to be deleted.
 	> * In anyway, the task with the parameter deleted will be highlighted in grey and selected in the deadline task list.
-	
+
 ### Deleting tasks
 
 1.  Deleting task
 >  To type: `delete f1 `
 	> * The floating task with index "f1" is deleted
 	> * The task is deleted from the floating task panel.
-	
+
 2.  Deleting multiple tasks
 >  To type: `delete f1-3 `
 	> * The floating tasks with indexes f1, f2 and f3 are deleted
@@ -300,7 +300,7 @@ This test script is to assist testers in testing `To-do List` by providing them 
 1.  List all tasks
 >  To type: `list`
 	> * All tasks are listed out in their repsective panels.
-	
+
 2.  List all tasks that falls under a certain range of time
 >  To type: `list /from Today /to Tomorrow`
 	> * All tasks that fulfil the time comparison criteria will be listed in their respective task lists.
@@ -309,11 +309,10 @@ This test script is to assist testers in testing `To-do List` by providing them 
 	> * For a event task, if its start time is after "Today" and end time before "Tomorrow", it will be listed. Otherwise, it is not listed.
 	> * You can use `/by` instead of `/to`.
 	> * Notice that this listing function is primarily for user to look up for tasks in a period that lasts a certain days. Hence no matter how accurate the time input is, all tasks on the same day as the start or end boundary will also be listed.
-	
+
 3. List all tasks that falls on a certain day
 >  To type: `list /on Today`
 	> * All tasks that have either start time or end time parameter present and falling on "Today" will be listed, no matter their types.
-	> * 
 
 ### Clearing of tasks
 
@@ -334,13 +333,13 @@ This test script is to assist testers in testing `To-do List` by providing them 
 1.  Completing task
 >  To type: `done f1 `
 	> * The floating task with index "f1" is marked as completed.
-	> * The task is deleted from the floating task panel and shown in the completed list. 
+	> * The task is deleted from the floating task panel and shown in the completed list.
 	> * It is selected and highlighted in grey.
-	
+
 2.  Completing multiple tasks
 >  To type: `done 1-3 `
 	> * The floating tasks with indexes d1, d2 and d3 are marked as completed
-	> * The tasks are deleted from the deadline task panel and shown in the completed list. 
+	> * The tasks are deleted from the deadline task panel and shown in the completed list.
 	> * The completed tasks selected and highlighted in grey.
 
 ### Viewing help
@@ -348,13 +347,13 @@ This test script is to assist testers in testing `To-do List` by providing them 
 1.  View command instruction for a command
 >  To type: `help add`
 	> * The usage instruction of add command is shown in the command result window.
-	
+
 ### Save to a directory
 
 1.  Save the to do list to a stated directory
 >  To type: `save E:/my folder`
 	> * The xml file with the necessary data of the to-do list is stored to the directory.
-	
+
 2.  Save the to do list to the default directory
 >  To type: `save`
 	> * The xml file with the necessary data of the to-do list is stored to the data folder in the repo folder by default.
@@ -365,7 +364,7 @@ This test script is to assist testers in testing `To-do List` by providing them 
 >  To type: `changedir E:/my folder`
 	> * A .xml will be saved at the same time as stating the changing of directory.
 	> * Any future saving using the command word `key` only will be saved to this directory.
-	
+
 ### Import the saved file
 
 1.  import the saved file into the to-do list
@@ -379,7 +378,7 @@ This test script is to assist testers in testing `To-do List` by providing them 
 >  Keys to press: `ctrl(control) + alt(option) + C`
 	> * The completed task list will be scrolled down
 	> * You may try D for deadline task list, E for event task list, F for floating task list.
-	
+
 2.  Scroll up a specific screen
 >  Keys to press: `ctrl(control) + shift + F`
 	> * The floating task list will be scrolled up
@@ -391,7 +390,7 @@ This test script is to assist testers in testing `To-do List` by providing them 
 >  Key to press: `down`
 	> * A list of historical commands is shown beneath the command line.
 	> * You may continue to press down or up and choose the desired command to be re-typed into the command line. Press enter and the command will appear in the command line. Notice that it will overwrite what you have previously typed.
-	
+
 2.  Auto-completion of task command and prefixes
 >  To type: `ad`
 	> * A tab with the word "add" is shown beneath the command line. You may continue to press down and enter to type the word into the command line.

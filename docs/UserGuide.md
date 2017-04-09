@@ -142,7 +142,7 @@ Example:
 * `list`<br>
   `delete f2`<br>
   Deletes the 2nd float task in the todolist.
-  
+
 ### 2.6.2 Deleting a parameter of a task : `delete`
 
 Deletes the specified parameter of a task in the todo list
@@ -217,7 +217,7 @@ Undo previous command
 Format: `undo`
 
 > * Undo the most recent three operations that are undo-able. <br>
-> * The undo-able commands are: add, delete, complete, clear. 
+> * The undo-able commands are: add, delete, complete, clear.
 
 ### 2.10. Clear ToDoList: `clear`
 
@@ -258,7 +258,7 @@ Examples:
 Imports tasks from the data file specified.
 Format: `import FILE_PATH`
 
-> * The file in the specified file path should be an xml file 
+> * The file in the specified file path should be an xml file
 > * The path can be relative or absolute addressing
 
 Examples:
@@ -305,7 +305,7 @@ e.g. edit f7 /title buy calculator
 
 * **Help** : `help [COMMAND]` <br>
   e.g. help add
-   
+
 * **Import** : `import FILE_PATH` <br>
    e.g. import C:/Users/Computing/Desktop/CS2103
 
