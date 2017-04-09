@@ -75,11 +75,11 @@ public class UiManager extends ComponentManager implements Ui {
             // This should be called before creating other UI parts
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
             // Create the keystroke listeners
-            //initiateGlobalKeyListener(mainWindow);
+            initiateGlobalKeyListener(mainWindow);
 
             // Create the tray icon.
             initializeTray(primaryStage);
-            mainWindow.show();
+            //mainWindow.show();
             mainWindow.fillInnerParts();
 
         } catch (Throwable e) {

@@ -94,29 +94,6 @@ public class AddCommandGuiTest extends ToDoListGuiTest {
         assertAddSuccess(Category.FLOAT, td.cleanMyRoom);
     }
 
-//    @Test
-//    public void addAll() {
-//        //add one Task
-//        TestTask[] currentList = td.getTypicalFloatingTasks();
-//        TestTask taskToAdd = td.cleanMyRoom;
-//        assertAddSuccess(null, taskToAdd, currentList);
-//        currentList = TestUtil.addTasksToList(currentList, taskToAdd);
-//
-//        //add another Task
-//        taskToAdd = td.chaseAfterDebts;
-//        assertAddSuccess(null, taskToAdd, currentList);
-//        currentList = TestUtil.addTasksToList(currentList, taskToAdd);
-//
-//        //add duplicate Task
-//        commandBox.runCommand(td.chaseAfterDebts.getAddCommand());
-//        assertResultMessage(AddCommand.MESSAGE_DUPLICATE_TASK);
-//        assertTrue(taskListPanel.isListMatching(currentList));
-//
-//        //add to empty list
-//        commandBox.runCommand("clear");
-//        assertAddSuccess(null, td.cleanMyRoom);
-//    }
-
     private void assertAddSuccess(Category taskType, TestTask taskToAdd, TestTask... currentList) {
         commandBox.runCommand(taskToAdd.getAddCommand());
 
