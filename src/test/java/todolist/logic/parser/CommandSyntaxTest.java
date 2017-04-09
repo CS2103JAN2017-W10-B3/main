@@ -23,7 +23,8 @@ public class CommandSyntaxTest {
     public void allCommandTest() {
         CommandSyntax commandSyntaxTest = new CommandSyntax();
         String fromCST = commandSyntaxTest.getAllCommandUsageMessage();
-        String fromHelpCommand = new HelpCommand(commandSyntaxTest).SHOWING_HELP_MESSAGE;
+        HelpCommand help = new HelpCommand(commandSyntaxTest);
+        String fromHelpCommand = help.getHelpMessage();
         assertEquals(fromCST, fromHelpCommand);
     }
 }

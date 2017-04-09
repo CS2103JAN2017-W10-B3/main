@@ -21,8 +21,6 @@ public class HelpCommand extends Command {
             + "Example: " + COMMAND_WORD + "\n"
             + "Example: " + COMMAND_WORD + " add \n";
 
-    public String SHOWING_HELP_MESSAGE = "Opened help window.";
-
     public HelpCommand(CommandSyntax commandSyntax) {
         this.commandType = "";
         this.commandSyntax = commandSyntax;

@@ -305,8 +305,7 @@ public class ScrollTest extends ToDoListGuiTest {
         //Event List
         scrollTest = new Scroll();
         scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.EVENT));
-        scrollTest.scrollIncrease();
-        scrollTest.scrollIncrease();
+        commandBox.runCommand("select e2");
         double oldValue = scrollTest.getCurrentValue();
         mainMenu.clickOn("Help", "Events Up");
         double newValue = scrollTest.getCurrentValue();
