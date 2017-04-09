@@ -46,7 +46,7 @@ public class SaveCommand extends Command {
     public static void setStorage(Storage s) {
         storage = s;
     }
-    
+
     public static String getUserPrefsFilePath() {
         return Config.getUserPrefsFilePath();
     }
