@@ -10,7 +10,9 @@ import org.junit.Test;
 import todolist.commons.core.LogsCenter;
 import todolist.logic.commands.Command;
 import todolist.logic.commands.FindCommand;
+import todolist.logic.commands.ListCommand;
 import todolist.model.ToDoList;
+import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 
 //@@author A0122017Y
@@ -66,6 +68,22 @@ public class ListCommandTest extends LogicManagerTest {
                 expectedAB,
                 expectedList2, Task.EVENT_CHAR);
 
+    }
+
+    @Test
+    public void execute_list_showsAllTasks() throws Exception {
+        // prepare expectations
+        TestDataHelper helper = new TestDataHelper();
+        ToDoList expectedAB = helper.generateToDoList(2);
+        List<? extends ReadOnlyTask> expectedList = expectedAB.getTaskList();
+
+        // prepare to-do list state
+        helper.addToModel(model, 2);
+
+        assertCommandSuccess("list",
+                ListCommand.MESSAGE_SUCCESS,
+                expectedAB,
+                expectedList, Task.ALL_CHAR);
     }
 
 }
