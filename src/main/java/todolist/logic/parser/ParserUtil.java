@@ -34,7 +34,7 @@ public class ParserUtil {
     private static final Pattern INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
     private static final String INDEX_RANGE_SYMBOL = "-";
 
-    // @@ A0143648Y
+  //@@author A0143648Y
     /**
      * Returns the specified index in the {@code command} if it is a positive
      * unsigned integer Returns an {@code Optional.empty()} otherwise.

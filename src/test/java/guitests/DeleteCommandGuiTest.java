@@ -8,7 +8,7 @@ import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
-//@@ author A0143648Y
+//@@author A0143648Y
 public class DeleteCommandGuiTest extends ToDoListGuiTest {
 
     @Test

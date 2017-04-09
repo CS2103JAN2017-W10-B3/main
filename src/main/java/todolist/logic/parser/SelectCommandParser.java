@@ -10,7 +10,7 @@ import todolist.logic.commands.IncorrectCommand;
 import todolist.logic.commands.SelectCommand;
 import todolist.model.task.TaskIndex;
 
-//@@ author A0143648Y
+//@@author A0143648Y
 /**
  * Parses input arguments and creates a new SelectCommand object
  */

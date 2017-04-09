@@ -43,7 +43,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private static int taskCount;
 
-    // @@author A0143648Y
+  //@@author A0143648Y
     private final ToDoList todoList;
     private FilteredList<ReadOnlyTask> filteredFloats;
     private FilteredList<ReadOnlyTask> filteredDeadlines;
@@ -154,7 +154,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateToDoListChanged();
     }
 
-    // @@author A0143648Y
+  //@@author A0143648Y
     @Override
     public void updateTask(ReadOnlyTask taskToEdit, ReadOnlyTask editedTask)
             throws UniqueTaskList.DuplicateTaskException {
@@ -248,7 +248,7 @@ public class ModelManager extends ComponentManager implements Model {
         return taskCount;
     }
 
-    // @@author A0143648Y
+  //@@author A0143648Y
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getListFromChar(Character type) {
         switch (type) {
@@ -369,7 +369,7 @@ public class ModelManager extends ComponentManager implements Model {
             this.nameKeyWords = nameKeyWords;
         }
 
-        // @@author A0143648Y
+      //@@author A0143648Y
         @Override
         public boolean run(ReadOnlyTask task) {
             return nameKeyWords.stream()

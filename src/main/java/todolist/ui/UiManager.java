@@ -150,7 +150,7 @@ public class UiManager extends ComponentManager implements Ui {
         // mainWindow.loadTaskPage(event.getNewSelection());
     }
 
-    // @@ A0143648Y
+  //@@author A0143648Y
     @Subscribe
     private void handleSelectMultipleTargetEvent(SelectMultipleTargetEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));

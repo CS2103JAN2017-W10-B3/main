@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import todolist.commons.events.BaseEvent;
 import todolist.model.task.TaskIndex;
-//@@ author A0143648Y
+//@@author A0143648Y
 /**
  * Indicates a request to jump to the list of persons
  */

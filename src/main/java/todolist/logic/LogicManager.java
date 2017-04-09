@@ -34,7 +34,7 @@ public class LogicManager extends ComponentManager implements Logic {
         command.setData(model);
         return command.execute();
     }
-    // @@ A0143648Y
+  //@@author A0143648Y
     @Override
     public ObservableList<ReadOnlyTask> getFilteredDeadlineList() {
         return model.getFilteredDeadlineList();

@@ -25,7 +25,7 @@ import todolist.model.task.UniqueTaskList.TaskNotFoundException;
 import todolist.model.task.UrgencyLevel;
 import todolist.model.task.Venue;
 
-// @@ A0143648Y
+//@@author A0143648Y
 /**
  * Deletes tasks identified using their last displayed indexes
  */
@@ -46,7 +46,7 @@ public class DeleteCommand extends UndoableCommand {
     public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces "
             + "duplicate tasks in your to-do list. \n" + "Please check the parameters you want to delete.";
 
-    // @@ A0143648Y
+
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
     private final DeleteTaskDescriptor deleteTaskDescriptor;
     private String messageSuccessful;
@@ -138,6 +138,11 @@ public class DeleteCommand extends UndoableCommand {
                     listOfTask.indexOf(listOfEditedTasks.get(count)) + 1));
         }
     }
+
+    /**
+     * Creates and returns a {@code Task} with the details of {@code taskToDelete}
+     * edited with {@code deleteTaskDescriptor}.
+     */
 
     private Task createDeletedTask(ReadOnlyTask taskToDelete) {
         assert taskToDelete != null;

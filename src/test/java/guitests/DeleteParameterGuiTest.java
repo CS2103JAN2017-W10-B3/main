@@ -11,7 +11,7 @@ import todolist.model.task.ReadOnlyTask.Category;
 import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
-//@@ author A0143648Y
+//@@author A0143648Y
 public class DeleteParameterGuiTest extends ToDoListGuiTest {
 
     TestTask[] currentEventList = td.getTypicalEventTasks();

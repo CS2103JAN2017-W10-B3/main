@@ -18,7 +18,7 @@ public class ClearCommand extends UndoableCommand {
     private ReadOnlyToDoList originalToDoList;
     private CommandResult commandResultToUndo;
 
-    // @@author A0143648Y
+    //@@author A0143648Y
     @Override
     public CommandResult execute() {
         assert model != null;

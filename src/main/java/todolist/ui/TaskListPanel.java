@@ -48,7 +48,7 @@ public class TaskListPanel extends UiPart<Region> {
         });
     }
 
-    // @@ author A0143648Y
+  //@@author A0143648Y
     public void selectTheTarget(int index) {
         Platform.runLater(() -> {
             taskListView.scrollTo(index);

@@ -12,7 +12,7 @@ import todolist.testutil.TaskBuilder;
 import todolist.testutil.TestTask;
 import todolist.testutil.TestUtil;
 
-//@@ author A0143648Y
+//@@author A0143648Y
 public class EditCommandGuiTest extends ToDoListGuiTest {
 
     TestTask[] currentEventList = td.getTypicalEventTasks();

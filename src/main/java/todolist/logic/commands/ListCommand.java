@@ -18,7 +18,7 @@ public class ListCommand extends Command {
             + "Notice that by doing so, all deadline tasks and floating task without a start time will be listed\n"
             + "list [/to END] or [/by END]: list all tasks ends before the time point";
 
-//author A0143648Y
+  //@@author A0143648Y
     @Override
     public CommandResult execute() {
         model.updateFilteredListToShowAll();

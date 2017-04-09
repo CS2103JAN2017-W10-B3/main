@@ -193,7 +193,7 @@ public interface ReadOnlyTask {
     String getTitleFormattedString();
 
     //@@
-    //author A0143648Y
+  //@@author A0143648Y
     default String getIsCompletedToString() {
         return this.isTaskCompleted().toString();
     }

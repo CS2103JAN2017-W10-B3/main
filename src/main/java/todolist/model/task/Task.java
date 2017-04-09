@@ -121,7 +121,7 @@ public class Task implements ReadOnlyTask {
 
     // @@
 
-    // @@ A0143648Y
+  //@@author A0143648Y
     @Override
     public Character getTaskChar() {
         if (isTaskCompleted()) {
