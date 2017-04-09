@@ -3,6 +3,8 @@ package todolist.logic.parser;
 import static todolist.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static todolist.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +25,7 @@ import todolist.logic.commands.ListCommand;
 import todolist.logic.commands.SaveCommand;
 import todolist.logic.commands.SelectCommand;
 import todolist.logic.commands.UndoCommand;
+import todolist.model.task.TaskIndex;
 
 /**
  * Parses user input.
@@ -83,7 +86,7 @@ public class Parser {
 
         case JokeCommand.COMMAND_WORD:
             return new JokeCommand();
-//@@ author A0143648Y
+        // @@ author A0143648Y
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
 
@@ -100,7 +103,8 @@ public class Parser {
             if (ParserUtil.isValidIndex(commandWord) && arguments.isEmpty()) {
                 return new SelectCommandParser().parse(commandWord);
             } else {
-                if (ParserUtil.isValidIndex(commandWord) && ParserUtil.isValidIndex(arguments.trim())) {
+                Optional<ArrayList<TaskIndex>> testIfArgumentValid = ParserUtil.parseIndex(arguments.trim());
+                if (ParserUtil.isValidIndex(commandWord) && testIfArgumentValid.isPresent()) {
                     return new SelectCommandParser().parse(commandWord + " " + arguments.trim());
                 } else {
                     return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
