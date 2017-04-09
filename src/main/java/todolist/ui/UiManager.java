@@ -77,9 +77,6 @@ public class UiManager extends ComponentManager implements Ui {
 
             // Create the tray icon.
             initializeTray(primaryStage);
-            // mainWindow.show(); // uncomment this to start with main window
-            // showing or not showing
-            mainWindow.fillInnerParts();
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
@@ -89,6 +86,9 @@ public class UiManager extends ComponentManager implements Ui {
         try {
             // Create the keystroke listeners
             initiateGlobalKeyListener(mainWindow);
+            mainWindow.show(); // uncomment this to start with main window
+            // showing or not showing
+            mainWindow.fillInnerParts();
         } catch (Exception e) {
             logger.info(e.getMessage());
         }
