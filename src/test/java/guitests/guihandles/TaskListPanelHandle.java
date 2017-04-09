@@ -31,6 +31,7 @@ public class TaskListPanelHandle extends GuiHandle {
     private static final String EVENT_LIST_VIEW_ID = "#eventListView";
     private static final String DEADLINE_LIST_VIEW_ID = "#deadlineListView";
     private static final String FLOAT_LIST_VIEW_ID = "#floatingListView";
+    private static final String COMPLETE_LIST_VIEW_ID = "#completedListView";
 
     public TaskListPanelHandle(GuiRobot guiRobot, Stage primaryStage) {
         super(guiRobot, primaryStage, TestApp.APP_TITLE);
@@ -56,6 +57,9 @@ public class TaskListPanelHandle extends GuiHandle {
             break;
         case FLOAT:
             listView = getNode(FLOAT_LIST_VIEW_ID);
+            break;
+        case COMPLETED:
+            listView = getNode(COMPLETE_LIST_VIEW_ID);
             break;
         default:
             listView = new ListView<ReadOnlyTask>();

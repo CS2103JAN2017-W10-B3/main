@@ -18,7 +18,7 @@ public class HelpCommandTest extends ToDoListGuiTest {
         //run help -> show a list of all commands usage
         commandBox.runCommand("help");
         assertResultMessage(commandSyntaxTest.getAllCommandUsageMessage());
-        assertResultMessage(HelpCommand.SHOWING_HELP_MESSAGE);
+        //assertResultMessage(HelpCommand.SHOWING_HELP_MESSAGE);
 
         //run help COMMAND -> specific command usage (use add)
         commandBox.runCommand("help add");
