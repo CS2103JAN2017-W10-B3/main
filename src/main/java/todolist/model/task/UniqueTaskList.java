@@ -1,6 +1,5 @@
 package todolist.model.task;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.exceptions.DuplicateDataException;
-import todolist.model.tag.Tag;
 import todolist.model.task.ReadOnlyTask.Category;
 
 /**
@@ -148,21 +146,6 @@ public class UniqueTaskList implements Iterable<Task> {
         Task completedTask = internalList.get(taskIndex);
         completedTask.toggleComplete();
         internalList.set(taskIndex, completedTask);
-    }
-
-    public String getTagListToString() {
-        ArrayList<String> tagNames = new ArrayList<String>();
-        for (Task task : internalList) {
-            for (Tag tag : task.getTags()) {
-                if (!tagNames.contains(tag.toString())) {
-                    tagNames.add(tag.toString());
-                }
-            }
-        }
-        if (tagNames.isEmpty()) {
-            return MESSAGE_NO_TAGS_AVAILABLE;
-        }
-        return String.join(" ", tagNames);
     }
 
     public void autoComplete() {

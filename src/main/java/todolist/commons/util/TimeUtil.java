@@ -134,4 +134,8 @@ public class TimeUtil extends StringUtil {
                 && endTime.getTimeValue().isAfter(LocalDateTime.now());
     }
 
+    public static Boolean isValidDeadline(EndTime endTime) {
+        return endTime.getTimeValue().isAfter(LocalDateTime.now());
+    }
+
 }

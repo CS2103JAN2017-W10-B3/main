@@ -440,12 +440,23 @@ public class LogicManagerTest {
         }
 
         /**
-         * Generates a list of Tasks based on the flags.
+         * Generates a list of Event Tasks based on the flags.
          */
         public List<Task> generateEventTaskList(int numGenerated) throws Exception {
             List<Task> tasks = new ArrayList<>();
             for (int i = 1; i <= numGenerated; i++) {
                 tasks.add(generateEventTask(i));
+            }
+            return tasks;
+        }
+
+        /**
+         * Generates a list of Deadline Tasks based on the flags.
+         */
+        public List<Task> generateDeadlineTaskList(int numGenerated) throws Exception {
+            List<Task> tasks = new ArrayList<>();
+            for (int i = 1; i <= numGenerated; i++) {
+                tasks.add(generateDeadlineTask(i));
             }
             return tasks;
         }

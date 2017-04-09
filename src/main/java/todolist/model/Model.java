@@ -81,8 +81,6 @@ public interface Model {
     /** Updates the filter of the filtered Task list to show all Tasks */
     void updateFilteredListToShowAll();
 
-    String getTagListToString();
-
     int getSumTaskListed();
 
     /**

@@ -48,10 +48,12 @@ Format: `help [COMMAND]`
 > * A list of all available commands will be shown in the display area if command parameter is absent.
 > * The usage of the specified command will be shown in the display area if command parameter is present.
 
+
 Examples:
 
 * `help add`<br>
   Add command usage would be shown in the display area.
+
 
 ### 2.2. Adding a task: `add`
 
@@ -76,25 +78,28 @@ Format: `add TITLE /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /
 ### 2.3. Listing all tasks : `list`
 
 Shows a list of tasks in the todolist<br>
-Format: `list /from [DATE_TIME] /to [DATE_TIME]`
+Format: `list /on [DATE_TIME] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME]`
 
-> * /from would show a list of tasks that have Start Time at the specified DATE_TIME (interchangeable with /on)
-> * /to would show a list of tasks that have End Time at the specified DATE_TIME (interchangeable with /by)
+> * list without any input following the command word will by default list out all tasks in the list.
+> * list /from will produce a list of all tasks whose deadlines or whole duration falls after the boundary time.
+> * list /to will produce a list of all tasks whose deadlines or whole duration falls before the boundary time.
+> * list /on, different from its usage in add and edit, will list only those tasks involving a start or end time **on the respective day**
 
 Examples:
 
 * `list`<br>
 All tasks will be shown
 * `list /from 7 April`<br>
-Tasks with start time of 7 April will be shown
+Tasks with start time or deadline of 7 April will be shown
 
 ### 2.4. Editing a task : `edit`
 
 Edits an existing task in the todolist.<br>
+
 Format: `edit INDEX /title [TITLE] /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [LEVEL] /description [DESCRIPTION] #[TAG]...`
 
 > * Edits the task at the specified `INDEX`.
-    The index refers to the index number shown in the last task listing.
+    The index refers to the index number shown in the last task listing. <br>
     Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
 > * At least one of the optional fields must be provided.
 > * Existing values will be updated to the input values.
@@ -110,9 +115,9 @@ Examples:
 Finds tasks that contain any of the given keywords.<br>
 Format: `find KEYWORD...`
 
-> * The search is not case sensitive. e.g `lunch` will match `Lunch`
-> * The order of the keywords does not matter. e.g. `Lunch Plan` will match `Plan Lunch`
-> * Tasks matching at least one keyword will be returned (i.e. `OR` search).
+> * The search is not case sensitive. e.g `lunch` will match `Lunch` <br>
+> * The order of the keywords does not matter. e.g. `Lunch Plan` will match `Plan Lunch` <br>
+> * Tasks matching at least one keyword in either their titles, venues, descriptions, tags, or string representation of time, will be returned (i.e. `OR` search). <br>
     e.g. `Lunch` will match `Lunch Plan`
 
 Examples:
@@ -122,16 +127,32 @@ Examples:
 * `find Breakfast Lunch Dinner`<br>
   Returns any task having names `Breakfast`, `Lunch`, or `Dinner`
 
-### 2.6. Deleting a task : `delete`
+### 2.6.1 Deleting a task : `delete`
 
 Deletes the specified task from the todolist. <br>
 Format: `delete INDEX [PARAMETER]...`
 
-> * Deletes the task at the specified `INDEX`. <br>
-    The index refers to the index number shown in the last task listing.
-    Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
-> * If PARAMETER are given, then the specified task parameter would be deleted
-> The parameter refers to the prefix used to indicate the tasks parameters
+> Deletes the task at the specified `INDEX`. <br>
+    * The index refers to the index number shown in the last task listing. <br>
+    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+    * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
+
+Examples:
+
+* `list`<br>
+  `delete f2`<br>
+  Deletes the 2nd float task in the todolist.
+  
+### 2.6.2 Deleting a parameter of a task : `delete`
+
+Deletes the specified parameter of a task in the todo list
+Format: `delete INDEX /venue VENUE, /from or /on STARTTIME, /to or /by ENDTIME, /level URGENCY /description #[TAG]`
+
+> * Deletes the parameter at the of the task at the specified `INDEX`. <br>
+    * The index refers to the index number shown in the last task listing. <br>
+    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+    * The parameter indicated by the prefix will be deleted for the declared tasks, if they have one. <br>
+    * Notice that title can never be deleted. If a task has its start time or end time deleted, its task category will be changed accordingly.
 
 Examples:
 
@@ -149,26 +170,32 @@ Examples:
 Marks the task as complete and put in under the completed list. <br>
 Format: `done INDEX`
 
-> Mark the task at the specified `INDEX` as complete.<br>
-> The index refers to the index number shown in the most recent listing.<br>
-    The index refers to the index number shown in the last task listing.
-    Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * Mark the task at the specified `INDEX` as complete.<br>
+> * The index refers to the index number shown in the most recent listing.<br>
+    * The index refers to the index number shown in the last task listing. <br>
+    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+    * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
 
 Examples:
 
 * `list`<br>
   `done d2`<br>
-  Marks the 2nd deadline task in the todolist as complete.
+  Marks the 2nd deadline task in the todolist as complete. <br>
 
 ### 2.8. Select a tasks: `select`
 
 Selects the tasks identified by the index number used in the last task listing.<br>
-Format: `select INDEX...`
+Format: `select INDEX...` or `INDEX` or `RANGE OF INDEX`
 
-> Selects the task at the specified `INDEX`.<br>
-> The index refers to the index number shown in the most recent listing.<br>
-    The index refers to the index number shown in the last task listing.
-    Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * Selects the task at the specified `INDEX`.<br>
+> * The index refers to the index number shown in the most recent listing.<br>
+    * The index refers to the index number shown in the last task listing. <br>
+    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+    * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index <br>
+    * You can select tasks without typing out "select". Just the indexes would be fine. <br>
+    * You can select tasks in a range, with the indexes connected by a dash without space. <br>
+    * For the case of multiple indexes, the sequence of the number does not matter. You can do either e2-4 or e4-2. <br>
+    * After selection of tasks, you can carry out further actions. Available actions are: edit, delete and complete.
 
 Examples:
 
@@ -189,9 +216,12 @@ Note: It is not necessary to type in the select command **if the index of the ta
 Undo previous command
 Format: `undo`
 
+> * Undo the most recent three operations that are undo-able. <br>
+> * The undo-able commands are: add, delete, complete, clear. 
+
 ### 2.10. Clear ToDoList: `clear`
 
-Clear all the tasks in the ToDoList
+Clear all the tasks in the ToDoList <br>
 Format: `clear`
 
 ### 2.11. Exiting the program : `exit`
@@ -247,7 +277,7 @@ Examples:
   e.g. add Do Tutorial /venue CLB /from today 3pm /to today 5pm /level 2 /description for week13 #CS2103
 
 * **Clear** : `clear` <br>
-   e.g.
+  e.g. `clear`
 
 * **Changedir** : `changedir FILE_PATH` <br>
    e.g. changedir C:/Users/Computing/Desktop/CS2103
@@ -263,7 +293,7 @@ Examples:
 e.g. edit f7 /title buy calculator
 
 * **Exit** : `exit` <br>
-e.g.
+  e.g. `exit`
 
 * **Find** : `find KEYWORD...` <br>
   e.g. find tutorial quiz
@@ -275,15 +305,20 @@ e.g.
    e.g. import C:/Users/Computing/Desktop/CS2103
 
 * **List** : `list /from [DATE_TIME] /to [DATE_TIME]` <br>
+  e.g. `list`
   e.g. list /from 7 April
 
 * **Save** : `save FILE_PATH` <br>
    e.g. save C:/Users/Computing/Desktop/CS2103
 
-* **Select** : `select INDEX...` <br>
-  e.g. select e2
-  e.g. select f1-f5
-  e.g. select d7, e9, f3
+* **Select** : `select INDEX` <br>
+  e.g.:
+	* `select 2`
+	* `2`
+	* `2-5`
+	* `e2`
+	* `f2-5`
+	* `d6-3`
 
 * **Undo** : `undo` <br>
 e.g.
