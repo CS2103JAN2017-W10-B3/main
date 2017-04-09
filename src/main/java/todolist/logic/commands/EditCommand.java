@@ -101,9 +101,10 @@ public class EditCommand extends UndoableCommand {
 
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
         model.updateSelectedIndexes(filteredTaskListIndexes);
-        commandResultToUndo = new CommandResult(MESSAGE_EDIT_TASK_SUCCESS);
+        String feedbackToUser = MESSAGE_EDIT_TASK_SUCCESS + messageSuccessful;
+        commandResultToUndo = new CommandResult(feedbackToUser);
         updateUndoLists();
-        return new CommandResult(MESSAGE_EDIT_TASK_SUCCESS + messageSuccessful);
+        return new CommandResult(feedbackToUser);
     }
 
     private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks) {
