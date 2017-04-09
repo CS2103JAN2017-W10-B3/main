@@ -105,12 +105,22 @@ public class AddCommand extends UndoableCommand {
             checkValidDuration(tempStartTime, tempEndTime);
         }
 
+        if (tempStartTime == null && tempEndTime != null) {
+            checkValidDuration(tempEndTime);
+        }
+
         this.toAdd = new Task(tempTitle, tempVenue, tempStartTime, tempEndTime, tempUrgencyLevel, tempDescription,
                 new UniqueTagList(tagSet));
     }
 
     private void checkValidDuration(StartTime tempStartTime, EndTime tempEndTime) throws IllegalValueException {
         if (!TimeUtil.isValidDuration(tempStartTime, tempEndTime)) {
+            throw new IllegalValueException(Time.MESSAGE_INVALID_DURATION);
+        }
+    }
+
+    private void checkValidDuration(EndTime tempEndTime) throws IllegalValueException {
+        if (!TimeUtil.isValidDeadline(tempEndTime)) {
             throw new IllegalValueException(Time.MESSAGE_INVALID_DURATION);
         }
     }
