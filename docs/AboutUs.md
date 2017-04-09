@@ -58,15 +58,19 @@ Role: Developer <br>
 * In Charge of: Storage & Logic <br>
 * Responsibilities: Testing <br>
 * Features implemented
-	* Autocomplete.
-	* Command history.
+	* Autocomplete feature for command prefixes.
+	* Command history popup.
 	* Command - Change data file save path command.
 	* Command - Import data from a file.
+	* Hotkey launch with Ctrl+T
 * Code written:
 	* [Functional Codes]
 	* [Test Codes]
 * Major Contributions:
 	* Debugging tests especially GUItests.
+	* Managed and enforced branching and merging.
+	* Imported JNativeHook library.
+	
 
 
 -----
