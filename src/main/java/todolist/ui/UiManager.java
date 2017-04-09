@@ -81,14 +81,14 @@ public class UiManager extends ComponentManager implements Ui {
         }
 
         try {
-        // Create the keystroke listeners
-        initiateGlobalKeyListener(mainWindow);
+            // Create the keystroke listeners
+            initiateGlobalKeyListener(mainWindow);
 
-        // Create the tray icon.
-        initializeTray(primaryStage);
+            // Create the tray icon.
+            initializeTray(primaryStage);
 
-        mainWindow.show();
-        mainWindow.fillInnerParts();
+            mainWindow.show();
+            mainWindow.fillInnerParts();
         } catch (Throwable e) {
             logger.info("Keystroke/tray failed to initialize.");
         }
