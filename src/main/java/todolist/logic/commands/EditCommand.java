@@ -46,7 +46,7 @@ public class EditCommand extends UndoableCommand {
 
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Tasks: ";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_TASK = "Edit is terminated because a duplicate task is being added.";
 
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
     private final EditTaskDescriptor editTaskDescriptor;
@@ -82,25 +82,19 @@ public class EditCommand extends UndoableCommand {
                 throw new CommandException(Messages.MESSAGE_NO_TASK_SELECTED);
             }
         }
-        for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
-            List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
-            int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
 
-            if (filteredTaskListIndex >= lastShownList.size()) {
-                logger.info("-------[Execution Of EditCommand Failed]");
-                throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-            }
+        ArrayList<ReadOnlyTask> tasksToEdit = getTasksToEdit();
 
-            ReadOnlyTask taskToEdit = lastShownList.get(filteredTaskListIndex);
-            Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
+        for (int count = 0; count < tasksToEdit.size(); count++) {
+
+            Task editedTask = createEditedTask(tasksToEdit.get(count), editTaskDescriptor);
 
             try {
-                model.updateTask(taskToEdit, editedTask);
+                model.updateTask(tasksToEdit.get(count), editedTask);
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
-                logger.info("-------[Execution Of EditCommand Failed]");
+                logger.info("-------[Execution Of EditCommand Failed halfway]");
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
-            messageSuccessful = "[" + editedTask.getTitle().toString() + "] ";
             listOfEditedTasks.add(editedTask);
         }
 
@@ -119,6 +113,26 @@ public class EditCommand extends UndoableCommand {
         return new CommandResult(feedbackToUser);
     }
 
+    /**
+     * Get a list of tasks to be updated from
+     * {@code filterTaskListIndexes}
+     */
+    private ArrayList<ReadOnlyTask> getTasksToEdit() throws CommandException {
+        ArrayList<ReadOnlyTask> tasksToEdit = new ArrayList<ReadOnlyTask>();
+        for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
+            List<ReadOnlyTask> lastShownList = model.getListFromChar(filteredTaskListIndexes.get(count).getTaskChar());
+            int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
+            if (lastShownList.size() < filteredTaskListIndex + 1) {
+                logger.info("-------[Execution Of EditCommand Failed]");
+                throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+            }
+            messageSuccessful = messageSuccessful + "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString()
+                    + "] ";
+
+            tasksToEdit.add(lastShownList.get(filteredTaskListIndex));
+        }
+        return tasksToEdit;
+    }
     /**
      * Get the updated task indexes of {@code listOfEditedTasks} and
      * load them into {@code filteredTaskListIndexes}}
