@@ -1,8 +1,10 @@
 package todolist.ui;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.AnchorPane;
 import todolist.model.task.ReadOnlyTask;
 
@@ -19,6 +21,8 @@ public class EventListPanel extends TaskListPanel {
         taskListView = eventListView;
         setConnections(taskList);
         addToPlaceholder(taskListPlaceholder);
+        Platform.runLater(() -> {
+            taskListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);});
     }
 
 }
