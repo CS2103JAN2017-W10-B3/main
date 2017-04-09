@@ -66,6 +66,7 @@ public class EditCommand extends UndoableCommand {
 
         this.filteredTaskListIndexes = filteredTaskListIndexes;
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
+        messageSuccessful = "";
     }
 
     @Override
@@ -126,7 +127,7 @@ public class EditCommand extends UndoableCommand {
                 logger.info("-------[Execution Of EditCommand Failed]");
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
-            messageSuccessful = "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString()
+            messageSuccessful = messageSuccessful + "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString()
                     + "] ";
 
             tasksToEdit.add(lastShownList.get(filteredTaskListIndex));
