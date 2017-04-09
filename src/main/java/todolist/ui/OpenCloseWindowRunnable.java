@@ -35,8 +35,4 @@ public class OpenCloseWindowRunnable implements Runnable {
     }
 
 }
-<<<<<<< HEAD
 // @@
-=======
-// @@
->>>>>>> f3bc461f609809a47071c941c043a3fc9a40f4cb

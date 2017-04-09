@@ -400,18 +400,6 @@ public class MainWindow extends UiPart<Region> {
         }
     }
 
-    //@@author A0110791M
-    /*
-     *  Toggles the app window to show or hide (used by the hotkey)
-     */
-    void toggle() {
-        if (primaryStage.isShowing()) {
-            hide();
-        } else {
-            show();
-        }
-    }
-
     void show() {
         if (!primaryStage.isShowing()) {
             primaryStage.show();
