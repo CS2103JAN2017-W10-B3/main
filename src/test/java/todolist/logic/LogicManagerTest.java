@@ -26,7 +26,6 @@ import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
 import todolist.logic.commands.CommandResult;
 import todolist.logic.commands.HelpCommand;
-import todolist.logic.commands.ListCommand;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.Model;
 import todolist.model.ModelManager;
@@ -166,22 +165,6 @@ public class LogicManagerTest {
     public void execute_unknownCommandWord() {
         String unknownCommand = "uicfhmowqewca";
         assertCommandFailure(unknownCommand, MESSAGE_UNKNOWN_COMMAND);
-    }
-
-    @Test
-    public void execute_list_showsAllTasks() throws Exception {
-        // prepare expectations
-        TestDataHelper helper = new TestDataHelper();
-        ToDoList expectedAB = helper.generateToDoList(2);
-        List<? extends ReadOnlyTask> expectedList = expectedAB.getTaskList();
-
-        // prepare to-do list state
-        helper.addToModel(model, 2);
-
-        assertCommandSuccess("list",
-                ListCommand.MESSAGE_SUCCESS,
-                expectedAB,
-                expectedList, Task.ALL_CHAR);
     }
 
     protected void assertNoIndexSelectedBehaviorForCommand(String commandWord, String expectedMessage)
