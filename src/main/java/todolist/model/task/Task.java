@@ -243,6 +243,11 @@ public class Task implements ReadOnlyTask {
     }
 
     @Override
+    public String getTitleFormattedString() {
+        return "[" + getTitle().toString() + "]";
+    }
+
+    @Override
     public Boolean isTaskCompleted() {
         return this.isCompleted;
     }

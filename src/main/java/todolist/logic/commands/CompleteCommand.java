@@ -12,7 +12,6 @@ import todolist.model.ToDoList;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.TaskIndex;
 
-//@@author A0122017Y
 
 /**
  * Selects a task identified using it's last displayed index from the address
@@ -59,12 +58,14 @@ public class CompleteCommand extends UndoableCommand {
             }
 
             tasksToComplete.add(lastShownList.get(filteredTaskListIndex));
-            messageSuccessful = " " + lastShownList.get(filteredTaskListIndex).getTitle().toString();
         }
 
+        StringBuilder sb = new StringBuilder();
         for (int count = 0; count < tasksToComplete.size(); count++) {
             model.completeTask(tasksToComplete.get(count));
+            sb.append(tasksToComplete.get(count).getTitleFormattedString());
         }
+        messageSuccessful = sb.toString();
 
         commandResultToUndo = new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
         updateUndoLists();

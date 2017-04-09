@@ -32,10 +32,37 @@ public class CompleteCommandTest extends LogicManagerTest {
         Task toComplete = threeTasks.get(1);
 
         assertCommandSuccess("done e2",
-                CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + " " + toComplete.getTitle(),
+                CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + toComplete.getTitleFormattedString(),
                 expectedAB,
                 expectedAB.getCompletedTasks(), Task.COMPLETE_CHAR);
         assertEquals(model.getCompletedList().get(0), toComplete);
+    }
+
+    @Test
+    //Check if the message shown is correct if index given is valid
+    public void executeCompleteMultipleTasks() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Task> eightTasks = helper.generateEventTaskList(8);
+
+        ToDoList expectedAB = helper.generateToDoList(eightTasks);
+        helper.addToModel(model, eightTasks);
+        List<Task> toComplete = new ArrayList<Task>();
+        toComplete.add(eightTasks.get(1));
+        toComplete.add(eightTasks.get(2));
+        toComplete.add(eightTasks.get(3));
+
+        assertCommandSuccess("done e2-4",
+                CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + messageBuilder(toComplete),
+                expectedAB,
+                expectedAB.getCompletedTasks(), Task.COMPLETE_CHAR);
+    }
+
+    private String messageBuilder(List<Task> toComplete) {
+        StringBuilder sb = new StringBuilder();
+        for (Task task : toComplete) {
+            sb.append(task.getTitleFormattedString());
+        }
+        return sb.toString();
     }
 
     @Test
@@ -52,14 +79,14 @@ public class CompleteCommandTest extends LogicManagerTest {
         Task toComplete = tasks.get(1);
 
         assertCommandSuccess("done d1",
-                CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + " " + toComplete.getTitle(),
+                CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + toComplete.getTitleFormattedString(),
                 expectedAB,
                 expectedAB.getCompletedTasks(), Task.COMPLETE_CHAR);
         assertEquals(model.getCompletedList().get(0), toComplete);
 
         toComplete = tasks.get(2);
         assertCommandSuccess("done f1",
-            CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + " " + toComplete.getTitle(),
+            CompleteCommand.MESSAGE_COMPLETE_TASK_SUCCESS + toComplete.getTitleFormattedString(),
             expectedAB,
             expectedAB.getCompletedTasks(), Task.COMPLETE_CHAR);
         assertEquals(model.getCompletedList().get(1), toComplete);
