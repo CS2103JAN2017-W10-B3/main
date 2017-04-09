@@ -212,6 +212,8 @@ public class UiManager extends ComponentManager implements Ui {
     private void showFatalErrorDialog(String title, Throwable e) {
         logger.severe(title + " " + e.getMessage() + StringUtil.getDetails(e));
         showAlertDialogAndWait(Alert.AlertType.ERROR, title, e.getMessage(), e.toString());
+        Platform.exit();
+        System.exit(0);
     }
 
     // ==================== Event Handling Code
