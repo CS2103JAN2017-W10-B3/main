@@ -105,12 +105,6 @@ public interface Model {
     void updateFilteredTaskListToShowWithStatus(Status status);
 
     /**
-     * Updates the filter of the filtered Task list to filter by the given
-     * set of tag
-     */
-    void updateFilteredTaskListToShowWithTag(Set<String> keywordSet);
-
-    /**
      * Mark a task to be completed
      */
     void completeTask(ReadOnlyTask taskToComplete);

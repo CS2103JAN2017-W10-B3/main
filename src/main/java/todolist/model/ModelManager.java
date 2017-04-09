@@ -18,7 +18,6 @@ import todolist.commons.events.storage.DirectoryChangedEvent;
 import todolist.commons.exceptions.DataConversionException;
 import todolist.commons.util.CollectionUtil;
 import todolist.commons.util.FileUtil;
-import todolist.model.tag.Tag;
 import todolist.model.task.EndTime;
 import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.ReadOnlyTask.Category;
@@ -335,12 +334,6 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
-    @Override
-    public void updateFilteredTaskListToShowWithTag(Set<String> keywordSet) {
-        updateFilteredTaskList(new PredicateExpression(new TagQualifier(keywordSet)));
-
-    }
-
     // ========== Inner classes/interfaces used for filtering
     // =================================================
 
@@ -430,32 +423,6 @@ public class ModelManager extends ComponentManager implements Model {
         @Override
         public String toString() {
             return (status ? "completed" : "not yet completed");
-        }
-
-    }
-
-    private class TagQualifier implements Qualifier {
-
-        Set<String> tags;
-        Boolean status;
-
-        TagQualifier(Set<String> tags) {
-            this.tags = tags;
-        }
-
-        @Override
-        public boolean run(ReadOnlyTask task) {
-            for (Tag tag : task.getTags()) {
-                if (this.tags.contains(tag.tagName)) {
-                    status = true;
-                }
-            }
-            return status;
-        }
-
-        @Override
-        public String toString() {
-            return (status ? "contains tag!" : "not containing tag!");
         }
 
     }
