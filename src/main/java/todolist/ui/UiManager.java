@@ -169,8 +169,8 @@ public class UiManager extends ComponentManager implements Ui {
         try {
             GlobalScreen.registerNativeHook();
         } catch (NativeHookException ex) {
-            logger.info("There was a problem registering the native hook.");
-            logger.info(ex.getMessage());
+            globalListenerLogger.info("There was a problem registering the native hook.");
+            globalListenerLogger.info(ex.getMessage());
         }
         GlobalScreen.addNativeKeyListener(new GlobalKeyListener(mainWindow));
 
