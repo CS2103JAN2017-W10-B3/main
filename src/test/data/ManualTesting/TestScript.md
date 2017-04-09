@@ -8,6 +8,29 @@ This test script is to assist testers in testing `To-do List` by providing them 
 * Rename the `SampleData.xml` file to `toDoList.xml`
 * Run `toDoList.jar`
 
+## Preamble
+
+* Definition of tasks:
+> * A task having only start time and no end time, or neither start nor end time, is automatically sorted as a floating task.
+> * A task having only the end time and no start time is automatically sorted as a deadline task.
+> * A task having both the start and end time is automatically sorted as an event task.
+> * A task, regardless of the existence of its start and end time, is sorted as a completed time, if it has been flagged as completed before.
+> * Notice that completed tasks are not eligible for add command and edit command.
+
+* Definition of task index:
+> * Under most circumstances, a task index would be in the format "Task character + index".
+> * Task character is one single small letter, with value in either c, d, e, or f, referring to completed, deadline, event and floating respectively.
+> * Indexes are unsigned positive numbers.
+
+* Usage of task index
+> * Commands including `delete`, `edit`, `select`, `done` would be related to the task indexes. Usually, task indexes are typed in in the format "character + number", for single targeted task. For example: `delete d1` would be referring to deleting deadline task number 1.
+> * You have the choice to not including the character signifying the type, and it will by default be recogized as a deadline task.
+> * You can also select multiple tasks, by using a dash "-" to specify a range of task index. However, the task character is still compulsory for completed, event and floating tasks, and optional for deadline tasks. For example: `delete d1-3` would be referring to deleting deadline tasks d1, d2 and d3.
+> * The multiple selection does not restrict the sequence of index, meaning the starting number could be greater than the ending number. For example: `delete d1-3` would also be referring to deleting deadline tasks d1, d2 and d3.
+> * You could have "multiple" multiple selection. For example: `delete d1-3 e2-4` would also be referring to deleting deadline tasks d1, d2 and d3, and event tasks e2, e3 and e4.
+> * They are not restricted to be from different types of tasks. For example: `delete d1-3 d4-4` is also fine. If there were any overlaps, no error will be thrown and the union of the two set will be taken.
+> * However, we do not support a third multiple selection interval.
+
 ## Manual Tests
 
 ### Adding a floating task
@@ -56,17 +79,17 @@ This test script is to assist testers in testing `To-do List` by providing them 
 	> * Task type is automatically assigned according to the existence of starting and ending time. Here it has only the start, not the end time, hence is treated as a floating task.
 	> * Newly added task is selected in the floating task list panel
 
-7. Adding another floating task with tag
+8. Adding another floating task with tag
 >  To type: `add buy stationary #important #necessary`
 	> * Added a floating task named 'buy stationary' with tags "important" and "necessary"
 	> * Task type is automatically assigned according to the existence of starting and ending time. Here it has only the start, not the end time, hence is treated as a floating task.
 	> * Newly added task is selected in the floating task list panel
 
-8.  Undo recently added task
+9.  Undo recently added task
 >  To type: `undo`
 	> * The most recently added task "buy stationary" with tags "important" and "necessary" would be removed.
 
-9.  Undo the next recently added task
+10.  Undo the next recently added task
 >  To type: `undo`
 	> * The second most recently added task "buy fruit" with start time "April 29 2017 HH:MM" would be removed.
 
@@ -148,11 +171,23 @@ This test script is to assist testers in testing `To-do List` by providing them 
 
 5.  Select a deadline task without keyword "select"
 >  To type: `d1`
-	> * The deadline task with index "e1" will be selected and highlighted in grey in the deadline task panel
+	> * The deadline task with index "d1" will be selected and highlighted in grey in the deadline task panel
 
 6.  Select a floating task without keyword "select"
 >  To type: `f1`
-	> * The floating task with index "e1" will be selected and highlighted in grey in the floating task panel
+	> * The floating task with index "f1" will be selected and highlighted in grey in the floating task panel
+
+7.  Select multiple floating tasks without keyword "select"
+>  To type: `f1-3`
+	> * The floating tasks with index f1, f2 and f3 will be selected and highlighted in grey in the floating task panel
+	
+8.  Select multiple floating tasks without keyword "select", with the number sequence inverted
+>  To type: `e4-2`
+	> * The floating tasks with index e4, e3 and e2 will be selected and highlighted in grey in the floating task panel
+	
+9.  Select multiple floating tasks without keyword "select", with the number sequence inverted, and without specifying the task 
+>  To type: `4-2`
+	> * The deadline tasks with index d4, d3 and d2 will be selected and highlighted in grey in the deadline task panel
 
 ### Editing tasks
 
@@ -176,49 +211,195 @@ This test script is to assist testers in testing `To-do List` by providing them 
 4.  Editing deadline task venue with task index specified in the command
 >  To type: `edit d1 /venue Bus stop`
 	> * The deadline task with index "d1" has its venue updated to having value "Bus stop", or the venue parameter is added if it does not originally have one.
-	> * The edited task is selected in the deadline task panel and highlighted as grey
+	> * The edited task is selected in the deadline task panel and highlighted as grey.
 
 5.  Editing deadline task venue with task index specified in the command
 >  To type: `edit d1 /description I don't know`
 	> * The deadline task with index "d1" has its description updated to having value "I don't know", or the description parameter is added if it does not originally have one.
-	> * The edited task is selected in the deadline task panel and highlighted as grey
+	> * The edited task is selected in the deadline task panel and highlighted as grey.
 
 6.  Editing deadline task urgency level with task index specified in the command
 >  To type: `edit d1 /level 1`
 	> * The deadline task with index "d1" has its urgency level updated to having value "1", or the urgency level parameter is added if it does not originally have one.
-	> * The edited task is selected in the deadline task panel and highlighted as grey
+	> * The edited task is selected in the deadline task panel and highlighted as grey.
 
 7.  Editing deadline task tag with task index specified in the command
 >  To type: `edit d1 #important`
 	> * The deadline task with index "d1" has its tags overwritten and updated to having value "important", or the tag "important" is added if it does not originally have tags.
-	> * The edited task is selected in the deadline task panel and highlighted as grey
+	> * The edited task is selected in the deadline task panel and highlighted as grey.
 
 8.  Editing event task tag after selecting it beforehand
 >  To type: `e1` followed by `edit /title Go to school`
 	> * The event task with index "e1" is selected in event task panel after the first command, then the title of the task is updated to become "Go to school" after the second command.
-	> * The edited task is selected in the deadline task panel and highlighted as grey
+	> * The edited task is selected in the event task panel and highlighted as grey.
 
+9.  Editing multiple event tasks after selecting them beforehand
+>  To type: `e1-3` followed by `edit /venue SoC`
+	> * The event tasks with indexes e1, e2 and e3 are selected in event task panel after the first command, then the venues of these tasks are updated to become "SoC" after the second command.
+	> * The edited tasks are selected in the event task panel and highlighted as grey.
+
+10.  Editing multiple deadline tasks tags after selecting them beforehand
+>  To type: `9-6` followed by `edit  #school`
+	> * The deadline tasks with indexes d6, d7, d8 and d9 are selected in deadline task panel after the first command, then the tags of the task are updated to having only #school after the second command.
+	> * The edited tasks are selected in the deadline task panel and highlighted as grey.
+	
+11.  Deleting a the start time parameter from an event task
+>  To type: `delete e1 /from`
+	> * The event task with index has its start time reset to null. Notice that such changes causes a change in task category also.
+	> * Thus the new task is displayed and highlighted in grey in the deadline task list, since it is now fitting under the definition for deadline task.
+	
+12.  Deleting the venue parameter from a floating task
+>  To type: `delete f1 /venue`
+	> * The floating task with the index f1 will have its venue value deleted and reset to null, if there were any.
+	> * Notice that if the task does not primarily have a venue value, nothing will be changed
+	> * In anyway, the task with the parameter deleted will be highlighted in grey and selected in the floating task list.
+
+13.  Deleting the description parameter from a task after selecting it beforehand
+>  To type: `d1` followed by `delete /description`
+	> * The deadline task with the index d1 will have its description value deleted and reset to null, if there were any. 
+	> * In anyway, the task with the parameter deleted will be highlighted in grey and selected in the deadline task list.
+	
+14.  Deleting the urgency level parameter from multiple tasks after selecting them beforehand
+>  To type: `e2-4` followed by `delete /level`
+	> * The event tasks with the indexes e2, e3 and e4 will have their urgency level values deleted and reset to null, if there were any. 
+	> * In anyway, the task with the parameter deleted will be highlighted in grey and selected in the event task list.
+	
+14.  Deleting the tag parameter from multiple tasks
+>  To type: `delete 5-3 #`
+	> * The deadline tasks with the indexes d3, d4 and d5 will have their tags deleted and reset to null, if there were any. 
+	> * The hash sign is the prefix for tags to signify that tags are to be deleted.
+	> * In anyway, the task with the parameter deleted will be highlighted in grey and selected in the deadline task list.
+	
 ### Deleting tasks
+
+1.  Deleting task
+>  To type: `delete f1 `
+	> * The floating task with index "f1" is deleted
+	> * The task is deleted from the floating task panel.
+	
+2.  Deleting multiple tasks
+>  To type: `delete f1-3 `
+	> * The floating tasks with indexes f1, f2 and f3 are deleted
+	> * The tasks are deleted from the floating task panel.
+
+3.  Deleting multiple deadline tasks (not compulsory to specify the task character)
+>  To type: `delete 1-3 `
+	> * The deadline tasks with indexes d1, d2 and d3 are deleted
+	> * The tasks are deleted from the deadline task panel.
 
 ### Finding tasks
 
 1.  Find tasks with keyword
 >  To type: `find exam`
 	> * All 3 panels will show shortlisted tasks that contains keywords in either titles, venues, start time, end time, descriptions, and tags.
+	> * Only the shortlisted tasks are shown in their respective task list panels.
+	> * The total number of tasks will be shown in the command result window.
 
 ### Listing tasks
 
+1.  List all tasks
+>  To type: `list`
+	> * All tasks are listed out in their repsective panels.
+	
+2.  List all tasks that falls under a certain range of time
+>  To type: `list /from Today /to Tomorrow`
+	> * All tasks that fulfil the time comparison criteria will be listed in their respective task lists.
+	> * For a floating task, if its start time is after "Today" and before "Tomorrow", it will be listed. Otherwise, it is not listed.
+	> * For a deadline task, if its deadline is after "Today" and before "Tomorrow", it will be listed. Otherwise, it is not listed.
+	> * For a event task, if its start time is after "Today" and end time before "Tomorrow", it will be listed. Otherwise, it is not listed.
+	> * You can use `/by` instead of `/to`.
+	> * Notice that this listing function is primarily for user to look up for tasks in a period that lasts a certain days. Hence no matter how accurate the time input is, all tasks on the same day as the start or end boundary will also be listed.
+	
+3. List all tasks that falls on a certain day
+>  To type: `list /on Today`
+	> * All tasks that have either start time or end time parameter present and falling on "Today" will be listed, no matter their types.
+	> * 
+
 ### Clearing of tasks
+
+1.  Clear all tasks
+>  To type: `clear`
+	> * All tasks are cleared and the entire list is now empty.
+
+### Undo commands
+
+1.  Undo the most recent commands
+>  To type: `undo`
+	> * The entire to-do list is restored to its most recent state before the previous undo-able command.
+	> * You can maximum undo for 3 times.
+	> * The undo-able commands are: add, edit, complete (done), clear and delete.
 
 ### Completing tasks
 
-### Changing save location
+1.  Completing task
+>  To type: `done f1 `
+	> * The floating task with index "f1" is marked as completed.
+	> * The task is deleted from the floating task panel and shown in the completed list. 
+	> * It is selected and highlighted in grey.
+	
+2.  Completing multiple tasks
+>  To type: `done 1-3 `
+	> * The floating tasks with indexes d1, d2 and d3 are marked as completed
+	> * The tasks are deleted from the deadline task panel and shown in the completed list. 
+	> * The completed tasks selected and highlighted in grey.
 
 ### Viewing help
 
+1.  View command instruction for a command
+>  To type: `help add`
+	> * The usage instruction of add command is shown in the command result window.
+	
+### Save to a directory
+
+1.  Save the to do list to a stated directory
+>  To type: `save E:/my folder`
+	> * The xml file with the necessary data of the to-do list is stored to the directory.
+	
+2.  Save the to do list to the default directory
+>  To type: `save`
+	> * The xml file with the necessary data of the to-do list is stored to the data folder in the repo folder by default.
+
+### Change the default directory
+
+1.  Change the default directory to the stated directory
+>  To type: `changedir E:/my folder`
+	> * A .xml will be saved at the same time as stating the changing of directory.
+	> * Any future saving using the command word `key` only will be saved to this directory.
+	
+### Import the saved file
+
+1.  import the saved file into the to-do list
+>  To type: `import E:/my folder/todoList`
+	> * You may also typed the file format, i.e. `/todoList.xml`
+	> * The .xml file will be imported if it exists in the folder and has the file name.
+
 ### Controlling UI
+
+1.  Scroll down a specific screen
+>  Keys to press: `ctrl(control) + alt(option) + C`
+	> * The completed task list will be scrolled down
+	> * You may try D for deadline task list, E for event task list, F for floating task list.
+	
+2.  Scroll up a specific screen
+>  Keys to press: `ctrl(control) + shift + F`
+	> * The floating task list will be scrolled up
+	> * You may try C for completed task list, D for deadline task list and E for event task list.
 
 ### Auto-complete
 
+1.  View the 10 most recent successful commands that you have typed
+>  Key to press: `down`
+	> * A list of historical commands is shown beneath the command line.
+	> * You may continue to press down or up and choose the desired command to be re-typed into the command line. Press enter and the command will appear in the command line. Notice that it will overwrite what you have previously typed.
+	
+2.  Auto-completion of task command and prefixes
+>  To type: `ad`
+	> * A tab with the word "add" is shown beneath the command line. You may continue to press down and enter to type the word into the command line.
+	> * You may also try typing "/" and all the task parameter prefixes will appear. This is especially useful when you do not want to type long prefixes, such as `/description`.
+
 ### Viewing joke
+
+1.  Type out "joke"
+>  To type: `joke`
+	> * A joke of probably one or two lines is shown in the command result panel. :D
 
