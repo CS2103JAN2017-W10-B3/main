@@ -38,7 +38,9 @@ public class AddCommandGuiTest extends ToDoListGuiTest {
 
         //add to empty list
         commandBox.runCommand("clear");
-        assertAddSuccess(Category.EVENT, td.cs2103Tutorial);
+        TestTask task2ToAdd = td.cs2103Tutorial;
+        currentList = new TestTask[0];
+        assertAddSuccess(Category.EVENT, task2ToAdd, currentList);
 
         //invalid command
         commandBox.runCommand("adds Johnny");
