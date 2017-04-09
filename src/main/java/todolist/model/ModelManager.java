@@ -185,14 +185,6 @@ public class ModelManager extends ComponentManager implements Model {
         this.selectedIndexes.clear();
     }
 
-    /**
-     * Return a string that represents all tags in the to-do list
-     */
-    @Override
-    public String getTagListToString() {
-        return todoList.getTagListToString();
-    }
-
     // @@author A0122017Y
     /**
      * Synchronize the task lists with the respective task type.
