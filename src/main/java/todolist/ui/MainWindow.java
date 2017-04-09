@@ -217,10 +217,6 @@ public class MainWindow extends UiPart<Region> {
         return completeListPanelPlaceholder;
     }
 
-    void hide() {
-        primaryStage.hide();
-    }
-
     private void setTitle(String appTitle) {
         primaryStage.setTitle(appTitle);
     }
@@ -404,8 +400,29 @@ public class MainWindow extends UiPart<Region> {
         }
     }
 
+    //@@author A0110791M
+    /*
+     *  Toggles the app window to show or hide (used by the hotkey)
+     */
+    void toggle() {
+        if (primaryStage.isShowing()) {
+            hide();
+        } else {
+            show();
+        }
+    }
+
     void show() {
-        primaryStage.show();
+        if (!primaryStage.isShowing()) {
+            primaryStage.show();
+        }
+    }
+
+
+    void hide() {
+        if (primaryStage.isShowing()) {
+            primaryStage.hide();
+        }
     }
 
     /**

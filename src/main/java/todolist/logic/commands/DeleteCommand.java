@@ -46,8 +46,7 @@ public class DeleteCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " e1-e5 f1 \n" + "Example: " + COMMAND_WORD + " e1-e5 f1  /level /from #\n";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted/updated: ";
-    public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces "
-            + "duplicate tasks in your to-do list. \n" + "Please check the parameters you want to delete.";
+    public static final String MESSAGE_DUPLICATE_TASK = "Delete is terminated because a duplicate task is being added.";
 
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
     private final DeleteTaskDescriptor deleteTaskDescriptor;
@@ -121,8 +120,7 @@ public class DeleteCommand extends UndoableCommand {
 
     /**
      * Get a list of tasks to be deleted/updated from
-     * {@code filterTaskListIndexes} and returns them as
-     * {@code getTasksToDelete}}
+     * {@code filterTaskListIndexes}
      */
     private ArrayList<ReadOnlyTask> getTasksToDelete() throws CommandException {
         ArrayList<ReadOnlyTask> tasksToDelete = new ArrayList<ReadOnlyTask>();
