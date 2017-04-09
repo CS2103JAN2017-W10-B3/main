@@ -15,7 +15,7 @@ public class HelpCommandTest extends LogicManagerTest {
 
     @Test
     public void executeHelp() {
-        assertCommandSuccess("help", HelpCommand.SHOWING_HELP_MESSAGE,
+        assertCommandSuccess("help", HelpCommand.showingHelpMessage,
                 new ToDoList(), Collections.emptyList(), Task.ALL_CHAR);
         assertTrue(helpShown);
     }
