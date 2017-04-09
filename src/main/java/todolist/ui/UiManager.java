@@ -77,30 +77,39 @@ public class UiManager extends ComponentManager implements Ui {
             // This should be called before creating other UI parts
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
 
-            if (semaphore.tryAcquire()) {
-                // Create the keystroke listeners
+        } catch (Throwable e) {
+            logger.severe(StringUtil.getDetails(e));
+            showFatalErrorDialog("Fatal error during initializing", e);
+        }
+
+        if (semaphore.tryAcquire()) {
+            // Create the keystroke listeners
+            try {
                 initiateGlobalKeyListener(mainWindow);
+            } finally {
                 semaphore.release();
             }
+        }
 
-            if (semaphore.tryAcquire()) {
+        if (semaphore.tryAcquire()) {
+            try {
                 // Create the tray icon.
                 initializeTray(primaryStage);
+            } finally {
                 semaphore.release();
             }
+        }
 
-            if (semaphore.tryAcquire()) {
+        if (semaphore.tryAcquire()) {
+            try {
                 // Create the tray icon.
                 // mainWindow.show(); // uncomment this to start with main
                 // window
                 // showing or not showing
                 mainWindow.fillInnerParts();
+            } finally {
                 semaphore.release();
             }
-
-        } catch (Throwable e) {
-            logger.severe(StringUtil.getDetails(e));
-            showFatalErrorDialog("Fatal error during initializing", e);
         }
 
     }
