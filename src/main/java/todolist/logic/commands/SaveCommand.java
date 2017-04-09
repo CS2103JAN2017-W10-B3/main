@@ -27,8 +27,8 @@ public class SaveCommand extends Command {
             + "Main directory will be the default save location for any valid but unspecifed file path\n"
             + "Example: " + COMMAND_WORD + " C:/Users/Computing/Desktop/CS2103 \n";
 
-    private static final String MESSAGE_SUCCESS = "Data successfully saved to location: %s";
-    private static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. "
+    public static final String MESSAGE_SUCCESS = "Data successfully saved to location: %s";
+    public static final String MESSAGE_INVALID_PATH = "Filepath given is invalid. "
             + "Filepath will be reset to old path.\n" + MESSAGE_USAGE;
 
     // private static Config config;
@@ -45,6 +45,10 @@ public class SaveCommand extends Command {
 
     public static void setStorage(Storage s) {
         storage = s;
+    }
+    
+    public static String getUserPrefsFilePath() {
+        return Config.getUserPrefsFilePath();
     }
 
     @Override
