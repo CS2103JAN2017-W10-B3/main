@@ -70,9 +70,16 @@ Role: Developer <br>
 
 * In Charge of: UI <br>
 * Responsibilities: Documentation <br>
-* Features implemented:
+* Features implemented
+	* [Help command]
+	* [Scrolling using keyboard]
+	* [Change Ui to 4 lists]
 * Code written:
+	* [Functional Codes]
+	* [Ui Codes]
+	* [Test Codes]
 * Major Contributions:
+	* [Contribute to User stories and Use cases]
 
 
 
