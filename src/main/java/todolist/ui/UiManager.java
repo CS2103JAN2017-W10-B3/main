@@ -78,19 +78,16 @@ public class UiManager extends ComponentManager implements Ui {
             // Create the tray icon.
             initializeTray(primaryStage);
 
-        } catch (Throwable e) {
-            logger.severe(StringUtil.getDetails(e));
-            showFatalErrorDialogAndShutdown("Fatal error during initializing", e);
-        }
-
-        try {
             // Create the keystroke listeners
             initiateGlobalKeyListener(mainWindow);
+
             mainWindow.show(); // uncomment this to start with main window
             // showing or not showing
             mainWindow.fillInnerParts();
-        } catch (Exception e) {
-            logger.info(e.getMessage());
+
+        } catch (Throwable e) {
+            logger.severe(StringUtil.getDetails(e));
+            showFatalErrorDialog("Fatal error during initializing", e);
         }
 
     }
@@ -212,7 +209,7 @@ public class UiManager extends ComponentManager implements Ui {
         alert.showAndWait();
     }
 
-    private void showFatalErrorDialogAndShutdown(String title, Throwable e) {
+    private void showFatalErrorDialog(String title, Throwable e) {
         logger.severe(title + " " + e.getMessage() + StringUtil.getDetails(e));
         showAlertDialogAndWait(Alert.AlertType.ERROR, title, e.getMessage(), e.toString());
     }
