@@ -74,23 +74,24 @@ public class UiManager extends ComponentManager implements Ui {
         try {
             // This should be called before creating other UI parts
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
-            mainWindow.fillInnerParts();
+
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
             showFatalErrorDialogAndShutdown("Fatal error during initializing", e);
         }
 
         try {
-            // Create the keystroke listeners
-            initiateGlobalKeyListener(mainWindow);
+        // Create the keystroke listeners
+        initiateGlobalKeyListener(mainWindow);
 
-            // Create the tray icon.
-            initializeTray(primaryStage);
-        } catch (Exception e) {
-            logger.info("Could not initiate tray/shortcut key.");
-        }
+        // Create the tray icon.
+        initializeTray(primaryStage);
 
         mainWindow.show();
+        mainWindow.fillInnerParts();
+        } catch (Throwable e) {
+            logger.info("Keystroke/tray failed to initialize.");
+        }
     }
 
     /*
