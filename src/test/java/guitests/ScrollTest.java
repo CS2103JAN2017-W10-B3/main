@@ -151,8 +151,6 @@ public class ScrollTest extends ToDoListGuiTest {
     public void scrollingIncreaseWithAcceleratorComplete() {
         //Complete list
         scrollTest = new Scroll();
-        commandBox.runCommand("done f3");
-        commandBox.runCommand("done e1");
         scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.COMPLETED));
         double oldValue = scrollTest.getCurrentValue();
         mainMenu.useCtrlAltCAccelerator();
@@ -276,8 +274,6 @@ public class ScrollTest extends ToDoListGuiTest {
     public void scrollingIncreaseWithClickOnComplete() {
         //Complete list
         scrollTest = new Scroll();
-        commandBox.runCommand("done f3");
-        commandBox.runCommand("done e1");
         scrollTest.getListVerticalScrollbar(taskListPanel.getListView(Category.COMPLETED));
         double oldValue = scrollTest.getCurrentValue();
         mainMenu.clickOn("Help", "Complete Down");
