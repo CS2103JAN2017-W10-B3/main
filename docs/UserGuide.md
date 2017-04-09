@@ -99,8 +99,8 @@ Edits an existing task in the todolist.<br>
 Format: `edit INDEX /title [TITLE] /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [LEVEL] /description [DESCRIPTION] #[TAG]...`
 
 > * Edits the task at the specified `INDEX`.
-    The index refers to the index number shown in the last task listing. <br>
-    Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+   * The index refers to the index number shown in the last task listing. <br>
+   * Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
 > * At least one of the optional fields must be provided.
 > * Existing values will be updated to the input values.
 > * When editing tags, the existing tags of the task will be removed i.e adding of tags is not cumulative.
@@ -132,12 +132,12 @@ Examples:
 Deletes the specified task from the todolist. <br>
 Format: `delete INDEX [PARAMETER]...`
 
-> Deletes the task at the specified `INDEX`. <br>
-    * The index refers to the index number shown in the last task listing. <br>
-    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
-    * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
+> * Deletes the task at the specified `INDEX`. <br>
+ * The index refers to the index number shown in the last task listing. <br>
+ * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+ * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
 
-Examples:
+Example:
 
 * `list`<br>
   `delete f2`<br>
@@ -266,6 +266,11 @@ Examples:
 * `import C:/Users/Computing/Desktop/CS2103`<br>
   Import the tasks from the data file in C:/Users/Computing/Desktop/CS2103.
 
+### 2.15. Tell me a joke : `joke`
+
+A joke would be shown to humour you.<br>
+Format: `joke`
+
 ## 3. FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
@@ -303,6 +308,9 @@ e.g. edit f7 /title buy calculator
    
 * **Import** : `import FILE_PATH` <br>
    e.g. import C:/Users/Computing/Desktop/CS2103
+
+* **Joke** : `joke` <br>
+  e.g. `joke`
 
 * **List** : `list /from [DATE_TIME] /to [DATE_TIME]` <br>
   e.g. `list`
