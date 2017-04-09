@@ -30,11 +30,11 @@ public class MainWindow extends UiPart<Region> {
     private Stage primaryStage;
     private Logic logic;
 
-    //@@author A0138628W
+    // @@author A0138628W
 
     // Independent Ui parts residing in this Ui container
     private Scroll scroll;
-    //@@
+    // @@
 
     private TaskListPanel deadlineListPanel, eventListPanel, floatingListPanel, completeListPanel;
 
@@ -55,7 +55,7 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     private MenuItem helpMenuItem;
 
-    //@@ author: A0138628W
+    // @@ author: A0138628W
     @FXML
     private MenuItem resultUp;
 
@@ -126,7 +126,7 @@ public class MainWindow extends UiPart<Region> {
 
     private void setAccelerators() {
         setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
-        //@@ author: A0138628W
+        // @@ author: A0138628W
         setAccelerator(resultUp, KeyCombination.valueOf("CTRL+SHIFT+R"));
         setAccelerator(resultDown, KeyCombination.valueOf("CTRL+ALT+R"));
         setAccelerator(resultLeft, KeyCombination.valueOf("SHIFT+ALT+L"));
@@ -143,7 +143,9 @@ public class MainWindow extends UiPart<Region> {
 
     /**
      * Sets the accelerator of a MenuItem.
-     * @param keyCombination the KeyCombination value of the accelerator
+     *
+     * @param keyCombination
+     *            the KeyCombination value of the accelerator
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
@@ -153,13 +155,18 @@ public class MainWindow extends UiPart<Region> {
          * https://bugs.openjdk.java.net/browse/JDK-8131666
          * is fixed in later version of SDK.
          *
-         * According to the bug report, TextInputControl (TextField, TextArea) will
-         * consume function-key events. Because CommandBox contains a TextField, and
-         * ResultDisplay contains a TextArea, thus some accelerators (e.g F1) will
-         * not work when the focus is in them because the key event is consumed by
+         * According to the bug report, TextInputControl (TextField, TextArea)
+         * will
+         * consume function-key events. Because CommandBox contains a TextField,
+         * and
+         * ResultDisplay contains a TextArea, thus some accelerators (e.g F1)
+         * will
+         * not work when the focus is in them because the key event is consumed
+         * by
          * the TextInputControl(s).
          *
-         * For now, we add following event filter to capture such key events and open
+         * For now, we add following event filter to capture such key events and
+         * open
          * help window purposely so to support accelerators even when focus is
          * in CommandBox or ResultDisplay.
          */
@@ -172,7 +179,7 @@ public class MainWindow extends UiPart<Region> {
     }
 
     void fillInnerParts() {
-        //@@author A0138628W
+        // @@author A0138628W
         deadlineListPanel = new DeadlineListPanel(getDeadlineListPlaceholder(), logic.getFilteredDeadlineList());
         eventListPanel = new EventListPanel(getEventListPlaceholder(), logic.getFilteredEventList());
         floatingListPanel = new FloatingListPanel(getFloatListPlaceholder(), logic.getFilteredFloatList());
@@ -220,7 +227,9 @@ public class MainWindow extends UiPart<Region> {
 
     /**
      * Sets the given image as the icon of the main window.
-     * @param iconSource e.g. {@code "/images/help_icon.png"}
+     *
+     * @param iconSource
+     *            e.g. {@code "/images/help_icon.png"}
      */
     private void setIcon(String iconSource) {
         FxViewUtil.setStageIcon(primaryStage, iconSource);
@@ -238,7 +247,7 @@ public class MainWindow extends UiPart<Region> {
         }
     }
 
-    //@@author A0138628W
+    // @@author A0138628W
     private void setWindowMaxSize() {
         primaryStage.setMaximized(true);
     }
@@ -255,7 +264,7 @@ public class MainWindow extends UiPart<Region> {
                 (int) primaryStage.getX(), (int) primaryStage.getY());
     }
 
-    //@@ author: A0138628W
+    // @@ author: A0138628W
     @FXML
     public void handleHelp() {
         CommandSyntax commandSyntax = new CommandSyntax();
@@ -381,7 +390,19 @@ public class MainWindow extends UiPart<Region> {
             }
         }
     }
-    //@@
+    // @@
+
+    // @@author A0110791M
+    /*
+     * Toggles the app window to show or hide (used by the hotkey)
+     */
+    void toggle() {
+        if (primaryStage.isShowing()) {
+            hide();
+        } else {
+            show();
+        }
+    }
 
     void show() {
         primaryStage.show();
@@ -391,7 +412,7 @@ public class MainWindow extends UiPart<Region> {
      * Closes the application.
      */
     @FXML
-    private void handleExit() {
+    public void handleExit() {
         raise(new ExitAppRequestEvent());
     }
 
@@ -399,7 +420,7 @@ public class MainWindow extends UiPart<Region> {
         return this.deadlineListPanel;
     }
 
-    //@@ author: A0138628W
+    // @@ author: A0138628W
     public TaskListPanel getEventListPanel() {
         return this.eventListPanel;
     }
