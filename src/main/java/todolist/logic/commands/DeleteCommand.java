@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 import todolist.commons.core.EventsCenter;
+import todolist.commons.core.LogsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
+import todolist.commons.events.ui.ClearAllSelectionsEvent;
 import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.ReadOnlyToDoList;
@@ -31,21 +34,20 @@ import todolist.model.task.Venue;
  */
 public class DeleteCommand extends UndoableCommand {
 
+    private Logger logger = LogsCenter.getLogger(DeleteCommand.class.getName());
+
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the task identified by the index number used in the last task listing. \n"
             + "Parameters: TYPE (d, e or f) + INDEXES + (Optional)Parameters you want to delete \n"
             + "(/venue[VENUE] /from or /on[STARTTIME] /to or /by[ENDTIME] "
-            + "/description[DESCRIPTION] /level[URGENCYLEVEL] #[TAGS]). \n"
-            + "Example: " + COMMAND_WORD + " e1 \n"
-            + "Example: " + COMMAND_WORD + " e1-e5 f1 \n"
-            + "Example: " + COMMAND_WORD + " e1-e5 f1  /level /from #\n";
+            + "/description[DESCRIPTION] /level[URGENCYLEVEL] #[TAGS]). \n" + "Example: " + COMMAND_WORD + " e1 \n"
+            + "Example: " + COMMAND_WORD + " e1-e5 f1 \n" + "Example: " + COMMAND_WORD + " e1-e5 f1  /level /from #\n";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted/updated: ";
     public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces "
             + "duplicate tasks in your to-do list. \n" + "Please check the parameters you want to delete.";
-
 
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
     private final DeleteTaskDescriptor deleteTaskDescriptor;
@@ -57,16 +59,20 @@ public class DeleteCommand extends UndoableCommand {
     public DeleteCommand(ArrayList<TaskIndex> filteredTaskListIndexes, DeleteTaskDescriptor deleteTaskDescriptor) {
         this.filteredTaskListIndexes = filteredTaskListIndexes;
         this.deleteTaskDescriptor = deleteTaskDescriptor;
+        messageSuccessful = "";
     }
 
     @Override
     public CommandResult execute() throws CommandException {
+        logger.info("-------[Executing DeleteCommand]");
+
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<Task> listOfUpdatedTasks = new ArrayList<Task>();
 
         if (filteredTaskListIndexes.isEmpty()) {
             filteredTaskListIndexes.addAll(model.getSelectedIndexes());
             if (filteredTaskListIndexes.isEmpty()) {
+                logger.info("-------[Executiion Of DeleteCommand Failed]");
                 throw new CommandException(Messages.MESSAGE_NO_TASK_SELECTED);
             }
         }
@@ -79,9 +85,12 @@ public class DeleteCommand extends UndoableCommand {
                 try {
                     model.deleteTask(tasksToDelete.get(count));
                 } catch (TaskNotFoundException tnfe) {
+                    logger.info("-------[Executiion Of DeleteCommand Failed]");
                     assert false : "The target task cannot be missing";
                 }
             }
+            model.clearSelectedIndexes();
+            EventsCenter.getInstance().post(new ClearAllSelectionsEvent());
         } else {
             for (int count = 0; count < tasksToDelete.size(); count++) {
                 try {
@@ -89,6 +98,7 @@ public class DeleteCommand extends UndoableCommand {
                     model.updateTask(tasksToDelete.get(count), updatedTask);
                     listOfUpdatedTasks.add(updatedTask);
                 } catch (UniqueTaskList.DuplicateTaskException dpe) {
+                    logger.info("-------[Executiion Of DeleteCommand Failed]");
                     throw new CommandException(MESSAGE_DUPLICATE_TASK);
                 }
             }
@@ -96,8 +106,11 @@ public class DeleteCommand extends UndoableCommand {
 
             assert !filteredTaskListIndexes.isEmpty();
 
+            model.updateSelectedIndexes(filteredTaskListIndexes);
             EventsCenter.getInstance().post(new SelectMultipleTargetEvent(filteredTaskListIndexes));
         }
+
+        logger.info("-------[Executed Of DeleteCommand]");
 
         commandResultToUndo = new CommandResult(MESSAGE_DELETE_TASK_SUCCESS + messageSuccessful);
 
@@ -107,8 +120,9 @@ public class DeleteCommand extends UndoableCommand {
     }
 
     /**
-     * Get a list of tasks to be deleted/updated from {@code filterTaskListIndexes}
-     * and returns them as {@code getTasksToDelete}}
+     * Get a list of tasks to be deleted/updated from
+     * {@code filterTaskListIndexes} and returns them as
+     * {@code getTasksToDelete}}
      */
     private ArrayList<ReadOnlyTask> getTasksToDelete() throws CommandException {
         ArrayList<ReadOnlyTask> tasksToDelete = new ArrayList<ReadOnlyTask>();
@@ -118,7 +132,8 @@ public class DeleteCommand extends UndoableCommand {
             if (lastShownList.size() < filteredTaskListIndex + 1) {
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
-            messageSuccessful = "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString() + "] ";
+            messageSuccessful = messageSuccessful + "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString()
+                    + "] ";
 
             tasksToDelete.add(lastShownList.get(filteredTaskListIndex));
         }
@@ -126,8 +141,8 @@ public class DeleteCommand extends UndoableCommand {
     }
 
     /**
-     * Get the updated indexes of {@code listOfEditedTasks} and
-     * load them into {@code filteredTaskListIndexes}}
+     * Get the updated indexes of {@code listOfEditedTasks} and load them into
+     * {@code filteredTaskListIndexes}}
      */
     private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks) {
         filteredTaskListIndexes.clear();
@@ -140,8 +155,8 @@ public class DeleteCommand extends UndoableCommand {
     }
 
     /**
-     * Creates and returns a {@code Task} with the details of {@code taskToDelete}
-     * edited with {@code deleteTaskDescriptor}.
+     * Creates and returns a {@code Task} with the details of
+     * {@code taskToDelete} edited with {@code deleteTaskDescriptor}.
      */
 
     private Task createDeletedTask(ReadOnlyTask taskToDelete) {
@@ -240,8 +255,8 @@ public class DeleteCommand extends UndoableCommand {
     }
 
     /**
-     * Stores which parameters are to be deleted.
-     * True means to be deleted and false means not.
+     * Stores which parameters are to be deleted. True means to be deleted and
+     * false means not.
      */
 
     public static class DeleteTaskDescriptor {

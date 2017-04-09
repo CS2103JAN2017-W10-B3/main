@@ -1,12 +1,16 @@
 package todolist.logic.commands;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
+import todolist.commons.core.LogsCenter;
 import todolist.commons.exceptions.DataConversionException;
 import todolist.logic.commands.exceptions.CommandException;
 
 //@@author A0110791M
 public class ImportCommand extends Command {
+
+    private Logger logger = LogsCenter.getLogger(ImportCommand.class.getName());
 
     public static final String COMMAND_WORD = "import";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports tasks from the data file specified.\n"
@@ -25,10 +29,14 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
+        logger.info("Importing data from: " + this.sourceFilePath);
+
         try {
             model.importTasks(sourceFilePath);
+            logger.info("Data imported");
             return new CommandResult(MESSAGE_SUCCESS.concat(sourceFilePath));
         } catch (IOException | DataConversionException e) {
+            logger.info("Error reading from filepath.");
             throw new CommandException(MESSAGE_FAILURE);
         }
     }

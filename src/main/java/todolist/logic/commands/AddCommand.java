@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import todolist.commons.core.EventsCenter;
+import todolist.commons.core.LogsCenter;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
@@ -31,6 +33,8 @@ import todolist.model.task.Venue;
  * Adds a Task to the address book.
  */
 public class AddCommand extends UndoableCommand {
+
+    private Logger logger = LogsCenter.getLogger(AddCommand.class.getName());
 
     public static final String COMMAND_WORD = "add";
 
@@ -128,6 +132,8 @@ public class AddCommand extends UndoableCommand {
   //@@author A0143648Y
     @Override
     public CommandResult execute() throws CommandException {
+        logger.info("-------[Executing AddCommand]");
+
         assert model != null;
         try {
             originalToDoList = new ToDoList(model.getToDoList());
@@ -140,10 +146,14 @@ public class AddCommand extends UndoableCommand {
 
             TaskIndex indexToBeSelected = new TaskIndex(toAdd.getTaskChar(), lastShownList.indexOf(toAdd));
             EventsCenter.getInstance().post(new JumpToListRequestEvent(indexToBeSelected));
+
+            logger.info("-------[Executed AddCommand]");
+
             model.updateSelectedIndexes(indexToBeSelected);
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
+            logger.info("-------[Execution Of AddCommand Failed]");
             throw new CommandException(MESSAGE_DUPLICATE_TASK);
         }
 

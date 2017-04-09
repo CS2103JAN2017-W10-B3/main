@@ -3,8 +3,10 @@ package todolist.logic.commands;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import todolist.commons.core.EventsCenter;
+import todolist.commons.core.LogsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.core.UnmodifiableObservableList;
 import todolist.commons.events.ui.SelectMultipleTargetEvent;
@@ -29,6 +31,8 @@ import todolist.model.task.Venue;
  * Edits the details of existing tasks in the To-Do-List.
  */
 public class EditCommand extends UndoableCommand {
+
+    private Logger logger = LogsCenter.getLogger(EditCommand.class.getName());
 
     public static final String COMMAND_WORD = "edit";
 
@@ -66,11 +70,15 @@ public class EditCommand extends UndoableCommand {
 
     @Override
     public CommandResult execute() throws CommandException {
+        logger.info("-------[Executing EditCommand]");
+
         originalToDoList = new ToDoList(model.getToDoList());
         ArrayList<Task> listOfEditedTasks = new ArrayList<Task>();
+
         if (filteredTaskListIndexes.isEmpty()) {
             filteredTaskListIndexes.addAll(model.getSelectedIndexes());
             if (filteredTaskListIndexes.isEmpty()) {
+                logger.info("-------[Execution Of EditCommand Failed]");
                 throw new CommandException(Messages.MESSAGE_NO_TASK_SELECTED);
             }
         }
@@ -79,6 +87,7 @@ public class EditCommand extends UndoableCommand {
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
 
             if (filteredTaskListIndex >= lastShownList.size()) {
+                logger.info("-------[Execution Of EditCommand Failed]");
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
 
@@ -88,11 +97,14 @@ public class EditCommand extends UndoableCommand {
             try {
                 model.updateTask(taskToEdit, editedTask);
             } catch (UniqueTaskList.DuplicateTaskException dpe) {
+                logger.info("-------[Execution Of EditCommand Failed]");
                 throw new CommandException(MESSAGE_DUPLICATE_TASK);
             }
             messageSuccessful = "[" + editedTask.getTitle().toString() + "] ";
             listOfEditedTasks.add(editedTask);
         }
+
+        logger.info("-------[Executed EditCommand]");
 
         model.updateFilteredListToShowAll();
         updateFilteredTaskListIndexes(listOfEditedTasks);

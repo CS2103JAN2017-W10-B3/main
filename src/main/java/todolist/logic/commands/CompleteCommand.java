@@ -2,8 +2,10 @@ package todolist.logic.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import todolist.commons.core.EventsCenter;
+import todolist.commons.core.LogsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.events.ui.SelectMultipleTargetEvent;
 import todolist.logic.commands.exceptions.CommandException;
@@ -18,6 +20,8 @@ import todolist.model.task.TaskIndex;
  * book.
  */
 public class CompleteCommand extends UndoableCommand {
+
+    private Logger logger = LogsCenter.getLogger(CompleteCommand.class.getName());
 
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
 
@@ -40,9 +44,12 @@ public class CompleteCommand extends UndoableCommand {
 
     @Override
     public CommandResult execute() throws CommandException {
+        logger.info("-------[Executing EditCommand]");
+
         if (filteredTaskListIndexes.isEmpty()) {
             filteredTaskListIndexes.addAll(model.getSelectedIndexes());
             if (filteredTaskListIndexes.isEmpty()) {
+                logger.info("-------[Execution Of CompleteCommand Failed]");
                 throw new CommandException(Messages.MESSAGE_NO_TASK_SELECTED);
             }
         }
@@ -54,6 +61,7 @@ public class CompleteCommand extends UndoableCommand {
             int filteredTaskListIndex = filteredTaskListIndexes.get(count).getTaskNumber() - 1;
 
             if (lastShownList.size() < filteredTaskListIndex) {
+                logger.info("-------[Execution Of CompleteCommand Failed]");
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
 
@@ -67,13 +75,16 @@ public class CompleteCommand extends UndoableCommand {
         }
         messageSuccessful = sb.toString();
 
-        commandResultToUndo = new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS);
+        commandResultToUndo = new CommandResult(MESSAGE_COMPLETE_TASK_SUCCESS + messageSuccessful);
         updateUndoLists();
 
         List<ReadOnlyTask> completedList = model.getCompletedList();
         for (int count = 0; count < tasksToComplete.size(); count++) {
             selectedIndexes.add(new TaskIndex('c', completedList.indexOf(tasksToComplete.get(count)) + 1));
         }
+
+        logger.info("-------[Executed CompleteCommand]");
+
         model.updateSelectedIndexes(selectedIndexes);
         EventsCenter.getInstance().post(new SelectMultipleTargetEvent(selectedIndexes));
 

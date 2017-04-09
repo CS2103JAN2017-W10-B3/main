@@ -1,12 +1,16 @@
 package todolist.logic.commands;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import todolist.commons.core.Config;
+import todolist.commons.core.LogsCenter;
 import todolist.logic.commands.exceptions.CommandException;
 
 //@@author A0110791M
 public class ChangeDirectoryCommand extends Command {
+
+    private Logger logger = LogsCenter.getLogger(ChangeDirectoryCommand.class.getName());
 
     public static final String COMMAND_WORD = "changedir";
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -26,11 +30,15 @@ public class ChangeDirectoryCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
+        logger.info("Change data file path to: " + this.filePath);
+
         try {
             String currentFilePath = Config.getToDoListFilePath();
             model.changeDirectory(filePath);
+            logger.info("File path changed");
             return new CommandResult(String.format(MESSAGE_SUCCESS, currentFilePath, filePath));
         } catch (IOException e) {
+            logger.info("Error changing filepath.");
             return new CommandResult(String.format(MESSAGE_FAILURE, filePath));
         }
     }

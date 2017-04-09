@@ -28,8 +28,12 @@ public class UndoCommand extends Command {
             String feedbackToUser = new String(UndoableCommand.previousCommandResults
                     .get(UndoableCommand.previousCommandResults.size() - 1).feedbackToUser);
             UndoableCommand.previousCommandResults.remove(UndoableCommand.previousCommandResults.size() - 1);
+
+            logger.info("-----------[UNDO COMMAND EXECUTED]");
+
             return new CommandResult(MESSAGE_UNDO_SUCCESS + feedbackToUser);
         } catch (Exception e) {
+            logger.info("-----------[UNDO COMMAND FAILED]");
             throw new CommandException(MESSAGE_UNDO_FAILURE);
         }
 
