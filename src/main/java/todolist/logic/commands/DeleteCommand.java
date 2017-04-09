@@ -113,7 +113,7 @@ public class DeleteCommand extends UndoableCommand {
             if (lastShownList.size() < filteredTaskListIndex + 1) {
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
-            messageSuccessful = messageSuccessful + "["
+            messageSuccessful = "["
                     + lastShownList.get(filteredTaskListIndex).getTitle().toString() + "] ";
 
             tasksToDelete.add(lastShownList.get(filteredTaskListIndex));
