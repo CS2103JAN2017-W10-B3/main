@@ -47,8 +47,8 @@ public class SaveCommand extends Command {
         storage = s;
     }
 
-    public static String getUserPrefsFilePath() {
-        return Config.getUserPrefsFilePath();
+    public static String getToDoListFilePath() {
+        return Config.getToDoListFilePath();
     }
 
     @Override

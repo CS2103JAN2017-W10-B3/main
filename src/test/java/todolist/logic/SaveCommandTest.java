@@ -1,16 +1,16 @@
 package todolist.logic;
 
-import java.util.ArrayList;
+import org.junit.Test;
 
-import todolist.logic.commands.ClearCommand;
+import todolist.commons.core.Messages;
 import todolist.logic.commands.ImportCommand;
 import todolist.logic.commands.SaveCommand;
 import todolist.model.ToDoList;
-import todolist.model.task.ReadOnlyTask;
 import todolist.model.task.Task;
 
 public class SaveCommandTest extends LogicManagerTest {
 
+    @Test
     public void executeSave() throws Exception {
 
         TestDataHelper helper = new TestDataHelper();
@@ -19,21 +19,22 @@ public class SaveCommandTest extends LogicManagerTest {
 
         // save to a wrong file path
         String wrongSaveCommand = "save thisisobviouslynotadirectory";
-        assertCommandFailure(wrongSaveCommand , SaveCommand.MESSAGE_INVALID_PATH);
+        String expectedWrongOutput = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT,
+                SaveCommand.MESSAGE_USAGE);
+        assertCommandFailure(wrongSaveCommand, expectedWrongOutput);
 
         // save to the default file path
         String expectedResult = String.format(SaveCommand.MESSAGE_SUCCESS,
-                SaveCommand.getUserPrefsFilePath());
+                SaveCommand.getToDoListFilePath());
         assertCommandSuccess("save", expectedResult, expected, expected.getTaskList(), Task.ALL_CHAR);
-        assertCommandSuccess("clear", ClearCommand.MESSAGE_SUCCESS,
-                new ToDoList(), new ArrayList<ReadOnlyTask>(), Task.ALL_CHAR);
+        //model.resetData(new ToDoList());
 
         //import from the default file path
-        String importCommand = "import " + SaveCommand.getUserPrefsFilePath();
+        String importCommand = "import " + SaveCommand.getToDoListFilePath();
         String expectedImportSuccess = ImportCommand.MESSAGE_SUCCESS
-                .concat(SaveCommand.getUserPrefsFilePath());
+                .concat(SaveCommand.getToDoListFilePath());
         //import from the wrong file path
-        assertCommandFailure("import thisisanotherobviouslywrongdirectory", ImportCommand.MESSAGE_FAILURE);
+        assertCommandFailure("import thisisanotherobviouslywrongdirectory", "File does not exist.");
         //import from the correct file path
         assertCommandSuccess(importCommand, expectedImportSuccess,
                 expected, expected.getTaskList(), Task.ALL_CHAR);
