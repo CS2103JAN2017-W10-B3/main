@@ -22,7 +22,8 @@ public class EventListPanel extends TaskListPanel {
         setConnections(taskList);
         addToPlaceholder(taskListPlaceholder);
         Platform.runLater(() -> {
-            taskListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);});
+            taskListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        });
     }
 
 }
