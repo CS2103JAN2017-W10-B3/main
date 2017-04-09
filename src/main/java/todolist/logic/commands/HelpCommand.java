@@ -19,7 +19,7 @@ public class HelpCommand extends Command {
             + "Example: " + COMMAND_WORD + "\n"
             + "Example: " + COMMAND_WORD + " add \n";
 
-    public static String SHOWING_HELP_MESSAGE = "Opened help window.";
+    public String SHOWING_HELP_MESSAGE = "Opened help window.";
 
     public HelpCommand(CommandSyntax commandSyntax) {
         commandType = "";
