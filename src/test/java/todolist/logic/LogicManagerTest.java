@@ -9,6 +9,7 @@ import static todolist.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,13 +20,17 @@ import org.junit.rules.TemporaryFolder;
 import com.google.common.eventbus.Subscribe;
 
 import todolist.commons.core.EventsCenter;
+import todolist.commons.core.LogsCenter;
 import todolist.commons.core.Messages;
 import todolist.commons.events.model.ToDoListChangedEvent;
 import todolist.commons.events.ui.JumpToListRequestEvent;
 import todolist.commons.events.ui.ShowHelpRequestEvent;
 import todolist.commons.exceptions.IllegalValueException;
+import todolist.commons.util.JokesUtil;
 import todolist.logic.commands.CommandResult;
 import todolist.logic.commands.HelpCommand;
+import todolist.logic.commands.JokeCommand;
+import todolist.logic.commands.SaveCommand;
 import todolist.logic.commands.exceptions.CommandException;
 import todolist.model.Model;
 import todolist.model.ModelManager;
@@ -45,6 +50,8 @@ import todolist.storage.StorageManager;
 
 public class LogicManagerTest {
 
+    private static final int FIRST = 0;
+    private static final Logger logger = LogsCenter.getLogger(SaveCommand.class.getName());
     /**
      * See https://github.com/junit-team/junit4/wiki/rules#temporaryfolder-rule
      */
@@ -232,6 +239,21 @@ public class LogicManagerTest {
         }
 
         assertCommandFailure("e9", expectedMessage);
+    }
+
+    /**
+     * Test if Joke command is activated properly
+     * @throws CommandException
+     */
+
+    @Test
+    public void executeJokeCommand() throws CommandException {
+        String executeCommand = JokeCommand.COMMAND_WORD;
+        CommandResult result = logic.execute(executeCommand);
+        assertTrue(result.feedbackToUser.contains(JokeCommand.MESSAGE_SUCCESS));
+        String[] split = result.feedbackToUser.split("\n");
+        logger.info(split[FIRST]);
+        assertTrue(Arrays.asList(JokesUtil.JOKES).contains(split[FIRST]));
     }
     //@@
 
