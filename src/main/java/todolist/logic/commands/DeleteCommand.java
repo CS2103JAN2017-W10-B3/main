@@ -27,8 +27,7 @@ import todolist.model.task.Venue;
 
 // @@ A0143648Y
 /**
- * Deletes a person identified using it's last displayed index from the address
- * book.
+ * Deletes tasks identified using their last displayed indexes
  */
 public class DeleteCommand extends UndoableCommand {
 
@@ -36,13 +35,16 @@ public class DeleteCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the task identified by the index number used in the last task listing. \n"
-            + "Parameters: TYPE (d, e or f) + INDEX (must be a positive integer) \n"
-            + "Example: " + COMMAND_WORD + " e1 \n";
+            + "Parameters: TYPE (d, e or f) + INDEXES + (Optional)Parameters you want to delete \n"
+            + "(/venue[VENUE] /from or /on[STARTTIME] /to or /by[ENDTIME] "
+            + "/description[DESCRIPTION] /level[URGENCYLEVEL] #[TAGS]). \n"
+            + "Example: " + COMMAND_WORD + " e1 \n"
+            + "Example: " + COMMAND_WORD + " e1-e5 f1 \n"
+            + "Example: " + COMMAND_WORD + " e1-e5 f1  /level /from #\n";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Tasks deleted/updated: ";
     public static final String MESSAGE_DUPLICATE_TASK = "This delete command produces "
-            + "duplicate tasks in your to-do list. \n"
-            + "Please check the parameters you want to delete.";
+            + "duplicate tasks in your to-do list. \n" + "Please check the parameters you want to delete.";
 
     // @@ A0143648Y
     private final ArrayList<TaskIndex> filteredTaskListIndexes;
@@ -101,10 +103,13 @@ public class DeleteCommand extends UndoableCommand {
 
         updateUndoLists();
 
-        return new CommandResult(
-                MESSAGE_DELETE_TASK_SUCCESS + messageSuccessful);
+        return new CommandResult(MESSAGE_DELETE_TASK_SUCCESS + messageSuccessful);
     }
 
+    /**
+     * Get a list of tasks to be deleted/updated from {@code filterTaskListIndexes}
+     * and returns them as {@code getTasksToDelete}}
+     */
     private ArrayList<ReadOnlyTask> getTasksToDelete() throws CommandException {
         ArrayList<ReadOnlyTask> tasksToDelete = new ArrayList<ReadOnlyTask>();
         for (int count = 0; count < filteredTaskListIndexes.size(); count++) {
@@ -113,14 +118,17 @@ public class DeleteCommand extends UndoableCommand {
             if (lastShownList.size() < filteredTaskListIndex + 1) {
                 throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
             }
-            messageSuccessful = "["
-                    + lastShownList.get(filteredTaskListIndex).getTitle().toString() + "] ";
+            messageSuccessful = "[" + lastShownList.get(filteredTaskListIndex).getTitle().toString() + "] ";
 
             tasksToDelete.add(lastShownList.get(filteredTaskListIndex));
         }
         return tasksToDelete;
     }
 
+    /**
+     * Get the updated indexes of {@code listOfEditedTasks} and
+     * load them into {@code filteredTaskListIndexes}}
+     */
     private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks) {
         filteredTaskListIndexes.clear();
         for (int count = 0; count < listOfEditedTasks.size(); count++) {
@@ -195,6 +203,10 @@ public class DeleteCommand extends UndoableCommand {
 
     }
 
+    /**
+     * Update {@code previousToDoLists} with the todolist before last edition
+     * and {@code previousCommand} with the command just executed
+     */
     @Override
     public void updateUndoLists() {
         if (previousToDoLists == null) {
@@ -279,8 +291,8 @@ public class DeleteCommand extends UndoableCommand {
         }
 
         public boolean ifDeleteWholeTask() {
-            return !(ifVenueDeleted || ifStartTimeDeleted || ifEndTimeDeleted
-                || ifUrgencyDeleted || ifTagsDeleted || ifDescriptionDeleted);
+            return !(ifVenueDeleted || ifStartTimeDeleted || ifEndTimeDeleted || ifUrgencyDeleted || ifTagsDeleted
+                    || ifDescriptionDeleted);
         }
 
     }

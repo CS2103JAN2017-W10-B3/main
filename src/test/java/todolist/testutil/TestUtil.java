@@ -331,7 +331,25 @@ public class TestUtil {
     public static TestTask[] removeTaskFromList(final TestTask[] list, int targetIndexInOneIndexedFormat) {
         return removeTasksFromList(list, list[targetIndexInOneIndexedFormat - 1]);
     }
-
+//@@ author A0143648Y
+    /**
+     * Returns a copy of the list with the task between specified indexes removed.
+     *
+     * @param list
+     *            original list to copy from
+     * @param StartIndex
+     *            Starting index of the first task to be removed
+     * @param EndIndex
+     *            Ending index of the last task to be removed
+     */
+    public static TestTask[] removeTaskFromList(TestTask[] list, int startIndex , int endIndex) {
+        assert endIndex >= startIndex;
+        for ( ; endIndex >= startIndex; endIndex--) {
+            list = removeTasksFromList(list, list[endIndex - 1]);
+        }
+        return list;
+    }
+//@@
     /**
      * Replaces tasks[i] with a task.
      *

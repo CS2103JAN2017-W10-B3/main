@@ -26,7 +26,7 @@ import todolist.model.task.Venue;
 
 // @@ author A0143648Y
 /**
- * Edits the details of an existing task in the address book.
+ * Edits the details of existing tasks in the To-Do-List.
  */
 public class EditCommand extends UndoableCommand {
 
@@ -52,7 +52,7 @@ public class EditCommand extends UndoableCommand {
 
     /**
      * @param filteredTaskListIndex
-     *            the index of the task in the filtered task list to edit
+     *            the indexes of the tasks in the filtered task list to edit
      * @param editTaskDescriptor
      *            details to edit the task with
      */
@@ -107,6 +107,10 @@ public class EditCommand extends UndoableCommand {
         return new CommandResult(feedbackToUser);
     }
 
+    /**
+     * Get the updated task indexes of {@code listOfEditedTasks} and
+     * load them into {@code filteredTaskListIndexes}}
+     */
     private void updateFilteredTaskListIndexes(ArrayList<Task> listOfEditedTasks) {
         filteredTaskListIndexes.clear();
         for (int count = 0; count < listOfEditedTasks.size(); count++) {
@@ -117,6 +121,10 @@ public class EditCommand extends UndoableCommand {
         }
     }
 
+    /**
+     * Update {@code previousToDoLists} with the todolist before last edition
+     * and {@code previousCommand} with the command just executed
+     */
     @Override
     public void updateUndoLists() {
         if (previousToDoLists == null) {
@@ -140,6 +148,7 @@ public class EditCommand extends UndoableCommand {
      * Creates and returns a {@code Task} with the details of {@code taskToEdit}
      * edited with {@code editTaskDescriptor}.
      */
+
     private Task createEditedTask(ReadOnlyTask taskToEdit, EditTaskDescriptor editTaskDescriptor) {
         assert taskToEdit != null;
 
