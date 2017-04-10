@@ -86,8 +86,8 @@ public class UiManager extends ComponentManager implements Ui {
             // Create the keystroke listeners
             try {
                 initiateGlobalKeyListener(mainWindow);
-            } catch (UnsatisfiedLinkError e) {
-                logger.info("unsatisfied link error");
+            } catch (UnsatisfiedLinkError | NoClassDefFoundError e) {
+                logger.info("cannot initialize this");
             } finally {
                 semaphore.release();
             }
