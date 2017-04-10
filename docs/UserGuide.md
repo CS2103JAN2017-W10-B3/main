@@ -1,6 +1,6 @@
 # To-do List - User Guide
 
-By : `Team SE-EDU`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Jun 2016`  &nbsp;&nbsp;&nbsp;&nbsp; Licence: `MIT`
+By : `CS2103JAN2017-W10-B3`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Feb 2017`  &nbsp;&nbsp;&nbsp;&nbsp; Licence: `MIT`
 
 ---
 
@@ -196,6 +196,7 @@ Format: `select INDEX...` or `INDEX` or `RANGE OF INDEX`
     * You can select tasks in a range, with the indexes connected by a dash without space. <br>
     * For the case of multiple indexes, the sequence of the number does not matter. You can do either e2-4 or e4-2. <br>
     * After selection of tasks, you can carry out further actions. Available actions are: edit, delete and complete.
+    * After adding , editing ,deleting or completing tasks, the tasks updated will be auto-selected.
 
 Examples:
 
