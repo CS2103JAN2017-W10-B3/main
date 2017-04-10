@@ -9,7 +9,6 @@ plugins {
     id "com.github.kt3k.coveralls" version "2.4.0"
     id "com.github.johnrengelman.shadow" version '1.2.3'
     id 'application'
-	id 'com.1stleg'
 }
 
 // Specifies the entry point of the application
