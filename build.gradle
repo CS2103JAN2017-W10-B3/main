@@ -14,7 +14,7 @@ plugins {
 
 natives {
     configurations = ['compile', 'runtime']
-    platforms = Platform.all()
+    platforms = Platform.any()
     outputDir = 'natives'
 }
 
