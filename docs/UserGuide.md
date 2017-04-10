@@ -1,6 +1,6 @@
 # To-do List - User Guide
 
-By : `Team SE-EDU`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Jun 2016`  &nbsp;&nbsp;&nbsp;&nbsp; Licence: `MIT`
+By : `W10-B3`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Jun 2016`  &nbsp;&nbsp;&nbsp;&nbsp; Licence: `MIT`
 
 ---
 
@@ -9,7 +9,7 @@ By : `Team SE-EDU`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Jun 2016`  &nbsp;&nbsp;&nbs
 3. [FAQ](#3-faq)
 4. [Command Summary](#4-command-summary)
 
-## 1. Quick Start
+## 1. Quick StartW
 
 0. Ensure you have Java version `1.8.0_60` or later installed in your Computer.<br>
 
