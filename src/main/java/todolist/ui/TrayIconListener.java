@@ -18,7 +18,7 @@ public class TrayIconListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand() == null ? "null" : e.getActionCommand();
         // action can only be these 4 types
-        assert (action == "Show" || action == "null" || action == "Hide" || action == "Exit");
+        // assert (action == "Show" || action == "null" || action == "Hide" || action == "Exit");
         switch (action) {
         case "Show":
             openWindow();
