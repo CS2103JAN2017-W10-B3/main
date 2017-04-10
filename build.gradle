@@ -9,6 +9,12 @@ plugins {
     id "com.github.kt3k.coveralls" version "2.4.0"
     id "com.github.johnrengelman.shadow" version '1.2.3'
     id 'application'
+	id 'com.stehno.natives' version '0.3.1'
+}
+
+natives {
+    configurations = ['compile', 'runtime']
+    outputDir = 'natives'
 }
 
 // Specifies the entry point of the application
@@ -29,6 +35,7 @@ allprojects {
         mavenCentral()
         maven { url "https://repo.eclipse.org/content/repositories/egit-releases/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+		maven { url "https://oss.sonatype.org/content/repositories/snapshots/com/1stleg/jnativehook/2.1.SNAPSHOT/" }
     }
 
     // This part is similar to global variables
@@ -63,8 +70,8 @@ allprojects {
         compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
         compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDataTypeVersion"
         compile "com.google.guava:guava:$guavaVersion"
+		compile files('lib/jnativehook.jar')
         compile files('lib/prettytime-nlp-4.0.1.Final.jar')
-        compile files('lib/jnativehook-2.1.0.jar')
         testCompile "junit:junit:$junitVersion"
         testCompile "org.testfx:testfx-core:$testFxVersion"
         testCompile "org.testfx:testfx-junit:$testFxVersion"
@@ -119,6 +126,10 @@ coveralls {
 tasks.coveralls {
     dependsOn coverage
     onlyIf { System.env.'CI' }
+}
+
+tasks.withType(Test) {
+    systemProperty "java.library.path", "/lib"
 }
 
 class AddressBookTest extends Test {
