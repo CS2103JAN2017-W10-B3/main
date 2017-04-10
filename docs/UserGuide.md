@@ -1,6 +1,6 @@
 # To-do List - User Guide
 
-By : `W10-B3`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Jun 2016`  &nbsp;&nbsp;&nbsp;&nbsp; Licence: `MIT`
+By : `CS2103JAN2017-W10-B3`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Feb 2017`  &nbsp;&nbsp;&nbsp;&nbsp; Licence: `MIT`
 
 ---
 
@@ -9,7 +9,7 @@ By : `W10-B3`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Jun 2016`  &nbsp;&nbsp;&nbsp;&nb
 3. [FAQ](#3-faq)
 4. [Command Summary](#4-command-summary)
 
-## 1. Quick StartW
+## 1. Quick Start
 
 0. Ensure you have Java version `1.8.0_60` or later installed in your Computer.<br>
 
