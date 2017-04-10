@@ -73,7 +73,7 @@ Format: `add TITLE /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /
 > Note: Tasks can have 4 level of priority (0 - 3) with 3 being the highest
 > * /description represents the description of the task <br>
 > * #[TAG...] represents the tag <br>
-> Note: Tasks can have any number of tags (including 0)
+> * Note: Tasks can have any number of tags (including 0)
 
 ### 2.3. Listing all tasks : `list`
 
@@ -99,8 +99,8 @@ Edits an existing task in the todolist.<br>
 Format: `edit INDEX /title [TITLE] /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [LEVEL] /description [DESCRIPTION] #[TAG]...`
 
 > * Edits the task at the specified `INDEX`.
-   * The index refers to the index number shown in the last task listing. <br>
-   * Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * The index refers to the index number shown in the last task listing.
+> * Index **must include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ...
 > * At least one of the optional fields must be provided.
 > * Existing values will be updated to the input values.
 > * When editing tags, the existing tags of the task will be removed i.e adding of tags is not cumulative.
@@ -133,9 +133,9 @@ Deletes the specified task from the todolist. <br>
 Format: `delete INDEX [PARAMETER]...`
 
 > * Deletes the task at the specified `INDEX`. <br>
- * The index refers to the index number shown in the last task listing. <br>
- * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
- * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
+> * The index refers to the index number shown in the last task listing. <br>
+> * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
 
 Example:
 
@@ -145,14 +145,14 @@ Example:
 
 ### 2.6.2 Deleting a parameter of a task : `delete`
 
-Deletes the specified parameter of a task in the todo list
+Deletes the specified parameter of a task in the todo list <br>
 Format: `delete INDEX /venue VENUE, /from or /on STARTTIME, /to or /by ENDTIME, /level URGENCY /description #[TAG]`
 
 > * Deletes the parameter at the of the task at the specified `INDEX`. <br>
-    * The index refers to the index number shown in the last task listing. <br>
-    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
-    * The parameter indicated by the prefix will be deleted for the declared tasks, if they have one. <br>
-    * Notice that title can never be deleted. If a task has its start time or end time deleted, its task category will be changed accordingly.
+> * The index refers to the index number shown in the last task listing. <br>
+> * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * The parameter indicated by the prefix will be deleted for the declared tasks, if they have one. <br>
+> * Notice that title can never be deleted. If a task has its start time or end time deleted, its task category will be changed accordingly.
 
 Examples:
 
@@ -172,9 +172,9 @@ Format: `done INDEX`
 
 > * Mark the task at the specified `INDEX` as complete.<br>
 > * The index refers to the index number shown in the most recent listing.<br>
-    * The index refers to the index number shown in the last task listing. <br>
-    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
-    * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
+> * The index refers to the index number shown in the last task listing. <br>
+> * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index.
 
 Examples:
 
@@ -189,14 +189,14 @@ Format: `select INDEX...` or `INDEX` or `RANGE OF INDEX`
 
 > * Selects the task at the specified `INDEX`.<br>
 > * The index refers to the index number shown in the most recent listing.<br>
-    * The index refers to the index number shown in the last task listing. <br>
-    * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
-    * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index <br>
-    * You can select tasks without typing out "select". Just the indexes would be fine. <br>
-    * You can select tasks in a range, with the indexes connected by a dash without space. <br>
-    * For the case of multiple indexes, the sequence of the number does not matter. You can do either e2-4 or e4-2. <br>
-    * After selection of tasks, you can carry out further actions. Available actions are: edit, delete and complete.
-    * After adding , editing ,deleting or completing tasks, the tasks updated will be auto-selected.
+> * The index refers to the index number shown in the last task listing. <br>
+> * Index **should include the type of task**, e.g. f1 for 1st float task and **must be followed by a positive integer** 1, 2, 3, ... <br>
+> * Notice that input only a positive integer without the type of task will by default be taken as a deadline task index <br>
+> * You can select tasks without typing out "select". Just the indexes would be fine. <br>
+> * You can select tasks in a range, with the indexes connected by a dash without space. <br>
+> * For the case of multiple indexes, the sequence of the number does not matter. You can do either e2-4 or e4-2. <br>
+> * After selection of tasks, you can carry out further actions. Available actions are: edit, delete and complete.
+> * After adding , editing ,deleting or completing tasks, the tasks updated will be auto-selected.
 
 Examples:
 
@@ -283,51 +283,43 @@ Format: `joke`
   e.g. add Do Tutorial /venue CLB /from today 3pm /to today 5pm /level 2 /description for week13 #CS2103
 
 * **Clear** : `clear` <br>
-  e.g. `clear`
+  e.g. clear
 
 * **Changedir** : `changedir FILE_PATH` <br>
    e.g. changedir C:/Users/Computing/Desktop/CS2103
 
 * **Delete** : `delete INDEX [PARAMETER]...` <br>
-   e.g. delete f3
-   e.g. delete f3 /description
+   e.g. delete f3 **or** delete f3 /description
 
 * **Done** : `done INDEX` <br>
    e.g. done d3
 
 * **Edit** : `edit INDEX /title [TITLE] /venue [VENUE] /on [DATE] /from [DATE_TIME] /to [DATE_TIME] /by [DATE_TIME] /level [LEVEL] /description [DESCRIPTION] #[TAG]...` <br>
-e.g. edit f7 /title buy calculator
+   e.g. edit f7 /title buy calculator
 
 * **Exit** : `exit` <br>
-  e.g. `exit`
+   e.g. exit
 
 * **Find** : `find KEYWORD...` <br>
-  e.g. find tutorial quiz
+   e.g. find tutorial quiz
 
 * **Help** : `help [COMMAND]` <br>
-  e.g. help add
+   e.g. help add
 
 * **Import** : `import FILE_PATH` <br>
    e.g. import C:/Users/Computing/Desktop/CS2103
 
 * **Joke** : `joke` <br>
-  e.g. `joke`
+   e.g. joke
 
 * **List** : `list /from [DATE_TIME] /to [DATE_TIME]` <br>
-  e.g. `list`
-  e.g. list /from 7 April
+   e.g. list **or** list /from 7 April
 
 * **Save** : `save FILE_PATH` <br>
    e.g. save C:/Users/Computing/Desktop/CS2103
 
 * **Select** : `select INDEX` <br>
-  e.g.:
-	* `select 2`
-	* `2`
-	* `2-5`
-	* `e2`
-	* `f2-5`
-	* `d6-3`
+   e.g. select e2 **or** select d2-4
 
 * **Undo** : `undo` <br>
-e.g.
+   e.g. undo
