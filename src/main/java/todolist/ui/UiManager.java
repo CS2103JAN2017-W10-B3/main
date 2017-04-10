@@ -71,7 +71,7 @@ public class UiManager extends ComponentManager implements Ui {
         // Set the application icon.
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
-        //Platform.setImplicitExit(false);
+        Platform.setImplicitExit(false);
 
         try {
             // This should be called before creating other UI parts
@@ -86,6 +86,8 @@ public class UiManager extends ComponentManager implements Ui {
             // Create the keystroke listeners
             try {
                 initiateGlobalKeyListener(mainWindow);
+            } catch (UnsatisfiedLinkError e) {
+                logger.info("unsatisfied link error");
             } finally {
                 semaphore.release();
             }
