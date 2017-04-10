@@ -12,6 +12,12 @@ plugins {
 	id 'com.stehno.natives' version '0.3.1'
 }
 
+natives {
+    configurations = ['compile', 'runtime']
+    platforms = Platform.all()
+    outputDir = 'natives'
+}
+
 // Specifies the entry point of the application
 mainClassName = 'todolist.MainApp'
 
