@@ -33,6 +33,13 @@ This test script is to assist testers in testing `To-do List` by providing them 
 
 ## Manual Tests
 
+### Opening the Application
+
+1. Run the .jar file.
+2. Wait for a popup from the tray.
+3. Press Ctrl+T (Windows users) or Option+T (Mac users) to open. (Can also just click the icon.)
+4. Press Ctrl+T/Option+T again to close.
+
 ### Adding a floating task
 
 1. Adding a floating task with title only
@@ -365,7 +372,7 @@ This test script is to assist testers in testing `To-do List` by providing them 
 	> * A .xml will be saved at the same time as stating the changing of directory.
 	> * Any future saving using the command word `key` only will be saved to this directory.
 
-### Import the saved file
+### Import a saved file from a specified file path
 
 1.  import the saved file into the to-do list
 >  To type: `import E:/my folder/todoList`

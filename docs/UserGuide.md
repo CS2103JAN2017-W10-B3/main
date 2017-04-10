@@ -18,18 +18,19 @@ By : `CS2103JAN2017-W10-B3`  &nbsp;&nbsp;&nbsp;&nbsp; Since: `Feb 2017`  &nbsp;&
 
 1. Download the latest `todolist.jar` from the [releases](../../../releases) tab.
 2. Copy the file to the folder you want to use as the home folder for your ToDoList.
-3. Double-click the file to start the app. The GUI should appear in a few seconds.
+3. Double-click the file to start the app. The application should start in a few seconds.
    > <img src="images/Ui.png" width="600">
-
-4. Type the command in the command box and press <kbd>Enter</kbd> to execute it. <br>
+4. A pop up message should appear from your tray and you can see an icon. Either click on it or
+   press Ctrl+T (Windows) or Option+T (MacOS) to open/close the application window.
+5. Type the command in the command box and press <kbd>Enter</kbd> to execute it. <br>
    e.g. typing **`help`** and pressing <kbd>Enter</kbd> will open the help window.
-5. Some example commands you can try:
+6. Some example commands you can try:
    * **`list`** : lists all tasks
    * **`add`**`Do tutorial /by 14.02.17` :
      adds a deadline task describing `Do tutorial` to the todolist.
    * **`delete`**` f3` : deletes the 3rd task shown in the float list
    * **`exit`** : exits the app
-6. Refer to the [Features](#features) section below for details of each command.<br>
+7. Refer to the [Features](#features) section below for details of each command.<br>
 
 
 ## 2. Features
