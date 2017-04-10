@@ -7,7 +7,6 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,12 +18,10 @@ import org.jnativehook.NativeHookException;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import todolist.MainApp;
 import todolist.commons.core.ComponentManager;
 import todolist.commons.core.Config;
@@ -52,8 +49,6 @@ public class UiManager extends ComponentManager implements Ui {
     private UserPrefs prefs;
     private MainWindow mainWindow;
     private TrayIcon trayIcon;
-    private Boolean firstTime = true;
-    private static Semaphore semaphore = new Semaphore(1);
 
     public UiManager(Logic logic, Config config, UserPrefs prefs) {
         super();
@@ -77,41 +72,19 @@ public class UiManager extends ComponentManager implements Ui {
             // This should be called before creating other UI parts
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
 
+            // Create the keystroke listeners
+            initiateGlobalKeyListener(mainWindow);
+
+            // Create the tray icon.
+            initializeTray(primaryStage);
+            //mainWindow.show(); // uncomment this line to start with an open main window
+            mainWindow.fillInnerParts();
+
+        } catch (UnsatisfiedLinkError | NoClassDefFoundError e) {
+            logger.info("Cannot initialize global keystroke listener, aborted.");
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
-            showFatalErrorDialog("Fatal error during initializing", e);
-        }
-
-        if (semaphore.tryAcquire()) {
-            // Create the keystroke listeners
-            try {
-                initiateGlobalKeyListener(mainWindow);
-            } catch (UnsatisfiedLinkError | NoClassDefFoundError e) {
-                logger.info("cannot initialize this");
-            } finally {
-                semaphore.release();
-            }
-        }
-
-        if (semaphore.tryAcquire()) {
-            try {
-                // Create the tray icon.
-                initializeTray(primaryStage);
-            } finally {
-                semaphore.release();
-            }
-        }
-
-        if (semaphore.tryAcquire()) {
-            try {
-                // Create the tray icon.
-                // mainWindow.show(); // uncomment this to start with main
-                // window
-                // showing or not showing
-                mainWindow.fillInnerParts();
-            } finally {
-                semaphore.release();
-            }
+            showFatalErrorDialogAndShutDown("Fatal error during initializing", e);
         }
 
     }
@@ -137,17 +110,6 @@ public class UiManager extends ComponentManager implements Ui {
     private void createTrayIcon(final Stage stage, BufferedImage trayIconImage) {
         SystemTray tray = SystemTray.getSystemTray();
 
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                stage.hide();
-                if (firstTime) {
-                    trayIcon.displayMessage("ToDoList running in background.", "Press hotkeys to open.",
-                            TrayIcon.MessageType.INFO);
-                    firstTime = false;
-                }
-            }
-        });
         // create listener for clicks on tray icon
         final TrayIconListener trayIconListener = new TrayIconListener(mainWindow);
 
@@ -172,6 +134,11 @@ public class UiManager extends ComponentManager implements Ui {
         // add the tray image
         try {
             tray.add(trayIcon);
+
+            // display instructions on how to open
+            trayIcon.displayMessage("ToDoList running in background.", "Press Ctrl+T to open.",
+                    TrayIcon.MessageType.INFO);
+
         } catch (AWTException e) {
             System.err.println(e);
         }
@@ -196,7 +163,6 @@ public class UiManager extends ComponentManager implements Ui {
         GlobalScreen.addNativeKeyListener(new GlobalKeyListener(mainWindow));
 
     }
-    // @@
 
     @Override
     public void stop() {
@@ -233,7 +199,7 @@ public class UiManager extends ComponentManager implements Ui {
         alert.showAndWait();
     }
 
-    private void showFatalErrorDialog(String title, Throwable e) {
+    private void showFatalErrorDialogAndShutDown(String title, Throwable e) {
         logger.severe(title + " " + e.getMessage() + StringUtil.getDetails(e));
         showAlertDialogAndWait(Alert.AlertType.ERROR, title, e.getMessage(), e.toString());
         Platform.exit();
