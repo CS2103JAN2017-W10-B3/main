@@ -7,6 +7,7 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,6 +50,7 @@ public class UiManager extends ComponentManager implements Ui {
     private UserPrefs prefs;
     private MainWindow mainWindow;
     private TrayIcon trayIcon;
+    private Semaphore semaphore;
 
     public UiManager(Logic logic, Config config, UserPrefs prefs) {
         super();
@@ -72,21 +74,40 @@ public class UiManager extends ComponentManager implements Ui {
             // This should be called before creating other UI parts
             mainWindow = new MainWindow(primaryStage, config, prefs, logic);
 
-            // Create the keystroke listeners
-            initiateGlobalKeyListener(mainWindow);
-
-            // Create the tray icon.
-            initializeTray(primaryStage);
-            //mainWindow.show(); // uncomment this line to start with an open main window
-            mainWindow.fillInnerParts();
-
-        } catch (UnsatisfiedLinkError | NoClassDefFoundError e) {
-            logger.info("Cannot initialize global keystroke listener, aborted.");
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
             showFatalErrorDialogAndShutDown("Fatal error during initializing", e);
         }
 
+        if (semaphore.tryAcquire()) {
+            // Create the keystroke listeners
+            try {
+                initiateGlobalKeyListener(mainWindow);
+            } catch (UnsatisfiedLinkError | NoClassDefFoundError e) {
+                logger.info("cannot initialize this");
+            } finally {
+                semaphore.release();
+            }
+        }
+
+        if (semaphore.tryAcquire()) {
+            try {
+                // Create the tray icon.
+                initializeTray(primaryStage);
+            } finally {
+                semaphore.release();
+            }
+        }
+        if (semaphore.tryAcquire()) {
+            try {
+                // Create the tray icon.
+                // mainWindow.show(); // uncomment this to start with main
+                // window showing or not showing
+                mainWindow.fillInnerParts();
+            } finally {
+                semaphore.release();
+            }
+        }
     }
 
     /*
