@@ -433,6 +433,11 @@ public class ModelManager extends ComponentManager implements Model {
             initEnd(end);
         }
 
+        /**
+         * Initiate the start time parameter
+         * to compare if time is after some boundary
+         * @param start
+         */
         public void initStart(Optional<StartTime> start) {
             if (start != null) {
                 this.startTime = start.get();
@@ -441,6 +446,10 @@ public class ModelManager extends ComponentManager implements Model {
             }
         }
 
+        /**
+         * Initiate the today parameter to compare if time is on same day
+         * @param today
+         */
         public void initToday(Optional<StartTime> today) {
             if (today != null) {
                 this.today = today.get();
@@ -449,6 +458,11 @@ public class ModelManager extends ComponentManager implements Model {
             }
         }
 
+        /**
+         * Initiate end time parameter
+         * to compare if time is before the boundary
+         * @param end
+         */
         public void initEnd(Optional<EndTime> end) {
             if (end != null) {
                 this.endTime = end.get();
@@ -457,6 +471,9 @@ public class ModelManager extends ComponentManager implements Model {
             }
         }
 
+        /**
+         * Carry out comparison according to the type of tasks
+         */
         @Override
         public boolean run(ReadOnlyTask task) {
             if (task.getTaskCategory().equals(Category.DEADLINE)) {
@@ -470,6 +487,12 @@ public class ModelManager extends ComponentManager implements Model {
             }
         }
 
+        /**
+         * Check the given task is satisfying the time constraints
+         * The task is already assumed to be a floating task
+         * @param task
+         * @return
+         */
         private boolean isFloatingWithinDuration(ReadOnlyTask task) {
             if (task.getStartTime().isPresent()) {
                 return isTimeInDuration(task.getStartTime().get()) ||
@@ -478,7 +501,7 @@ public class ModelManager extends ComponentManager implements Model {
                 return false;
             }
         }
-
+        //return true only when the given time point is same day as "today"
         private boolean isOnTheDay(Time time) {
             if (today != null) {
                 return time.isSameDay(today);
@@ -487,17 +510,35 @@ public class ModelManager extends ComponentManager implements Model {
             }
         }
 
+        /**
+         * Check the given task is satisfying the time constraints
+         * The task is already assumed to be an event task
+         * @param task
+         * @return
+         */
         private boolean isEventWithinDuration(ReadOnlyTask task) {
             return (isTimeInDuration(task.getStartTime().get()) &&
                     isTimeInDuration(task.getEndTime().get())) ||
                     isOnTheDay(task.getStartTime().get());
         }
 
+        /**
+         * Check the given task is satisfying the time constraints
+         * The task is already assumed to be a deadline task
+         * @param task
+         * @return
+         */
         private boolean isDeadlineWithinDuration(ReadOnlyTask task) {
             return isTimeInDuration(task.getEndTime().get()) ||
                     isOnTheDay(task.getEndTime().get());
         }
 
+        /**
+         * for the given time, check under circumstances
+         * where the start time or end time to be compared to may or may not exist
+         * @param time
+         * @return
+         */
         private boolean isTimeInDuration(Time time) {
             if (startTime != null && endTime == null) {
                 return startTime.isBefore(time);

@@ -141,6 +141,10 @@ public class UniqueTaskList implements Iterable<Task> {
     }
 
     //@@author A0122017Y
+    /**
+     * Mark the given task as completed
+     * @param taskToComplete
+     */
     public void completeTask(ReadOnlyTask taskToComplete) {
         int taskIndex = this.internalList.indexOf(taskToComplete);
         Task completedTask = internalList.get(taskIndex);
@@ -148,9 +152,14 @@ public class UniqueTaskList implements Iterable<Task> {
         internalList.set(taskIndex, completedTask);
     }
 
+    /**
+     * Auto mark the task as completed
+     * if its due time is after the present time point
+     */
     public void autoComplete() {
         for (Task task : internalList) {
-            if (task.getEndTime().isPresent() &&
+            if (!task.isTaskCompleted() &&
+                task.getEndTime().isPresent() &&
                 task.getEndTime().get().outdated()) {
                 task.toggleComplete();
             }
