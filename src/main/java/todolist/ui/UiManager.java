@@ -50,7 +50,7 @@ public class UiManager extends ComponentManager implements Ui {
     private UserPrefs prefs;
     private MainWindow mainWindow;
     private TrayIcon trayIcon;
-    private Semaphore semaphore;
+    private static Semaphore semaphore = new Semaphore(1);
 
     public UiManager(Logic logic, Config config, UserPrefs prefs) {
         super();
