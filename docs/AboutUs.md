@@ -70,8 +70,6 @@ Role: Developer <br>
 	* Debugging tests especially GUItests.
 	* Managed and enforced branching and merging.
 	* Imported JNativeHook library.
-	
-
 
 -----
 
