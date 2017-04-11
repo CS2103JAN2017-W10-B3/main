@@ -15,8 +15,8 @@ import javafx.scene.control.Label;
 //@@author A0110791M
 public class TextFieldAutoCompleter implements ChangeListener<String> {
 
-    public static final String[] PREFIXSTRINGS = new String[] {"/venue ", "/from ", "/to ",
-        "/by", "/level", "/description" };
+    public static final String[] PREFIXSTRINGS = new String[] { "/venue ", "/from ", "/to ",
+            "/by ", "/level ", "/description " };
     private static final int MAX_keywords_LENGTH = 10;
 
     private static TreeSet<String> keywords;
@@ -30,21 +30,39 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
     }
 
     @Override
-    public void changed (ObservableValue<? extends String> observableValue, String prevTextInput,
+    public void changed(ObservableValue<? extends String> observableValue, String prevTextInput,
             String currentTextInput) {
-        if (currentTextInput.length() == 0 || currentTextInput.endsWith(" ")) {
+        if (currentTextInput.length() == 0) {
             suggestionsList.hide();
+        } else if (currentTextInput.endsWith(" ")) {
+            quickShow(currentTextInput);
         } else {
             showSuggestions(currentTextInput);
+        }
+    }
+
+    private void quickShow(String currentTextInput) {
+        String text = currentTextInput.trim();
+        if (text.length() > 0) {
+            LinkedList<String> searchResults = new LinkedList<String>();
+            String currentWord = getLastWord(text);
+            searchResults.addAll(keywords.subSet(currentWord, currentWord + Character.MAX_VALUE));
+            if (searchResults.size() > 0 && currentWord.substring(0) != "/") {
+                String quickChooseOption = searchResults.get(0);
+                int indexOfLastSpacing = text.lastIndexOf(" ");
+                String outputString = text.substring(0, indexOfLastSpacing + 1).concat(quickChooseOption);
+                textField.setText(outputString);
+            }
         }
     }
 
     /**
      * Get the suggestions list to pop up.
      *
-     * @param currentTextInput  Current string in the text field.
+     * @param currentTextInput
+     *            Current string in the text field.
      */
-    private void showSuggestions (String currentTextInput) {
+    private void showSuggestions(String currentTextInput) {
         LinkedList<String> searchResults = new LinkedList<String>();
         String currentWord = getLastWord(currentTextInput);
         searchResults.addAll(keywords.subSet(currentWord, currentWord + Character.MAX_VALUE));
@@ -56,12 +74,14 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
     }
 
     /**
-     *  Get the menu object containing all suggestions for user to choose from.
+     * Get the menu object containing all suggestions for user to choose from.
      *
-     *  @param searchResult     List of matching strings.
-     *  @param  currentText     Current string in the text field.
+     * @param searchResult
+     *            List of matching strings.
+     * @param currentText
+     *            Current string in the text field.
      */
-    private List<CustomMenuItem> getSuggestionsMenu (List<String> searchResult, String currentText) {
+    private List<CustomMenuItem> getSuggestionsMenu(List<String> searchResult, String currentText) {
         List<CustomMenuItem> menuItems = new LinkedList<>();
 
         int count = Math.min(searchResult.size(), MAX_keywords_LENGTH);
@@ -76,7 +96,7 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
         return menuItems;
     }
 
-    private String getLastWord (String currentText) {
+    private String getLastWord(String currentText) {
         String lastWord = null;
         int indexOfLastSpacing = currentText.lastIndexOf(' ');
         if (indexOfLastSpacing == -1) {
@@ -87,7 +107,7 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
         return lastWord;
     }
 
-    public void addKeyWords (String inputText) {
+    public void addKeyWords(String inputText) {
         String[] newKeywords = inputText.split(" ");
         for (String keyword : newKeywords) {
             if (!keywords.contains(keyword)) {
@@ -97,5 +117,4 @@ public class TextFieldAutoCompleter implements ChangeListener<String> {
     }
 
 }
-//@@
-
+// @@
